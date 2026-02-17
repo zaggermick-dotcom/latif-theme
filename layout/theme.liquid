@@ -18,6 +18,43 @@
 <meta name="google-site-verification" content="igItrlCXCJNU6mFjittLz3E25IvTjM1Nmy1ndbyEwpY" />
     <meta charset="utf-8">
     
+    {%- comment -%}
+      Content Security Policy - Enhanced security for the theme
+      Only allows scripts and styles from trusted sources
+    {%- endcomment -%}
+    <meta http-equiv="Content-Security-Policy" content="
+      default-src 'self' https://cdn.shopify.com;
+      script-src 'self' 'unsafe-inline' 'unsafe-eval' 
+        https://cdn.shopify.com 
+        https://www.googletagmanager.com 
+        https://www.google-analytics.com
+        https://klaviyo.com 
+        https://static.klaviyo.com
+        https://stamped.io
+        https://cdn.stamped.io
+        https://www.tidio.com
+        https://code.tidio.co;
+      style-src 'self' 'unsafe-inline' 
+        https://cdn.shopify.com 
+        https://fonts.googleapis.com;
+      img-src 'self' data: https: blob:;
+      font-src 'self' 
+        https://cdn.shopify.com 
+        https://fonts.gstatic.com;
+      connect-src 'self' 
+        https://cdn.shopify.com 
+        https://klaviyo.com 
+        https://stamped.io
+        https://www.google-analytics.com;
+      frame-src 
+        https://www.youtube.com 
+        https://player.vimeo.com 
+        https://www.tidio.com;
+      object-src 'none';
+      base-uri 'self';
+      form-action 'self' https://checkout.shopify.com;
+    ">
+    
 <!-- ═══════════════════════════════════════════════════════════════════════
      🚀 OPTIMISATION VITESSE & SEO v5.1 - VERSION CORRIGÉE
 ═══════════════════════════════════════════════════════════════════════ -->

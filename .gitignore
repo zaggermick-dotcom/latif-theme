@@ -1,0 +1,28 @@
+# Shopify Theme Development
+.DS_Store
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# Node modules (if using build tools)
+node_modules/
+npm-debug.log
+
+# Temporary files
+tmp/
+*.tmp
+
+# Environment files
+.env
+.env.local
+
+# Theme Kit
+config.yml
+
+# Build artifacts
+dist/
+
+# OS generated files
+Thumbs.db
