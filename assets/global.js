@@ -26,6 +26,15 @@ const trapFocusHandlers = {};
 
 function trapFocus(container, elementToFocus = container) {
   var elements = getFocusableElements(container);
+  
+  // Guard clause: if no focusable elements, exit early
+  if (elements.length === 0) {
+    if (window.Shopify && window.Shopify.designMode) {
+      console.warn('[Theme] No focusable elements found in container');
+    }
+    return;
+  }
+  
   var first = elements[0];
   var last = elements[elements.length - 1];
 

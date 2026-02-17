@@ -107,6 +107,9 @@
         });
       }, { rootMargin: '200px' });
       
+      // Register observer for cleanup
+      activeObservers.push(iframeObserver);
+      
       document.querySelectorAll('iframe[data-src]').forEach(function(iframe) {
         iframeObserver.observe(iframe);
       });
@@ -167,6 +170,9 @@
         }
       });
     }, { rootMargin: '100px' });
+    
+    // Register observer for cleanup
+    activeObservers.push(prefetchObserver);
     
     // Observer uniquement les liens de navigation principaux
     document.querySelectorAll('a[href^="/products/"], a[href^="/collections/"]').forEach(function(link) {
@@ -264,14 +270,47 @@
   /* ═══════════════════════════════════════════════════════════════
      8. MEMORY CLEANUP
   ═══════════════════════════════════════════════════════════════ */
+  // Store observers globally for cleanup
+  var activeObservers = [];
+  var blobURLs = [];
+  
   function cleanupMemory() {
-    // Nettoyer les observers quand on quitte la page
-    window.addEventListener('beforeunload', function() {
-      // Révoquer les object URLs
-      document.querySelectorAll('img[src^="blob:"]').forEach(function(img) {
-        URL.revokeObjectURL(img.src);
+    // Cleanup function to disconnect all observers and revoke URLs
+    function cleanup() {
+      // Disconnect all observers
+      activeObservers.forEach(function(observer) {
+        if (observer && typeof observer.disconnect === 'function') {
+          observer.disconnect();
+        }
       });
-    });
+      activeObservers = [];
+      
+      // Revoke all blob URLs
+      blobURLs.forEach(function(url) {
+        try {
+          URL.revokeObjectURL(url);
+        } catch(e) {
+          // Ignore errors
+        }
+      });
+      blobURLs = [];
+      
+      // Also clean up any blob URLs in images
+      document.querySelectorAll('img[src^="blob:"]').forEach(function(img) {
+        try {
+          URL.revokeObjectURL(img.src);
+        } catch(e) {
+          // Ignore errors
+        }
+      });
+    }
+    
+    // Cleanup on page unload
+    window.addEventListener('beforeunload', cleanup);
+    
+    // Cleanup on Shopify section events (for theme editor)
+    document.addEventListener('shopify:section:load', cleanup);
+    document.addEventListener('shopify:section:unload', cleanup);
   }
   
   /* ═══════════════════════════════════════════════════════════════
