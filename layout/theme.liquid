@@ -3,50 +3,34 @@
 <html class="no-js" lang="{{ request.locale.iso_code }}">
   <head>
     {%- render 'performance-booster' -%}
-{% comment %} CACHE BUSTER GLOBAL - LATIF SKIN v2.0 {% endcomment %}
-<script>
-(function(){
-  var version = 'v2.0';
-  var stored = localStorage.getItem('latifskin_version');
-  if (stored !== version) {
-    localStorage.setItem('latifskin_version', version);
-    localStorage.removeItem('cdp_promo_code');
-    localStorage.removeItem('cdp_promo_active');
-    localStorage.removeItem('cdp_currency');
-    if (typeof caches !== 'undefined') {
-      caches.keys().then(function(names) {
-        names.forEach(function(name) { caches.delete(name); });
-      });
-    }
-    if (!sessionStorage.getItem('latifskin_reloaded')) {
-      sessionStorage.setItem('latifskin_reloaded', 'true');
-      location.reload(true);
-    }
-  }
-})();
-</script>
-{% comment %} FIN CACHE BUSTER GLOBAL {% endcomment %}
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+
+{% comment %} 
+═══════════════════════════════════════════════════════════════════════
+🚀 LATIF SKIN - OPTIMISATIONS v3.0 CORRIGÉES
+   - Cache buster agressif SUPPRIMÉ (nuisait à la performance)
+   - Meta no-cache SUPPRIMÉ (empêchait le cache navigateur)
+   - Scripts render-blocking OPTIMISÉS avec defer
+   - Schema markup CORRIGÉ (suppression des faux avis)
+═══════════════════════════════════════════════════════════════════════
+{% endcomment %}
+
 <meta name="google-site-verification" content="tY5FH8RoQM6RoL1dsudC-PBDx3AhyaZiLka6hSDJe1Q" />
 <meta name="google-site-verification" content="igItrlCXCJNU6mFjittLz3E25IvTjM1Nmy1ndbyEwpY" />
     <meta charset="utf-8">
-    <!-- ═══════════════════════════════════════════════════════════════════════
-     🚀 OPTIMISATION VITESSE & SEO v5.0 - VERSION LÉGÈRE
-     NE TOUCHE PAS AU DESIGN - Uniquement performance et SEO
+    
+<!-- ═══════════════════════════════════════════════════════════════════════
+     🚀 OPTIMISATION VITESSE & SEO v5.1 - VERSION CORRIGÉE
 ═══════════════════════════════════════════════════════════════════════ -->
 
 <!-- Préconnexions DNS (accélère les connexions) -->
 <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
+<link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
 <link rel="dns-prefetch" href="https://www.googletagmanager.com">
 <link rel="dns-prefetch" href="https://www.google-analytics.com">
-<link rel="dns-prefetch" href="https://cdn1.stamped.io">
-<link rel="dns-prefetch" href="https://www.story-theme.com">
-<link rel="dns-prefetch" href="https://api.story-theme.com">
 
-<!-- SEO Metas supplémentaires -->
+<!-- SEO Metas -->
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 <meta name="author" content="{{ shop.name }}">
-<meta name="revisit-after" content="3 days">
 
 <!-- Open Graph amélioré -->
 <meta property="og:site_name" content="{{ shop.name }}">
@@ -56,7 +40,7 @@
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
 
-<!-- Schema.org - Données structurées -->
+<!-- Schema.org - Organisation (CORRIGÉ - sans faux avis) -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -74,6 +58,7 @@
 }
 </script>
 
+<!-- Schema.org - WebSite avec recherche -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -89,6 +74,7 @@
 </script>
 
 {%- if template contains 'product' and product -%}
+<!-- Schema.org - Breadcrumb pour produits -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -119,7 +105,8 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-<!-- FIN OPTIMISATION VITESSE & SEO v5.0 -->
+<!-- FIN OPTIMISATION VITESSE & SEO v5.1 -->
+
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="theme-color" content="">
@@ -157,10 +144,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     {%- render 'script' with 'constants', defer: true -%}
     {%- render 'script' with 'pubsub', defer: true -%}
-    <script src="https://www.story-theme.com/modal-master.js"></script>
-    <script src="https://api.story-theme.com/sliders.js"></script>
+    
+    <!-- Scripts externes OPTIMISÉS avec defer (étaient render-blocking) -->
+    <script src="https://www.story-theme.com/modal-master.js" defer></script>
+    <script src="https://api.story-theme.com/sliders.js" defer></script>
+    
     {%- render 'script' with 'global', defer: true -%}
-    <script src="{{ 'swiper.js' | asset_url }}"></script>
+    <script src="{{ 'swiper.js' | asset_url }}" defer></script>
     {%- if settings.enable_wishlist -%}
       {%- render 'script' with 'wishlist', defer: true -%}
     {%- endif -%}
@@ -274,7 +264,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     </style>
 
-    <!-- SCHEMA MARKUP LATIFSKIN - DONNÉES STRUCTURÉES POUR GOOGLE -->
+    <!-- SCHEMA MARKUP LATIFSKIN - CORRIGÉ (sans faux avis) -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -290,16 +280,14 @@ document.addEventListener('DOMContentLoaded', function() {
             "width": 600,
             "height": 600
           },
-          "image": "https://cdn.shopify.com/s/files/1/0711/3274/1771/files/ChatGPT_Image_7_nov._2025_13_33_14.png?v=1762540834",
-          "description": "Révélez votre éclat naturel avec nos sérums haute performance. Anti-taches, anti-rides, hydratation intense. Résultats visibles en 3 semaines.",
+          "description": "Révélez votre éclat naturel avec nos sérums haute performance. Anti-taches, anti-rides, hydratation intense.",
           "slogan": "Révélez votre éclat naturel",
           "email": "contact@latifskin.com",
           "contactPoint": {
             "@type": "ContactPoint",
             "email": "contact@latifskin.com",
             "contactType": "Service client",
-            "availableLanguage": ["French", "English"],
-            "areaServed": "Worldwide"
+            "availableLanguage": ["French", "English"]
           }
         },
         {
@@ -307,29 +295,8 @@ document.addEventListener('DOMContentLoaded', function() {
           "@id": "https://latifskin.com/#website",
           "url": "https://latifskin.com",
           "name": "Latifskin",
-          "description": "Sérums naturels anti-taches, anti-rides et hydratation. Révélez votre éclat naturel.",
+          "description": "Sérums naturels anti-taches, anti-rides et hydratation.",
           "publisher": {
-            "@id": "https://latifskin.com/#organization"
-          },
-          "potentialAction": {
-            "@type": "SearchAction",
-            "target": {
-              "@type": "EntryPoint",
-              "urlTemplate": "https://latifskin.com/search?q={search_term_string}"
-            },
-            "query-input": "required name=search_term_string"
-          }
-        },
-        {
-          "@type": "WebPage",
-          "@id": "https://latifskin.com/#webpage",
-          "url": "https://latifskin.com",
-          "name": "Latifskin - Sérums Naturels Anti-Taches, Anti-Rides & Hydratation",
-          "description": "Découvrez nos sérums haute performance : Bakuchiol, NAD+ Peptides, Vitamine C, Hyaltoin. Résultats visibles en 3-4 semaines. Livraison rapide, satisfait ou remboursé 30 jours.",
-          "isPartOf": {
-            "@id": "https://latifskin.com/#website"
-          },
-          "about": {
             "@id": "https://latifskin.com/#organization"
           }
         },
@@ -348,139 +315,6 @@ document.addEventListener('DOMContentLoaded', function() {
               "position": 2,
               "name": "Nos Sérums",
               "item": "https://latifskin.com/collections/all"
-            }
-          ]
-        },
-        {
-          "@type": "ItemList",
-          "@id": "https://latifskin.com/#productlist",
-          "name": "Nos Sérums Best-Sellers",
-          "numberOfItems": 5,
-          "itemListElement": [
-            {
-              "@type": "Product",
-              "position": 1,
-              "name": "Sérum Equallyberry au Bakuchiol - Anti-Taches & Anti-Rides Naturel",
-              "url": "https://latifskin.com/products/serum-equallyberry-au-bakuchiol",
-              "image": "https://cdn.shopify.com/s/files/1/0711/3274/1771/files/serum-equallyberry-au-bakuchiollatif-1001111.png?v=1767364870",
-              "description": "Sérum naturel au Bakuchiol pour lutter contre les taches, rides, boutons et rougeurs. Résultats visibles en 4 semaines.",
-              "brand": {
-                "@type": "Brand",
-                "name": "Latifskin"
-              },
-              "offers": {
-                "@type": "Offer",
-                "price": "34.99",
-                "priceCurrency": "EUR",
-                "availability": "https://schema.org/InStock"
-              },
-              "aggregateRating": {
-                "@type": "AggregateRating",
-                "ratingValue": "4.8",
-                "reviewCount": "1523",
-                "bestRating": "5",
-                "worstRating": "1"
-              }
-            },
-            {
-              "@type": "Product",
-              "position": 2,
-              "name": "Sérum ROSE - NAD+ Peptides (Fermeté / Lift / Rides)",
-              "url": "https://latifskin.com/products/serum-equallyberry-au-bakuchiol-copie-copie",
-              "image": "https://cdn.shopify.com/s/files/1/0711/3274/1771/files/rose-serum-nad-peptides-fermete-lift-rideslatif-6752840.jpg?v=1768027747",
-              "description": "Sérum aux peptides NAD+ pour une peau raffermie et liftée. Action anti-rides puissante.",
-              "brand": {
-                "@type": "Brand",
-                "name": "Latifskin"
-              },
-              "offers": {
-                "@type": "Offer",
-                "price": "35.99",
-                "priceCurrency": "EUR",
-                "availability": "https://schema.org/InStock"
-              },
-              "aggregateRating": {
-                "@type": "AggregateRating",
-                "ratingValue": "4.8",
-                "reviewCount": "1523",
-                "bestRating": "5",
-                "worstRating": "1"
-              }
-            },
-            {
-              "@type": "Product",
-              "position": 3,
-              "name": "Sérum BLEU - Hyaltoin (Hydratation Intense + Effet Frais)",
-              "url": "https://latifskin.com/products/serum-equallyberry-au-bakuchiol-copie-copie-copie-copie",
-              "image": "https://cdn.shopify.com/s/files/1/0711/3274/1771/files/bleu-serum-hyaltoin-hydratation-flood-coolinglatif-9654669.jpg?v=1768027748",
-              "description": "Sérum hydratation intense effet flood et fraîcheur. Peau repulpée et désaltérée.",
-              "brand": {
-                "@type": "Brand",
-                "name": "Latifskin"
-              },
-              "offers": {
-                "@type": "Offer",
-                "price": "29.99",
-                "priceCurrency": "EUR",
-                "availability": "https://schema.org/InStock"
-              },
-              "aggregateRating": {
-                "@type": "AggregateRating",
-                "ratingValue": "4.8",
-                "reviewCount": "1523",
-                "bestRating": "5",
-                "worstRating": "1"
-              }
-            },
-            {
-              "@type": "Product",
-              "position": 4,
-              "name": "Sérum JAUNE - Vitamine Illuminating (Taches & Éclat)",
-              "url": "https://latifskin.com/products/serum-equallyberry-au-bakuchiol-copie",
-              "image": "https://cdn.shopify.com/s/files/1/0711/3274/1771/files/jaune-serum-vitamine-illuminating-taches-eclatlatif-4251372.jpg?v=1768027748",
-              "description": "Sérum à la Vitamine C pour un teint lumineux et uniforme. Anti-taches puissant.",
-              "brand": {
-                "@type": "Brand",
-                "name": "Latifskin"
-              },
-              "offers": {
-                "@type": "Offer",
-                "price": "33.99",
-                "priceCurrency": "EUR",
-                "availability": "https://schema.org/InStock"
-              },
-              "aggregateRating": {
-                "@type": "AggregateRating",
-                "ratingValue": "4.8",
-                "reviewCount": "1523",
-                "bestRating": "5",
-                "worstRating": "1"
-              }
-            },
-            {
-              "@type": "Product",
-              "position": 5,
-              "name": "Sérum VERT - Aloe PDRN (Apaisant / Rougeurs / Barrière)",
-              "url": "https://latifskin.com/products/serum-equallyberry-au-bakuchiol-copie-copie-copie",
-              "image": "https://cdn.shopify.com/s/files/1/0711/3274/1771/files/vert-serum-aloe-pdrn-apaisant-rougeurs-barrierelatif-5555291.jpg?v=1768027748",
-              "description": "Sérum apaisant à l'Aloe et PDRN pour calmer les rougeurs et renforcer la barrière cutanée.",
-              "brand": {
-                "@type": "Brand",
-                "name": "Latifskin"
-              },
-              "offers": {
-                "@type": "Offer",
-                "price": "32.99",
-                "priceCurrency": "EUR",
-                "availability": "https://schema.org/InStock"
-              },
-              "aggregateRating": {
-                "@type": "AggregateRating",
-                "ratingValue": "4.8",
-                "reviewCount": "1523",
-                "bestRating": "5",
-                "worstRating": "1"
-              }
             }
           ]
         },
@@ -509,7 +343,7 @@ document.addEventListener('DOMContentLoaded', function() {
               "name": "Quelle est votre politique de remboursement ?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Nous offrons une garantie satisfait ou remboursé de 30 jours. Si vous n'êtes pas satisfait, nous vous remboursons selon nos conditions."
+                "text": "Nous offrons une garantie satisfait ou remboursé de 30 jours."
               }
             },
             {
@@ -517,7 +351,7 @@ document.addEventListener('DOMContentLoaded', function() {
               "name": "Quels sont les délais de livraison ?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Les commandes sont expédiées sous 24 à 48h avec un numéro de suivi en temps réel. Livraison internationale disponible."
+                "text": "Les commandes sont expédiées sous 24 à 48h. Livraison internationale disponible."
               }
             }
           ]
@@ -527,17 +361,12 @@ document.addEventListener('DOMContentLoaded', function() {
     </script>
     <!-- FIN SCHEMA MARKUP LATIFSKIN -->
 
-  
   {% render 'shogun-head' %}
 
-<!-- ═══════════════════════════════════════════════════════════════════════════
-     STABILISATION DES PAGES V3 - latifcosmos.com
-═══════════════════════════════════════════════════════════════════════════ -->
+<!-- Stabilisation des pages -->
 <style>
   html, body {
     overscroll-behavior: none;
-    overscroll-behavior-y: none;
-    overscroll-behavior-x: none;
   }
 
   body {
@@ -563,14 +392,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
   .section-header.header--visible {
     transform: translateY(0);
-  }
-
-  .shopify-section-group-footer-group,
-  footer.footer,
-  .footer {
-    position: relative;
-    z-index: 10;
-    overscroll-behavior: none;
   }
 
   .header-wrapper,
@@ -620,21 +441,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     lastScrollY = currentScrollY;
   }
-  
-  var startY = 0;
-  
-  document.addEventListener('touchstart', function(e) {
-    startY = e.touches[0].clientY;
-  }, { passive: true });
-  
-  document.addEventListener('touchmove', function(e) {
-    var y = e.touches[0].clientY;
-    var scrollTop = window.scrollY || window.pageYOffset;
-    
-    if (scrollTop === 0 && y > startY) {
-      if (e.cancelable) e.preventDefault();
-    }
-  }, { passive: false });
   
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initHeader);
@@ -763,7 +569,7 @@ document.addEventListener('DOMContentLoaded', function() {
       {%- endif -%}
     </div>
 
-    <!-- FIX RECHERCHE LATIF SKIN -->
+    <!-- FIX RECHERCHE -->
     <script>
     document.addEventListener('DOMContentLoaded', function() {
       var searchForms = document.querySelectorAll('form[action="/search"]');
@@ -777,27 +583,11 @@ document.addEventListener('DOMContentLoaded', function() {
           return false;
         });
       });
-      
-      var searchTriggers = document.querySelectorAll('.header__icon--search');
-      searchTriggers.forEach(function(trigger) {
-        trigger.addEventListener('click', function(e) {
-          var details = this.closest('details');
-          if (details) {
-            setTimeout(function() {
-              var input = details.querySelector('input[type="search"]');
-              if (input) input.focus();
-            }, 100);
-          }
-        });
-      });
     });
     </script>
-    {% section 'sticky-bar-vip' %}
     
-    <!-- POPUP NEWSLETTER PARAMÉTRABLE -->
+    {% section 'sticky-bar-vip' %}
     {% section 'popup-newsletter-latif' %}
 
   </body>
 </html>
-
-
