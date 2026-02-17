@@ -1,0 +1,803 @@
+{% include 'shogun-content-handler' %}
+<!doctype html>
+<html class="no-js" lang="{{ request.locale.iso_code }}">
+  <head>
+    {%- render 'performance-booster' -%}
+{% comment %} CACHE BUSTER GLOBAL - LATIF SKIN v2.0 {% endcomment %}
+<script>
+(function(){
+  var version = 'v2.0';
+  var stored = localStorage.getItem('latifskin_version');
+  if (stored !== version) {
+    localStorage.setItem('latifskin_version', version);
+    localStorage.removeItem('cdp_promo_code');
+    localStorage.removeItem('cdp_promo_active');
+    localStorage.removeItem('cdp_currency');
+    if (typeof caches !== 'undefined') {
+      caches.keys().then(function(names) {
+        names.forEach(function(name) { caches.delete(name); });
+      });
+    }
+    if (!sessionStorage.getItem('latifskin_reloaded')) {
+      sessionStorage.setItem('latifskin_reloaded', 'true');
+      location.reload(true);
+    }
+  }
+})();
+</script>
+{% comment %} FIN CACHE BUSTER GLOBAL {% endcomment %}
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta name="google-site-verification" content="tY5FH8RoQM6RoL1dsudC-PBDx3AhyaZiLka6hSDJe1Q" />
+<meta name="google-site-verification" content="igItrlCXCJNU6mFjittLz3E25IvTjM1Nmy1ndbyEwpY" />
+    <meta charset="utf-8">
+    <!-- ═══════════════════════════════════════════════════════════════════════
+     🚀 OPTIMISATION VITESSE & SEO v5.0 - VERSION LÉGÈRE
+     NE TOUCHE PAS AU DESIGN - Uniquement performance et SEO
+═══════════════════════════════════════════════════════════════════════ -->
+
+<!-- Préconnexions DNS (accélère les connexions) -->
+<link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
+<link rel="dns-prefetch" href="https://www.googletagmanager.com">
+<link rel="dns-prefetch" href="https://www.google-analytics.com">
+<link rel="dns-prefetch" href="https://cdn1.stamped.io">
+<link rel="dns-prefetch" href="https://www.story-theme.com">
+<link rel="dns-prefetch" href="https://api.story-theme.com">
+
+<!-- SEO Metas supplémentaires -->
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<meta name="author" content="{{ shop.name }}">
+<meta name="revisit-after" content="3 days">
+
+<!-- Open Graph amélioré -->
+<meta property="og:site_name" content="{{ shop.name }}">
+<meta property="og:url" content="{{ canonical_url }}">
+<meta property="og:type" content="{% if template contains 'product' %}product{% elsif template contains 'article' %}article{% else %}website{% endif %}">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+
+<!-- Schema.org - Données structurées -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "{{ shop.name }}",
+  "url": "{{ shop.url }}",
+  "logo": "{% if settings.logo %}{{ settings.logo | image_url: width: 600 }}{% endif %}",
+  "description": "{{ shop.description | escape }}",
+  "email": "{{ shop.email }}",
+  "sameAs": [
+    "{{ settings.social_facebook_link }}",
+    "{{ settings.social_instagram_link }}",
+    "{{ settings.social_twitter_link }}"
+  ]
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "url": "{{ shop.url }}",
+  "name": "{{ shop.name }}",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "{{ shop.url }}/search?q={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+
+{%- if template contains 'product' and product -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Accueil", "item": "{{ shop.url }}"},
+    {"@type": "ListItem", "position": 2, "name": "{{ product.collections.first.title | default: 'Produits' | escape }}", "item": "{{ product.collections.first.url | default: '/collections/all' | prepend: shop.url }}"},
+    {"@type": "ListItem", "position": 3, "name": "{{ product.title | escape }}", "item": "{{ canonical_url }}"}
+  ]
+}
+</script>
+{%- endif -%}
+
+<!-- Script de performance léger (prefetch au survol) -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var prefetched = {};
+  document.addEventListener('mouseover', function(e) {
+    var link = e.target.closest('a');
+    if (link && link.href && link.href.startsWith(location.origin) && !prefetched[link.href]) {
+      var l = document.createElement('link');
+      l.rel = 'prefetch';
+      l.href = link.href;
+      document.head.appendChild(l);
+      prefetched[link.href] = true;
+    }
+  }, {passive: true});
+});
+</script>
+
+<!-- FIN OPTIMISATION VITESSE & SEO v5.0 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="">
+    <meta name="shop-url" content="{{ shop.domain }}">
+    <link rel="canonical" href="{{ canonical_url }}">
+    <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
+
+    {%- if settings.favicon != blank -%}
+      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+    {%- endif -%}
+
+    {%- unless settings.headings_font.system? and settings.body_font.system? -%}
+      <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
+    {%- endunless -%}
+
+    <title>
+      {{ page_title }}
+      {%- if current_tags %}
+        &ndash; tagged "{{ current_tags | join: ', ' }}"
+      {%- endif -%}
+      {%- if current_page != 1 %}
+        &ndash; Page {{ current_page -}}
+      {%- endif -%}
+      {%- unless page_title contains shop.name %}
+        &ndash; {{ shop.name -}}
+      {%- endunless -%}
+    </title>
+
+    {% if page_description %}
+      <meta name="description" content="{{ page_description | escape }}">
+    {% endif %}
+
+    {% render 'meta-tags' %}
+    {%- render 'script' with 'manual-stock-urgency', defer: true -%}
+
+    {%- render 'script' with 'constants', defer: true -%}
+    {%- render 'script' with 'pubsub', defer: true -%}
+    <script src="https://www.story-theme.com/modal-master.js"></script>
+    <script src="https://api.story-theme.com/sliders.js"></script>
+    {%- render 'script' with 'global', defer: true -%}
+    <script src="{{ 'swiper.js' | asset_url }}"></script>
+    {%- if settings.enable_wishlist -%}
+      {%- render 'script' with 'wishlist', defer: true -%}
+    {%- endif -%}
+    {%- if settings.cart_type == "drawer" -%}
+      {%- render 'script' with 'cart', defer: true -%}
+      {%- render 'script' with 'cart-drawer', defer: true -%}
+    {%- elsif settings.cart_type == "notification" -%}
+      {%- render 'script' with 'cart', defer: true -%}
+      {%- render 'script' with 'cart-notification', defer: true -%}
+    {%- endif -%}
+
+    {{ content_for_header }}
+
+    {%- render 'css-variables' -%}
+    {%- if settings.enable_animations -%}
+      {{ 'animations.css' | asset_url | stylesheet_tag }}
+    {%- endif -%}
+    {{ 'base.css' | asset_url | stylesheet_tag }}
+    {{ 'swiper.css' | asset_url | stylesheet_tag }}
+    {%- if settings.enable_wishlist -%}
+      {{ 'wishlist.css' | asset_url | stylesheet_tag }}
+    {%- endif -%}
+
+    <link rel="stylesheet" href="{{ 'component-cart-items.css' | asset_url }}" media="print" onload="this.media='all'">
+    {%- if settings.cart_type == "drawer" -%}
+      {{ 'component-cart-drawer.css' | asset_url | stylesheet_tag }}
+      {{ 'component-cart.css' | asset_url | stylesheet_tag }}
+      {{ 'component-totals.css' | asset_url | stylesheet_tag }}
+      {{ 'component-price.css' | asset_url | stylesheet_tag }}
+      {{ 'component-discounts.css' | asset_url | stylesheet_tag }}
+      {{ 'component-loading-overlay.css' | asset_url | stylesheet_tag }}
+    {%- elsif settings.cart_type == "notification" -%}
+      {{ 'component-cart-notification.css' | asset_url | stylesheet_tag }}
+      {{ 'component-cart.css' | asset_url | stylesheet_tag }}
+      {{ 'component-totals.css' | asset_url | stylesheet_tag }}
+      {{ 'component-price.css' | asset_url | stylesheet_tag }}
+    {%- endif -%}
+
+    {%- unless settings.body_font.system? -%}
+      <link rel="preload" as="font" href="{{ settings.body_font | font_url }}" type="font/woff2" crossorigin>
+    {%- endunless -%}
+    {%- unless settings.headings_font.system? -%}
+      <link rel="preload" as="font" href="{{ settings.headings_font | font_url }}" type="font/woff2" crossorigin>
+    {%- endunless -%}
+
+    {%- if settings.predictive_search_enabled -%}
+      <link rel="stylesheet" href="{{ 'component-predictive-search.css' | asset_url }}" media="print" onload="this.media='all'">
+    {%- endif -%}
+
+    {%- render 'animations' -%}
+    <script>
+      document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
+      if (Shopify.designMode) {
+        document.documentElement.classList.add('shopify-design-mode');
+      }
+    </script>
+
+    <style>
+      html, body {
+        height: 100%;
+      }
+
+      .template-cart {
+        background: #ffffff;
+      }
+
+      .template-cart .page-wrapper {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .template-cart #MainContent {
+        flex: 1 0 auto;
+      }
+
+      .template-cart .cart__contents,
+      .template-cart .cart__items-wrapper,
+      .template-cart form.cart__contents {
+        display: flex !important;
+        flex-direction: column !important;
+        min-height: 100vh !important;
+      }
+
+      .template-cart .cart__footer,
+      .template-cart .cart__footer-wrapper,
+      .template-cart .totals,
+      .template-cart .cart__blocks {
+        margin-top: auto !important;
+      }
+
+      .template-cart .cart__items {
+        flex-grow: 1 !important;
+      }
+
+      .template-cart .cart__footer {
+        padding-bottom: 20px !important;
+      }
+
+      .template-cart footer,
+      .template-cart .shopify-section-group-footer-group {
+        display: none !important;
+      }
+
+      .js-drawer-open,
+      .js-drawer-open body,
+      .cart-drawer-open,
+      .cart-drawer-open body {
+        overflow: hidden !important;
+        height: 100% !important;
+      }
+    </style>
+
+    <!-- SCHEMA MARKUP LATIFSKIN - DONNÉES STRUCTURÉES POUR GOOGLE -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://latifskin.com/#organization",
+          "name": "Latifskin",
+          "url": "https://latifskin.com",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://cdn.shopify.com/s/files/1/0711/3274/1771/files/ChatGPT_Image_7_nov._2025_13_33_14.png?v=1762540834",
+            "width": 600,
+            "height": 600
+          },
+          "image": "https://cdn.shopify.com/s/files/1/0711/3274/1771/files/ChatGPT_Image_7_nov._2025_13_33_14.png?v=1762540834",
+          "description": "Révélez votre éclat naturel avec nos sérums haute performance. Anti-taches, anti-rides, hydratation intense. Résultats visibles en 3 semaines.",
+          "slogan": "Révélez votre éclat naturel",
+          "email": "contact@latifskin.com",
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "email": "contact@latifskin.com",
+            "contactType": "Service client",
+            "availableLanguage": ["French", "English"],
+            "areaServed": "Worldwide"
+          }
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://latifskin.com/#website",
+          "url": "https://latifskin.com",
+          "name": "Latifskin",
+          "description": "Sérums naturels anti-taches, anti-rides et hydratation. Révélez votre éclat naturel.",
+          "publisher": {
+            "@id": "https://latifskin.com/#organization"
+          },
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": {
+              "@type": "EntryPoint",
+              "urlTemplate": "https://latifskin.com/search?q={search_term_string}"
+            },
+            "query-input": "required name=search_term_string"
+          }
+        },
+        {
+          "@type": "WebPage",
+          "@id": "https://latifskin.com/#webpage",
+          "url": "https://latifskin.com",
+          "name": "Latifskin - Sérums Naturels Anti-Taches, Anti-Rides & Hydratation",
+          "description": "Découvrez nos sérums haute performance : Bakuchiol, NAD+ Peptides, Vitamine C, Hyaltoin. Résultats visibles en 3-4 semaines. Livraison rapide, satisfait ou remboursé 30 jours.",
+          "isPartOf": {
+            "@id": "https://latifskin.com/#website"
+          },
+          "about": {
+            "@id": "https://latifskin.com/#organization"
+          }
+        },
+        {
+          "@type": "BreadcrumbList",
+          "@id": "https://latifskin.com/#breadcrumb",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Accueil",
+              "item": "https://latifskin.com"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Nos Sérums",
+              "item": "https://latifskin.com/collections/all"
+            }
+          ]
+        },
+        {
+          "@type": "ItemList",
+          "@id": "https://latifskin.com/#productlist",
+          "name": "Nos Sérums Best-Sellers",
+          "numberOfItems": 5,
+          "itemListElement": [
+            {
+              "@type": "Product",
+              "position": 1,
+              "name": "Sérum Equallyberry au Bakuchiol - Anti-Taches & Anti-Rides Naturel",
+              "url": "https://latifskin.com/products/serum-equallyberry-au-bakuchiol",
+              "image": "https://cdn.shopify.com/s/files/1/0711/3274/1771/files/serum-equallyberry-au-bakuchiollatif-1001111.png?v=1767364870",
+              "description": "Sérum naturel au Bakuchiol pour lutter contre les taches, rides, boutons et rougeurs. Résultats visibles en 4 semaines.",
+              "brand": {
+                "@type": "Brand",
+                "name": "Latifskin"
+              },
+              "offers": {
+                "@type": "Offer",
+                "price": "34.99",
+                "priceCurrency": "EUR",
+                "availability": "https://schema.org/InStock"
+              },
+              "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.8",
+                "reviewCount": "1523",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Product",
+              "position": 2,
+              "name": "Sérum ROSE - NAD+ Peptides (Fermeté / Lift / Rides)",
+              "url": "https://latifskin.com/products/serum-equallyberry-au-bakuchiol-copie-copie",
+              "image": "https://cdn.shopify.com/s/files/1/0711/3274/1771/files/rose-serum-nad-peptides-fermete-lift-rideslatif-6752840.jpg?v=1768027747",
+              "description": "Sérum aux peptides NAD+ pour une peau raffermie et liftée. Action anti-rides puissante.",
+              "brand": {
+                "@type": "Brand",
+                "name": "Latifskin"
+              },
+              "offers": {
+                "@type": "Offer",
+                "price": "35.99",
+                "priceCurrency": "EUR",
+                "availability": "https://schema.org/InStock"
+              },
+              "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.8",
+                "reviewCount": "1523",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Product",
+              "position": 3,
+              "name": "Sérum BLEU - Hyaltoin (Hydratation Intense + Effet Frais)",
+              "url": "https://latifskin.com/products/serum-equallyberry-au-bakuchiol-copie-copie-copie-copie",
+              "image": "https://cdn.shopify.com/s/files/1/0711/3274/1771/files/bleu-serum-hyaltoin-hydratation-flood-coolinglatif-9654669.jpg?v=1768027748",
+              "description": "Sérum hydratation intense effet flood et fraîcheur. Peau repulpée et désaltérée.",
+              "brand": {
+                "@type": "Brand",
+                "name": "Latifskin"
+              },
+              "offers": {
+                "@type": "Offer",
+                "price": "29.99",
+                "priceCurrency": "EUR",
+                "availability": "https://schema.org/InStock"
+              },
+              "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.8",
+                "reviewCount": "1523",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Product",
+              "position": 4,
+              "name": "Sérum JAUNE - Vitamine Illuminating (Taches & Éclat)",
+              "url": "https://latifskin.com/products/serum-equallyberry-au-bakuchiol-copie",
+              "image": "https://cdn.shopify.com/s/files/1/0711/3274/1771/files/jaune-serum-vitamine-illuminating-taches-eclatlatif-4251372.jpg?v=1768027748",
+              "description": "Sérum à la Vitamine C pour un teint lumineux et uniforme. Anti-taches puissant.",
+              "brand": {
+                "@type": "Brand",
+                "name": "Latifskin"
+              },
+              "offers": {
+                "@type": "Offer",
+                "price": "33.99",
+                "priceCurrency": "EUR",
+                "availability": "https://schema.org/InStock"
+              },
+              "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.8",
+                "reviewCount": "1523",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Product",
+              "position": 5,
+              "name": "Sérum VERT - Aloe PDRN (Apaisant / Rougeurs / Barrière)",
+              "url": "https://latifskin.com/products/serum-equallyberry-au-bakuchiol-copie-copie-copie",
+              "image": "https://cdn.shopify.com/s/files/1/0711/3274/1771/files/vert-serum-aloe-pdrn-apaisant-rougeurs-barrierelatif-5555291.jpg?v=1768027748",
+              "description": "Sérum apaisant à l'Aloe et PDRN pour calmer les rougeurs et renforcer la barrière cutanée.",
+              "brand": {
+                "@type": "Brand",
+                "name": "Latifskin"
+              },
+              "offers": {
+                "@type": "Offer",
+                "price": "32.99",
+                "priceCurrency": "EUR",
+                "availability": "https://schema.org/InStock"
+              },
+              "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.8",
+                "reviewCount": "1523",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            }
+          ]
+        },
+        {
+          "@type": "FAQPage",
+          "@id": "https://latifskin.com/#faq",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Quand vais-je voir les premiers résultats ?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Nos clientes constatent généralement une peau plus lisse en 3 semaines et un teint plus lumineux en 4 semaines d'utilisation régulière."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Les sérums Latifskin sont-ils naturels ?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Oui, nos sérums sont formulés avec des ingrédients naturels haute performance comme le Bakuchiol, les peptides NAD+, la Vitamine C et l'Aloe PDRN."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Quelle est votre politique de remboursement ?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Nous offrons une garantie satisfait ou remboursé de 30 jours. Si vous n'êtes pas satisfait, nous vous remboursons selon nos conditions."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Quels sont les délais de livraison ?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Les commandes sont expédiées sous 24 à 48h avec un numéro de suivi en temps réel. Livraison internationale disponible."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+    <!-- FIN SCHEMA MARKUP LATIFSKIN -->
+
+  
+  {% render 'shogun-head' %}
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     STABILISATION DES PAGES V3 - latifcosmos.com
+═══════════════════════════════════════════════════════════════════════════ -->
+<style>
+  html, body {
+    overscroll-behavior: none;
+    overscroll-behavior-y: none;
+    overscroll-behavior-x: none;
+  }
+
+  body {
+    overflow-x: hidden;
+    overflow-y: scroll;
+    position: relative;
+  }
+
+  .section-header {
+    position: sticky !important;
+    position: -webkit-sticky !important;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    transition: transform 0.3s ease;
+    will-change: transform;
+  }
+
+  .section-header.header--hidden {
+    transform: translateY(-100%);
+  }
+
+  .section-header.header--visible {
+    transform: translateY(0);
+  }
+
+  .shopify-section-group-footer-group,
+  footer.footer,
+  .footer {
+    position: relative;
+    z-index: 10;
+    overscroll-behavior: none;
+  }
+
+  .header-wrapper,
+  .page-wrapper {
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+  }
+</style>
+
+<script>
+(function() {
+  'use strict';
+  
+  var header = null;
+  var lastScrollY = 0;
+  var scrollThreshold = 5;
+  
+  function initHeader() {
+    header = document.querySelector('.section-header');
+    if (header) {
+      header.classList.add('header--visible');
+    }
+  }
+  
+  function handleScroll() {
+    if (!header) return;
+    
+    var currentScrollY = window.scrollY || window.pageYOffset;
+    
+    if (currentScrollY < 100) {
+      header.classList.remove('header--hidden');
+      header.classList.add('header--visible');
+      lastScrollY = currentScrollY;
+      return;
+    }
+    
+    var direction = currentScrollY - lastScrollY;
+    
+    if (direction > scrollThreshold) {
+      header.classList.add('header--hidden');
+      header.classList.remove('header--visible');
+    }
+    else if (direction < -scrollThreshold) {
+      header.classList.remove('header--hidden');
+      header.classList.add('header--visible');
+    }
+    
+    lastScrollY = currentScrollY;
+  }
+  
+  var startY = 0;
+  
+  document.addEventListener('touchstart', function(e) {
+    startY = e.touches[0].clientY;
+  }, { passive: true });
+  
+  document.addEventListener('touchmove', function(e) {
+    var y = e.touches[0].clientY;
+    var scrollTop = window.scrollY || window.pageYOffset;
+    
+    if (scrollTop === 0 && y > startY) {
+      if (e.cancelable) e.preventDefault();
+    }
+  }, { passive: false });
+  
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initHeader);
+  } else {
+    initHeader();
+  }
+  
+  window.addEventListener('scroll', handleScroll, { passive: true });
+})();
+</script>
+</head>
+  <body
+    data-shop-locale="{{ shop.locale }}"
+    data-shop-currency="{{ cart.currency.iso_code }}"
+    {% if settings.domain_name != blank %}
+      data-domain="{{ settings.domain_name | remove: 'https://' | remove: 'www.' | remove: '/' | downcase }}"
+    {% endif %}
+    {%- if settings.disable_right_click %}
+      oncontextmenu="return false;"
+    {% endif -%}
+  >
+    {% if settings.enable_page_transitions %}
+      {%- render 'fade-page-transitions' -%}
+    {% endif %}
+
+    <a class="skip-to-content-link button visually-hidden" href="#MainContent">
+      {{ 'accessibility.skip_to_text' | t }}
+    </a>
+
+    {%- liquid
+      sections 'header-group'
+
+      if settings.cart_type == 'drawer' and request.page_type != 'cart'
+        section 'cart-drawer'
+      endif
+
+      if settings.cart_type == 'notification' and request.page_type != 'cart'
+        render 'cart-notification'
+      endif
+
+      if template contains 'product'
+        section 'main-sticky-atc'
+      endif
+    -%}
+
+    <div class="overlay hidden"></div>
+    <div class="modal content-container hidden"></div>
+    
+    <div class="page-wrapper">
+      <main
+        id="MainContent"
+        class="content-for-layout focus-none"
+        role="main"
+        tabindex="-1"
+      >
+        {{ content_for_layout }}
+      </main>
+
+      {%- unless request.page_type == 'cart' -%}
+        {% sections 'footer-group' %}
+      {%- endunless -%}
+
+      <ul hidden>
+        <li id="a11y-refresh-page-message">
+          {{ 'accessibility.refresh_page' | t }}
+        </li>
+        <li id="a11y-new-window-message">
+          {{ 'accessibility.link_messages.new_window' | t }}
+        </li>
+      </ul>
+
+      <script>
+        window.theme = { 
+          version: Shopify.theme.schema_version
+        };
+        window.shopUrl = '{{ request.origin }}';
+        window.routes = {
+          cart_add_url: '{{ routes.cart_add_url }}',
+          cart_change_url: '{{ routes.cart_change_url }}',
+          cart_update_url: '{{ routes.cart_update_url }}',
+          cart_url: '{{ routes.cart_url }}',
+          predictive_search_url: '{{ routes.predictive_search_url }}',
+        };
+
+        window.productForm = {
+          error: '{{ 'general.product_form.error' | t }}'
+        }
+
+        window.timer = {
+          type: "{{ settings.timer_type }}",
+          days: "{{ settings.timer_days }}",
+          hours: "{{ settings.timer_hours }}",
+          minutes: "{{ settings.timer_minutes }}",
+          seconds: "{{ settings.timer_seconds }}",
+          link: "{{ settings.timer_redirect_link }}",
+          day: "{{ settings.timer_day }}",
+          month: "{{ settings.timer_month }}",
+          year: "{{ settings.timer_year }}",
+        }
+
+        window.cartStrings = {
+          error: `{{ 'sections.cart.cart_error' | t }}`,
+          quantityError: `{{ 'sections.cart.cart_quantity_error_html' | t: quantity: '[quantity]' }}`,
+        };
+
+        window.variantStrings = {
+          addToCart: `{{ 'products.product.add_to_cart' | t }}`,
+          soldOut: `{{ 'products.product.sold_out' | t }}`,
+          unavailable: `{{ 'products.product.unavailable' | t }}`,
+          unavailable_with_option: `{{ 'products.product.value_unavailable' | t: option_value: '[value]' }}`,
+        };
+
+        window.accessibilityStrings = {
+          imageAvailable: `{{ 'products.product.media.image_available' | t: index: '[index]' }}`,
+          shareSuccess: `{{ 'general.share.success_message' | t }}`,
+          pauseSlideshow: `{{ 'sections.slideshow.pause_slideshow' | t }}`,
+          playSlideshow: `{{ 'sections.slideshow.play_slideshow' | t }}`,
+        };
+      </script>
+
+      {%- if settings.enable_animations -%}
+        {%- render 'script' with 'animations' -%}
+        <script>
+          AOS.init();
+        </script>
+      {%- endif -%}
+    </div>
+
+    <!-- FIX RECHERCHE LATIF SKIN -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var searchForms = document.querySelectorAll('form[action="/search"]');
+      searchForms.forEach(function(form) {
+        form.addEventListener('submit', function(e) {
+          var input = form.querySelector('input[name="q"]');
+          if (input && input.value.trim() !== '') {
+            return true;
+          }
+          e.preventDefault();
+          return false;
+        });
+      });
+      
+      var searchTriggers = document.querySelectorAll('.header__icon--search');
+      searchTriggers.forEach(function(trigger) {
+        trigger.addEventListener('click', function(e) {
+          var details = this.closest('details');
+          if (details) {
+            setTimeout(function() {
+              var input = details.querySelector('input[type="search"]');
+              if (input) input.focus();
+            }, 100);
+          }
+        });
+      });
+    });
+    </script>
+    {% section 'sticky-bar-vip' %}
+    
+    <!-- POPUP NEWSLETTER PARAMÉTRABLE -->
+    {% section 'popup-newsletter-latif' %}
+
+  </body>
+</html>
+
+
