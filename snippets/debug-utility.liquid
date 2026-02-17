@@ -1,23 +1,24 @@
 {%- comment -%}
   Debug utility for theme development
   Only logs in Shopify Theme Editor (designMode)
+  Note: Uses ES6 spread operator - requires modern browser support (IE11+)
 {%- endcomment -%}
 
 <script>
   window.themeDebug = {
-    log: function(...args) {
+    log: function() {
       if (window.Shopify && window.Shopify.designMode) {
-        console.log('[Theme]', ...args);
+        console.log.apply(console, ['[Theme]'].concat(Array.prototype.slice.call(arguments)));
       }
     },
-    warn: function(...args) {
+    warn: function() {
       if (window.Shopify && window.Shopify.designMode) {
-        console.warn('[Theme]', ...args);
+        console.warn.apply(console, ['[Theme]'].concat(Array.prototype.slice.call(arguments)));
       }
     },
-    error: function(...args) {
+    error: function() {
       // Always log errors, but add context
-      console.error('[Theme Error]', ...args);
+      console.error.apply(console, ['[Theme Error]'].concat(Array.prototype.slice.call(arguments)));
     }
   };
 </script>

@@ -20,7 +20,10 @@
     
     {%- comment -%}
       Content Security Policy - Enhanced security for the theme
-      Only allows scripts and styles from trusted sources
+      Note: 'unsafe-inline' and 'unsafe-eval' are required for Shopify themes
+      as they use inline scripts for dynamic content. This is a known limitation
+      of Shopify's platform architecture. Consider using Shopify's CSP API
+      for more granular control in the future.
     {%- endcomment -%}
     <meta http-equiv="Content-Security-Policy" content="
       default-src 'self' https://cdn.shopify.com;
