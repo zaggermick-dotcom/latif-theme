@@ -1,0 +1,2771 @@
+{{ 'product-pack-conversion.css' | asset_url | stylesheet_tag }}
+
+{% comment %}
+  ╔══════════════════════════════════════════════════════════════════╗
+  ║  PACK CONVERSION ULTIME v7.8.0 - TIMER V2 + SAVINGS + TRUST   ║
+  ║  ✅ Packs simples (existants) - INTACT                          ║
+  ║  ✅ Packs multi-produits - LIENS PRODUITS SHOPIFY               ║
+  ║  ✅ Signe de sélection = POINT                                  ║
+  ║  ✅ MOBILE OPTIMISÉ - Taille réduite mais visible               ║
+  ║  ✅ MULTI-DEVISES - USD, EUR, CAD                               ║
+  ║  ✅ POSITIONS PERSONNALISABLES - Ordre des packs                ║
+  ║  ✅ PACK PAR DÉFAUT SÉLECTIONNABLE                              ║
+  ║  ✅ CODE PROMO TOGGLE ON/OFF - COMPACT                          ║
+  ║  ✅ SHINE CORRIGÉ - Classe shine-active uniquement              ║
+  ║  ✅ BOUTON DÉSACTIVÉ - Pas d'animation shine                    ║
+  ║  ✅ AJOUT: BLOC REVIEW (Slider témoignages)                     ║
+  ║  ✅ AJOUT: BLOC PICTO (Pictogrammes)                            ║
+  ║  ✅ AJOUT: 3D MODEL SUPPORT                                     ║
+  ║  ✅ AJOUT: JSON-LD SEO                                          ║
+  ║  ✅ FIX: PACK VIP JUSTE AVANT BOUTON AJOUTER AU PANIER          ║
+  ║  ✅ NEW: TIMER V2 - Style image épuré                           ║
+  ║  ✅ NEW: BADGE ÉCONOMISEZ dans chaque pack                      ║
+  ║  ✅ NEW: TRUST BADGES V2 - Grille 2x2 titre + sous-titre       ║
+  ╚══════════════════════════════════════════════════════════════════╝
+{% endcomment %}
+
+{% comment %} === 3D MODEL SUPPORT === {% endcomment %}
+{%- assign first_3d_model = product.media | where: 'media_type', 'model' | first -%}
+{%- if first_3d_model -%}
+  {{ 'component-product-model.css' | asset_url | stylesheet_tag }}
+  <link
+    id="ModelViewerStyle"
+    rel="stylesheet"
+    href="https://cdn.shopify.com/shopifycloud/model-viewer-ui/assets/v1.0/model-viewer-ui.css"
+    media="print"
+    onload="this.media='all'"
+  >
+  <link
+    id="ModelViewerOverride"
+    rel="stylesheet"
+    href="{{ 'component-model-viewer-ui.css' | asset_url }}"
+    media="print"
+    onload="this.media='all'"
+  >
+{%- endif -%}
+
+{% comment %} === JSON-LD SEO STRUCTURED DATA === {% endcomment %}
+{%- assign seo_media = product.selected_or_first_available_variant.featured_media | default: product.featured_media -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": {{ product.title | json }},
+  "url": {{ request.origin | append: product.url | json }},
+  {%- if seo_media -%}
+  "image": {{ seo_media | image_url: width: 1920 | json }},
+  {%- endif -%}
+  "description": {{ product.description | strip_html | truncate: 500 | json }},
+  {%- if product.selected_or_first_available_variant.sku != blank -%}
+  "sku": {{ product.selected_or_first_available_variant.sku | json }},
+  {%- endif -%}
+  "brand": {
+    "@type": "Brand",
+    "name": {{ product.vendor | json }}
+  },
+  "offers": [
+    {%- for variant in product.variants -%}
+    {
+      "@type": "Offer",
+      {%- if variant.sku != blank -%}
+      "sku": {{ variant.sku | json }},
+      {%- endif -%}
+      {%- if variant.barcode != blank -%}
+        {%- assign barcode_length = variant.barcode | size -%}
+        {%- if barcode_length == 12 -%}
+      "gtin12": {{ variant.barcode | json }},
+        {%- elsif barcode_length == 13 -%}
+      "gtin13": {{ variant.barcode | json }},
+        {%- elsif barcode_length == 14 -%}
+      "gtin14": {{ variant.barcode | json }},
+        {%- endif -%}
+      {%- endif -%}
+      "availability": "https://schema.org/{% if variant.available %}InStock{% else %}OutOfStock{% endif %}",
+      "price": {{ variant.price | divided_by: 100.0 | json }},
+      "priceCurrency": {{ cart.currency.iso_code | json }},
+      "url": {{ request.origin | append: variant.url | json }}
+    }{% unless forloop.last %},{% endunless %}
+    {%- endfor -%}
+  ]
+}
+</script>
+
+{% comment %} === 3D MODEL JSON DATA === {% endcomment %}
+{%- if first_3d_model -%}
+  <script type="application/json" id="ProductJSON-{{ product.id }}">
+    {{ product.media | where: 'media_type', 'model' | json }}
+  </script>
+{%- endif -%}
+
+{% comment %} === RÉCUPÉRATION DES SETTINGS ADMIN === {% endcomment %}
+{% assign urgency_stock_initial = block.settings.urgency_stock_initial | default: 12 %}
+{% assign urgency_stock_min = block.settings.urgency_stock_min | default: 3 %}
+{% assign urgency_variation_enabled = block.settings.urgency_variation_enabled | default: true %}
+{% assign urgency_variation_interval = block.settings.urgency_variation_interval | default: 8 %}
+
+{% assign viewers_initial = block.settings.viewers_initial | default: 18 %}
+{% assign viewers_min = block.settings.viewers_min | default: 8 %}
+{% assign viewers_max = block.settings.viewers_max | default: 35 %}
+{% assign viewers_variation_enabled = block.settings.viewers_variation_enabled | default: true %}
+
+{% comment %} === POSITIONS DES PACKS 0, 1, 2 (pack3 VIP est séparé) === {% endcomment %}
+{% assign pack0_position = section.settings.pack0_position | default: '1' | plus: 0 %}
+{% assign pack1_position = section.settings.pack1_position | default: '2' | plus: 0 %}
+{% assign pack2_position = section.settings.pack2_position | default: '3' | plus: 0 %}
+
+{% comment %} === PACK PAR DÉFAUT === {% endcomment %}
+{% assign default_selected_pack = section.settings.default_selected_pack | default: '0' | plus: 0 %}
+
+{% comment %} === SYSTÈME MULTI-DEVISES === {% endcomment %}
+{% assign currency_mode = section.settings.currency_mode | default: 'USD' %}
+
+{% case currency_mode %}
+  {% when 'USD' %}
+    {% assign currency_symbol = '$' %}
+    {% assign currency_position = 'before' %}
+    {% assign currency_code = 'USD' %}
+  {% when 'EUR' %}
+    {% assign currency_symbol = '€' %}
+    {% assign currency_position = 'after' %}
+    {% assign currency_code = 'EUR' %}
+  {% when 'CAD' %}
+    {% assign currency_symbol = '$' %}
+    {% assign currency_position = 'before' %}
+    {% assign currency_code = 'CAD' %}
+{% endcase %}
+
+{% comment %} === COUNTDOWN TIMER SETTINGS === {% endcomment %}
+{% assign show_countdown = block.settings.show_countdown | default: false %}
+{% assign countdown_days = block.settings.countdown_days | default: 0 %}
+{% assign countdown_hours = block.settings.countdown_hours | default: 2 %}
+{% assign countdown_minutes = block.settings.countdown_minutes | default: 30 %}
+{% assign countdown_seconds = block.settings.countdown_seconds | default: 0 %}
+
+{% comment %} === TRUST BADGES SETTINGS === {% endcomment %}
+{% assign show_trust_badges = block.settings.show_trust_badges | default: true %}
+
+{% comment %} === MODE MULTI-PRODUITS === {% endcomment %}
+{% assign use_multi_product_mode = block.settings.use_multi_product_mode | default: false %}
+
+{% comment %} === AUTRES FONCTIONNALITÉS === {% endcomment %}
+{% assign show_recent_sales = block.settings.show_recent_sales | default: false %}
+{% assign recent_sales_count = block.settings.recent_sales_count | default: 47 %}
+{% assign recent_sales_text = block.settings.recent_sales_text | default: "ventes ces dernières 24h" %}
+
+{% assign show_progress_bar = block.settings.show_progress_bar | default: false %}
+{% assign progress_bar_percent = block.settings.progress_bar_percent | default: 73 %}
+{% assign progress_bar_text = block.settings.progress_bar_text | default: "de l'objectif atteint aujourd'hui" %}
+
+{% assign show_guarantee_banner = block.settings.show_guarantee_banner | default: false %}
+{% assign guarantee_text = block.settings.guarantee_text | default: "Satisfait ou 100% remboursé pendant 30 jours" %}
+
+{% comment %} === REVIEW SLIDER SETTINGS === {% endcomment %}
+{% assign show_review_slider = block.settings.show_review_slider | default: false %}
+{% assign review_autoplay = block.settings.review_autoplay | default: true %}
+{% assign review_speed = block.settings.review_speed | default: 4 %}
+
+{% comment %} === PICTO SETTINGS === {% endcomment %}
+{% assign show_picto = block.settings.show_picto | default: false %}
+
+{% comment %} === BOUTON SETTINGS === {% endcomment %}
+{% assign btn_bg_color = block.settings.btn_bg | default: '#10b981' %}
+{% assign btn_text_color = block.settings.btn_text_color | default: '#ffffff' %}
+{% assign btn_padding_horizontal = block.settings.btn_padding_horizontal | default: 24 %}
+{% assign btn_padding_vertical = block.settings.btn_padding_vertical | default: 16 %}
+
+{% style %}
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;800;900&display=swap');
+  variant-radios { display: none; }
+
+  :root, .product-pack-conversion {
+    --pack-font: 'Poppins', sans-serif;
+    --pack-accent: {{ block.settings.color_accent | default: '#10b981' }};
+    --pack-border: {{ block.settings.color_border | default: '#000000' }};
+    --pack-border-width: {{ block.settings.border_width | default: 2 }}px;
+    --card-bg: {{ block.settings.card_bg | default: '#ffffff' }};
+    --card-bg-selected: {{ block.settings.card_bg_selected | default: '#f0fdf4' }};
+    --urgency-bg: {{ block.settings.urgency_bg | default: '#fef2f2' }};
+    --urgency-border: {{ block.settings.urgency_border | default: '#fecaca' }};
+    --urgency-text: {{ block.settings.urgency_text_color | default: '#dc2626' }};
+    --badge-bg-0: {{ block.settings.badge_bg_0 | default: '#ef4444' }};
+    --badge-text-0: {{ block.settings.badge_text_color_0 | default: '#ffffff' }};
+    --badge-bg-1: {{ block.settings.badge_bg_1 | default: '#3b82f6' }};
+    --badge-text-1: {{ block.settings.badge_text_color_1 | default: '#ffffff' }};
+    --badge-bg-2: {{ block.settings.badge_bg_2 | default: '#6b7280' }};
+    --badge-text-2: {{ block.settings.badge_text_color_2 | default: '#ffffff' }};
+    --badge-bg-3: {{ block.settings.badge_bg_3 | default: '#8b5cf6' }};
+    --badge-text-3: {{ block.settings.badge_text_color_3 | default: '#ffffff' }};
+    --btn-bg: {{ btn_bg_color }};
+    --btn-text: {{ btn_text_color }};
+    --btn-padding-h: {{ btn_padding_horizontal }}px;
+    --btn-padding-v: {{ btn_padding_vertical }}px;
+    --promo-bg: {{ block.settings.promo_bg | default: '#fdf2f8' }};
+    --promo-border: {{ block.settings.promo_border | default: '#ec4899' }};
+    --promo-text: {{ block.settings.promo_text_color | default: '#be185d' }};
+    --savings-bg: {{ block.settings.savings_bg | default: '#fffbeb' }};
+    --savings-text: {{ block.settings.savings_text_color | default: '#b45309' }};
+    --savings-border: {{ block.settings.savings_border | default: '#f59e0b' }};
+    --opt-bg: {{ block.settings.opt_bg | default: '#f9fafb' }};
+    --opt-border: {{ block.settings.opt_border | default: '#cbd5e1' }};
+    --opt-bg-active: {{ block.settings.opt_bg_active | default: '#f0fdf4' }};
+    --delivery-text: {{ block.settings.delivery_text_color | default: '#4b5563' }};
+    --countdown-number-bg: {{ block.settings.countdown_number_bg | default: '#0f0f23' }};
+    --countdown-number-text: {{ block.settings.countdown_number_text | default: '#ffffff' }};
+    --progress-bar-color: {{ block.settings.progress_bar_color | default: '#10b981' }};
+    --guarantee-bg: {{ block.settings.guarantee_bg | default: '#ecfdf5' }};
+    --guarantee-border: {{ block.settings.guarantee_border | default: '#10b981' }};
+    --trust-bg: {{ block.settings.trust_bg | default: '#f9fafb' }};
+    --trust-text: {{ block.settings.trust_text_color | default: '#374151' }};
+    --trust-border: {{ block.settings.trust_border | default: '#e5e7eb' }};
+    --payment-badges-bg: {{ block.settings.payment_badges_bg | default: 'transparent' }};
+    --payment-badge-bg: {{ block.settings.payment_badge_bg | default: '#ffffff' }};
+    --payment-badge-border: {{ block.settings.payment_badge_border | default: '#e5e7eb' }};
+    --payment-badge-border-width: {{ block.settings.payment_badge_border_width | default: 1 }}px;
+    --payment-badge-radius: {{ block.settings.payment_badge_radius | default: 6 }}px;
+    --payment-badge-gap: {{ block.settings.payment_badge_gap | default: 8 }}px;
+    --review-bg: {{ block.settings.review_bg | default: '#ffffff' }};
+    --review-border: {{ block.settings.review_border | default: '#e5e7eb' }};
+    --review-text: {{ block.settings.review_text_color | default: '#374151' }};
+    --picto-bg: {{ block.settings.picto_bg | default: '#f9fafb' }};
+    --picto-text: {{ block.settings.picto_text_color | default: '#374151' }};
+    --countdown-badge-bg: {{ block.settings.countdown_badge_bg | default: '#ef4444' }};
+    --countdown-badge-text: {{ block.settings.countdown_badge_text_color | default: '#ffffff' }};
+    --countdown-label-text: {{ block.settings.countdown_label_color | default: '#6b7280' }};
+    --countdown-separator-color: {{ block.settings.countdown_separator_color | default: '#1a1a2e' }};
+    --countdown-subtext-color: {{ block.settings.countdown_subtext_text_color | default: '#10b981' }};
+    --savings-inline-bg: {{ block.settings.savings_inline_bg | default: '#ecfdf5' }};
+    --savings-inline-text: {{ block.settings.savings_inline_text | default: '#059669' }};
+    --savings-inline-border: {{ block.settings.savings_inline_border | default: '#a7f3d0' }};
+    --trust-icon-bg: {{ block.settings.trust_icon_bg | default: '#ffffff' }};
+    --trust-title-color: {{ block.settings.trust_title_color | default: '#1f2937' }};
+    --trust-subtitle-color: {{ block.settings.trust_subtitle_color | default: '#6b7280' }};
+  }
+
+  /* === BOUTON AJOUTER AU PANIER === */
+  .pack-conversion__button {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: var(--btn-padding-v) var(--btn-padding-h);
+    background: var(--btn-bg) !important;
+    color: var(--btn-text) !important;
+    border: none;
+    border-radius: 8px;
+    font-family: var(--pack-font);
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: none !important;
+    overflow: hidden;
+  }
+
+  .pack-conversion__button:hover,
+  .pack-conversion__button:focus,
+  .pack-conversion__button:active {
+    background: var(--btn-bg) !important;
+    color: var(--btn-text) !important;
+    transform: none !important;
+    box-shadow: none !important;
+  }
+
+  .pack-conversion__button-text { font-weight: 700; }
+  .pack-conversion__button-sep { opacity: 0.8; }
+  .pack-conversion__button-price { font-weight: 800; }
+
+  .pack-conversion__button::before {
+    content: none !important;
+  }
+
+  .pack-conversion__button.shine-active::before {
+    content: '' !important;
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(
+      90deg, 
+      transparent 0%, 
+      rgba(255, 255, 255, 0.4) 50%, 
+      transparent 100%
+    );
+    animation: buttonShineActive 2.5s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  @keyframes buttonShineActive {
+    0% { left: -100%; }
+    50%, 100% { left: 150%; }
+  }
+
+  .pack-conversion__button:disabled,
+  .pack-conversion__button[disabled],
+  .pack-conversion__button.disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  .pack-conversion__button:disabled::before,
+  .pack-conversion__button[disabled]::before,
+  .pack-conversion__button.disabled::before,
+  .pack-conversion__button:disabled.shine-active::before,
+  .pack-conversion__button[disabled].shine-active::before,
+  .pack-conversion__button.disabled.shine-active::before {
+    content: none !important;
+    animation: none !important;
+  }
+
+  /* === BADGES DE PAIEMENT === */
+  .pack-payment-badges {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: var(--payment-badge-gap, 8px);
+    margin: 12px 0;
+    padding: 10px;
+    background: var(--payment-badges-bg, transparent);
+  }
+
+  .pack-payment-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--payment-badge-bg, #ffffff);
+    border-radius: var(--payment-badge-radius, 6px);
+    padding: 6px 8px;
+    border: var(--payment-badge-border-width, 1px) solid var(--payment-badge-border, #e5e7eb);
+    transition: all 0.2s ease;
+  }
+
+  .pack-payment-badge:hover {
+    border-color: var(--pack-accent);
+    transform: translateY(-2px);
+  }
+
+  .pack-payment-badge svg { display: block; }
+  .pack-payment-badges--small .pack-payment-badge svg { height: 20px; width: auto; }
+  .pack-payment-badges--medium .pack-payment-badge svg { height: 28px; width: auto; }
+  .pack-payment-badges--large .pack-payment-badge svg { height: 36px; width: auto; }
+
+  /* === CODE PROMO TOGGLE ON/OFF - COMPACT === */
+  .pack-promo-toggle {
+    background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%);
+    border: 2px solid #ec4899;
+    border-radius: 10px;
+    padding: 10px 14px;
+    margin: 12px 0;
+    font-family: var(--pack-font);
+    transition: all 0.3s ease;
+  }
+
+  .pack-promo-toggle.promo-active {
+    background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+    border-color: #10b981;
+  }
+
+  .pack-promo-toggle__content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .pack-promo-toggle__left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .pack-promo-toggle__icon { font-size: 16px; }
+
+  .pack-promo-toggle__code {
+    background: #ffffff;
+    border: 1px dashed #ec4899;
+    border-radius: 6px;
+    padding: 5px 10px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #be185d;
+    letter-spacing: 0.5px;
+  }
+
+  .pack-promo-toggle.promo-active .pack-promo-toggle__code {
+    border-color: #10b981;
+    color: #059669;
+  }
+
+  .pack-promo-toggle__discount {
+    background: #ec4899;
+    color: #ffffff;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  .pack-promo-toggle.promo-active .pack-promo-toggle__discount {
+    background: #10b981;
+  }
+
+  /* === SWITCH ON/OFF === */
+  .pack-promo-switch {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .pack-promo-switch__label {
+    font-size: 10px;
+    font-weight: 700;
+    color: #9ca3af;
+    text-transform: uppercase;
+  }
+
+  .pack-promo-switch__label.active { color: #10b981; }
+
+  .pack-promo-switch__toggle {
+    position: relative;
+    width: 44px;
+    height: 24px;
+    background: #e5e7eb;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    padding: 0;
+  }
+
+  .pack-promo-switch__toggle.switch-on {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  }
+
+  .pack-promo-switch__toggle::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 20px;
+    height: 20px;
+    background: #ffffff;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  }
+
+  .pack-promo-switch__toggle.switch-on::after {
+    left: 22px;
+  }
+
+  .pack-promo-toggle__success {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 8px;
+    padding: 6px 10px;
+    background: #d1fae5;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #059669;
+  }
+
+  .pack-promo-toggle__success-icon {
+    font-size: 12px;
+  }
+
+  /* === COUNTDOWN TIMER v2 - STYLE IMAGE === */
+  .pack-countdown-v2 {
+    text-align: center;
+    margin-bottom: 16px;
+    font-family: var(--pack-font);
+  }
+
+  .pack-countdown-v2__badge {
+    display: inline-block;
+    background: var(--countdown-badge-bg, #ef4444);
+    color: var(--countdown-badge-text, #ffffff);
+    padding: 8px 24px;
+    border-radius: 25px;
+    font-size: 14px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+    box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+  }
+
+  .pack-countdown-v2__badge-emoji {
+    margin-right: 4px;
+  }
+
+  .pack-countdown-v2__timer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+
+  .pack-countdown-v2__block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .pack-countdown-v2__number {
+    background: var(--countdown-number-bg, #1a1a2e);
+    color: var(--countdown-number-text, #ffffff);
+    font-family: 'Poppins', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    min-width: 52px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    text-align: center;
+    line-height: 1;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  .pack-countdown-v2__label {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--countdown-label-text, #6b7280);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .pack-countdown-v2__separator {
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--countdown-separator-color, #1a1a2e);
+    margin-bottom: 18px;
+  }
+
+  .pack-countdown-v2__subtext {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--countdown-subtext-color, #10b981);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .pack-countdown-v2__subtext-emoji {
+    margin-right: 4px;
+  }
+
+  @media (max-width: 480px) {
+    .pack-countdown-v2__number {
+      font-size: 18px;
+      min-width: 44px;
+      padding: 8px 10px;
+    }
+    .pack-countdown-v2__badge {
+      font-size: 12px;
+      padding: 6px 18px;
+    }
+    .pack-countdown-v2__separator {
+      font-size: 18px;
+    }
+    .pack-countdown-v2__subtext {
+      font-size: 11px;
+    }
+  }
+
+  /* === BADGE ÉCONOMISEZ DANS CHAQUE PACK === */
+  .pack-conversion__savings-inline {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: var(--savings-inline-bg, #ecfdf5);
+    color: var(--savings-inline-text, #059669);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 6px;
+    border: 1px solid var(--savings-inline-border, #a7f3d0);
+    margin-top: 2px;
+    white-space: nowrap;
+  }
+
+  .pack-conversion__savings-inline-icon {
+    font-size: 11px;
+  }
+
+  .pack-conversion__prices {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+  }
+
+  @media (max-width: 480px) {
+    .pack-conversion__savings-inline {
+      font-size: 11px;
+      padding: 2px 8px;
+    }
+  }
+
+  /* ========================================
+   TRUST BADGES v2 — Grille 2x2 avec titre + sous-titre
+   ======================================== */
+  .pack-conversion__trust-grid {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 10px !important;
+    width: 100% !important;
+    padding: 12px 0 !important;
+    margin-top: 12px !important;
+  }
+
+  .trust-grid-item {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    background: var(--trust-bg, #f9fafb) !important;
+    border: 1px solid var(--trust-border, #e5e7eb) !important;
+    border-radius: 10px !important;
+    padding: 12px 14px !important;
+    transition: border-color 0.2s ease, transform 0.2s ease !important;
+  }
+
+  .trust-grid-item:hover {
+    border-color: var(--pack-accent, #10b981) !important;
+    transform: translateY(-1px) !important;
+  }
+
+  .trust-grid-item__icon {
+    font-size: 24px !important;
+    line-height: 1 !important;
+    flex-shrink: 0 !important;
+    width: 36px !important;
+    height: 36px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: var(--trust-icon-bg, #ffffff) !important;
+    border-radius: 8px !important;
+    border: 1px solid var(--trust-border, #e5e7eb) !important;
+  }
+
+  .trust-grid-item__text {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1px !important;
+  }
+
+  .trust-grid-item__title {
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    color: var(--trust-title-color, #1f2937) !important;
+    line-height: 1.3 !important;
+  }
+
+  .trust-grid-item__subtitle {
+    font-size: 10px !important;
+    font-weight: 500 !important;
+    color: var(--trust-subtitle-color, #6b7280) !important;
+    line-height: 1.3 !important;
+  }
+
+  @media (max-width: 480px) {
+    .pack-conversion__trust-grid {
+      gap: 8px !important;
+      padding: 10px 0 !important;
+    }
+
+    .trust-grid-item {
+      padding: 10px 10px !important;
+      gap: 8px !important;
+    }
+
+    .trust-grid-item__icon {
+      font-size: 20px !important;
+      width: 30px !important;
+      height: 30px !important;
+    }
+
+    .trust-grid-item__title {
+      font-size: 11px !important;
+    }
+
+    .trust-grid-item__subtitle {
+      font-size: 9px !important;
+    }
+  }
+
+  @media (max-width: 320px) {
+    .pack-conversion__trust-grid {
+      grid-template-columns: 1fr !important;
+    }
+  }
+
+  /* ========================================
+   🌟 REVIEW SLIDER
+   ======================================== */
+  .pack-review-slider {
+    position: relative;
+    margin: 16px 0;
+    padding: 16px;
+    background: var(--review-bg, #ffffff);
+    border: 1px solid var(--review-border, #e5e7eb);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .pack-review-slider__title {
+    text-align: center;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--review-text, #374151);
+    margin-bottom: 12px;
+  }
+
+  .pack-review-slider__wrapper {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .pack-review-slider__track {
+    display: flex;
+    transition: transform 0.5s ease;
+  }
+
+  .pack-review-slide {
+    min-width: 100%;
+    padding: 0 10px;
+    box-sizing: border-box;
+  }
+
+  .pack-review-card {
+    background: #f9fafb;
+    border-radius: 10px;
+    padding: 14px;
+    text-align: center;
+  }
+
+  .pack-review-card__header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .pack-review-card__avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--pack-accent, #10b981);
+  }
+
+  .pack-review-card__avatar-placeholder {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--pack-accent) 0%, #059669 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  .pack-review-card__info {
+    text-align: left;
+  }
+
+  .pack-review-card__name {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1f2937;
+    margin: 0;
+  }
+
+  .pack-review-card__verified {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 10px;
+    color: #10b981;
+    font-weight: 600;
+  }
+
+  .pack-review-card__stars {
+    display: flex;
+    justify-content: center;
+    gap: 2px;
+    margin-bottom: 8px;
+  }
+
+  .pack-review-card__star {
+    font-size: 16px;
+    color: #fbbf24;
+  }
+
+  .pack-review-card__star.empty {
+    color: #d1d5db;
+  }
+
+  .pack-review-card__text {
+    font-size: 13px;
+    color: #4b5563;
+    line-height: 1.5;
+    font-style: italic;
+  }
+
+  .pack-review-slider__dots {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 12px;
+  }
+
+  .pack-review-slider__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #d1d5db;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .pack-review-slider__dot.active {
+    background: var(--pack-accent, #10b981);
+    transform: scale(1.2);
+  }
+
+  /* ========================================
+   🎨 PICTOGRAMMES
+   ======================================== */
+  .pack-picto-section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin: 16px 0;
+    padding: 14px;
+    background: var(--picto-bg, #f9fafb);
+    border-radius: 10px;
+  }
+
+  .pack-picto-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    min-width: 70px;
+    max-width: 100px;
+    text-align: center;
+  }
+
+  .pack-picto-item__icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff;
+    border-radius: 50%;
+    border: 1px solid #e5e7eb;
+    font-size: 20px;
+    transition: all 0.2s ease;
+  }
+
+  .pack-picto-item:hover .pack-picto-item__icon {
+    border-color: var(--pack-accent, #10b981);
+    transform: scale(1.05);
+  }
+
+  .pack-picto-item__icon img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+  }
+
+  .pack-picto-item__text {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--picto-text, #374151);
+    line-height: 1.2;
+  }
+
+  @media (max-width: 480px) {
+    .pack-picto-section {
+      gap: 8px;
+      padding: 10px;
+    }
+    
+    .pack-picto-item {
+      min-width: 60px;
+    }
+    
+    .pack-picto-item__icon {
+      width: 34px;
+      height: 34px;
+      font-size: 16px;
+    }
+    
+    .pack-picto-item__text {
+      font-size: 9px;
+    }
+  }
+
+  /* === PACK MULTI-PRODUITS === */
+  .pack-multi-wrapper { display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px; }
+
+  .pack-multi-card {
+    position: relative;
+    background: var(--card-bg);
+    border: var(--pack-border-width) solid #e5e7eb;
+    border-radius: 12px;
+    padding: 16px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+  }
+
+  .pack-multi-card:hover { border-color: var(--pack-accent); }
+
+  .pack-multi-card.pack-multi--selected {
+    border-color: var(--pack-accent);
+    background: var(--card-bg-selected);
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+  }
+
+  .pack-multi-card__top-badge {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    z-index: 10;
+  }
+
+  .pack-multi-card__header { display: flex; align-items: flex-start; gap: 12px; padding-bottom: 12px; }
+
+  .pack-multi-card__radio {
+    width: 22px;
+    height: 22px;
+    min-width: 22px;
+    border: 2px solid #d1d5db;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+  }
+
+  .pack-multi-card.pack-multi--selected .pack-multi-card__radio {
+    border-color: var(--pack-accent);
+    background: var(--pack-accent);
+  }
+
+  .pack-multi-card__radio::after {
+    content: '';
+    width: 0;
+    height: 0;
+    background: white;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+  }
+
+  .pack-multi-card.pack-multi--selected .pack-multi-card__radio::after {
+    width: 10px;
+    height: 10px;
+  }
+
+  .pack-multi-card__info { flex: 1; }
+  .pack-multi-card__title { font-size: 16px; font-weight: 700; color: #1f2937; margin: 0 0 4px 0; }
+  .pack-multi-card__subtitle { font-size: 13px; color: #6b7280; margin: 0; }
+
+  .pack-multi-card__pricing { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+  .pack-multi-card__price-row { display: flex; align-items: center; gap: 8px; }
+  .pack-multi-card__price { font-size: 20px; font-weight: 800; color: #1f2937; }
+  .pack-multi-card__price-compare { font-size: 14px; color: #9ca3af; text-decoration: line-through; }
+
+  .pack-multi-card__savings-badge {
+    display: inline-flex;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  .pack-multi-card__expanded {
+    display: none;
+    border-top: 1px solid #e5e7eb;
+    padding-top: 16px;
+    margin-top: 4px;
+  }
+
+  .pack-multi-card.pack-multi--selected .pack-multi-card__expanded { display: block; }
+
+  .pack-multi-card__section-title {
+    text-align: center;
+    font-size: 13px;
+    font-weight: 700;
+    color: #374151;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  .pack-multi-card__products { display: flex; align-items: flex-start; justify-content: center; gap: 6px; flex-wrap: wrap; }
+
+  .pack-multi-card__product {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    flex: 1;
+    min-width: 70px;
+    max-width: 100px;
+  }
+
+  .pack-multi-card__product-image {
+    width: 75px;
+    height: 75px;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    margin-bottom: 6px;
+  }
+
+  .pack-multi-card__product-image img { width: 100%; height: 100%; object-fit: cover; }
+  .pack-multi-card__product-title { font-size: 11px; font-weight: 600; color: #1f2937; margin-bottom: 2px; }
+  .pack-multi-card__product-subtitle { font-size: 9px; color: #6b7280; margin-bottom: 4px; }
+  .pack-multi-card__product-price { font-size: 10px; color: #9ca3af; text-decoration: line-through; }
+
+  .pack-multi-card__connector { display: flex; align-items: center; justify-content: center; min-width: 28px; }
+  .pack-multi-card__connector-icon { font-size: 16px; font-weight: 800; color: var(--pack-accent); }
+
+  .pack-multi-card__synergy {
+    background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
+    border: 1px solid var(--pack-accent);
+    border-radius: 10px;
+    padding: 10px 14px;
+    text-align: center;
+    margin-top: 10px;
+  }
+
+  .pack-multi-card__synergy-title { font-size: 13px; font-weight: 800; color: var(--pack-accent); }
+  .pack-multi-card__synergy-subtitle { font-size: 10px; color: #065f46; font-weight: 600; }
+
+  /* === AUTRES COMPOSANTS === */
+  .pack-savings-box {
+    background: var(--savings-bg) !important;
+    border: 1px solid var(--savings-border) !important;
+    color: var(--savings-text) !important;
+    padding: 6px 12px !important;
+    border-radius: 6px !important;
+    font-size: 12px !important;
+    text-align: center !important;
+    margin: 8px 0 !important;
+  }
+
+  .pack-recent-sales {
+    background: linear-gradient(90deg, #fef3c7 0%, #fde68a 100%);
+    border: 1px solid #f59e0b;
+    border-radius: 8px;
+    padding: 8px 12px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 11px;
+    color: #92400e;
+    font-weight: 600;
+  }
+
+  .pack-progress { background: #f3f4f6; border-radius: 8px; padding: 10px 12px; margin-bottom: 12px; }
+  .pack-progress__header { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 11px; }
+  .pack-progress__bar { height: 8px; background: #e5e7eb; border-radius: 4px; overflow: hidden; }
+  .pack-progress__fill { height: 100%; background: linear-gradient(90deg, var(--progress-bar-color), #34d399); border-radius: 4px; }
+
+  .pack-guarantee {
+    background: var(--guarantee-bg);
+    border: 1px solid var(--guarantee-border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: 11px;
+  }
+
+  .pack-guarantee__badge {
+    background: var(--guarantee-border);
+    color: white;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 9px;
+    font-weight: 700;
+  }
+
+  .pack-conversion__urgency {
+    background: var(--urgency-bg);
+    border: 1px solid var(--urgency-border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-bottom: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--urgency-text);
+    font-weight: 600;
+  }
+
+  .urgency-dot {
+    width: 10px;
+    height: 10px;
+    background: var(--urgency-text);
+    border-radius: 50%;
+    animation: urgencyDotPulse 1s ease-in-out infinite;
+  }
+
+  @keyframes urgencyDotPulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.7); }
+  }
+
+  .pack-urgency-bar { width: 100%; height: 4px; background: #fecaca; border-radius: 2px; margin-top: 6px; }
+  .pack-urgency-bar__fill { height: 100%; background: linear-gradient(90deg, #ef4444, #dc2626); border-radius: 2px; }
+
+  /* 👀 Viewers styling */
+  .pack-conversion__viewers {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px;
+    background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+    border: 1px solid #86efac;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    color: #166534;
+    margin-bottom: 16px;
+    animation: viewersFadeIn 0.5s ease;
+  }
+  @keyframes viewersFadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .viewers-dot {
+    width: 10px;
+    height: 10px;
+    background: #22c55e;
+    border-radius: 50%;
+    animation: viewersPulse 1.5s ease-in-out infinite;
+    box-shadow: 0 0 8px rgba(34, 197, 94, 0.5);
+  }
+  @keyframes viewersPulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(1.3); }
+  }
+  .pack-conversion__viewers strong {
+    color: #15803d;
+    font-weight: 700;
+  }
+
+  /* === PACK VIP SÉPARÉ - STYLE SPÉCIAL === */
+  .pack-vip-separator {
+    margin: 20px 0 16px 0;
+    text-align: center;
+    position: relative;
+  }
+  
+  .pack-vip-separator::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--badge-bg-3), transparent);
+  }
+  
+  .pack-vip-separator__text {
+    display: inline-block;
+    background: var(--card-bg);
+    padding: 0 12px;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--badge-bg-3);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+  }
+
+  /* === RESPONSIVE === */
+  @media (max-width: 480px) {
+    .pack-multi-card { padding: 12px; }
+    .pack-multi-card__title { font-size: 14px; }
+    .pack-multi-card__price { font-size: 18px; }
+    .pack-multi-card__product { min-width: 55px; max-width: 75px; }
+    .pack-multi-card__product-image { width: 58px; height: 58px; }
+    .pack-promo-toggle { padding: 8px 12px; }
+    .pack-promo-toggle__code { font-size: 12px; padding: 4px 8px; }
+    .pack-promo-switch__toggle { width: 40px; height: 22px; }
+    .pack-promo-switch__toggle::after { width: 18px; height: 18px; }
+    .pack-promo-switch__toggle.switch-on::after { left: 20px; }
+  }
+{% endstyle %}
+
+<product-pack class="product-pack-conversion" 
+  data-section-id="{{ section.id }}" 
+  data-product-id="{{ product.selected_or_first_available_variant.id }}"
+  data-urgency-initial="{{ urgency_stock_initial }}"
+  data-urgency-min="{{ urgency_stock_min }}"
+  data-urgency-variation="{{ urgency_variation_enabled }}"
+  data-urgency-interval="{{ urgency_variation_interval }}"
+  data-viewers-initial="{{ viewers_initial }}"
+  data-viewers-min="{{ viewers_min }}"
+  data-viewers-max="{{ viewers_max }}"
+  data-viewers-variation="{{ viewers_variation_enabled }}"
+  data-use-multi-mode="{{ use_multi_product_mode }}"
+  data-currency-symbol="{{ currency_symbol }}"
+  data-currency-position="{{ currency_position }}"
+  data-currency-code="{{ currency_code }}"
+  data-default-pack="{{ default_selected_pack }}"
+>
+
+  {% comment %} === BLOC PICTOGRAMMES === {% endcomment %}
+  {%- if show_picto -%}
+    <div class="pack-picto-section" id="packPictoSection-{{ section.id }}">
+      {%- if block.settings.picto_1_enabled -%}
+        <div class="pack-picto-item">
+          <div class="pack-picto-item__icon">
+            {%- if block.settings.picto_1_image != blank -%}
+              {{ block.settings.picto_1_image | image_url: width: 48 | image_tag }}
+            {%- else -%}
+              {{ block.settings.picto_1_icon | default: '🚚' }}
+            {%- endif -%}
+          </div>
+          <span class="pack-picto-item__text">{{ block.settings.picto_1_text | default: 'Livraison rapide' }}</span>
+        </div>
+      {%- endif -%}
+      
+      {%- if block.settings.picto_2_enabled -%}
+        <div class="pack-picto-item">
+          <div class="pack-picto-item__icon">
+            {%- if block.settings.picto_2_image != blank -%}
+              {{ block.settings.picto_2_image | image_url: width: 48 | image_tag }}
+            {%- else -%}
+              {{ block.settings.picto_2_icon | default: '🔒' }}
+            {%- endif -%}
+          </div>
+          <span class="pack-picto-item__text">{{ block.settings.picto_2_text | default: 'Paiement sécurisé' }}</span>
+        </div>
+      {%- endif -%}
+      
+      {%- if block.settings.picto_3_enabled -%}
+        <div class="pack-picto-item">
+          <div class="pack-picto-item__icon">
+            {%- if block.settings.picto_3_image != blank -%}
+              {{ block.settings.picto_3_image | image_url: width: 48 | image_tag }}
+            {%- else -%}
+              {{ block.settings.picto_3_icon | default: '↩️' }}
+            {%- endif -%}
+          </div>
+          <span class="pack-picto-item__text">{{ block.settings.picto_3_text | default: 'Retours gratuits' }}</span>
+        </div>
+      {%- endif -%}
+      
+      {%- if block.settings.picto_4_enabled -%}
+        <div class="pack-picto-item">
+          <div class="pack-picto-item__icon">
+            {%- if block.settings.picto_4_image != blank -%}
+              {{ block.settings.picto_4_image | image_url: width: 48 | image_tag }}
+            {%- else -%}
+              {{ block.settings.picto_4_icon | default: '⭐' }}
+            {%- endif -%}
+          </div>
+          <span class="pack-picto-item__text">{{ block.settings.picto_4_text | default: 'Qualité premium' }}</span>
+        </div>
+      {%- endif -%}
+      
+      {%- if block.settings.picto_5_enabled -%}
+        <div class="pack-picto-item">
+          <div class="pack-picto-item__icon">
+            {%- if block.settings.picto_5_image != blank -%}
+              {{ block.settings.picto_5_image | image_url: width: 48 | image_tag }}
+            {%- else -%}
+              {{ block.settings.picto_5_icon | default: '🎁' }}
+            {%- endif -%}
+          </div>
+          <span class="pack-picto-item__text">{{ block.settings.picto_5_text | default: 'Cadeau offert' }}</span>
+        </div>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+
+  {% comment %} === COUNTDOWN TIMER v2 - STYLE IMAGE === {% endcomment %}
+  {%- if show_countdown -%}
+    <div class="pack-countdown-v2" id="packCountdownV2-{{ section.id }}"
+         data-days="{{ countdown_days }}"
+         data-hours="{{ countdown_hours }}"
+         data-minutes="{{ countdown_minutes }}"
+         data-seconds="{{ countdown_seconds }}">
+      
+      <div class="pack-countdown-v2__badge" style="background: var(--countdown-badge-bg); color: var(--countdown-badge-text);">
+        <span class="pack-countdown-v2__badge-emoji">{{ block.settings.countdown_badge_emoji | default: '🔥' }}</span>
+        {{ block.settings.countdown_badge_label | default: 'OFFRE FLASH' }}
+      </div>
+
+      <div class="pack-countdown-v2__timer">
+        {% if countdown_days > 0 %}
+        <div class="pack-countdown-v2__block">
+          <div class="pack-countdown-v2__number" id="countdownDays-{{ section.id }}">{{ countdown_days | default: 0 | prepend: '00' | slice: -2, 2 }}</div>
+          <div class="pack-countdown-v2__label">{{ block.settings.countdown_label_days | default: 'JOURS' }}</div>
+        </div>
+        <div class="pack-countdown-v2__separator">:</div>
+        {% endif %}
+
+        <div class="pack-countdown-v2__block">
+          <div class="pack-countdown-v2__number" id="countdownHours-{{ section.id }}">{{ countdown_hours | default: 0 | prepend: '00' | slice: -2, 2 }}</div>
+          <div class="pack-countdown-v2__label">{{ block.settings.countdown_label_hours | default: 'HEURES' }}</div>
+        </div>
+        <div class="pack-countdown-v2__separator">:</div>
+
+        <div class="pack-countdown-v2__block">
+          <div class="pack-countdown-v2__number" id="countdownMinutes-{{ section.id }}">{{ countdown_minutes | default: 0 | prepend: '00' | slice: -2, 2 }}</div>
+          <div class="pack-countdown-v2__label">{{ block.settings.countdown_label_min | default: 'MIN' }}</div>
+        </div>
+        <div class="pack-countdown-v2__separator">:</div>
+
+        <div class="pack-countdown-v2__block">
+          <div class="pack-countdown-v2__number" id="countdownSeconds-{{ section.id }}">{{ countdown_seconds | default: 0 | prepend: '00' | slice: -2, 2 }}</div>
+          <div class="pack-countdown-v2__label">{{ block.settings.countdown_label_sec | default: 'SEC' }}</div>
+        </div>
+      </div>
+
+      <div class="pack-countdown-v2__subtext" style="color: var(--countdown-subtext-color);">
+        <span class="pack-countdown-v2__subtext-emoji">{{ block.settings.countdown_subtext_emoji | default: '✨' }}</span>
+        {{ block.settings.countdown_subtext_label | default: 'PRIX RÉDUIT SE TERMINE DANS' }}
+      </div>
+    </div>
+  {%- endif -%}
+
+  {%- if show_recent_sales -%}
+    <div class="pack-recent-sales">
+      <span class="pack-recent-sales__icon">🔥</span>
+      <span><span class="pack-recent-sales__count" id="packSalesCount-{{ section.id }}">{{ recent_sales_count }}</span> {{ recent_sales_text }}</span>
+    </div>
+  {%- endif -%}
+
+  {%- if show_progress_bar -%}
+    <div class="pack-progress">
+      <div class="pack-progress__header">
+        <span class="pack-progress__text">🎯 {{ progress_bar_text }}</span>
+        <span class="pack-progress__percent" id="packProgressPercent-{{ section.id }}">{{ progress_bar_percent }}%</span>
+      </div>
+      <div class="pack-progress__bar">
+        <div class="pack-progress__fill" id="packProgressFill-{{ section.id }}" style="width: {{ progress_bar_percent }}%;"></div>
+      </div>
+    </div>
+  {%- endif -%}
+
+  {%- assign show_urgency = true -%}
+  {%- if show_urgency -%}
+    <div class="pack-conversion__urgency">
+      <div class="urgency-dot"></div>
+      <span>{{ block.settings.urgency_text | default: '⚠️ Stock limité !' }} <strong id="packUrgencyCount-{{ section.id }}">{{ urgency_stock_initial }}</strong> {{ block.settings.urgency_suffix | default: 'articles restants' }}</span>
+      <div class="pack-urgency-bar">
+        <div class="pack-urgency-bar__fill" id="packUrgencyBar-{{ section.id }}" style="width: 100%;"></div>
+      </div>
+    </div>
+  {%- endif -%}
+
+  {%- comment -%} 👀 VIEWERS EN TEMPS RÉEL {%- endcomment -%}
+  {%- assign show_viewers = true -%}
+  {%- if show_viewers -%}
+    <div class="pack-conversion__viewers">
+      <span class="viewers-dot"></span>
+      <span>👀 <strong id="viewersCount-{{ section.id }}">{{ viewers_initial | default: 18 }}</strong> {{ block.settings.viewers_text | default: 'personnes regardent ce produit' }}</span>
+    </div>
+  {%- endif -%}
+
+  <form id="product-pack-form-{{ section.id }}" class="form" accept-charset="UTF-8">
+    <input type="hidden" name="id" id="pack-variant-id-{{ section.id }}" value="{{ product.selected_or_first_available_variant.id }}">
+    <input type="hidden" name="quantity" id="pack-quantity-input-{{ section.id }}" value="{{ block.settings.quantity0 | default: 1 }}">
+
+    {% comment %} === PACKS SIMPLES (0, 1, 2 uniquement - pack3 VIP est séparé) === {% endcomment %}
+    {%- unless use_multi_product_mode -%}
+
+      <div class="pack-conversion__wrapper">
+        
+        {% comment %} ═══════════════════════════════════════════════════════════════
+           POSITION 1
+        ═══════════════════════════════════════════════════════════════ {% endcomment %}
+        {% if pack0_position == 1 and block.settings.quantity0 != blank and block.settings.quantity0 != 0 and block.settings.title0 != blank %}
+          <div class="pack-conversion__card{% if default_selected_pack == 0 %} pack__selected{% endif %}" data-quantity="{{ block.settings.quantity0 }}" data-regular-price="{{ block.settings.price0 }}" data-compare-price="{{ block.settings.price_before0 }}" data-pack-index="0" onclick="selectPackLogic(this, '{{ section.id }}')">
+            {%- if block.settings.show_best_badge -%}<div class="pack-conversion__badge-best">{{ block.settings.best_offer_text | default: '⭐ MEILLEURE OFFRE' }}</div>{%- endif -%}
+            {%- if block.settings.badge_text_0 != blank -%}<div class="pack-tag pack-tag-0">{{ block.settings.badge_text_0 }}</div>{%- endif -%}
+            <div class="pack-conversion__radio"></div>
+            {%- if block.settings.image0 != blank -%}{{ block.settings.image0 | image_url: width: 100 | image_tag: loading: 'lazy', class: 'pack-conversion__image' }}{%- else -%}<div class="pack-conversion__image pack-conversion__image--emoji">📦</div>{%- endif -%}
+            <div class="pack-conversion__content"><h3 class="pack-conversion__title">{{ block.settings.title0 }}</h3>{%- if block.settings.disclaimer0 != blank -%}<p class="pack-conversion__subtitle">{{ block.settings.disclaimer0 }}</p>{%- endif -%}</div>
+            <div class="pack-conversion__prices">
+              <span class="pack-conversion__price">{% if currency_position == 'before' %}{{ currency_symbol }}{% endif %}{{ block.settings.price0 | remove: '$' | remove: '€' | remove: 'CAD' | remove: 'USD' | remove: 'EUR' | strip }}{% if currency_position == 'after' %} {{ currency_symbol }}{% endif %}</span>
+              {%- if block.settings.price_before0 != blank -%}
+                <span class="pack-conversion__price-compare">{% if currency_position == 'before' %}{{ currency_symbol }}{% endif %}{{ block.settings.price_before0 | remove: '$' | remove: '€' | remove: 'CAD' | remove: 'USD' | remove: 'EUR' | strip }}{% if currency_position == 'after' %} {{ currency_symbol }}{% endif %}</span>
+                {%- assign price0_clean = block.settings.price0 | remove: '$' | remove: '€' | remove: 'CAD' | remove: 'USD' | remove: 'EUR' | strip | replace: ',', '.' | times: 1.0 -%}
+                {%- assign before0_clean = block.settings.price_before0 | remove: '$' | remove: '€' | remove: 'CAD' | remove: 'USD' | remove: 'EUR' | strip | replace: ',', '.' | times: 1.0 -%}
+                {%- assign savings0 = before0_clean | minus: price0_clean -%}
+                {%- if savings0 > 0 -%}
+                  <span class="pack-conversion__savings-inline">
+                    <span class="pack-conversion__savings-inline-icon">
+                    </span>
+                    {{ block.settings.savings_prefix_label | default: 'Économisez' }} {% if currency_position == 'before' %}{{ currency_symbol }}{% endif %}{{ savings0 | round: 2 | replace: '.', ',' }}{% if currency_position == 'after' %}{{ currency_symbol }}{% endif %}
+                  </span>
+                {%- endif -%}
+              {%- endif -%}
+            </div>
+          </div>
+        {% endif %}
+        
+        {% if pack1_position == 1 and block.settings.quantity1 != blank and block.settings.quantity1 != 0 and block.settings.title1 != blank %}
+          <div class="pack-conversion__card{% if default_selected_pack == 1 %} pack__selected{% endif %}" data-quantity="{{ block.settings.quantity1 }}" data-regular-price="{{ block.settings.price1 }}" data-compare-price="{{ block.settings.price_before1 }}" data-pack-index="1" onclick="selectPackLogic(this, '{{ section.id }}')">
+            {%- if block.settings.show_badge_top_1 and block.settings.badge_top_1 != blank -%}<div class="pack-conversion__badge-best badge-popular">{{ block.settings.badge_top_1 }}</div>{%- endif -%}
+            {%- if block.settings.badge_text_1 != blank -%}<div class="pack-tag pack-tag-1">{{ block.settings.badge_text_1 }}</div>{%- endif -%}
+            <div class="pack-conversion__radio"></div>
+            {%- if block.settings.image1 != blank -%}{{ block.settings.image1 | image_url: width: 100 | image_tag: loading: 'lazy', class: 'pack-conversion__image' }}{%- else -%}<div class="pack-conversion__image pack-conversion__image--emoji">📦</div>{%- endif -%}
+            <div class="pack-conversion__content"><h3 class="pack-conversion__title">{{ block.settings.title1 }}</h3>{%- if block.settings.disclaimer1 != blank -%}<p class="pack-conversion__subtitle">{{ block.settings.disclaimer1 }}</p>{%- endif -%}</div>
+            <div class="pack-conversion__prices">
+              <span class="pack-conversion__price">{% if currency_position == 'before' %}{{ currency_symbol }}{% endif %}{{ block.settings.price1 | remove: '$' | remove: '€' | remove: 'CAD' | remove: 'USD' | remove: 'EUR' | strip }}{% if currency_position == 'after' %} {{ currency_symbol }}{% endif %}</span>
+              {%- if block.settings.price_before1 != blank -%}
+                <span class="pack-conversion__price-compare">{% if currency_position == 'before' %}{{ currency_symbol }}{% endif %}{{ block.settings.price_before1 | remove: '$' | remove: '€' | remove: 'CAD' | remove: 'USD' | remove: 'EUR' | strip }}{% if currency_position == 'after' %} {{ currency_symbol }}{% endif %}</span>
+                {%- assign price1_clean = block.settings.price1 | remove: '$' | remove: '€' | remove: 'CAD' | remove: 'USD' | remove: 'EUR' | strip | replace: ',', '.' | times: 1.0 -%}
+                {%- assign before1_clean = block.settings.price_before1 | remove: '$' | remove: '€' | remove: 'CAD' | remove: 'USD' | remove: 'EUR' | strip | replace: ',', '.' | times: 1.0 -%}
+                {%- assign savings1 = before1_clean | minus: price1_clean -%}
+                {%- if savings1 > 0 -%}
+                  <span class="pack-conversion__savings-inline">
+                    <span class="pack-conversion__savings-inline-icon"></span>
+                    {{ block.settings.savings_prefix_label | default: 'Économisez' }} {% if currency_position == 'before' %}{{ currency_symbol }}{% endif %}{{ savings1 | round: 2 | replace: '.', ',' }}{% if currency_position == 'after' %}{{ currency_symbol }}{% endif %}
+                  </span>
+                {%- endif -%}
+              {%- endif -%}
+            </div>
+          </div>
+        {% endif %}
+        
+        {% if pack2_position == 1 and block.settings.quantity2 != blank and block.settings.quantity2 != 0 and block.settings.title2 != blank %}
+          <div class="pack-conversion__card{% if default_selected_pack == 2 %} pack__selected{% endif %}" data-quantity="{{ block.settings.quantity2 }}" data-regular-price="{{ block.settings.price2 }}" data-compare-price="{{ block.settings.price_before2 }}" data-pack-index="2" onclick="selectPackLogic(this, '{{ section.id }}')">
+            {%- if block.settings.show_badge_top_2 and block.settings.badge_top_2 != blank -%}<div class="pack-conversion__badge-best badge-essai">{{ block.settings.badge_top_2 }}</div>{%- endif -%}
+            {%- if block.settings.badge_text_2 != blank -%}<div class="pack-tag pack-tag-2">{{ block.settings.badge_text_2 }}</div>{%- endif -%}
+            <div class="pack-conversion__radio"></div>
+            {%- if block.settings.image2 != blank -%}{{ block.settings.image2 | image_url: width: 100 | image_tag: loading: 'lazy', class: 'pack-conversion__image' }}{%- else -%}<div class="pack-conversion__image pack-conversion__image--emoji">📦</div>{%- endif -%}
+            <div class="pack-conversion__content"><h3 class="pack-conversion__title">{{ block.settings.title2 }}</h3>{%- if block.settings.disclaimer2 != blank -%}<p class="pack-conversion__subtitle">{{ block.settings.disclaimer2 }}</p>{%- endif -%}</div>
+            <div class="pack-conversion__prices">
+              <span class="pack-conversion__price">{% if currency_position == 'before' %}{{ currency_symbol }}{% endif %}{{ block.settings.price2 | remove: '$' | remove: '€' | remove: 'CAD' | remove: 'USD' | remove: 'EUR' | strip }}{% if currency_position == 'after' %} {{ currency_symbol }}{% endif %}</span>
+              {%- if block.settings.price_before2 != blank -%}
+                <span class="pack-conversion__price-compare">{% if currency_position == 'before' %}{{ currency_symbol }}{% endif %}{{ block.settings.price_before2 | remove: '$' | remove: '€' | remove: 'CAD' | remove: 'USD' | remove: 'EUR' | strip }}{% if currency_position == 'after' %} {{ currency_symbol }}{% endif %}</span>
+                {%- assign price2_clean = block.settings.price2 | remove: '$' | remove: '€' | remove: 'CAD' | remove: 'USD' | remove: 'EUR' | strip | replace: ',', '.' | times: 1.0 -%}
+                {%- assign before2_clean = block.settings.price_before2 | remove: '$' | remove: '€' | remove: 'CAD' | remove: 'USD' | remove: 'EUR' | strip | replace: ',', '.' | times: 1.0 -%}
+                {%- assign savings2 = before2_clean | minus: price2_clean -%}
+                {%- if savings2 > 0 -%}
+                  <span class="pack-conversion__savings-inline">
+                    <span class="pack-conversion__savings-inline-icon"></span>
+                    {{ block.settings.savings_prefix_label | default: 'Économisez' }} {% if currency_position == 'before' %}{{ currency_symbol }}{% endif %}{{ savings2 | round: 2 | replace: '.', ',' }}{% if currency_position == 'after' %}{{ currency_symbol }}{% endif %}
+                  </span>
+                {%- endif -%}
+              {%- endif -%}
+            </div>
+          </div>
+        {% endif %}
+
+        {% comment %} ═══════════════════════════════════════════════════════════════
+           POSITION 2
+        ═══════════════════════════════════════════════════════════════ {% endcomment %}
+        {% if pack0_position == 2 and block.settings.quantity0 != blank and block.settings.quantity0 != 0 and block.settings.title0 != blank %}
+          <div class="pack-conversion__card{% if default_selected_pack == 0 %} pack__selected{% endif %}" data-quantity="{{ block.settings.quantity0 }}" data-regular-price="{{ block.settings.price0 }}" data-compare-price="{{ block.settings.price_before0 }}" data-pack-index="0" onclick="selectPackLogic(this, '{{ section.id }}')">
+            {%- if block.settings.show_best_badge -%}<div class="pack-conversion__badge-best">{{ block.settings.best_offer_text | default: '⭐ MEILLEURE OFFRE' }}</div>{%- endif -%}
+            {%- if block.settings.badge_text_0 != blank -%}<div class="pack-tag pack-tag-0">{{ block.settings.badge_text_0 }}</div>{%- endif -%}
+            <div class="pack-conversion__radio"></div>
+            {%- if block.settings.image0 != blank -%}{{ block.settings.image0 | image_url: width: 100 | image_tag: loading: 'lazy', class: 'pack-conversion__image' }}{%- else -%}<div class="pack-conversion__image pack-conversion__image--emoji">📦</div>{%- endif -%}
+            <div class="pack-conversion__content"><h3 class="pack-conversion__title">{{ block.settings.title0 }}</h3>{%- if block.settings.disclaimer0 != blank -%}<p class="pack-conversion__subtitle">{{ block.settings.disclaimer0 }}</p>{%- endif -%}</div>
+            <div class="pack-conversion__prices">
+              <span class="pack-conversion__price">{% if currency_position == 'before' %}{{ currency_symbol }}{% endif %}{{ block.settings.price0 | remove: '$' | remove: '€' | remove: 'CAD' | remove: 'USD' | remove: 'EUR' | strip }}{% if currency_position == 'after' %} {{ currency_symbol }}{% endif %}</span>
+              {%- if block.settings.price_before0 != blank -%}
+                <span class="pack-conversion__price-compare">{% if currency_position == 'before' %}{{ currency_symbol }}{% endif %}{{ block.settings.price_before0 | remove: '$' | remove: '€' | remove: 'CAD' | remove: 'USD' | remove: 'EUR' | strip }}{% if currency_position == 'after' %} {{ currency_symbol }}{% endif %}</span>
+                {%- assign price0_clean = block.settings.price0 | remove: '$' | remove: '€' | remove: 'CAD' | remove: 'USD' | remove: 'EUR' | strip | replace: ',', '.' | times: 1.0 -%}
+                {%- assign before0_clean = block.settings.price_before0 | remove: '$' | remove: '€' | remove: 'CAD' | remove: 'USD' | remove: 'EUR' | strip | replace: ',', '.' | times: 1.0 -%}
+                {%- assign savings0 = before0_clean | minus: price0_clean -%}
+                {%- if savings0 > 0 -%}
+                  <span class="pack-conversion__savings-inline">
+                    <span class="pack-conversion__savings-inline-icon"></span>
+                    {{ block.settings.savings_prefix_label | default: 'Économisez' }} {% if currency_position == 'before' %}{{ currency_symbol }}{% endif %}{{ savings0 | round: 2 | replace: '.', ',' }}{% if currency_position == 'after' %}{{ currency_symbol }}{% endif %}
+                  </span>
+                {%- endif -%}
+              {%- endif -%}
+            </div>
+          </div>
+        {% endif %}
+        
+        {% if pack1_position == 2 and block.settings.quantity1 != blank and block.settings.quantity1 != 0 and block.settings.title1 != blank %}
+          <div class="pack-conversion__card{% if default_selected_pack == 1 %} pack__selected{% endif %}" data-quantity="{{ block.settings.quantity1 }}" data-regular-price="{{ block.settings.price1 }}" data-compare-price="{{ block.settings.price_before1 }}" data-pack-index="1" onclick="selectPackLogic(this, '{{ section.id }}')">
+            {%- if block.settings.show_badge_top_1 and block.settings.badge_top_1 != blank -%}<div class="pack-conversion__badge-best badge-popular">{{ block.settings.badge_top_1 }}</div>{%- endif -%}
+            {%- if block.settings.badge_text_1 != blank -%}<div class="pack-tag pack-tag-1">{{ block.settings.badge_text_1 }}</div>{%- endif -%}
+            <div class="pack-conversion__radio"></div>
+            {%- if block.settings.image1 != blank -%}{{ block.settings.image1 | image_url: width: 100 | image_tag: loading: 'lazy', class: 'pack-conversion__image' }}{%- else -%}<div class="pack-conversion__image pack-conversion__image--emoji">📦</div>{%- endif -%}
+            <div class="pack-conversion__content"><h3 class="pack-conversion__title">{{ block.settings.title1 }}</h3>{%- if block.settings.disclaimer1 != blank -%}<p class="pack-conversion__subtitle">{{ block.settings.disclaimer1 }}</p>{%- endif -%}</div>
+            <div class="pack-conversion__prices">
+              <span class="pack-conversion__price">{% if currency_position == 'before' %}{{ currency_symbol }}{% endif %}{{ block.settings.price1 | remove: '$' | remove: '€' | remove: 'CAD' | remove: 'USD' | remove: 'EUR' | strip }}{% if currency_position == 'after' %} {{ currency_symbol }}{% endif %}</span>
+              {%- if block.settings.price_before1 != blank -%}
+                <span class="pack-conversion__price-compare">{% if currency_position == 'before' %}{{ currency_symbol }}{% endif %}{{ block.settings.price_before1 | remove: '$' | remove: '€' | remove: 'CAD' | remove: 'USD' | remove: 'EUR' | strip }}{% if currency_position == 'after' %} {{ currency_symbol }}{% endif %}</span>
+                {%- assign price1_clean = block.settings.price1 | remove: '$' | remove: '€' | remove: 'CAD' | remove: 'USD' | remove: 'EUR' | strip | replace: ',', '.' | times: 1.0 -%}
+                {%- assign before1_clean = block.settings.price_before1 | remove: '$' | remove: '€' | remove: 'CAD' | remove: 'USD' | remove: 'EUR' | strip | replace: ',', '.' | times: 1.0 -%}
+                {%- assign savings1 = before1_clean | minus: price1_clean -%}
+                {%- if savings1 > 0 -%}
+                  <span class="pack-conversion__savings-inline">
+                    <span class="pack-conversion__savings-inline-icon"></span>
+                    {{ block.settings.savings_prefix_label | default: 'Économisez' }} {% if currency_position == 'before' %}{{ currency_symbol }}{% endif %}{{ savings1 | round: 2 | replace: '.', ',' }}{% if currency_position == 'after' %}{{ currency_symbol }}{% endif %}
+                  </span>
+                {%- endif -%}
+              {%- endif -%}
+            </div>
+          </div>
+        {% endif %}
+        
+        {% if pack2_position == 2 and block.settings.quantity2 != blank and block.settings.quantity2 != 0 and block.settings.title2 != blank %}
+          <div class="pack-conversion__card{% if default_selected_pack == 2 %} pack__selected{% endif %}" data-quantity="{{ block.settings.quantity2 }}" data-regular-price="{{ block.settings.price2 }}" data-compare-price="{{ block.settings.price_before2 }}" data-pack-index="2" onclick="selectPackLogic(this, '{{ section.id }}')">
+            {%- if block.settings.show_badge_top_2 and block.settings.badge_top_2 != blank -%}<div class="pack-conversion__badge-best badge-essai">{{ block.settings.badge_top_2 }}</div>{%- endif -%}
+            {%- if block.settings.badge_text_2 != blank -%}<div class="pack-tag pack-tag-2">{{ block.settings.badge_text_2 }}</div>{%- endif -%}
+            <div class="pack-conversion__radio"></div>
+            {%- if block.settings.image2 != blank -%}{{ block.settings.image2 | image_url: width: 100 | image_tag: loading: 'lazy', class: 'pack-conversion__image' }}{%- else -%}<div class="pack-conversion__image pack-conversion__image--emoji">📦</div>{%- endif -%}
+            <div class="pack-conversion__content"><h3 class="pack-conversion__title">{{ block.settings.title2 }}</h3>{%- if block.settings.disclaimer2 != blank -%}<p class="pack-conversion__subtitle">{{ block.settings.disclaimer2 }}</p>{%- endif -%}</div>
+            <div class="pack-conversion__prices">
+              <span class="pack-conversion__price">{% if currency_position == 'before' %}{{ currency_symbol }}{% endif %}{{ block.settings.price2 | remove: '$' | remove: '€' | remove: 'CAD' | remove: 'USD' | remove: 'EUR' | strip }}{% if currency_position == 'after' %} {{ currency_symbol }}{% endif %}</span>
+              {%- if block.settings.price_before2 != blank -%}
+                <span class="pack-conversion__price-compare">{% if currency_position == 'before' %}{{ currency_symbol }}{% endif %}{{ block.settings.price_before2 | remove: '$' | remove: '€' | remove: 'CAD' | remove: 'USD' | remove: 'EUR' | strip }}{% if currency_position == 'after' %} {{ currency_symbol }}{% endif %}</span>
+                {%- assign price2_clean = block.settings.price2 | remove: '$' | remove: '€' | remove: 'CAD' | remove: 'USD' | remove: 'EUR' | strip | replace: ',', '.' | times: 1.0 -%}
+                {%- assign before2_clean = block.settings.price_before2 | remove: '$' | remove: '€' | remove: 'CAD' | remove: 'USD' | remove: 'EUR' | strip | replace: ',', '.' | times: 1.0 -%}
+                {%- assign savings2 = before2_clean | minus: price2_clean -%}
+                {%- if savings2 > 0 -%}
+                  <span class="pack-conversion__savings-inline">
+                    <span class="pack-conversion__savings-inline-icon"></span>
+                    {{ block.settings.savings_prefix_label | default: 'Économisez' }} {% if currency_position == 'before' %}{{ currency_symbol }}{% endif %}{{ savings2 | round: 2 | replace: '.', ',' }}{% if currency_position == 'after' %}{{ currency_symbol }}{% endif %}
+                  </span>
+                {%- endif -%}
+              {%- endif -%}
+            </div>
+          </div>
+        {% endif %}
+
+        {% comment %} ═══════════════════════════════════════════════════════════════
+           POSITION 3
+        ═══════════════════════════════════════════════════════════════ {% endcomment %}
+        {% if pack0_position == 3 and block.settings.quantity0 != blank and block.settings.quantity0 != 0 and block.settings.title0 != blank %}
+          <div class="pack-conversion__card{% if default_selected_pack == 0 %} pack__selected{% endif %}" data-quantity="{{ block.settings.quantity0 }}" data-regular-price="{{ block.settings.price0 }}" data-compare-price="{{ block.settings.price_before0 }}" data-pack-index="0" onclick="selectPackLogic(this, '{{ section.id }}')">
+            {%- if block.settings.show_best_badge -%}<div class="pack-conversion__badge-best">{{ block.settings.best_offer_text | default: '⭐ MEILLEURE OFFRE' }}</div>{%- endif -%}
+            {%- if block.settings.badge_text_0 != blank -%}<div class="pack-tag pack-tag-0">{{ block.settings.badge_text_0 }}</div>{%- endif -%}
+            <div class="pack-conversion__radio"></div>
+            {%- if block.settings.image0 != blank -%}{{ block.settings.image0 | image_url: width: 100 | image_tag: loading: 'lazy', class: 'pack-conversion__image' }}{%- else -%}<div class="pack-conversion__image pack-conversion__image--emoji">📦</div>{%- endif -%}
+            <div class="pack-conversion__content"><h3 class="pack-conversion__title">{{ block.settings.title0 }}</h3>{%- if block.settings.disclaimer0 != blank -%}<p class="pack-conversion__subtitle">{{ block.settings.disclaimer0 }}</p>{%- endif -%}</div>
+            <div class="pack-conversion__prices">
+              <span class="pack-conversion__price">{% if currency_position == 'before' %}{{ currency_symbol }}{% endif %}{{ block.settings.price0 | remove: '$' | remove: '€' | remove: 'CAD' | remove: 'USD' | remove: 'EUR' | strip }}{% if currency_position == 'after' %} {{ currency_symbol }}{% endif %}</span>
+              {%- if block.settings.price_before0 != blank -%}
+                <span class="pack-conversion__price-compare">{% if currency_position == 'before' %}{{ currency_symbol }}{% endif %}{{ block.settings.price_before0 | remove: '$' | remove: '€' | remove: 'CAD' | remove: 'USD' | remove: 'EUR' | strip }}{% if currency_position == 'after' %} {{ currency_symbol }}{% endif %}</span>
+                {%- assign price0_clean = block.settings.price0 | remove: '$' | remove: '€' | remove: 'CAD' | remove: 'USD' | remove: 'EUR' | strip | replace: ',', '.' | times: 1.0 -%}
+                {%- assign before0_clean = block.settings.price_before0 | remove: '$' | remove: '€' | remove: 'CAD' | remove: 'USD' | remove: 'EUR' | strip | replace: ',', '.' | times: 1.0 -%}
+                {%- assign savings0 = before0_clean | minus: price0_clean -%}
+                {%- if savings0 > 0 -%}
+                  <span class="pack-conversion__savings-inline">
+                    <span class="pack-conversion__savings-inline-icon"></span>
+                    {{ block.settings.savings_prefix_label | default: 'Économisez' }} {% if currency_position == 'before' %}{{ currency_symbol }}{% endif %}{{ savings0 | round: 2 | replace: '.', ',' }}{% if currency_position == 'after' %}{{ currency_symbol }}{% endif %}
+                  </span>
+                {%- endif -%}
+              {%- endif -%}
+            </div>
+          </div>
+        {% endif %}
+        
+        {% if pack1_position == 3 and block.settings.quantity1 != blank and block.settings.quantity1 != 0 and block.settings.title1 != blank %}
+          <div class="pack-conversion__card{% if default_selected_pack == 1 %} pack__selected{% endif %}" data-quantity="{{ block.settings.quantity1 }}" data-regular-price="{{ block.settings.price1 }}" data-compare-price="{{ block.settings.price_before1 }}" data-pack-index="1" onclick="selectPackLogic(this, '{{ section.id }}')">
+            {%- if block.settings.show_badge_top_1 and block.settings.badge_top_1 != blank -%}<div class="pack-conversion__badge-best badge-popular">{{ block.settings.badge_top_1 }}</div>{%- endif -%}
+            {%- if block.settings.badge_text_1 != blank -%}<div class="pack-tag pack-tag-1">{{ block.settings.badge_text_1 }}</div>{%- endif -%}
+            <div class="pack-conversion__radio"></div>
+            {%- if block.settings.image1 != blank -%}{{ block.settings.image1 | image_url: width: 100 | image_tag: loading: 'lazy', class: 'pack-conversion__image' }}{%- else -%}<div class="pack-conversion__image pack-conversion__image--emoji">📦</div>{%- endif -%}
+            <div class="pack-conversion__content"><h3 class="pack-conversion__title">{{ block.settings.title1 }}</h3>{%- if block.settings.disclaimer1 != blank -%}<p class="pack-conversion__subtitle">{{ block.settings.disclaimer1 }}</p>{%- endif -%}</div>
+            <div class="pack-conversion__prices">
+              <span class="pack-conversion__price">{% if currency_position == 'before' %}{{ currency_symbol }}{% endif %}{{ block.settings.price1 | remove: '$' | remove: '€' | remove: 'CAD' | remove: 'USD' | remove: 'EUR' | strip }}{% if currency_position == 'after' %} {{ currency_symbol }}{% endif %}</span>
+              {%- if block.settings.price_before1 != blank -%}
+                <span class="pack-conversion__price-compare">{% if currency_position == 'before' %}{{ currency_symbol }}{% endif %}{{ block.settings.price_before1 | remove: '$' | remove: '€' | remove: 'CAD' | remove: 'USD' | remove: 'EUR' | strip }}{% if currency_position == 'after' %} {{ currency_symbol }}{% endif %}</span>
+                {%- assign price1_clean = block.settings.price1 | remove: '$' | remove: '€' | remove: 'CAD' | remove: 'USD' | remove: 'EUR' | strip | replace: ',', '.' | times: 1.0 -%}
+                {%- assign before1_clean = block.settings.price_before1 | remove: '$' | remove: '€' | remove: 'CAD' | remove: 'USD' | remove: 'EUR' | strip | replace: ',', '.' | times: 1.0 -%}
+                {%- assign savings1 = before1_clean | minus: price1_clean -%}
+                {%- if savings1 > 0 -%}
+                  <span class="pack-conversion__savings-inline">
+                    <span class="pack-conversion__savings-inline-icon"></span>
+                    {{ block.settings.savings_prefix_label | default: 'Économisez' }} {% if currency_position == 'before' %}{{ currency_symbol }}{% endif %}{{ savings1 | round: 2 | replace: '.', ',' }}{% if currency_position == 'after' %}{{ currency_symbol }}{% endif %}
+                  </span>
+                {%- endif -%}
+              {%- endif -%}
+            </div>
+          </div>
+        {% endif %}
+        
+        {% if pack2_position == 3 and block.settings.quantity2 != blank and block.settings.quantity2 != 0 and block.settings.title2 != blank %}
+          <div class="pack-conversion__card{% if default_selected_pack == 2 %} pack__selected{% endif %}" data-quantity="{{ block.settings.quantity2 }}" data-regular-price="{{ block.settings.price2 }}" data-compare-price="{{ block.settings.price_before2 }}" data-pack-index="2" onclick="selectPackLogic(this, '{{ section.id }}')">
+            {%- if block.settings.show_badge_top_2 and block.settings.badge_top_2 != blank -%}<div class="pack-conversion__badge-best badge-essai">{{ block.settings.badge_top_2 }}</div>{%- endif -%}
+            {%- if block.settings.badge_text_2 != blank -%}<div class="pack-tag pack-tag-2">{{ block.settings.badge_text_2 }}</div>{%- endif -%}
+            <div class="pack-conversion__radio"></div>
+            {%- if block.settings.image2 != blank -%}{{ block.settings.image2 | image_url: width: 100 | image_tag: loading: 'lazy', class: 'pack-conversion__image' }}{%- else -%}<div class="pack-conversion__image pack-conversion__image--emoji">📦</div>{%- endif -%}
+            <div class="pack-conversion__content"><h3 class="pack-conversion__title">{{ block.settings.title2 }}</h3>{%- if block.settings.disclaimer2 != blank -%}<p class="pack-conversion__subtitle">{{ block.settings.disclaimer2 }}</p>{%- endif -%}</div>
+            <div class="pack-conversion__prices">
+              <span class="pack-conversion__price">{% if currency_position == 'before' %}{{ currency_symbol }}{% endif %}{{ block.settings.price2 | remove: '$' | remove: '€' | remove: 'CAD' | remove: 'USD' | remove: 'EUR' | strip }}{% if currency_position == 'after' %} {{ currency_symbol }}{% endif %}</span>
+              {%- if block.settings.price_before2 != blank -%}
+                <span class="pack-conversion__price-compare">{% if currency_position == 'before' %}{{ currency_symbol }}{% endif %}{{ block.settings.price_before2 | remove: '$' | remove: '€' | remove: 'CAD' | remove: 'USD' | remove: 'EUR' | strip }}{% if currency_position == 'after' %} {{ currency_symbol }}{% endif %}</span>
+                {%- assign price2_clean = block.settings.price2 | remove: '$' | remove: '€' | remove: 'CAD' | remove: 'USD' | remove: 'EUR' | strip | replace: ',', '.' | times: 1.0 -%}
+                {%- assign before2_clean = block.settings.price_before2 | remove: '$' | remove: '€' | remove: 'CAD' | remove: 'USD' | remove: 'EUR' | strip | replace: ',', '.' | times: 1.0 -%}
+                {%- assign savings2 = before2_clean | minus: price2_clean -%}
+                {%- if savings2 > 0 -%}
+                  <span class="pack-conversion__savings-inline">
+                    <span class="pack-conversion__savings-inline-icon"></span>
+                    {{ block.settings.savings_prefix_label | default: 'Économisez' }} {% if currency_position == 'before' %}{{ currency_symbol }}{% endif %}{{ savings2 | round: 2 | replace: '.', ',' }}{% if currency_position == 'after' %}{{ currency_symbol }}{% endif %}
+                  </span>
+                {%- endif -%}
+              {%- endif -%}
+            </div>
+          </div>
+        {% endif %}
+
+      </div>
+    {%- endunless -%}
+    {% comment %} === PACK MULTI-PRODUITS === {% endcomment %}
+    {%- assign multi_blocks = section.blocks | where: 'type', 'pack_multi_product' -%}
+    {%- if multi_blocks.size > 0 -%}
+      <div class="pack-multi-wrapper" id="pack-multi-wrapper-{{ section.id }}">
+        {%- for multi_block in multi_blocks -%}
+          {%- if multi_block.settings.enabled -%}
+            <div class="pack-multi-card {% if multi_block.settings.is_default_selected %}pack-multi--selected{% endif %}"
+                 data-pack-multi-index="{{ forloop.index0 }}"
+                 data-price="{{ multi_block.settings.pack_price }}"
+                 data-compare-price="{{ multi_block.settings.pack_compare_price }}"
+                 data-variant-id="{{ multi_block.settings.variant_id }}"
+                 data-quantity="{{ multi_block.settings.quantity | default: 1 }}"
+                 onclick="selectMultiPackLogic(this, '{{ section.id }}')"
+                 {{ multi_block.shopify_attributes }}>
+              
+              {%- if multi_block.settings.show_top_badge and multi_block.settings.top_badge_text != blank -%}
+                <div class="pack-multi-card__top-badge" style="background: {{ multi_block.settings.top_badge_bg | default: '#1f2937' }}; color: {{ multi_block.settings.top_badge_text_color | default: '#ffffff' }};">
+                  {{ multi_block.settings.top_badge_text }}
+                </div>
+              {%- endif -%}
+
+              <div class="pack-multi-card__header">
+                <div class="pack-multi-card__radio"></div>
+                
+                <div class="pack-multi-card__info">
+                  <h3 class="pack-multi-card__title">{{ multi_block.settings.pack_title | default: 'Pack Multi-Produits' }}</h3>
+                  {%- if multi_block.settings.pack_subtitle != blank -%}
+                    <p class="pack-multi-card__subtitle">{{ multi_block.settings.pack_subtitle }}</p>
+                  {%- endif -%}
+                </div>
+
+                <div class="pack-multi-card__pricing">
+                  {%- if multi_block.settings.show_savings_badge -%}
+                    {%- if multi_block.settings.savings_auto -%}
+                      {%- assign price_num = multi_block.settings.pack_price | remove: '€' | remove: '$' | remove: ' ' | replace: ',', '.' | times: 1.0 -%}
+                      {%- assign compare_num = multi_block.settings.pack_compare_price | remove: '€' | remove: '$' | remove: ' ' | replace: ',', '.' | times: 1.0 -%}
+                      {%- assign savings = compare_num | minus: price_num -%}
+                      {%- if savings > 0 -%}
+                        <div class="pack-multi-card__savings-badge" style="background: {{ multi_block.settings.savings_badge_bg | default: '#10b981' }}; color: {{ multi_block.settings.savings_badge_text | default: '#ffffff' }};">
+                          Économisez {% if currency_position == 'before' %}{{ currency_symbol }}{% endif %}{{ savings | round: 2 | replace: '.', ',' }}{% if currency_position == 'after' %} {{ currency_symbol }}{% endif %}
+                        </div>
+                      {%- endif -%}
+                    {%- else -%}
+                      <div class="pack-multi-card__savings-badge" style="background: {{ multi_block.settings.savings_badge_bg | default: '#10b981' }}; color: {{ multi_block.settings.savings_badge_text | default: '#ffffff' }};">
+                        Économisez {{ multi_block.settings.savings_manual }}
+                      </div>
+                    {%- endif -%}
+                  {%- endif -%}
+                  
+                  <div class="pack-multi-card__price-row">
+                    <span class="pack-multi-card__price">{% if currency_position == 'before' %}{{ currency_symbol }}{% endif %}{{ multi_block.settings.pack_price | remove: '$' | remove: '€' | remove: 'CAD' | remove: 'USD' | remove: 'EUR' | strip }}{% if currency_position == 'after' %} {{ currency_symbol }}{% endif %}</span>
+                    {%- if multi_block.settings.pack_compare_price != blank -%}
+                      <span class="pack-multi-card__price-compare">{% if currency_position == 'before' %}{{ currency_symbol }}{% endif %}{{ multi_block.settings.pack_compare_price | remove: '$' | remove: '€' | remove: 'CAD' | remove: 'USD' | remove: 'EUR' | strip }}{% if currency_position == 'after' %} {{ currency_symbol }}{% endif %}</span>
+                    {%- endif -%}
+                  </div>
+                </div>
+              </div>
+
+              <div class="pack-multi-card__expanded">
+                {%- if multi_block.settings.show_section_title -%}
+                  <div class="pack-multi-card__section-title">
+                    {{ multi_block.settings.section_title | default: '✨ VOTRE RITUEL COMPLET ✨' }}
+                  </div>
+                {%- endif -%}
+
+                {%- if multi_block.settings.show_products_section -%}
+                  <div class="pack-multi-card__products">
+                    {%- if multi_block.settings.product1_enabled and multi_block.settings.product1_image != blank -%}
+                      <div class="pack-multi-card__product">
+                        {%- if multi_block.settings.product1_product != blank -%}
+                          <a href="{{ multi_block.settings.product1_product.url }}" class="pack-multi-card__product-image" onclick="event.stopPropagation();">
+                            {{ multi_block.settings.product1_image | image_url: width: 160 | image_tag: loading: 'lazy' }}
+                          </a>
+                        {%- else -%}
+                          <div class="pack-multi-card__product-image">
+                            {{ multi_block.settings.product1_image | image_url: width: 160 | image_tag: loading: 'lazy' }}
+                          </div>
+                        {%- endif -%}
+                        {%- if multi_block.settings.show_product_titles -%}
+                          <div class="pack-multi-card__product-title">{{ multi_block.settings.product1_title }}</div>
+                        {%- endif -%}
+                        {%- if multi_block.settings.show_product_prices and multi_block.settings.product1_price != blank -%}
+                          <div class="pack-multi-card__product-price">{% if currency_position == 'before' %}{{ currency_symbol }}{% endif %}{{ multi_block.settings.product1_price | remove: '$' | remove: '€' | strip }}{% if currency_position == 'after' %} {{ currency_symbol }}{% endif %}</div>
+                        {%- endif -%}
+                      </div>
+                    {%- endif -%}
+
+                    {%- if multi_block.settings.product2_enabled and multi_block.settings.product2_image != blank and multi_block.settings.show_connectors -%}
+                      <div class="pack-multi-card__connector">
+                        <span class="pack-multi-card__connector-icon">{{ multi_block.settings.connector_text | default: '+' }}</span>
+                      </div>
+                    {%- endif -%}
+
+                    {%- if multi_block.settings.product2_enabled and multi_block.settings.product2_image != blank -%}
+                      <div class="pack-multi-card__product">
+                        {%- if multi_block.settings.product2_product != blank -%}
+                          <a href="{{ multi_block.settings.product2_product.url }}" class="pack-multi-card__product-image" onclick="event.stopPropagation();">
+                            {{ multi_block.settings.product2_image | image_url: width: 160 | image_tag: loading: 'lazy' }}
+                          </a>
+                        {%- else -%}
+                          <div class="pack-multi-card__product-image">
+                            {{ multi_block.settings.product2_image | image_url: width: 160 | image_tag: loading: 'lazy' }}
+                          </div>
+                        {%- endif -%}
+                        {%- if multi_block.settings.show_product_titles -%}
+                          <div class="pack-multi-card__product-title">{{ multi_block.settings.product2_title }}</div>
+                        {%- endif -%}
+                        {%- if multi_block.settings.show_product_prices and multi_block.settings.product2_price != blank -%}
+                          <div class="pack-multi-card__product-price">{% if currency_position == 'before' %}{{ currency_symbol }}{% endif %}{{ multi_block.settings.product2_price | remove: '$' | remove: '€' | strip }}{% if currency_position == 'after' %} {{ currency_symbol }}{% endif %}</div>
+                        {%- endif -%}
+                      </div>
+                    {%- endif -%}
+
+                    {%- if multi_block.settings.product3_enabled and multi_block.settings.product3_image != blank and multi_block.settings.show_connectors -%}
+                      <div class="pack-multi-card__connector">
+                        <span class="pack-multi-card__connector-icon">{{ multi_block.settings.connector_text | default: '+' }}</span>
+                      </div>
+                    {%- endif -%}
+
+                    {%- if multi_block.settings.product3_enabled and multi_block.settings.product3_image != blank -%}
+                      <div class="pack-multi-card__product">
+                        {%- if multi_block.settings.product3_product != blank -%}
+                          <a href="{{ multi_block.settings.product3_product.url }}" class="pack-multi-card__product-image" onclick="event.stopPropagation();">
+                            {{ multi_block.settings.product3_image | image_url: width: 160 | image_tag: loading: 'lazy' }}
+                          </a>
+                        {%- else -%}
+                          <div class="pack-multi-card__product-image">
+                            {{ multi_block.settings.product3_image | image_url: width: 160 | image_tag: loading: 'lazy' }}
+                          </div>
+                        {%- endif -%}
+                        {%- if multi_block.settings.show_product_titles -%}
+                          <div class="pack-multi-card__product-title">{{ multi_block.settings.product3_title }}</div>
+                        {%- endif -%}
+                        {%- if multi_block.settings.show_product_prices and multi_block.settings.product3_price != blank -%}
+                          <div class="pack-multi-card__product-price">{% if currency_position == 'before' %}{{ currency_symbol }}{% endif %}{{ multi_block.settings.product3_price | remove: '$' | remove: '€' | strip }}{% if currency_position == 'after' %} {{ currency_symbol }}{% endif %}</div>
+                        {%- endif -%}
+                      </div>
+                    {%- endif -%}
+
+                    {%- if multi_block.settings.product4_enabled and multi_block.settings.product4_image != blank and multi_block.settings.show_connectors -%}
+                      <div class="pack-multi-card__connector">
+                        <span class="pack-multi-card__connector-icon">{{ multi_block.settings.connector_text | default: '+' }}</span>
+                      </div>
+                    {%- endif -%}
+
+                    {%- if multi_block.settings.product4_enabled and multi_block.settings.product4_image != blank -%}
+                      <div class="pack-multi-card__product">
+                        {%- if multi_block.settings.product4_product != blank -%}
+                          <a href="{{ multi_block.settings.product4_product.url }}" class="pack-multi-card__product-image" onclick="event.stopPropagation();">
+                            {{ multi_block.settings.product4_image | image_url: width: 160 | image_tag: loading: 'lazy' }}
+                          </a>
+                        {%- else -%}
+                          <div class="pack-multi-card__product-image">
+                            {{ multi_block.settings.product4_image | image_url: width: 160 | image_tag: loading: 'lazy' }}
+                          </div>
+                        {%- endif -%}
+                        {%- if multi_block.settings.show_product_titles -%}
+                          <div class="pack-multi-card__product-title">{{ multi_block.settings.product4_title }}</div>
+                        {%- endif -%}
+                        {%- if multi_block.settings.show_product_prices and multi_block.settings.product4_price != blank -%}
+                          <div class="pack-multi-card__product-price">{% if currency_position == 'before' %}{{ currency_symbol }}{% endif %}{{ multi_block.settings.product4_price | remove: '$' | remove: '€' | strip }}{% if currency_position == 'after' %} {{ currency_symbol }}{% endif %}</div>
+                        {%- endif -%}
+                      </div>
+                    {%- endif -%}
+                  </div>
+                {%- endif -%}
+
+                {%- if multi_block.settings.show_synergy_block -%}
+                  <div class="pack-multi-card__synergy" style="background: {{ multi_block.settings.synergy_bg | default: '#f0fdf4' }}; border-color: {{ multi_block.settings.synergy_border | default: '#10b981' }};">
+                    <div class="pack-multi-card__synergy-title" style="color: {{ multi_block.settings.synergy_title_color | default: '#10b981' }};">
+                      {{ multi_block.settings.synergy_title | default: '⚡ SYNERGIE PARFAITE' }}
+                    </div>
+                    {%- if multi_block.settings.synergy_subtitle != blank -%}
+                      <div class="pack-multi-card__synergy-subtitle" style="color: {{ multi_block.settings.synergy_subtitle_color | default: '#065f46' }};">
+                        {{ multi_block.settings.synergy_subtitle }}
+                      </div>
+                    {%- endif -%}
+                  </div>
+                {%- endif -%}
+              </div>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    {% comment %} === OPTIONS === {% endcomment %}
+    {%- assign option_blocks = section.blocks | where: 'type', 'option' -%}
+    {%- if option_blocks.size > 0 -%}
+      <div class="pack-options-section">
+        <div class="pack-options-title">{{ block.settings.options_title | default: '🎁 Options & Cadeaux :' }}</div>
+        <div class="pack-options-list" id="pack-options-list-{{ section.id }}">
+          {%- for opt_block in option_blocks -%}
+            {%- assign opt_price = opt_block.settings.price | default: 0 -%}
+            {%- assign is_free = false -%}{%- if opt_price == 0 -%}{%- assign is_free = true -%}{%- endif -%}
+            <div class="option-item{% if opt_block.settings.active_default %} active{% endif %}" data-option-id="{{ opt_block.id }}" data-price="{{ opt_price }}" data-show-pack0="{{ opt_block.settings.show_for_pack0 | default: true }}" data-show-pack1="{{ opt_block.settings.show_for_pack1 | default: false }}" data-show-pack2="{{ opt_block.settings.show_for_pack2 | default: false }}" data-show-pack3="{{ opt_block.settings.show_for_pack3 | default: false }}" onclick="toggleOptionLogic(this, '{{ section.id }}')">
+              <div class="option-check"></div>
+              {%- if opt_block.settings.image != blank -%}{{ opt_block.settings.image | image_url: width: 60 | image_tag: class: 'option-img' }}{%- else -%}<div class="option-img option-img--emoji">{{ opt_block.settings.icon | default: '🎁' }}</div>{%- endif -%}
+              <div class="option-details">
+                <span class="option-title">{{ opt_block.settings.title }}</span>
+                <span class="option-price {% if is_free %}free{% else %}paid{% endif %}">
+                  {%- if is_free -%}OFFERT{%- else -%}+{% if currency_position == 'before' %}{{ currency_symbol }}{% endif %}{{ opt_price }}{% if currency_position == 'after' %} {{ currency_symbol }}{% endif %}{%- endif -%}
+                </span>
+              </div>
+              <input type="checkbox" name="properties[{{ opt_block.settings.title }}]" value="Oui" style="display:none;" {% if opt_block.settings.active_default %} checked{% endif %}>
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- endif -%}
+
+    {% comment %} ═══════════════════════════════════════════════════════════════════
+       👑 PACK VIP (3+2 OFFERTS) - JUSTE AVANT LE BOUTON AJOUTER AU PANIER
+    ═══════════════════════════════════════════════════════════════════ {% endcomment %}
+    {%- unless use_multi_product_mode -%}
+      {% if block.settings.quantity3 != blank and block.settings.quantity3 != 0 and block.settings.title3 != blank %}
+        <div class="pack-conversion__card{% if default_selected_pack == 3 %} pack__selected{% endif %}" data-quantity="{{ block.settings.quantity3 }}" data-regular-price="{{ block.settings.price3 }}" data-compare-price="{{ block.settings.price_before3 }}" data-pack-index="3" onclick="selectPackLogic(this, '{{ section.id }}')" style="margin-top: 16px; border-color: var(--badge-bg-3); border-width: 3px;">
+          {%- if block.settings.badge_top_3 != blank -%}<div class="pack-conversion__badge-best badge-vip" style="background: linear-gradient(135deg, var(--badge-bg-3) 0%, #a855f7 100%);">{{ block.settings.badge_top_3 }}</div>{%- endif -%}
+          {%- if block.settings.badge_text_3 != blank -%}<div class="pack-tag pack-tag-3">{{ block.settings.badge_text_3 }}</div>{%- endif -%}
+          <div class="pack-conversion__radio"></div>
+          {%- if block.settings.image3 != blank -%}{{ block.settings.image3 | image_url: width: 100 | image_tag: loading: 'lazy', class: 'pack-conversion__image' }}{%- else -%}<div class="pack-conversion__image pack-conversion__image--emoji">👑</div>{%- endif -%}
+          <div class="pack-conversion__content"><h3 class="pack-conversion__title">{{ block.settings.title3 }}</h3>{%- if block.settings.disclaimer3 != blank -%}<p class="pack-conversion__subtitle">{{ block.settings.disclaimer3 }}</p>{%- endif -%}</div>
+          <div class="pack-conversion__prices">
+            <span class="pack-conversion__price">{% if currency_position == 'before' %}{{ currency_symbol }}{% endif %}{{ block.settings.price3 | remove: '$' | remove: '€' | remove: 'CAD' | remove: 'USD' | remove: 'EUR' | strip }}{% if currency_position == 'after' %} {{ currency_symbol }}{% endif %}</span>
+            {%- if block.settings.price_before3 != blank -%}
+              <span class="pack-conversion__price-compare">{% if currency_position == 'before' %}{{ currency_symbol }}{% endif %}{{ block.settings.price_before3 | remove: '$' | remove: '€' | remove: 'CAD' | remove: 'USD' | remove: 'EUR' | strip }}{% if currency_position == 'after' %} {{ currency_symbol }}{% endif %}</span>
+              {%- assign price3_clean = block.settings.price3 | remove: '$' | remove: '€' | remove: 'CAD' | remove: 'USD' | remove: 'EUR' | strip | replace: ',', '.' | times: 1.0 -%}
+              {%- assign before3_clean = block.settings.price_before3 | remove: '$' | remove: '€' | remove: 'CAD' | remove: 'USD' | remove: 'EUR' | strip | replace: ',', '.' | times: 1.0 -%}
+              {%- assign savings3 = before3_clean | minus: price3_clean -%}
+              {%- if savings3 > 0 -%}
+                <span class="pack-conversion__savings-inline">
+                  <span class="pack-conversion__savings-inline-icon"></span>
+                  {{ block.settings.savings_prefix_label | default: 'Économisez' }} {% if currency_position == 'before' %}{{ currency_symbol }}{% endif %}{{ savings3 | round: 2 | replace: '.', ',' }}{% if currency_position == 'after' %}{{ currency_symbol }}{% endif %}
+                </span>
+              {%- endif -%}
+            {%- endif -%}
+          </div>
+        </div>
+      {% endif %}
+    {%- endunless -%}
+
+    {%- if block.settings.show_savings -%}
+      <div id="savings-box-{{ section.id }}" class="pack-savings-box" style="margin-top: 16px;">{{ block.settings.savings_prefix | default: '🎉 Économie :' }} <span id="savings-amount-{{ section.id }}">{% if currency_position == 'before' %}{{ currency_symbol }}{% endif %}0{% if currency_position == 'after' %} {{ currency_symbol }}{% endif %}</span></div>
+    {%- endif -%}
+        <button type="submit" name="add" class="pack-conversion__button{% if block.settings.btn_shine_effect %} shine-active{% endif %}" id="pack-add-btn-{{ section.id }}" style="margin-top: 16px;">
+      <span class="pack-conversion__button-text">{{ block.settings.button_text | default: 'AJOUTER AU PANIER' }}</span>
+      <span class="pack-conversion__button-sep"> - </span>
+      <span class="pack-conversion__button-price" id="packButtonPrice-{{ section.id }}">{% if currency_position == 'before' %}{{ currency_symbol }}{% endif %}{{ block.settings.price0 | remove: '$' | remove: '€' | remove: 'CAD' | remove: 'USD' | remove: 'EUR' | strip }}{% if currency_position == 'after' %} {{ currency_symbol }}{% endif %}</span>
+    </button>
+  </form>
+
+  {% comment %} === BADGES DE PAIEMENT === {% endcomment %}
+  {%- if block.settings.show_payment_badges -%}
+    {%- assign payment_badge_size = block.settings.payment_badges_size | default: 'medium' -%}
+    <div class="pack-payment-badges pack-payment-badges--{{ payment_badge_size }}">
+      {%- for type in shop.enabled_payment_types -%}
+        <span class="pack-payment-badge">{{ type | payment_type_svg_tag }}</span>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+
+  {% comment %} === TRUST BADGES v2 - GRILLE 2x2 AVEC TITRE + SOUS-TITRE === {% endcomment %}
+  {%- if show_trust_badges -%}
+    <div class="pack-conversion__trust-grid">
+      {%- if block.settings.show_trust_1 -%}
+        <div class="trust-grid-item">
+          <div class="trust-grid-item__icon">{{ block.settings.trust_1_icon | default: '🔒' }}</div>
+          <div class="trust-grid-item__text">
+            <span class="trust-grid-item__title">{{ block.settings.trust_1_title | default: 'Paiement Sécurisé' }}</span>
+            <span class="trust-grid-item__subtitle">{{ block.settings.trust_1_subtitle | default: 'SSL 256-bit crypté' }}</span>
+          </div>
+        </div>
+      {%- endif -%}
+
+      {%- if block.settings.show_trust_2 -%}
+        <div class="trust-grid-item">
+          <div class="trust-grid-item__icon">{{ block.settings.trust_2_icon | default: '🚚' }}</div>
+          <div class="trust-grid-item__text">
+            <span class="trust-grid-item__title">{{ block.settings.trust_2_title | default: 'Livraison Express' }}</span>
+            <span class="trust-grid-item__subtitle">{{ block.settings.trust_2_subtitle | default: '24-48h • Suivi inclus' }}</span>
+          </div>
+        </div>
+      {%- endif -%}
+
+      {%- if block.settings.show_trust_3 -%}
+        <div class="trust-grid-item">
+          <div class="trust-grid-item__icon">{{ block.settings.trust_3_icon | default: '🛡️' }}</div>
+          <div class="trust-grid-item__text">
+            <span class="trust-grid-item__title">{{ block.settings.trust_3_title | default: 'Garantie 30 Jours' }}</span>
+            <span class="trust-grid-item__subtitle">{{ block.settings.trust_3_subtitle | default: 'Satisfait ou remboursé' }}</span>
+          </div>
+        </div>
+      {%- endif -%}
+
+      {%- if block.settings.show_trust_4 -%}
+        <div class="trust-grid-item">
+          <div class="trust-grid-item__icon">{{ block.settings.trust_4_icon | default: '💬' }}</div>
+          <div class="trust-grid-item__text">
+            <span class="trust-grid-item__title">{{ block.settings.trust_4_title | default: 'Support Réactif' }}</span>
+            <span class="trust-grid-item__subtitle">{{ block.settings.trust_4_subtitle | default: 'Réponse sous 24h' }}</span>
+          </div>
+        </div>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+
+  {%- if show_guarantee_banner -%}
+    <div class="pack-guarantee">
+      <span class="pack-guarantee__icon">🛡️</span>
+      <span class="pack-guarantee__text">{{ guarantee_text }}</span>
+      <span class="pack-guarantee__badge">GARANTI</span>
+    </div>
+  {%- endif -%}
+
+  {% comment %} === REVIEW SLIDER === {% endcomment %}
+  {%- if show_review_slider -%}
+    {%- assign has_review_1 = false -%}
+    {%- assign has_review_2 = false -%}
+    {%- assign has_review_3 = false -%}
+    
+    {%- if block.settings.review_1_name != blank and block.settings.review_1_text != blank -%}
+      {%- assign has_review_1 = true -%}
+    {%- endif -%}
+    {%- if block.settings.review_2_name != blank and block.settings.review_2_text != blank -%}
+      {%- assign has_review_2 = true -%}
+    {%- endif -%}
+    {%- if block.settings.review_3_name != blank and block.settings.review_3_text != blank -%}
+      {%- assign has_review_3 = true -%}
+    {%- endif -%}
+    
+    {%- if has_review_1 or has_review_2 or has_review_3 -%}
+      <div class="pack-review-slider" id="packReviewSlider-{{ section.id }}" data-autoplay="{{ review_autoplay }}" data-speed="{{ review_speed }}">
+        
+        {%- if block.settings.review_slider_title != blank -%}
+          <div class="pack-review-slider__title">{{ block.settings.review_slider_title }}</div>
+        {%- endif -%}
+        
+        <div class="pack-review-slider__wrapper">
+          <div class="pack-review-slider__track" id="reviewTrack-{{ section.id }}">
+            
+            {%- if has_review_1 -%}
+              <div class="pack-review-slide" data-slide-index="0">
+                <div class="pack-review-card">
+                  <div class="pack-review-card__header">
+                    {%- if block.settings.review_1_image != blank -%}
+                      {{ block.settings.review_1_image | image_url: width: 96 | image_tag: class: 'pack-review-card__avatar', loading: 'lazy' }}
+                    {%- else -%}
+                      <div class="pack-review-card__avatar-placeholder">{{ block.settings.review_1_name | slice: 0 | upcase }}</div>
+                    {%- endif -%}
+                    <div class="pack-review-card__info">
+                      <p class="pack-review-card__name">{{ block.settings.review_1_name }}</p>
+                      {%- if block.settings.review_1_verified -%}
+                        <span class="pack-review-card__verified">✓ Achat vérifié</span>
+                      {%- endif -%}
+                    </div>
+                  </div>
+                  <div class="pack-review-card__stars">
+                    {%- assign rating_1 = block.settings.review_1_rating | default: 5 | round -%}
+                    {%- for i in (1..5) -%}
+                      {%- if i <= rating_1 -%}
+                        <span class="pack-review-card__star">★</span>
+                      {%- else -%}
+                        <span class="pack-review-card__star empty">★</span>
+                      {%- endif -%}
+                    {%- endfor -%}
+                  </div>
+                  <p class="pack-review-card__text">"{{ block.settings.review_1_text }}"</p>
+                </div>
+              </div>
+            {%- endif -%}
+            
+            {%- if has_review_2 -%}
+              <div class="pack-review-slide" data-slide-index="1">
+                <div class="pack-review-card">
+                  <div class="pack-review-card__header">
+                    {%- if block.settings.review_2_image != blank -%}
+                      {{ block.settings.review_2_image | image_url: width: 96 | image_tag: class: 'pack-review-card__avatar', loading: 'lazy' }}
+                    {%- else -%}
+                      <div class="pack-review-card__avatar-placeholder">{{ block.settings.review_2_name | slice: 0 | upcase }}</div>
+                    {%- endif -%}
+                    <div class="pack-review-card__info">
+                      <p class="pack-review-card__name">{{ block.settings.review_2_name }}</p>
+                      {%- if block.settings.review_2_verified -%}
+                        <span class="pack-review-card__verified">✓ Achat vérifié</span>
+                      {%- endif -%}
+                    </div>
+                  </div>
+                  <div class="pack-review-card__stars">
+                    {%- assign rating_2 = block.settings.review_2_rating | default: 5 | round -%}
+                    {%- for i in (1..5) -%}
+                      {%- if i <= rating_2 -%}
+                        <span class="pack-review-card__star">★</span>
+                      {%- else -%}
+                        <span class="pack-review-card__star empty">★</span>
+                      {%- endif -%}
+                    {%- endfor -%}
+                  </div>
+                  <p class="pack-review-card__text">"{{ block.settings.review_2_text }}"</p>
+                </div>
+              </div>
+            {%- endif -%}
+            
+            {%- if has_review_3 -%}
+              <div class="pack-review-slide" data-slide-index="2">
+                <div class="pack-review-card">
+                  <div class="pack-review-card__header">
+                    {%- if block.settings.review_3_image != blank -%}
+                      {{ block.settings.review_3_image | image_url: width: 96 | image_tag: class: 'pack-review-card__avatar', loading: 'lazy' }}
+                    {%- else -%}
+                      <div class="pack-review-card__avatar-placeholder">{{ block.settings.review_3_name | slice: 0 | upcase }}</div>
+                    {%- endif -%}
+                    <div class="pack-review-card__info">
+                      <p class="pack-review-card__name">{{ block.settings.review_3_name }}</p>
+                      {%- if block.settings.review_3_verified -%}
+                        <span class="pack-review-card__verified">✓ Achat vérifié</span>
+                      {%- endif -%}
+                    </div>
+                  </div>
+                  <div class="pack-review-card__stars">
+                    {%- assign rating_3 = block.settings.review_3_rating | default: 5 | round -%}
+                    {%- for i in (1..5) -%}
+                      {%- if i <= rating_3 -%}
+                        <span class="pack-review-card__star">★</span>
+                      {%- else -%}
+                        <span class="pack-review-card__star empty">★</span>
+                      {%- endif -%}
+                    {%- endfor -%}
+                  </div>
+                  <p class="pack-review-card__text">"{{ block.settings.review_3_text }}"</p>
+                </div>
+              </div>
+            {%- endif -%}
+            
+          </div>
+        </div>
+        
+        <div class="pack-review-slider__dots" id="reviewDots-{{ section.id }}">
+          {%- if has_review_1 -%}<span class="pack-review-slider__dot active" data-dot-index="0"></span>{%- endif -%}
+          {%- if has_review_2 -%}<span class="pack-review-slider__dot" data-dot-index="1"></span>{%- endif -%}
+          {%- if has_review_3 -%}<span class="pack-review-slider__dot" data-dot-index="2"></span>{%- endif -%}
+        </div>
+      </div>
+    {%- endif -%}
+  {%- endif -%}
+
+{% comment %} ========================================
+   BLOC CODE PROMO v7.7.0 - COPIE SIMPLE
+======================================== {% endcomment %}
+
+{%- assign promo_code_value = block.settings.promo_code | strip -%}
+{%- assign promo_percent_value = block.settings.promo_percent | default: 0 -%}
+{%- assign promo_enabled_value = block.settings.promo_enabled -%}
+
+{%- if promo_enabled_value and promo_code_value != blank and promo_percent_value > 0 -%}
+  {%- assign promo_code_upper = promo_code_value | upcase -%}
+  
+  <style>
+    .pack-promo-copy {
+      background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%);
+      border: 2px solid #ec4899;
+      border-radius: 12px;
+      padding: 12px 16px;
+      margin: 14px 0;
+      font-family: var(--pack-font, 'Poppins', sans-serif);
+      transition: all 0.3s ease;
+    }
+    .pack-promo-copy.copied {
+      background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+      border-color: #10b981;
+    }
+    .pack-promo-copy__content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .pack-promo-copy__left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .pack-promo-copy__icon { font-size: 18px; }
+    .pack-promo-copy__code {
+      background: #ffffff;
+      border: 2px dashed #ec4899;
+      border-radius: 6px;
+      padding: 6px 12px;
+      font-size: 14px;
+      font-weight: 800;
+      color: #be185d;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      user-select: all;
+    }
+    .pack-promo-copy.copied .pack-promo-copy__code {
+      border-color: #10b981;
+      color: #059669;
+      background: #ecfdf5;
+    }
+    .pack-promo-copy__discount {
+      background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
+      color: #ffffff;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .pack-promo-copy.copied .pack-promo-copy__discount {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    }
+    .pack-promo-copy__switch {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .pack-promo-copy__label {
+      font-size: 11px;
+      font-weight: 700;
+      color: #9ca3af;
+      text-transform: uppercase;
+      transition: all 0.2s ease;
+    }
+    .pack-promo-copy__label.active { color: #10b981; }
+    .pack-promo-copy__toggle {
+      position: relative;
+      width: 48px;
+      height: 26px;
+      background: #e5e7eb;
+      border-radius: 13px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: none;
+      padding: 0;
+    }
+    .pack-promo-copy__toggle.on {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    }
+    .pack-promo-copy__toggle::after {
+      content: '';
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 20px;
+      height: 20px;
+      background: #ffffff;
+      border-radius: 50%;
+      transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    .pack-promo-copy__toggle.on::after { left: 25px; }
+    .pack-promo-copy__success {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      margin-top: 10px;
+      padding: 12px 14px;
+      background: #d1fae5;
+      border: 1px solid #10b981;
+      border-radius: 8px;
+      text-align: center;
+      animation: promoCopyFadeIn 0.4s ease;
+    }
+    .pack-promo-copy__success.visible { display: flex; }
+    .pack-promo-copy__success-main {
+      font-size: 13px;
+      font-weight: 700;
+      color: #059669;
+    }
+    .pack-promo-copy__success-hint {
+      font-size: 11px;
+      color: #065f46;
+      line-height: 1.4;
+    }
+    .pack-promo-copy__success-hint strong {
+      color: #047857;
+    }
+    @keyframes promoCopyFadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .promo-copy-toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: #fff;
+      padding: 16px 24px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 600;
+      z-index: 999999;
+      opacity: 0;
+      transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      box-shadow: 0 10px 40px rgba(16, 185, 129, 0.4);
+      text-align: center;
+      max-width: 90%;
+      line-height: 1.4;
+    }
+    .promo-copy-toast.visible {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+    @media (max-width: 480px) {
+      .pack-promo-copy { padding: 10px 12px; }
+      .pack-promo-copy__content { flex-wrap: wrap; gap: 8px; }
+      .pack-promo-copy__code { font-size: 13px; padding: 5px 10px; }
+    }
+  </style>
+  
+  <div class="pack-promo-copy" id="promoCopy-{{ section.id }}" data-code="{{ promo_code_upper }}" data-percent="{{ promo_percent_value }}">
+    <div class="pack-promo-copy__content">
+      <div class="pack-promo-copy__left">
+        <span class="pack-promo-copy__icon">🎁</span>
+        <span class="pack-promo-copy__code" id="promoCodeText-{{ section.id }}" title="Cliquez pour copier">{{ promo_code_upper }}</span>
+        <span class="pack-promo-copy__discount">-{{ promo_percent_value }}%</span>
+      </div>
+      <div class="pack-promo-copy__switch">
+        <span class="pack-promo-copy__label" id="promoLabelOff-{{ section.id }}">OFF</span>
+        <button type="button" class="pack-promo-copy__toggle" id="promoToggle-{{ section.id }}" aria-label="Copier le code promo"></button>
+        <span class="pack-promo-copy__label" id="promoLabelOn-{{ section.id }}" style="opacity: 0.4;">ON</span>
+      </div>
+    </div>
+    <div class="pack-promo-copy__success" id="promoSuccess-{{ section.id }}">
+      <div class="pack-promo-copy__success-main">✅ Code <strong>{{ promo_code_upper }}</strong> copié !</div>
+      <div class="pack-promo-copy__success-hint">
+        👉 Collez ce code dans le champ <strong>"Code promo"</strong> lors du <strong>paiement (checkout)</strong> pour bénéficier de <strong>-{{ promo_percent_value }}%</strong> de réduction.
+      </div>
+    </div>
+  </div>
+{%- endif -%}
+
+</product-pack>
+
+{% comment %} === 3D MODEL SCRIPT === {% endcomment %}
+{%- if first_3d_model -%}
+  <script src="{{ 'product-model.js' | asset_url }}" defer></script>
+{%- endif -%}
+
+<script>
+/* ══════════════════════════════════════════════════════════════════
+   PACK CONVERSION v7.8.0 - JAVASCRIPT COMPLET
+   ✅ TIMER V2 + SAVINGS INLINE + TRUST GRID V2
+══════════════════════════════════════════════════════════════════ */
+
+window.formatPriceWithCurrency = function(price, symbol, position) {
+  const formattedPrice = price.toFixed(2).replace('.', ',');
+  return position === 'before' ? symbol + formattedPrice : formattedPrice + ' ' + symbol;
+};
+
+window.parsePackPrice = function(priceStr) {
+  if (!priceStr) return 0;
+  return parseFloat(priceStr.replace(/[^0-9.,]/g, "").replace(",", ".")) || 0;
+};
+
+window.selectPackLogic = function(card, sectionId) {
+  const packSection = card.closest("product-pack");
+  packSection.querySelectorAll(".pack-conversion__card").forEach(c => c.classList.remove("pack__selected"));
+  card.classList.add("pack__selected");
+  
+  window.packState[sectionId].basePrice = parsePackPrice(card.dataset.regularPrice);
+  window.packState[sectionId].comparePrice = parsePackPrice(card.dataset.comparePrice);
+  window.packState[sectionId].currentPackIndex = parseInt(card.dataset.packIndex) || 0;
+  
+  const quantityInput = document.getElementById("pack-quantity-input-" + sectionId);
+  if (quantityInput) quantityInput.value = card.dataset.quantity;
+  
+  updatePackOptionsVisibility(sectionId);
+  recalculatePackOptionsPrice(sectionId);
+  updatePackTotal(sectionId);
+};
+
+window.selectMultiPackLogic = function(card, sectionId) {
+  const wrapper = card.closest(".pack-multi-wrapper");
+  wrapper.querySelectorAll(".pack-multi-card").forEach(c => c.classList.remove("pack-multi--selected"));
+  card.classList.add("pack-multi--selected");
+  
+  window.packState[sectionId].basePrice = parsePackPrice(card.dataset.price);
+  window.packState[sectionId].comparePrice = parsePackPrice(card.dataset.comparePrice);
+  window.packState[sectionId].currentPackIndex = parseInt(card.dataset.packMultiIndex) || 0;
+  
+  const variantId = card.dataset.variantId;
+  if (variantId) {
+    const variantInput = document.getElementById("pack-variant-id-" + sectionId);
+    if (variantInput) variantInput.value = variantId;
+  }
+  
+  const quantityInput = document.getElementById("pack-quantity-input-" + sectionId);
+  if (quantityInput) quantityInput.value = card.dataset.quantity || 1;
+  
+  updatePackTotal(sectionId);
+};
+
+window.toggleOptionLogic = function(optionEl, sectionId) {
+  if (optionEl.classList.contains("hidden-option")) return;
+  
+  const optPrice = parseFloat(optionEl.dataset.price) || 0;
+  const checkbox = optionEl.querySelector('input[type="checkbox"]');
+  
+  if (optionEl.classList.contains("active")) {
+    optionEl.classList.remove("active");
+    window.packState[sectionId].optionsPrice -= optPrice;
+    if (checkbox) { checkbox.checked = false; checkbox.disabled = true; }
+  } else {
+    optionEl.classList.add("active");
+    window.packState[sectionId].optionsPrice += optPrice;
+    if (checkbox) { checkbox.checked = true; checkbox.disabled = false; }
+  }
+  
+  updatePackTotal(sectionId);
+};
+
+window.updatePackOptionsVisibility = function(sectionId) {
+  const currentIndex = window.packState[sectionId].currentPackIndex;
+  const optionsList = document.getElementById("pack-options-list-" + sectionId);
+  if (!optionsList) return;
+  
+  optionsList.querySelectorAll(".option-item").forEach(opt => {
+    const showForPack = opt.dataset["showPack" + currentIndex];
+    if (showForPack === "true") {
+      opt.classList.remove("hidden-option");
+    } else {
+      opt.classList.add("hidden-option");
+      opt.classList.remove("active");
+      const cb = opt.querySelector('input[type="checkbox"]');
+      if (cb) { cb.checked = false; cb.disabled = true; }
+    }
+  });
+};
+
+window.recalculatePackOptionsPrice = function(sectionId) {
+  let total = 0;
+  const optionsList = document.getElementById("pack-options-list-" + sectionId);
+  if (optionsList) {
+    optionsList.querySelectorAll(".option-item.active:not(.hidden-option)").forEach(opt => {
+      total += parseFloat(opt.dataset.price) || 0;
+    });
+  }
+  window.packState[sectionId].optionsPrice = total;
+};
+
+window.updatePackTotal = function(sectionId) {
+  const state = window.packState[sectionId];
+  const totalPrice = state.basePrice + state.optionsPrice;
+  const symbol = state.currencySymbol;
+  const position = state.currencyPosition;
+  
+  const buttonPrice = document.getElementById("packButtonPrice-" + sectionId);
+  if (buttonPrice) {
+    buttonPrice.textContent = formatPriceWithCurrency(totalPrice, symbol, position);
+  }
+  
+  const savingsBox = document.getElementById("savings-box-" + sectionId);
+  const savingsAmount = document.getElementById("savings-amount-" + sectionId);
+  if (savingsBox && savingsAmount && state.comparePrice > 0) {
+    const savings = state.comparePrice - totalPrice;
+    if (savings > 0) {
+      savingsAmount.textContent = formatPriceWithCurrency(savings, symbol, position);
+      savingsBox.style.display = "block";
+    } else {
+      savingsBox.style.display = "none";
+    }
+  }
+};
+
+/* ══════════════════════════════════════════════════════════════════
+   🌟 REVIEW SLIDER
+══════════════════════════════════════════════════════════════════ */
+(function() {
+  const sectionId = '{{ section.id }}';
+  const slider = document.getElementById('packReviewSlider-' + sectionId);
+  if (!slider) return;
+  
+  const track = document.getElementById('reviewTrack-' + sectionId);
+  const dotsContainer = document.getElementById('reviewDots-' + sectionId);
+  const slides = track.querySelectorAll('.pack-review-slide');
+  const dots = dotsContainer.querySelectorAll('.pack-review-slider__dot');
+  
+  if (slides.length === 0) return;
+  
+  let currentIndex = 0;
+  const autoplay = slider.dataset.autoplay === 'true';
+  const speed = (parseInt(slider.dataset.speed) || 4) * 1000;
+  
+  function goToSlide(index) {
+    if (index < 0) index = slides.length - 1;
+    if (index >= slides.length) index = 0;
+    
+    currentIndex = index;
+    track.style.transform = 'translateX(-' + (currentIndex * 100) + '%)';
+    
+    dots.forEach((dot, i) => {
+      dot.classList.toggle('active', i === currentIndex);
+    });
+  }
+  
+  dots.forEach((dot, i) => {
+    dot.addEventListener('click', () => goToSlide(i));
+  });
+  
+  if (autoplay && slides.length > 1) {
+    setInterval(() => {
+      goToSlide(currentIndex + 1);
+    }, speed);
+  }
+  
+  let touchStartX = 0;
+  let touchEndX = 0;
+  
+  slider.addEventListener('touchstart', e => {
+    touchStartX = e.changedTouches[0].screenX;
+  }, { passive: true });
+  
+  slider.addEventListener('touchend', e => {
+    touchEndX = e.changedTouches[0].screenX;
+    if (touchStartX - touchEndX > 50) {
+      goToSlide(currentIndex + 1);
+    } else if (touchEndX - touchStartX > 50) {
+      goToSlide(currentIndex - 1);
+    }
+  }, { passive: true });
+})();
+
+/* ══════════════════════════════════════════════════════════════════
+   🎁 CODE PROMO v7.7.0 - COPIE SIMPLE
+══════════════════════════════════════════════════════════════════ */
+(function() {
+  var sectionId = '{{ section.id }}';
+  var container = document.getElementById('promoCopy-' + sectionId);
+  if (!container) return;
+  
+  var toggle = document.getElementById('promoToggle-' + sectionId);
+  var success = document.getElementById('promoSuccess-' + sectionId);
+  var codeText = document.getElementById('promoCodeText-' + sectionId);
+  var labelOff = document.getElementById('promoLabelOff-' + sectionId);
+  var labelOn = document.getElementById('promoLabelOn-' + sectionId);
+  
+  var code = container.dataset.code;
+  var percent = container.dataset.percent;
+  var isCopied = false;
+  
+  function copyCode() {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(code).then(function() {
+        showSuccess();
+      }).catch(function() {
+        fallbackCopy();
+      });
+    } else {
+      fallbackCopy();
+    }
+  }
+  
+  function fallbackCopy() {
+    var textarea = document.createElement('textarea');
+    textarea.value = code;
+    textarea.style.position = 'fixed';
+    textarea.style.left = '-9999px';
+    document.body.appendChild(textarea);
+    textarea.select();
+    try {
+      document.execCommand('copy');
+      showSuccess();
+    } catch(e) {
+      showToast('❌ Copiez manuellement: ' + code);
+    }
+    document.body.removeChild(textarea);
+  }
+  
+  function showSuccess() {
+    isCopied = true;
+    container.classList.add('copied');
+    toggle.classList.add('on');
+    success.classList.add('visible');
+    labelOff.style.opacity = '0.4';
+    labelOff.classList.remove('active');
+    labelOn.style.opacity = '1';
+    labelOn.classList.add('active');
+    
+    showToast('✅ Code <strong>' + code + '</strong> copié !<br><small>Collez-le au moment du paiement</small>');
+  }
+  
+  function hideSuccess() {
+    isCopied = false;
+    container.classList.remove('copied');
+    toggle.classList.remove('on');
+    success.classList.remove('visible');
+    labelOff.style.opacity = '1';
+    labelOff.classList.add('active');
+    labelOn.style.opacity = '0.4';
+    labelOn.classList.remove('active');
+  }
+  
+  function showToast(message) {
+    var existing = document.querySelector('.promo-copy-toast');
+    if (existing) existing.remove();
+    
+    var toast = document.createElement('div');
+    toast.className = 'promo-copy-toast';
+    toast.innerHTML = message;
+    document.body.appendChild(toast);
+    
+    requestAnimationFrame(function() {
+      toast.classList.add('visible');
+    });
+    
+    setTimeout(function() {
+      toast.classList.remove('visible');
+      setTimeout(function() { toast.remove(); }, 400);
+    }, 4000);
+  }
+  
+  toggle.addEventListener('click', function(e) {
+    e.preventDefault();
+    if (isCopied) {
+      hideSuccess();
+    } else {
+      copyCode();
+    }
+  });
+  
+  codeText.addEventListener('click', function(e) {
+    e.preventDefault();
+    copyCode();
+  });
+})();
+
+/* ══════════════════════════════════════════════════════════════════
+   ⏱️ COUNTDOWN TIMER v2
+══════════════════════════════════════════════════════════════════ */
+(function() {
+  const sectionId = '{{ section.id }}';
+  const countdownEl = document.getElementById('packCountdownV2-' + sectionId);
+  if (!countdownEl) return;
+  
+  const daysEl = document.getElementById('countdownDays-' + sectionId);
+  const hoursEl = document.getElementById('countdownHours-' + sectionId);
+  const minutesEl = document.getElementById('countdownMinutes-' + sectionId);
+  const secondsEl = document.getElementById('countdownSeconds-' + sectionId);
+  
+  let days = parseInt(countdownEl.dataset.days) || 0;
+  let hours = parseInt(countdownEl.dataset.hours) || 0;
+  let minutes = parseInt(countdownEl.dataset.minutes) || 0;
+  let seconds = parseInt(countdownEl.dataset.seconds) || 0;
+  
+  let totalSeconds = (days * 86400) + (hours * 3600) + (minutes * 60) + seconds;
+  
+  function updateCountdown() {
+    if (totalSeconds <= 0) {
+      countdownEl.style.display = 'none';
+      return;
+    }
+    
+    totalSeconds--;
+    
+    const d = Math.floor(totalSeconds / 86400);
+    const h = Math.floor((totalSeconds % 86400) / 3600);
+    const m = Math.floor((totalSeconds % 3600) / 60);
+    const s = totalSeconds % 60;
+    
+    if (daysEl) daysEl.textContent = String(d).padStart(2, '0');
+    if (hoursEl) hoursEl.textContent = String(h).padStart(2, '0');
+    if (minutesEl) minutesEl.textContent = String(m).padStart(2, '0');
+    if (secondsEl) secondsEl.textContent = String(s).padStart(2, '0');
+  }
+  
+  setInterval(updateCountdown, 1000);
+})();
+
+/* ══════════════════════════════════════════════════════════════════
+   📊 URGENCY & VIEWERS VARIATION
+══════════════════════════════════════════════════════════════════ */
+(function() {
+  const sectionId = '{{ section.id }}';
+  const packEl = document.querySelector('product-pack[data-section-id="' + sectionId + '"]');
+  if (!packEl) return;
+  
+  const urgencyCount = document.getElementById('packUrgencyCount-' + sectionId);
+  const urgencyBar = document.getElementById('packUrgencyBar-' + sectionId);
+  const viewersCount = document.getElementById('viewersCount-' + sectionId);
+  
+  const urgencyInitial = parseInt(packEl.dataset.urgencyInitial) || 12;
+  const urgencyMin = parseInt(packEl.dataset.urgencyMin) || 3;
+  const urgencyVariation = packEl.dataset.urgencyVariation === 'true';
+  const urgencyInterval = (parseInt(packEl.dataset.urgencyInterval) || 8) * 1000;
+  
+  const viewersInitial = parseInt(packEl.dataset.viewersInitial) || 18;
+  const viewersMin = parseInt(packEl.dataset.viewersMin) || 8;
+  const viewersMax = parseInt(packEl.dataset.viewersMax) || 35;
+  const viewersVariation = packEl.dataset.viewersVariation === 'true';
+  
+  let currentStock = urgencyInitial;
+  let currentViewers = viewersInitial;
+  
+  if (urgencyVariation && urgencyCount) {
+    setInterval(function() {
+      if (currentStock > urgencyMin && Math.random() > 0.5) {
+        currentStock--;
+        urgencyCount.textContent = currentStock;
+        
+        if (urgencyBar) {
+          const percent = (currentStock / urgencyInitial) * 100;
+          urgencyBar.style.width = percent + '%';
+        }
+      }
+    }, urgencyInterval);
+  }
+  
+  if (viewersVariation && viewersCount) {
+    setInterval(function() {
+      const change = Math.floor(Math.random() * 5) - 2;
+      currentViewers = Math.max(viewersMin, Math.min(viewersMax, currentViewers + change));
+      viewersCount.textContent = currentViewers;
+    }, 4000);
+  }
+})();
+
+/* ══════════════════════════════════════════════════════════════════
+   🚀 INITIALISATION
+══════════════════════════════════════════════════════════════════ */
+document.addEventListener('DOMContentLoaded', function() {
+  const sectionId = '{{ section.id }}';
+  const packEl = document.querySelector('product-pack[data-section-id="' + sectionId + '"]');
+  if (!packEl) return;
+  
+  window.packState = window.packState || {};
+  window.packState[sectionId] = {
+    basePrice: 0,
+    comparePrice: 0,
+    optionsPrice: 0,
+    currentPackIndex: parseInt(packEl.dataset.defaultPack) || 0,
+    currencySymbol: packEl.dataset.currencySymbol || '$',
+    currencyPosition: packEl.dataset.currencyPosition || 'before'
+  };
+  
+  const selectedCard = packEl.querySelector('.pack-conversion__card.pack__selected, .pack-multi-card.pack-multi--selected');
+  if (selectedCard) {
+    if (selectedCard.classList.contains('pack-multi-card')) {
+      window.packState[sectionId].basePrice = parsePackPrice(selectedCard.dataset.price);
+      window.packState[sectionId].comparePrice = parsePackPrice(selectedCard.dataset.comparePrice);
+    } else {
+      window.packState[sectionId].basePrice = parsePackPrice(selectedCard.dataset.regularPrice);
+      window.packState[sectionId].comparePrice = parsePackPrice(selectedCard.dataset.comparePrice);
+    }
+  }
+  
+  updatePackOptionsVisibility(sectionId);
+  recalculatePackOptionsPrice(sectionId);
+  updatePackTotal(sectionId);
+  
+  const form = document.getElementById('product-pack-form-' + sectionId);
+  if (form) {
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const addBtn = document.getElementById('pack-add-btn-' + sectionId);
+      if (addBtn) {
+        addBtn.disabled = true;
+        addBtn.classList.remove('shine-active');
+      }
+      
+      const formData = new FormData(form);
+
+      const data = {
+        id: formData.get('id'),
+        quantity: parseInt(formData.get('quantity')) || 1,
+        properties: {}
+      };
+
+      {% if product.metafields.custom.image_panier != blank %}
+      data.properties['_cart_image'] = '{{ product.metafields.custom.image_panier | img_url: "300x" }}';
+      {% endif %}
+      
+      form.querySelectorAll('input[type="checkbox"]:checked').forEach(cb => {
+        const name = cb.name.replace('properties[', '').replace(']', '');
+        data.properties[name] = cb.value;
+      });
+      
+      fetch('/cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      })
+      .then(response => {
+        if (!response.ok) throw new Error('Erreur ajout panier');
+        return response.json();
+      })
+      .then(() => {
+        document.dispatchEvent(new CustomEvent('cart:refresh'));
+        
+        const cartDrawer = document.querySelector('cart-drawer');
+        if (cartDrawer && typeof cartDrawer.open === 'function') {
+          cartDrawer.open();
+        } else {
+          const drawerToggle = document.querySelector('[data-cart-drawer-toggle], .js-drawer-open-cart');
+          if (drawerToggle) drawerToggle.click();
+        }
+      })
+      .catch(err => {
+        console.error('Erreur:', err);
+        alert('Erreur lors de l\'ajout au panier. Veuillez réessayer.');
+      })
+      .finally(() => {
+        if (addBtn) {
+          addBtn.disabled = false;
+          {% if block.settings.btn_shine_effect %}
+          addBtn.classList.add('shine-active');
+          {% endif %}
+        }
+      });
+    });
+  }
+});
+</script>

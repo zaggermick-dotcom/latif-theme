@@ -1,0 +1,346 @@
+{% comment %}
+  ╔══════════════════════════════════════════════════════════════════════════╗
+  ║  🚀 PERFORMANCE BOOSTER - Accélération Chargement Page                   ║
+  ║  Version: 2.0 | Compatible: Shopify 2.0+                                 ║
+  ║  Fonctionnalités:                                                        ║
+  ║  - Resource Hints (preconnect, prefetch, preload)                        ║
+  ║  - Critical CSS Inline                                                   ║
+  ║  - Lazy Loading Images                                                   ║
+  ║  - Script Deferring                                                      ║
+  ║  - Font Display Optimization                                             ║
+  ║  - LCP/FID/CLS Optimization                                              ║
+  ╚══════════════════════════════════════════════════════════════════════════╝
+{% endcomment %}
+
+{%- comment -%} === RESOURCE HINTS - Connexions anticipées === {%- endcomment -%}
+<link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
+<link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
+<link rel="preconnect" href="https://monorail-edge.shopifysvc.com" crossorigin>
+<link rel="dns-prefetch" href="https://cdn.shopify.com">
+<link rel="dns-prefetch" href="https://fonts.shopifycdn.com">
+<link rel="dns-prefetch" href="https://productreviews.shopifycdn.com">
+<link rel="dns-prefetch" href="https://cdn1.stamped.io">
+
+{%- comment -%} === PRELOAD CRITICAL RESOURCES === {%- endcomment -%}
+{%- if template contains 'product' -%}
+  {%- if product.featured_image -%}
+    <link rel="preload" as="image" href="{{ product.featured_image | image_url: width: 800 }}" fetchpriority="high">
+  {%- endif -%}
+{%- endif -%}
+
+{%- comment -%} === CRITICAL CSS - Styles critiques inline === {%- endcomment -%}
+<style id="critical-css">
+  /* Skeleton Loading - Évite le Layout Shift */
+  .skeleton-loader {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: skeleton-pulse 1.5s ease-in-out infinite;
+  }
+  @keyframes skeleton-pulse {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+  
+  /* Optimisation LCP - Conteneur principal */
+  .product__media-wrapper, .product-media-container {
+    content-visibility: auto;
+    contain-intrinsic-size: 0 500px;
+  }
+  
+  /* Font Display Optimization */
+  @font-face { font-display: swap !important; }
+  
+  /* Réduction CLS - Réserver l'espace images */
+  img:not([width]):not([height]) {
+    aspect-ratio: attr(width) / attr(height);
+  }
+  img[loading="lazy"] {
+    content-visibility: auto;
+  }
+  
+  /* Optimisation du rendu initial */
+  .page-transition { opacity: 1 !important; }
+  body { text-rendering: optimizeSpeed; }
+  
+  /* Hide FOUC */
+  .no-js { visibility: hidden; }
+  .js .no-js { display: none; }
+</style>
+
+{%- comment -%} === PERFORMANCE JAVASCRIPT === {%- endcomment -%}
+<script id="performance-booster-js">
+(function() {
+  'use strict';
+  
+  /* ═══════════════════════════════════════════════════════════════
+     1. LAZY LOADING NATIF + INTERSECTION OBSERVER
+  ═══════════════════════════════════════════════════════════════ */
+  function initLazyLoading() {
+    // Ajouter loading="lazy" à toutes les images below-the-fold
+    var images = document.querySelectorAll('img:not([loading])');
+    var viewportHeight = window.innerHeight;
+    
+    images.forEach(function(img) {
+      var rect = img.getBoundingClientRect();
+      // Images en dessous du viewport = lazy load
+      if (rect.top > viewportHeight * 1.5) {
+        img.setAttribute('loading', 'lazy');
+        img.setAttribute('decoding', 'async');
+      } else {
+        // Images above-the-fold = priorité haute
+        img.setAttribute('fetchpriority', 'high');
+        img.setAttribute('decoding', 'sync');
+      }
+    });
+    
+    // Intersection Observer pour les iframes (vidéos, etc.)
+    if ('IntersectionObserver' in window) {
+      var iframeObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            var iframe = entry.target;
+            if (iframe.dataset.src) {
+              iframe.src = iframe.dataset.src;
+              iframeObserver.unobserve(iframe);
+            }
+          }
+        });
+      }, { rootMargin: '200px' });
+      
+      document.querySelectorAll('iframe[data-src]').forEach(function(iframe) {
+        iframeObserver.observe(iframe);
+      });
+    }
+  }
+  
+  /* ═══════════════════════════════════════════════════════════════
+     2. DEFER NON-CRITICAL SCRIPTS
+  ═══════════════════════════════════════════════════════════════ */
+  function deferNonCriticalScripts() {
+    // Reporter l'exécution des scripts non-critiques
+    var nonCriticalSelectors = [
+      'script[src*="stamped"]',
+      'script[src*="klaviyo"]',
+      'script[src*="hotjar"]',
+      'script[src*="facebook"]',
+      'script[src*="tiktok"]',
+      'script[src*="snapchat"]',
+      'script[src*="pinterest"]'
+    ];
+    
+    nonCriticalSelectors.forEach(function(selector) {
+      document.querySelectorAll(selector).forEach(function(script) {
+        if (!script.defer && !script.async) {
+          script.defer = true;
+        }
+      });
+    });
+  }
+  
+  /* ═══════════════════════════════════════════════════════════════
+     3. PREFETCH NAVIGATION LINKS
+  ═══════════════════════════════════════════════════════════════ */
+  function initSmartPrefetch() {
+    if (!('IntersectionObserver' in window)) return;
+    
+    var prefetched = new Set();
+    var prefetchObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          var link = entry.target;
+          var href = link.href;
+          
+          if (href && 
+              href.startsWith(location.origin) && 
+              !prefetched.has(href) &&
+              !href.includes('/cart') &&
+              !href.includes('/checkout')) {
+            
+            var prefetchLink = document.createElement('link');
+            prefetchLink.rel = 'prefetch';
+            prefetchLink.href = href;
+            prefetchLink.as = 'document';
+            document.head.appendChild(prefetchLink);
+            prefetched.add(href);
+          }
+          prefetchObserver.unobserve(link);
+        }
+      });
+    }, { rootMargin: '100px' });
+    
+    // Observer uniquement les liens de navigation principaux
+    document.querySelectorAll('a[href^="/products/"], a[href^="/collections/"]').forEach(function(link) {
+      prefetchObserver.observe(link);
+    });
+  }
+  
+  /* ═══════════════════════════════════════════════════════════════
+     4. OPTIMIZE ANIMATIONS
+  ═══════════════════════════════════════════════════════════════ */
+  function optimizeAnimations() {
+    // Désactiver animations si préférence utilisateur
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.documentElement.style.setProperty('--animation-duration', '0.01ms');
+      return;
+    }
+    
+    // Utiliser GPU pour les animations
+    var animatedElements = document.querySelectorAll('[class*="animate"], [class*="fade"], [class*="slide"]');
+    animatedElements.forEach(function(el) {
+      el.style.willChange = 'transform, opacity';
+      el.style.transform = 'translateZ(0)';
+    });
+  }
+  
+  /* ═══════════════════════════════════════════════════════════════
+     5. IMAGE OPTIMIZATION
+  ═══════════════════════════════════════════════════════════════ */
+  function optimizeImages() {
+    // Convertir en WebP si supporté
+    var supportsWebP = false;
+    var webpTest = new Image();
+    webpTest.onload = webpTest.onerror = function() {
+      supportsWebP = webpTest.height === 2;
+      if (supportsWebP) {
+        document.documentElement.classList.add('webp');
+      }
+    };
+    webpTest.src = 'data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';
+    
+    // Optimiser les images produit
+    document.querySelectorAll('.product__media img, .product-media img').forEach(function(img) {
+      // Ajouter srcset pour responsive
+      if (img.src && img.src.includes('cdn.shopify.com') && !img.srcset) {
+        var baseSrc = img.src.split('?')[0];
+        img.srcset = baseSrc + '?width=400 400w, ' +
+                     baseSrc + '?width=600 600w, ' +
+                     baseSrc + '?width=800 800w, ' +
+                     baseSrc + '?width=1000 1000w';
+        img.sizes = '(max-width: 600px) 100vw, (max-width: 1000px) 50vw, 800px';
+      }
+    });
+  }
+  
+  /* ═══════════════════════════════════════════════════════════════
+     6. THIRD-PARTY SCRIPTS DELAY
+  ═══════════════════════════════════════════════════════════════ */
+  function delayThirdPartyScripts() {
+    var thirdPartyDelay = 3000; // 3 secondes après le chargement
+    
+    // Scripts à retarder
+    var delayedScripts = [
+      { src: 'klaviyo', delay: 2000 },
+      { src: 'stamped', delay: 2500 },
+      { src: 'hotjar', delay: 4000 },
+      { src: 'facebook', delay: 3000 },
+      { src: 'google-analytics', delay: 1500 }
+    ];
+    
+    // Intercepter et retarder
+    window.addEventListener('load', function() {
+      setTimeout(function() {
+        document.dispatchEvent(new CustomEvent('third-party-load'));
+      }, thirdPartyDelay);
+    });
+  }
+  
+  /* ═══════════════════════════════════════════════════════════════
+     7. FONT LOADING OPTIMIZATION  
+  ═══════════════════════════════════════════════════════════════ */
+  function optimizeFonts() {
+    // Précharger les polices critiques
+    if ('fonts' in document) {
+      document.fonts.ready.then(function() {
+        document.documentElement.classList.add('fonts-loaded');
+      });
+    }
+    
+    // Fallback pour anciennes navigateurs
+    setTimeout(function() {
+      document.documentElement.classList.add('fonts-loaded');
+    }, 3000);
+  }
+  
+  /* ═══════════════════════════════════════════════════════════════
+     8. MEMORY CLEANUP
+  ═══════════════════════════════════════════════════════════════ */
+  function cleanupMemory() {
+    // Nettoyer les observers quand on quitte la page
+    window.addEventListener('beforeunload', function() {
+      // Révoquer les object URLs
+      document.querySelectorAll('img[src^="blob:"]').forEach(function(img) {
+        URL.revokeObjectURL(img.src);
+      });
+    });
+  }
+  
+  /* ═══════════════════════════════════════════════════════════════
+     INITIALISATION
+  ═══════════════════════════════════════════════════════════════ */
+  // Exécuter dès que possible
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+  
+  function init() {
+    // Priorité haute - exécution immédiate
+    deferNonCriticalScripts();
+    optimizeFonts();
+    
+    // Priorité moyenne - après premier paint
+    requestAnimationFrame(function() {
+      initLazyLoading();
+      optimizeAnimations();
+    });
+    
+    // Priorité basse - après chargement complet
+    window.addEventListener('load', function() {
+      setTimeout(function() {
+        initSmartPrefetch();
+        optimizeImages();
+        cleanupMemory();
+      }, 100);
+    });
+    
+    delayThirdPartyScripts();
+    
+    // Marquer comme chargé
+    document.documentElement.classList.add('perf-optimized');
+    console.log('🚀 Performance Booster: Activé');
+  }
+})();
+</script>
+
+{%- comment -%} === LOADING INDICATOR ULTRA-LÉGER === {%- endcomment -%}
+<style id="page-loader-css">
+  .page-loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, #10b981, #059669, #10b981);
+    background-size: 200% 100%;
+    animation: loader-slide 1s ease-in-out infinite;
+    z-index: 99999;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+  }
+  .page-loader.loaded { opacity: 0; pointer-events: none; }
+  @keyframes loader-slide {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+</style>
+<div class="page-loader" id="pageLoader"></div>
+<script>
+  window.addEventListener('load', function() {
+    var loader = document.getElementById('pageLoader');
+    if (loader) {
+      setTimeout(function() { loader.classList.add('loaded'); }, 200);
+      setTimeout(function() { loader.remove(); }, 500);
+    }
+  });
+</script>

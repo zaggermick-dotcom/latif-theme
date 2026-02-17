@@ -1,0 +1,234 @@
+{% comment %}
+  ╔═══════════════════════════════════════════════════════════════════════╗
+  ║  🟠 PREMIUM ORANGE/GOLD COLOR PALETTE - LATIF SKIN                   ║
+  ║  Version corrigée - Préserve boutons, Trustpilot et icônes           ║
+  ╚═══════════════════════════════════════════════════════════════════════╝
+{% endcomment %}
+
+<style>
+  :root {
+    /* ══════════════════════════════════════════
+       🟠 PALETTE PREMIUM ORANGE/GOLD
+    ══════════════════════════════════════════ */
+    --premium-gold-light: #F5E6D3;
+    --premium-gold: #D4A574;
+    --premium-gold-dark: #B8860B;
+    --premium-gold-deep: #996515;
+    --premium-orange-luxury: #E8A857;
+    --premium-orange-vibrant: #F5A623;
+    --premium-copper: #C67C4E;
+    
+    /* NEUTRALS PREMIUM */
+    --premium-black-rich: #0D0D0D;
+    --premium-black-soft: #1A1A1A;
+    --premium-charcoal: #2D2D2D;
+    --premium-cream: #FDF8F3;
+    --premium-cream-dark: #F5EDE4;
+  }
+
+  /* ══════════════════════════════════════════
+     🚫 NE PAS MODIFIER - BOUTON AJOUTER AU PANIER
+     Garder la couleur d'origine (noir)
+  ══════════════════════════════════════════ */
+  /* Les boutons gardent leur style d'origine */
+
+  /* ══════════════════════════════════════════
+     🚫 NE PAS MODIFIER - TRUSTPILOT
+     Garder les étoiles vertes d'origine
+  ══════════════════════════════════════════ */
+  /* Trustpilot garde ses couleurs vertes */
+
+  /* ══════════════════════════════════════════
+     ICÔNES DE CONFIANCE - STYLE APERÇU
+     Fond gris clair, bordures grises, icônes colorées
+  ══════════════════════════════════════════ */
+  .trust-badges-grid,
+  .trust-badges-container,
+  [class*="trust-badge"] {
+    background: #F5F5F5 !important;
+    border: 1px solid #E0E0E0 !important;
+    border-radius: 8px !important;
+  }
+
+  /* Icône cadenas - Paiement sécurisé */
+  .trust-badge-payment svg,
+  .trust-badge-payment .icon,
+  [class*="secure"] svg {
+    color: #1A1A1A !important;
+    fill: #1A1A1A !important;
+  }
+
+  /* Icône camion - Livraison Express */
+  .trust-badge-shipping svg,
+  .trust-badge-shipping .icon,
+  [class*="delivery"] svg,
+  [class*="shipping"] svg {
+    color: #F5A623 !important;
+    fill: #F5A623 !important;
+  }
+
+  /* Icône bouclier - Garantie */
+  .trust-badge-guarantee svg,
+  .trust-badge-guarantee .icon,
+  [class*="guarantee"] svg,
+  [class*="refund"] svg {
+    color: #3B82F6 !important;
+    fill: #3B82F6 !important;
+  }
+
+  /* Icône bulle - Support */
+  .trust-badge-support svg,
+  .trust-badge-support .icon,
+  [class*="support"] svg,
+  [class*="chat"] svg {
+    color: #1A1A1A !important;
+    fill: #1A1A1A !important;
+  }
+
+  /* ══════════════════════════════════════════
+     UNIFORMISATION DES FONDS DE SECTIONS
+     Même couleur crème entre stories et bénéfices
+  ══════════════════════════════════════════ */
+  .stories-section,
+  [class*="stories"],
+  .benefices-premium,
+  [class*="benefices"],
+  .section-stories,
+  .stories-wrapper {
+    background: var(--premium-cream) !important;
+  }
+
+  /* Supprimer les couleurs de fond différentes */
+  .stories-section::before,
+  [class*="stories"]::before {
+    background: transparent !important;
+  }
+
+  /* ══════════════════════════════════════════
+     SÉLECTEUR DE PACKS - BORDURE OR SUBTILE
+  ══════════════════════════════════════════ */
+  .pack-card,
+  [class*="pack-option"],
+  .variant-card {
+    border: 2px solid var(--premium-gold-light) !important;
+    transition: all 0.3s ease !important;
+  }
+  
+  .pack-card:hover,
+  [class*="pack-option"]:hover {
+    border-color: var(--premium-gold) !important;
+    box-shadow: 0 4px 20px rgba(212, 165, 116, 0.2) !important;
+  }
+  
+  .pack-card.selected,
+  .pack-card.active,
+  [class*="pack-option"].selected {
+    border-color: var(--premium-orange-vibrant) !important;
+    background: linear-gradient(to bottom, rgba(253, 248, 243, 1), rgba(245, 230, 211, 0.3)) !important;
+  }
+
+  /* ══════════════════════════════════════════
+     BADGES VIP/POPULAIRE - OR PREMIUM
+  ══════════════════════════════════════════ */
+  .badge-vip,
+  .badge-popular,
+  [class*="badge-best"],
+  .pack-badge {
+    background: linear-gradient(135deg, var(--premium-gold) 0%, var(--premium-orange-luxury) 100%) !important;
+    color: var(--premium-black-rich) !important;
+    font-weight: 600 !important;
+  }
+
+  /* ══════════════════════════════════════════
+     PRIX - ACCENT OR
+  ══════════════════════════════════════════ */
+  .price-item--sale,
+  .price--sale,
+  .sale-price,
+  [class*="price-sale"] {
+    color: var(--premium-gold-dark) !important;
+    font-weight: 700 !important;
+  }
+
+  /* ══════════════════════════════════════════
+     BARRE D'URGENCE / COUNTDOWN
+  ══════════════════════════════════════════ */
+  .urgency-bar,
+  [class*="urgency-stock"],
+  .stock-warning {
+    background: linear-gradient(135deg, var(--premium-black-rich) 0%, var(--premium-charcoal) 100%) !important;
+    border: 2px solid var(--premium-gold) !important;
+    color: #FFFFFF !important;
+  }
+  
+  .urgency-bar strong,
+  [class*="urgency"] .count,
+  .urgency-count {
+    color: var(--premium-orange-vibrant) !important;
+  }
+
+  /* ══════════════════════════════════════════
+     VIEWER COUNT / SOCIAL PROOF
+  ══════════════════════════════════════════ */
+  .viewers-count,
+  [class*="viewers-live"],
+  .live-viewers {
+    background: var(--premium-cream) !important;
+    border-left: 3px solid var(--premium-orange-vibrant) !important;
+  }
+  
+  .viewers-count strong,
+  [class*="viewers"] .number {
+    color: var(--premium-orange-vibrant) !important;
+  }
+
+  /* ══════════════════════════════════════════
+     FORMULAIRES - FOCUS OR
+  ══════════════════════════════════════════ */
+  input:focus,
+  select:focus,
+  textarea:focus {
+    border-color: var(--premium-gold) !important;
+    box-shadow: 0 0 0 3px rgba(212, 165, 116, 0.2) !important;
+    outline: none !important;
+  }
+
+  /* ══════════════════════════════════════════
+     PROGRESS BARS - GRADIENT OR
+  ══════════════════════════════════════════ */
+  .progress-bar,
+  .urgency-progress-bar,
+  [class*="progress-fill"] {
+    background: linear-gradient(90deg, var(--premium-gold-dark) 0%, var(--premium-orange-vibrant) 100%) !important;
+  }
+
+  /* ══════════════════════════════════════════
+     SWIPER / CAROUSEL - DOTS OR
+  ══════════════════════════════════════════ */
+  .swiper-pagination-bullet-active,
+  .carousel-dot.active {
+    background: var(--premium-orange-vibrant) !important;
+  }
+
+  /* ══════════════════════════════════════════
+     SCROLLBAR PREMIUM (Webkit)
+  ══════════════════════════════════════════ */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--premium-cream);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, var(--premium-gold) 0%, var(--premium-orange-luxury) 100%);
+    border-radius: 4px;
+  }
+
+  /* ══════════════════════════════════════════
+     SELECTION TEXT - PREMIUM
+  ══════════════════════════════════════════ */
+  ::selection {
+    background: var(--premium-gold);
+    color: var(--premium-black-rich);
+  }
+</style>

@@ -1,0 +1,537 @@
+/* ============================================
+   🎯 PACK VARIANTS - DESIGN HAUTE CONVERSION
+   Fichier: assets/product-pack-variants.css
+   
+   Pour l'inclure dans ton thème, ajoute dans layout/theme.liquid:
+   {{ 'product-pack-variants.css' | asset_url | stylesheet_tag }}
+   ============================================ */
+
+/* ===========================================
+   🎨 VARIABLES DE COULEURS
+   =========================================== */
+.product-pack-wrapper {
+  --pack-accent: #2d5a27;
+  --pack-accent-light: #3d7a35;
+  --pack-accent-dark: #1e3d1a;
+  --pack-gold: #d4a853;
+  --pack-gold-light: #f0d78c;
+  --pack-success: #22c55e;
+  --pack-bg-card: #ffffff;
+  --pack-shadow-color: rgba(45, 90, 39, 0.15);
+  --pack-border-default: rgba(45, 90, 39, 0.12);
+  --pack-text-primary: #1a1a1a;
+  --pack-text-secondary: #666666;
+  --pack-text-muted: #999999;
+}
+
+/* ===========================================
+   📦 CONTENEUR PRINCIPAL
+   =========================================== */
+.product-pack-wrapper {
+  width: 100%;
+}
+
+.product-pack {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0 0 20px 0;
+}
+
+/* ===========================================
+   🃏 STYLE DES CARTES PACK
+   =========================================== */
+.product-pack__accordion {
+  position: relative;
+  background: var(--pack-bg-card);
+  border: 2px solid var(--pack-border-default);
+  border-radius: 14px;
+  padding: 14px 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.product-pack__accordion:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px var(--pack-shadow-color);
+  border-color: var(--pack-accent);
+}
+
+/* ===========================================
+   ✅ ÉTAT SÉLECTIONNÉ
+   =========================================== */
+.product-pack__accordion.active {
+  border-color: var(--pack-accent);
+  border-width: 2px;
+  background: linear-gradient(135deg, #f0f7ef 0%, #ffffff 100%);
+  box-shadow: 0 6px 20px var(--pack-shadow-color);
+}
+
+/* ===========================================
+   🏷️ BADGE ÉCONOMIES - CERCLE
+   =========================================== */
+.pack__savings {
+  position: absolute;
+  top: -8px;
+  right: 12px;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  color: white;
+  font-size: 11px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+  z-index: 10;
+  animation: savings-pop 0.4s ease-out;
+}
+
+.pack__savings--high {
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.4);
+}
+
+@keyframes savings-pop {
+  0% { transform: scale(0); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+/* ===========================================
+   ⭐ BADGE "MEILLEURE OFFRE"
+   =========================================== */
+.pack__badge {
+  position: absolute;
+  top: -10px;
+  left: 12px;
+  background: linear-gradient(135deg, var(--pack-gold) 0%, #e8b84a 100%);
+  color: #1a1a1a;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+  padding: 5px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+  z-index: 10;
+  box-shadow: 0 3px 10px rgba(212, 168, 83, 0.5);
+}
+
+/* ===========================================
+   🖼️ IMAGES DES PACKS
+   =========================================== */
+.pack__image {
+  width: 55px;
+  height: 55px;
+  object-fit: contain;
+  border-radius: 10px;
+  background: #f8f8f8;
+  padding: 6px;
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+}
+
+.product-pack__accordion:hover .pack__image {
+  transform: scale(1.05);
+}
+
+/* ===========================================
+   📝 CONTENU CENTRAL
+   =========================================== */
+.pack__content {
+  flex: 1;
+  min-width: 0;
+}
+
+.pack__title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--pack-text-primary);
+  margin: 0 0 2px 0;
+  line-height: 1.2;
+}
+
+.product-pack__accordion.active .pack__title {
+  color: var(--pack-accent);
+}
+
+.pack__subtitle {
+  font-size: 11px;
+  color: var(--pack-text-secondary);
+  margin: 0;
+  line-height: 1.3;
+}
+
+/* Tags */
+.pack__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 5px;
+}
+
+.pack__tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 9px;
+  font-weight: 600;
+  padding: 3px 6px;
+  border-radius: 4px;
+}
+
+.pack__tag--gift {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.pack__tag--shipping {
+  background: #ecfdf5;
+  color: #047857;
+}
+
+/* ===========================================
+   💰 PRIX
+   =========================================== */
+.pack__prices {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1px;
+  flex-shrink: 0;
+  padding-right: 4px;
+}
+
+.pack__price {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--pack-accent);
+  line-height: 1;
+}
+
+.pack__price-compare {
+  font-size: 12px;
+  color: var(--pack-text-muted);
+  text-decoration: line-through;
+  text-decoration-color: #dc2626;
+}
+
+/* ===========================================
+   🏆 PREMIER PACK - MISE EN AVANT
+   =========================================== */
+.product-pack__accordion.best-offer {
+  border-width: 2px;
+  border-color: var(--pack-gold);
+  background: linear-gradient(135deg, #fffbeb 0%, #ffffff 100%);
+  padding-top: 18px;
+  margin-top: 6px;
+}
+
+.product-pack__accordion.best-offer:hover {
+  box-shadow: 0 8px 28px rgba(212, 168, 83, 0.25);
+}
+
+/* ===========================================
+   🛒 BOUTON AJOUTER AU PANIER + PRIX
+   =========================================== */
+.product-pack-wrapper .pack-button {
+  width: 100%;
+  background: linear-gradient(135deg, var(--pack-accent) 0%, var(--pack-accent-dark) 100%);
+  border: none;
+  color: white;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 14px;
+  padding: 16px 20px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 15px var(--pack-shadow-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+}
+
+.product-pack-wrapper .pack-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px var(--pack-shadow-color);
+}
+
+.product-pack-wrapper .pack-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.product-pack-wrapper .pack-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.25),
+    transparent
+  );
+  animation: btn-shine 3s ease-in-out infinite;
+}
+
+@keyframes btn-shine {
+  0% { left: -100%; }
+  50%, 100% { left: 100%; }
+}
+
+.pack-button__text {
+  position: relative;
+  z-index: 1;
+}
+
+.pack-button__separator {
+  width: 1px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.4);
+  margin: 0 14px;
+  position: relative;
+  z-index: 1;
+}
+
+.pack-button__price {
+  font-size: 16px;
+  font-weight: 800;
+  position: relative;
+  z-index: 1;
+  transition: transform 0.3s ease;
+}
+
+.pack-button__price.updated {
+  animation: price-bounce 0.4s ease;
+}
+
+@keyframes price-bounce {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+/* ===========================================
+   📊 INFO LIVRAISON
+   =========================================== */
+.product-pack-wrapper .delivery-info {
+  text-align: center;
+  margin-top: 12px;
+  font-size: 12px;
+  color: #047857;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+/* ===========================================
+   ⚡ COMPTEUR VISITEURS DYNAMIQUE
+   =========================================== */
+.product-pack-wrapper .urgency-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 14px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.product-pack-wrapper .urgency-bar.up {
+  background: #ecfdf5;
+  color: #047857;
+}
+
+.product-pack-wrapper .urgency-bar.down {
+  background: #fef2f2;
+  color: #dc2626;
+}
+
+.product-pack-wrapper .urgency-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  animation: urgency-pulse 1s ease-in-out infinite;
+  transition: background 0.3s ease;
+}
+
+.product-pack-wrapper .urgency-bar.up .urgency-dot {
+  background: #22c55e;
+}
+
+.product-pack-wrapper .urgency-bar.down .urgency-dot {
+  background: #dc2626;
+}
+
+.product-pack-wrapper .urgency-arrow {
+  font-size: 10px;
+  font-weight: 800;
+  transition: transform 0.3s ease;
+}
+
+.product-pack-wrapper .urgency-bar.up .urgency-arrow {
+  color: #22c55e;
+}
+
+.product-pack-wrapper .urgency-bar.down .urgency-arrow {
+  color: #dc2626;
+}
+
+.product-pack-wrapper .urgency-count {
+  font-weight: 800;
+  min-width: 20px;
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+
+.product-pack-wrapper .urgency-count.changed {
+  animation: count-pop 0.3s ease;
+}
+
+@keyframes count-pop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.3); }
+  100% { transform: scale(1); }
+}
+
+@keyframes urgency-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+/* ===========================================
+   📱 RESPONSIVE MOBILE
+   =========================================== */
+@media screen and (max-width: 480px) {
+  .product-pack {
+    gap: 8px;
+  }
+  
+  .product-pack__accordion {
+    padding: 12px;
+    gap: 10px;
+    border-radius: 12px;
+  }
+  
+  .product-pack__accordion.best-offer {
+    padding-top: 16px;
+  }
+  
+  .pack__image {
+    width: 48px;
+    height: 48px;
+    padding: 4px;
+  }
+  
+  .pack__title {
+    font-size: 13px;
+  }
+  
+  .pack__subtitle {
+    font-size: 10px;
+  }
+  
+  .pack__price {
+    font-size: 16px;
+  }
+  
+  .pack__price-compare {
+    font-size: 11px;
+  }
+  
+  .pack__badge {
+    font-size: 8px;
+    padding: 4px 8px;
+    top: -8px;
+    left: 10px;
+  }
+  
+  .pack__savings {
+    width: 36px;
+    height: 36px;
+    font-size: 10px;
+    top: -6px;
+    right: 10px;
+  }
+  
+  .pack__tags {
+    gap: 3px;
+    margin-top: 4px;
+  }
+  
+  .pack__tag {
+    font-size: 8px;
+    padding: 2px 5px;
+  }
+  
+  .product-pack-wrapper .urgency-bar {
+    font-size: 10px;
+    padding: 6px 10px;
+  }
+  
+  .product-pack-wrapper .pack-button {
+    font-size: 12px;
+    padding: 14px 16px;
+  }
+  
+  .pack-button__price {
+    font-size: 14px;
+  }
+  
+  .pack-button__separator {
+    margin: 0 10px;
+    height: 16px;
+  }
+  
+  .product-pack-wrapper .delivery-info {
+    font-size: 11px;
+  }
+}
+
+/* Ultra petit écran */
+@media screen and (max-width: 360px) {
+  .pack__image {
+    width: 42px;
+    height: 42px;
+  }
+  
+  .pack__title {
+    font-size: 12px;
+  }
+  
+  .pack__price {
+    font-size: 15px;
+  }
+  
+  .pack__savings {
+    width: 32px;
+    height: 32px;
+    font-size: 9px;
+  }
+  
+  .product-pack-wrapper .pack-button {
+    font-size: 11px;
+    padding: 12px 14px;
+  }
+  
+  .pack-button__price {
+    font-size: 13px;
+  }
+}

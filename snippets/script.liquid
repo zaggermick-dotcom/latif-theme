@@ -1,0 +1,9 @@
+{%- doc -%}
+  Setting to toggle script minification extension.
+  Relies on an extension to auto-minify .js files into .min.js
+
+  @example
+  {%- render 'script' with 'asset-name', defer: true -%}
+{%- enddoc -%}
+
+<script src="{% capture asset %}{{ script }}{% if request.host != shop.permanent_domain and settings.minify_scripts %}.min{% endif %}.js{% endcapture %}{{ asset | asset_url }}" {% if defer %}defer{% endif %}></script>

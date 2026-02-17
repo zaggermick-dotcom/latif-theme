@@ -1,0 +1,1649 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "rating_TQFfRA": {
+          "type": "rating",
+          "settings": {
+            "stars_style": "stars",
+            "rating": 4.8,
+            "rating_text": "4.8 | 1523 avis",
+            "block_margin_bottom": 0
+          }
+        },
+        "text_wTt86f": {
+          "type": "text",
+          "settings": {
+            "text": "<strong>L'alternative naturelle au Rétinol<\/strong>",
+            "text_size": 16,
+            "text_style": "text",
+            "text_alignment": "left",
+            "color": "rgba(0,0,0,0)",
+            "block_margin_bottom": 16
+          }
+        },
+        "text_Nx6VAB": {
+          "type": "text",
+          "settings": {
+            "text": "<strong>LATIF - EquallyBerry™ le soin lucide <\/strong>",
+            "text_size": 15,
+            "text_style": "subheading",
+            "text_alignment": "left",
+            "color": "rgba(0,0,0,0)",
+            "block_margin_bottom": 16
+          }
+        },
+        "icon_with_text_dRTPtk": {
+          "type": "icon-with-text",
+          "settings": {
+            "icons_style": "bullets",
+            "fill_color": "text",
+            "color_bg_secondary": false,
+            "fill_fade_background": false,
+            "bg_color_icons": false,
+            "border": "border--none",
+            "shadow": "shadow--none",
+            "icon_1_icon_type": "check_mark",
+            "icon_1_custom_icon": "shopify:\/\/shop_images\/enleve-juste-le-cercle-blanc-au-milieu--removebg-preview.png",
+            "icon_1_text": "<strong>Efficace :<\/strong> Efface les rides , boutons, rougeurs",
+            "icon_1_description": "",
+            "icon_1_url": "",
+            "icon_2_icon_type": "check_mark",
+            "icon_2_custom_icon": "shopify:\/\/shop_images\/enleve-juste-le-cercle-blanc-au-milieu--removebg-preview.png",
+            "icon_2_text": "<strong>Non Irritant :<\/strong> Améliore la texture et l’éclat",
+            "icon_2_description": "",
+            "icon_2_url": "",
+            "icon_3_icon_type": "check_mark",
+            "icon_3_custom_icon": "shopify:\/\/shop_images\/home-removebg-preview.png",
+            "icon_3_text": "<strong>100% naturel : <\/strong>Convient aux peaux sensibles",
+            "icon_3_description": "",
+            "icon_3_url": "",
+            "icon_4_icon_type": "check_mark",
+            "icon_4_custom_icon": "shopify:\/\/shop_images\/home-removebg-preview.png",
+            "icon_4_text": "<strong>Résultats : <\/strong>Très visibles en 1 mois seulement",
+            "icon_4_description": "",
+            "icon_4_url": "",
+            "show_shipping_delay": true,
+            "ship_weekend": true,
+            "format": "dd\/MM",
+            "ship_min": 2,
+            "ship_max": 5,
+            "block_margin_bottom": 28
+          }
+        },
+        "pack_yX7Hkx": {
+          "type": "pack",
+          "settings": {
+            "pack_style": "tight",
+            "label": "🔥Black friday",
+            "add_lines": true,
+            "text_above": "",
+            "text_alignment": "left",
+            "color_selected": "#abab94",
+            "color_selected_background": "#abab94",
+            "color_background": "#6a6a61",
+            "color_title": "#ffffff",
+            "color_price": "#ffffff",
+            "color_discount_price": "#ebefd1",
+            "color_texts": "#ebefd1",
+            "color_variants_title": "#000000",
+            "color_disclaimer": "#33c91c",
+            "pack_accordions_shadow": "1",
+            "image0": "shopify:\/\/shop_images\/ChatGPT_Image_7_nov._2025__09_50_32-removebg-preview.png",
+            "quantity0": 3,
+            "title0": "Cure de 5 mois",
+            "price0": "75,14€",
+            "price_before0": "150,99 €",
+            "additional_text0": "<strong>3 achetés + 2 offerts<\/strong>",
+            "disclaimer0": "",
+            "image1": "shopify:\/\/shop_images\/chatgpt-image-7-nov-2025-09-52-01-removebg-preview-69298fe8d1f73.png",
+            "quantity1": 2,
+            "title1": "Cure de 2 mois",
+            "price1": "46,24€",
+            "price_before1": "86,90 €",
+            "additional_text1": "20 % déjà économisés",
+            "disclaimer1": "",
+            "image2": "shopify:\/\/shop_images\/ChatGPT_Image_7_nov._2025__09_58_28-removebg-preview.png",
+            "quantity2": 1,
+            "title2": "Cure de 1 mois",
+            "price2": "28,90€",
+            "price_before2": "60,90€",
+            "additional_text2": "<strong> 1 cure<\/strong>",
+            "disclaimer2": "",
+            "button_text": "AJOUTER AU PANIER",
+            "button_style": "3",
+            "icon": "none",
+            "extra_button": false,
+            "color_text": "",
+            "color_bg": "",
+            "color_bg_hover": "",
+            "enable_free_gifts": false,
+            "free_gifts_title": "CADEAUX GRATUITS avec votre commande",
+            "gift_count0": "1",
+            "gift_count1": "2",
+            "gift_count2": "3",
+            "gift_display_behavior": "placeholder_until_selected",
+            "gift_slot_mode1": "product",
+            "gift_slot_product1": "",
+            "gift_slot_title1": "Livraison gratuite",
+            "gift_slot_price1": "",
+            "gift_slot_mode2": "product",
+            "gift_slot_product2": "",
+            "gift_slot_title2": "Échantillon gratuit",
+            "gift_slot_price2": "",
+            "gift_slot_mode3": "custom",
+            "gift_slot_product3": "",
+            "gift_slot_title3": "Mini produit",
+            "gift_slot_price3": ""
+          }
+        },
+        "text_fqeCk3": {
+          "type": "text",
+          "settings": {
+            "text": "<strong>🚚 Livraison offerte dès 46€<\/strong>",
+            "text_size": 16,
+            "text_style": "text",
+            "text_alignment": "center",
+            "color": "#000000",
+            "block_margin_bottom": 16
+          }
+        },
+        "text_zwiUmz": {
+          "type": "text",
+          "settings": {
+            "text": "<strong>87%<\/strong> de nos clientes ont prit <strong>5 cures<\/strong>",
+            "text_size": 14,
+            "text_style": "text",
+            "text_alignment": "center",
+            "color": "rgba(0,0,0,0)",
+            "block_margin_bottom": 16
+          }
+        },
+        "timer_grUY8K": {
+          "type": "timer",
+          "settings": {
+            "timer_style": "minimalist",
+            "fill_color": "heading",
+            "color_bg_secondary": true,
+            "border": "border--none",
+            "shadow": "shadow--none",
+            "text": "<div style=\"display:inline-block;background:linear-gradient(135deg,#c41e3a,#8b0000);padding:6px 15px;border-radius:50px;color:#fff;font-weight:700;font-size:11px;box-shadow:0 0 15px rgba(196,30,58,0.6);letter-spacing:0.5px\">🔥 OFFRE BLACK FRIDAY 🔥<\/div>",
+            "alignment": "center",
+            "block_margin_bottom": 16
+          }
+        },
+        "review_dNjxNk": {
+          "type": "review",
+          "settings": {
+            "autoplay": false,
+            "speed": 4,
+            "enable_reviews_images": true,
+            "image1": "shopify:\/\/shop_images\/b-a-1-month-into-bakuchiol-instead-of-retinol-v0-f81ykqjbs46e1.webp",
+            "heading1": "Claire",
+            "text1": "Voici ma photo d'avant et d'après une très grande difference le produit est superbe et la livraison a été très rapide Je vous le recommande vivement.",
+            "rating1": 4.7,
+            "verified1": true,
+            "image2": "shopify:\/\/shop_images\/b-a-3-weeks-using-eqqualberry-swimming-pool-toner-v0-wdy2vgis4frc1.jpg",
+            "heading2": "",
+            "text2": "",
+            "rating2": 5,
+            "verified2": true,
+            "image3": "shopify:\/\/shop_images\/images8.jpg",
+            "heading3": "",
+            "text3": "",
+            "rating3": 4.5,
+            "verified3": true,
+            "stars_style": "stars",
+            "color_bg_secondary": true,
+            "border": "border--2",
+            "shadow": "shadow--2",
+            "block_margin_bottom": 16
+          }
+        },
+        "upsell_dTEJnL": {
+          "type": "upsell",
+          "settings": {
+            "product": "serum-equallyberry-au-bakuchiol",
+            "quantity_to_add": 2,
+            "trigger": "",
+            "quantity": 3,
+            "equals": false
+          }
+        }
+      },
+      "block_order": [
+        "rating_TQFfRA",
+        "text_wTt86f",
+        "text_Nx6VAB",
+        "icon_with_text_dRTPtk",
+        "pack_yX7Hkx",
+        "text_fqeCk3",
+        "text_zwiUmz",
+        "timer_grUY8K",
+        "review_dNjxNk",
+        "upsell_dTEJnL"
+      ],
+      "custom_css": [],
+      "settings": {
+        "section_id": "",
+        "product_style": "medium",
+        "media_layout_desktop": "slider",
+        "image_ratio": "adapt",
+        "thumbnails_style": true,
+        "preshot": false,
+        "navigation": false,
+        "pagination": true,
+        "super_glue": true,
+        "enable_zoom": true,
+        "exclude_variant_images": true,
+        "desktop_content_alignment": "left",
+        "enable_animations": false,
+        "animation": "fade-up",
+        "layout_width": "normal",
+        "padding_top": 0,
+        "padding_bottom": 60,
+        "padding_top_sm": 0,
+        "padding_bottom_sm": 4,
+        "color_palette": "scheme-ac463579-e2b7-4eff-9caf-f3db0b45daa0",
+        "enable_cut_bg_color": false,
+        "cut_bg_color": "#f6f6f6",
+        "cut_bg_color_vertical": 0,
+        "cut_bg_color_vertical_mobile": 0,
+        "cut_bg_color_horizontal": 0,
+        "cut_bg_color_horizontal_mobile": 0,
+        "separator_top": "none",
+        "separator_top_invert": false,
+        "separator_bottom": "none",
+        "separator_bottom_invert": false,
+        "separator_animated": false,
+        "separator_bg_color": ""
+      }
+    },
+    "collapsible_content_XFCiPC": {
+      "type": "collapsible-content",
+      "blocks": {
+        "collapsible_row_EBmjip": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "DESCRIPTION",
+            "icon": "check_mark",
+            "row_content": "<ul><li><strong>Sérum EQUALLYBERRY – 30 ml<\/strong><\/li><li>🇰🇷 <strong>Sérum coréen 100 % végétalien<\/strong> au Bakuchiol (5000 ppm)<\/li><li>⏱️ <strong>Résultats visibles en 4 semaines<\/strong> : réduit rides, ridules, boutons<\/li><li>✨ <strong>Peau plus ferme<\/strong>, lisse et éclatante<\/li><li>👥 <strong>Convient à toutes les peaux<\/strong>, même sensibles (femmes & hommes)<\/li><li>🚫 <strong>Formule Clean<\/strong> : sans rétinol, parabènes, sulfates<\/li><li>🐇 <strong>Certifié végan & cruelty-free<\/strong><\/li><li>🧬 <strong>13 peptides<\/strong> : améliore l’élasticité, raffermit<\/li><li>🧪 <strong>Niacinamide 4 %<\/strong> : régule le sébum, resserre les pores, unifie le teint<\/li><li>🛡️ <strong>5 céramides<\/strong> : hydratation profonde, barrière cutanée renforcée<\/li><li>✅ <strong>Zéro irritation<\/strong> – Haute tolérance<\/li><li>🧴 <strong>Contenance : 30 ml<\/strong> (2–3 mois d’utilisation)<\/li><li>💡 <strong>Idéal pour ceux qui ne tolèrent pas le rétinol<\/strong> et recherchent une solution naturelle, douce et performante.<\/li><\/ul>",
+            "page": ""
+          }
+        },
+        "collapsible_row_n4AAnh": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Caractéristiques",
+            "icon": "check_mark",
+            "row_content": "<p><strong>Certification : CPNP (Union Européenne)<\/strong><\/p><p><strong>Fabricant :<\/strong> NFC Cosmetic<\/p><p><br\/><strong>Dimensions du produit :<\/strong> 5,41 × 2,54 × 10,01 cm<br\/><br\/><strong>Avantage principal :<\/strong> Effet repulpant<br\/><br\/><strong>Parfum :<\/strong> Sans parfum artificiel<br\/><br\/><strong>Marque :<\/strong> EQUALLYBERRY<br\/><br\/><strong>Propriétés :<\/strong> Antioxydant, sans parfum, à base de plantes<br\/><br\/><strong>Poids du produit :<\/strong> 30 mg<br\/><br\/><strong>Volume :<\/strong> 1,01 fl oz<br\/><br\/><strong>Contenance :<\/strong> 28,63 g<\/p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_y8tB99": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Ingrédients principaux",
+            "icon": "check_mark",
+            "row_content": "<ul><li>💧 <strong>Acide Hyaluronique<\/strong> : Hydratation intense et repulpant.<\/li><li>🌿 <strong>Bakuchiol<\/strong> : Alternative naturelle au Rétinol, anti-âge efficace sans irritation.<\/li><li>🛡️ <strong>Céramides<\/strong> : Restauration de la barrière cutanée et protection.<\/li><li>🧬 <strong>Peptides<\/strong> : Raffermissement et élasticité de la peau.<\/li><\/ul>",
+            "page": ""
+          }
+        },
+        "collapsible_row_JWiiTe": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Bienfaits de ces ingrédients",
+            "icon": "check_mark",
+            "row_content": "<p><strong>Bakuchiol végétal 5 000 ppm<\/strong> → Stimule le renouvellement cutané et lisse le grain de peau, effet anti-âge sans irritation.<\/p><p><strong>13 peptides biomimétiques<\/strong> → Aident à raffermir et à soutenir la structure naturelle de la peau (peau plus tonique, plus “rebondie”).<\/p><p><strong>Complexe 5-CICA + Céramides<\/strong> → Apaise, renforce la barrière cutanée et aide à réduire rougeurs et inconfort.<\/p><p><strong>Acide hyaluronique moléculaire<\/strong> → Offre une hydratation profonde, pour une peau souple, repulpée et confortable toute la journée.<\/p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_6NQGxh": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Précautions d’emploi",
+            "icon": "check_mark",
+            "row_content": "<p>Usage externe uniquement.<br\/>Éviter le contact avec les yeux.<br\/>En cas de contact, rincez abondamment à l’eau claire.<br\/>Tenir hors de portée des enfants.<br\/><strong>PAO : 12 mois après ouverture.<\/strong><br\/><br\/><\/p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_fYHqit": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Comment l’utiliser",
+            "icon": "question_mark",
+            "row_content": "<p>Nettoyez votre visage avec un nettoyant doux, puis séchez délicatement. Déposez 2 à 3 gouttes du sérum dans votre main et appliquez sur le visage et le cou. Massez avec des mouvements ascendants du bas vers le haut, du centre vers l’extérieur, en insistant sur les joues, le front et le menton. Terminez par une crème hydratante pour sceller l’effet.<br\/><br\/><\/p>",
+            "page": ""
+          }
+        }
+      },
+      "block_order": [
+        "collapsible_row_EBmjip",
+        "collapsible_row_n4AAnh",
+        "collapsible_row_y8tB99",
+        "collapsible_row_JWiiTe",
+        "collapsible_row_6NQGxh",
+        "collapsible_row_fYHqit"
+      ],
+      "custom_css": [],
+      "name": "t:sections.collapsible_content.presets.name",
+      "settings": {
+        "section_id": "",
+        "subheading": "",
+        "heading": "À propos du produit",
+        "heading_style": "3",
+        "description": "",
+        "alignment": "center",
+        "desktop_content_position": "middle",
+        "enable_image": false,
+        "height": "adapt",
+        "layout": "image_first",
+        "open_first_collapsible_row": false,
+        "accordions_style": "2",
+        "secondary_bg_accordions": true,
+        "remove_gap": false,
+        "enable_animations": false,
+        "animation": "fade-up",
+        "layout_width": "normal",
+        "padding_top": 20,
+        "padding_bottom": 32,
+        "padding_top_sm": 20,
+        "padding_bottom_sm": 32,
+        "color_palette": "scheme-ac463579-e2b7-4eff-9caf-f3db0b45daa0",
+        "enable_cut_bg_color": false,
+        "cut_bg_color": "#f6f6f6",
+        "cut_bg_color_vertical": 0,
+        "cut_bg_color_vertical_mobile": 0,
+        "cut_bg_color_horizontal": 0,
+        "cut_bg_color_horizontal_mobile": 0,
+        "separator_top": "none",
+        "separator_top_invert": false,
+        "separator_bottom": "none",
+        "separator_bottom_invert": false,
+        "separator_animated": false,
+        "separator_bg_color": ""
+      }
+    },
+    "marquee_logo_kFd8DJ": {
+      "type": "marquee-logo",
+      "blocks": {
+        "marquee_aWNpnh": {
+          "type": "marquee",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/ChatGPT_Image_28_nov._2025_00_01_39.png"
+          }
+        },
+        "marquee_qzrzxq": {
+          "type": "marquee",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/ChatGPT_Image_28_nov._2025_00_00_04.png"
+          }
+        },
+        "marquee_Kin6JN": {
+          "type": "marquee",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/ChatGPT_Image_27_nov._2025_23_45_01.png"
+          }
+        }
+      },
+      "block_order": [
+        "marquee_aWNpnh",
+        "marquee_qzrzxq",
+        "marquee_Kin6JN"
+      ],
+      "name": "t:sections.scrolling-gallery.name",
+      "settings": {
+        "subheading": "",
+        "heading": "",
+        "heading_style": "3",
+        "description": "",
+        "alignment": "center",
+        "image_ratio": "adapt",
+        "delay": 8,
+        "width": 80,
+        "gap": 0,
+        "border-radius": true,
+        "enable_animations": false,
+        "animation": "fade-up",
+        "layout_width": "full",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "padding_top_sm": 0,
+        "padding_bottom_sm": 0,
+        "color_palette": "scheme-18368b80-0f66-40ea-ac40-d05753066fb6",
+        "separator_top": "none",
+        "separator_top_invert": false,
+        "separator_bottom": "none",
+        "separator_bottom_invert": false,
+        "separator_animated": false,
+        "separator_bg_color": ""
+      }
+    },
+    "diagnostic_peau_U3eLLK": {
+      "type": "diagnostic-peau",
+      "name": "Diagnostic Bakuchiol V8",
+      "settings": {
+        "color_bg_page": "#f2e9f7",
+        "visitors_count": 48,
+        "color_accent": "#5c3b6f",
+        "color_accent_light": "#c84a7a",
+        "color_bg_card": "#b7a9c6",
+        "color_bg_card_center": "#ede6f2",
+        "color_text_title": "#2e1a38",
+        "color_text_body": "#5a4a63",
+        "color_btn_text": "#f9f9f9",
+        "color_input_bg": "#ebebeb",
+        "color_input_text": "#d7dac9",
+        "color_option_bg": "#d7dac9",
+        "enable_aura": true,
+        "glass_opacity": 60,
+        "glass_blur": 25,
+        "intro_title": "Notre diagnostic gratuit",
+        "intro_subtitle": "Identifiez en 6 étapes votre peau et la prescription dont votre peau a réellement besoin.",
+        "intro_btn_label": "Démarrer l'analyse",
+        "product_link": "shopify:\/\/products\/serum-equallyberry-au-bakuchiol",
+        "padding_top": 50,
+        "padding_bottom": 35,
+        "padding_horizontal": 40,
+        "padding_top_mobile": 20,
+        "padding_bottom_mobile": 20,
+        "padding_horizontal_mobile": 20,
+        "emailjs_service_id": "service_p9tq1zo",
+        "emailjs_template_id": "template_sj0dauh",
+        "emailjs_public_key": "1sRceXahZUmKwB5_I",
+        "avatar_size": 370
+      }
+    },
+    "icons_MQpnDL": {
+      "type": "icons",
+      "blocks": {
+        "icon_Vzitrb": {
+          "type": "icon",
+          "settings": {
+            "icon": "none",
+            "image_custom": "shopify:\/\/shop_images\/ChatGPT_Image_26_dec._2025__21_53_19-removebg-preview.png",
+            "heading": "Vegan",
+            "description": "",
+            "heading_font_size": 22,
+            "heading_font_size_mobile": 22,
+            "button_text": "",
+            "button_link": "",
+            "button_style": "2"
+          }
+        },
+        "icon_rGtcjc": {
+          "type": "icon",
+          "settings": {
+            "icon": "none",
+            "image_custom": "shopify:\/\/shop_images\/teste_jpg.png",
+            "heading": "Testé Dermatologiquement",
+            "description": "",
+            "heading_font_size": 18,
+            "heading_font_size_mobile": 22,
+            "button_text": "",
+            "button_link": "",
+            "button_style": "2"
+          }
+        },
+        "icon_aJgNPj": {
+          "type": "icon",
+          "settings": {
+            "icon": "none",
+            "image_custom": "shopify:\/\/shop_images\/Garantie_jpg.png",
+            "heading": "Satisfait ou Remboursé",
+            "description": "",
+            "heading_font_size": 20,
+            "heading_font_size_mobile": 22,
+            "button_text": "",
+            "button_link": "",
+            "button_style": "2"
+          }
+        }
+      },
+      "block_order": [
+        "icon_Vzitrb",
+        "icon_rGtcjc",
+        "icon_aJgNPj"
+      ],
+      "name": "t:sections.icons.name",
+      "settings": {
+        "section_id": "",
+        "layout": "masonry",
+        "layout_style": "normal",
+        "icon__type": "complete",
+        "icon_width_desktop": 200,
+        "icon_width_mobile": 140,
+        "center_icons": true,
+        "slides_on_desktop": 4,
+        "slides_on_tablet": 4,
+        "slides_on_mobile": 1,
+        "preshot_swiper": false,
+        "loop": true,
+        "navigation": false,
+        "pagination": true,
+        "autoplay": true,
+        "speed": 3,
+        "subheading": "",
+        "heading": "",
+        "heading_style": "2",
+        "description": "",
+        "alignment": "center",
+        "enable_animations": false,
+        "animation": "fade-up",
+        "layout_width": "normal",
+        "padding_top": 32,
+        "padding_bottom": 24,
+        "padding_top_sm": 0,
+        "padding_bottom_sm": 0,
+        "color_palette": "scheme-2b246457-7c52-4316-a92d-18a51685c20b",
+        "enable_cut_bg_color": false,
+        "cut_bg_color": "#f6f6f6",
+        "cut_bg_color_vertical": 0,
+        "cut_bg_color_vertical_mobile": 0,
+        "cut_bg_color_horizontal": 0,
+        "cut_bg_color_horizontal_mobile": 0,
+        "separator_top": "none",
+        "separator_top_invert": false,
+        "separator_bottom": "none",
+        "separator_bottom_invert": false,
+        "separator_animated": false,
+        "separator_bg_color": ""
+      }
+    },
+    "trust_stats_caqnbC": {
+      "type": "trust-stats",
+      "blocks": {
+        "stat_aKWCBp": {
+          "type": "stat",
+          "settings": {
+            "percentage": 94,
+            "title": "Moins d'imperfections",
+            "text": "<p>Après 3 semaines d’utilisation régulière, beaucoup de clientes remarquent une diminution des boutons, taches et petites irrégularités pour une peau plus nette et uniforme.<br\/><br\/><\/p>"
+          }
+        },
+        "stat_RhNcaJ": {
+          "type": "stat",
+          "settings": {
+            "percentage": 94,
+            "title": "Peau plus lumineuse",
+            "text": "<p>Nos clientes nous disent qu’après 3 semaines, leur teint paraît plus frais, plus homogène et plus éclatant. La peau retrouve progressivement sa lumière naturelle, sans effet gras ni sensation de surcharge.<br\/><br\/><br\/><\/p>"
+          }
+        },
+        "stat_LYeRLf": {
+          "type": "stat",
+          "settings": {
+            "percentage": 97,
+            "title": "Rides,taches, rougeurs,boutons, ridiles  visiblement réduites",
+            "text": "<p>Après 4 semaines, nos clientes constatent qu’avec le Bakuchiol, alternative douce au rétinol, la peau paraît plus lisse : ridules et micro-rugosités sont visiblement estompées au fil des semaines. »<br\/><br\/><br\/><br\/><br\/><\/p>"
+          }
+        }
+      },
+      "block_order": [
+        "stat_aKWCBp",
+        "stat_RhNcaJ",
+        "stat_LYeRLf"
+      ],
+      "name": "Stats Animées (Latif)",
+      "settings": {
+        "mobile_layout": "stack",
+        "show_dots": false,
+        "bg_color": "#ebebeb",
+        "heading_color": "#222222",
+        "text_color": "#121212",
+        "show_badge": true,
+        "badge_text": "Approuvé par les Dermatologues",
+        "badge_bg": "#3b82f6",
+        "badge_text_color": "#333333",
+        "avatar_1": "shopify:\/\/shop_images\/IMG_8356.jpg",
+        "avatar_2": "shopify:\/\/shop_images\/dr_veilleux.jpg",
+        "avatar_3": "shopify:\/\/shop_images\/Dermato.jpg",
+        "card_radius": 40,
+        "shadow_opacity": 50,
+        "card_bg_color": "#f2e9f7",
+        "card_border_color": "#404040",
+        "card_title_color": "#222222",
+        "card_text_color": "#444444",
+        "circle_bg_color": "#e0e0e0",
+        "ticks_color": "#666666",
+        "percent_color": "#333333",
+        "title": "Efficacité prouvée par les professionnels de santé",
+        "heading_size": "h1",
+        "description": "<p>NOTRE SÉRUM <strong>EQUALLYBERRY™ <\/strong>EST<br\/>RECOMMANDÉ PAR  LES DERMATOLOGUES.<br\/><\/p>",
+        "page_width": 1400,
+        "padding_top": 36,
+        "padding_bottom": 0,
+        "padding_top_mobile": 36,
+        "padding_bottom_mobile": 0
+      }
+    },
+    "stories_VGKNRw": {
+      "type": "stories",
+      "name": "t:sections.stories.name",
+      "settings": {
+        "section_id": "",
+        "subheading": "",
+        "heading": "",
+        "heading_style": "3",
+        "description": "",
+        "alignment": "center",
+        "type__video": "100%",
+        "accent__gradient": false,
+        "enable_animations": false,
+        "animation": "fade-up",
+        "layout_width": "full",
+        "padding_top": 0,
+        "padding_bottom": 64,
+        "padding_top_sm": 0,
+        "padding_bottom_sm": 32,
+        "color_palette": "scheme-ac463579-e2b7-4eff-9caf-f3db0b45daa0",
+        "enable_cut_bg_color": false,
+        "cut_bg_color": "#f6f6f6",
+        "cut_bg_color_vertical": 0,
+        "cut_bg_color_vertical_mobile": 0,
+        "cut_bg_color_horizontal": 0,
+        "cut_bg_color_horizontal_mobile": 0,
+        "separator_top": "none",
+        "separator_top_invert": false,
+        "separator_bottom": "none",
+        "separator_bottom_invert": false,
+        "separator_animated": false,
+        "separator_bg_color": ""
+      }
+    },
+    "avis_clients_JrU9EG": {
+      "type": "avis-clients",
+      "blocks": {
+        "testimonial_nYJfar": {
+          "type": "testimonial",
+          "settings": {
+            "review_language": "fr",
+            "show_country_flag": true,
+            "show_language_code": false,
+            "country_flag": "🇫🇷",
+            "use_single_image": true,
+            "image_combined": "shopify:\/\/shop_images\/9_39fcc6b2-5b12-457b-a48c-3627f542f559.jpg",
+            "author_name": "Sophie Martin",
+            "author_age": "",
+            "rating": 5,
+            "review_title": "Une peau transformée",
+            "review_text": "Livraison en 48h comme promis ! Depuis que j'utilise le sérum Equallyberry, mes ridules sont visiblement atténuées. Une vraie alternative au rétinol sans irritation.",
+            "product": "serum-equallyberry-au-bakuchiol"
+          }
+        },
+        "testimonial_HUbXYF": {
+          "type": "testimonial",
+          "settings": {
+            "review_language": "fr",
+            "show_country_flag": true,
+            "show_language_code": false,
+            "country_flag": "🇫🇷",
+            "use_single_image": true,
+            "image_combined": "shopify:\/\/shop_images\/H65e8b43b2d7c4a7cb0cd1999228b7f33J.png_960x960q80.avif",
+            "author_name": "Lucas Dubois",
+            "author_age": "",
+            "rating": 5,
+            "review_title": "Cadeau parfait",
+            "review_text": "J'ai acheté ce sérum pour ma femme, elle est ravie. Le packaging est top et la livraison a été très rapide.",
+            "product": "serum-equallyberry-au-bakuchiol"
+          }
+        },
+        "testimonial_aqyU6g": {
+          "type": "testimonial",
+          "settings": {
+            "review_language": "ca",
+            "show_country_flag": true,
+            "show_language_code": false,
+            "country_flag": "🇨🇦",
+            "use_single_image": true,
+            "image_combined": "shopify:\/\/shop_images\/10_39403971-e198-47f9-936e-06d1fa512c69.jpg",
+            "author_name": "Manon Durand",
+            "author_age": "",
+            "rating": 5,
+            "review_title": "Pépite pour peaux sensibles",
+            "review_text": "Enfin un anti-âge qui ne me brûle pas la peau. Le sérum Equallyberry est doux mais redoutablement efficace.",
+            "product": ""
+          }
+        },
+        "testimonial_Y6neBe": {
+          "type": "testimonial",
+          "settings": {
+            "review_language": "fr",
+            "show_country_flag": true,
+            "show_language_code": false,
+            "country_flag": "🇫🇷",
+            "use_single_image": true,
+            "image_combined": "shopify:\/\/shop_images\/5.jpg",
+            "author_name": "Léa Richard",
+            "author_age": "",
+            "rating": 5,
+            "review_title": "Adieu les taches",
+            "review_text": "Mes taches brunes commencent enfin à s'estomper grâce au Bakuchiol. Je suis bluffée par les résultats de ce sérum.",
+            "product": "serum-equallyberry-au-bakuchiol"
+          }
+        },
+        "testimonial_xX6TP9": {
+          "type": "testimonial",
+          "settings": {
+            "review_language": "ca",
+            "show_country_flag": false,
+            "show_language_code": false,
+            "country_flag": "🇨🇦",
+            "use_single_image": true,
+            "image_combined": "shopify:\/\/shop_images\/ca.png",
+            "author_name": "Valérie P.",
+            "author_age": "",
+            "rating": 5,
+            "review_title": "Merci !",
+            "review_text": "Merci pour ce produit miracle. Ma peau sensible le tolère parfaitement. Envoi très rapide.",
+            "product": ""
+          }
+        },
+        "testimonial_EJnbFq": {
+          "type": "testimonial",
+          "settings": {
+            "review_language": "fr",
+            "show_country_flag": true,
+            "show_language_code": false,
+            "country_flag": "",
+            "use_single_image": true,
+            "image_combined": "shopify:\/\/shop_images\/H6da9f2e5d3b04d1b8dab2419c64764fdt.jpg",
+            "author_name": "David Cohen",
+            "author_age": "",
+            "rating": 5,
+            "review_title": "Efficace",
+            "review_text": "Acheté pour ma compagne, elle ne jure que par ça. Expédition rapide et suivi de colis sérieux.",
+            "product": ""
+          }
+        },
+        "testimonial_TQ8bP7": {
+          "type": "testimonial",
+          "settings": {
+            "review_language": "fr",
+            "show_country_flag": true,
+            "show_language_code": false,
+            "country_flag": "🇫🇷",
+            "use_single_image": true,
+            "image_combined": "shopify:\/\/shop_images\/b-a-3-weeks-using-eqqualberry-swimming-pool-toner-v0-wdy2vgis4frc1.jpg",
+            "author_name": "Mélanie G.",
+            "author_age": "",
+            "rating": 5,
+            "review_title": "Résultats visibles",
+            "review_text": "Après 2 semaines, mon teint est plus unifié. Je suis très contente de mon achat chez Equallyberry.",
+            "product": ""
+          }
+        },
+        "testimonial_xdWdUC": {
+          "type": "testimonial",
+          "settings": {
+            "review_language": "ca",
+            "show_country_flag": true,
+            "show_language_code": false,
+            "country_flag": "🇫🇷",
+            "use_single_image": true,
+            "image_combined": "shopify:\/\/shop_images\/images2.jpg",
+            "author_name": "Camille Bernard",
+            "author_age": "",
+            "rating": 5,
+            "review_title": "Texture incroyable",
+            "review_text": "J'adore la texture légère qui pénètre instantanément. Ma peau est plus ferme et lumineuse. Merci pour l'envoi soigné.",
+            "product": ""
+          }
+        },
+        "testimonial_hE3EV6": {
+          "type": "testimonial",
+          "settings": {
+            "review_language": "ca",
+            "show_country_flag": true,
+            "show_language_code": false,
+            "country_flag": "🇨🇦",
+            "use_single_image": true,
+            "image_combined": "shopify:\/\/shop_images\/6su.jpg",
+            "author_name": "Antoine Girard",
+            "author_age": "",
+            "rating": 4,
+            "review_title": "Très satisfait",
+            "review_text": "Produit reçu rapidement. L'effet tenseur est léger mais présent. Très agréable à utiliser.",
+            "product": ""
+          }
+        },
+        "testimonial_geR4ba": {
+          "type": "testimonial",
+          "settings": {
+            "review_language": "fr",
+            "show_country_flag": true,
+            "show_language_code": false,
+            "country_flag": "🇫🇷",
+            "use_single_image": true,
+            "image_combined": "shopify:\/\/shop_images\/images_c01d3ae4-cddb-4ca5-987c-6300c8fe7c4d.jpg",
+            "author_name": "Sarah Wilson",
+            "author_age": "",
+            "rating": 5,
+            "review_title": "Glowing skin",
+            "review_text": "My friends keeps asking me what I use. This Bakuchiol serum is my secret! Fast shipping and great packaging.",
+            "product": "serum-equallyberry-au-bakuchiol"
+          }
+        },
+        "testimonial_ghD8PG": {
+          "type": "testimonial",
+          "settings": {
+            "review_language": "ca",
+            "show_country_flag": true,
+            "show_language_code": false,
+            "country_flag": "🇨🇦",
+            "use_single_image": true,
+            "image_combined": "shopify:\/\/shop_images\/images5.jpg",
+            "author_name": "Jessica Smith",
+            "author_age": "",
+            "rating": 5,
+            "review_title": "Amazing Results",
+            "review_text": "I was skeptical about Bakuchiol but this serum is a game changer. My skin feels smoother and glowing. Fast shipping to London!",
+            "product": ""
+          }
+        },
+        "testimonial_i3LrhU": {
+          "type": "testimonial",
+          "settings": {
+            "review_language": "en",
+            "show_country_flag": true,
+            "show_language_code": false,
+            "country_flag": "",
+            "use_single_image": true,
+            "image_combined": "shopify:\/\/shop_images\/image_5a64f0db-bfc5-4b27-b5b7-aa43b54db0af.png",
+            "author_name": "Marion L.",
+            "author_age": "",
+            "rating": 5,
+            "review_title": "Peau repulpée",
+            "review_text": "Ma peau a retrouvé de l'élasticité. Je suis ravie de cet achat. Merci pour la livraison rapide.",
+            "product": ""
+          }
+        },
+        "testimonial_4EcwRB": {
+          "type": "testimonial",
+          "settings": {
+            "review_language": "fr",
+            "show_country_flag": true,
+            "show_language_code": false,
+            "country_flag": "🇫🇷",
+            "use_single_image": true,
+            "image_combined": "shopify:\/\/shop_images\/10.jpg",
+            "author_name": "Oliver Brown",
+            "author_age": "",
+            "rating": 4,
+            "review_title": "Fast delivery",
+            "review_text": "Received my order in 2 days. The serum smells nice and works well on sensitive skin. Highly recommend.",
+            "product": "serum-equallyberry-au-bakuchiol"
+          }
+        },
+        "testimonial_fr9PLF": {
+          "type": "testimonial",
+          "settings": {
+            "review_language": "fr",
+            "show_country_flag": true,
+            "show_language_code": false,
+            "country_flag": "🇫🇷",
+            "use_single_image": true,
+            "image_combined": "shopify:\/\/shop_images\/485723508_1122275353275548_586042084978958939_n.jpg",
+            "author_name": "Chloé Petit",
+            "author_age": "",
+            "rating": 5,
+            "review_title": "Service client au top",
+            "review_text": "J'avais une question sur l'utilisation et on m'a répondu tout de suite. Le produit est conforme à la description, très efficace.",
+            "product": ""
+          }
+        },
+        "testimonial_ybPGPN": {
+          "type": "testimonial",
+          "settings": {
+            "review_language": "fr",
+            "show_country_flag": true,
+            "show_language_code": false,
+            "country_flag": "🇫🇷",
+            "use_single_image": true,
+            "image_combined": "shopify:\/\/shop_images\/H65e8b43b2d7c4a7cb0cd1999228b7f33J.png_960x960q80.avif",
+            "author_name": "Nicolas B.",
+            "author_age": "",
+            "rating": 4,
+            "review_title": "Bon produit",
+            "review_text": "Ma femme m'a fait tester, c'est vrai que la peau est plus douce. Livraison RAS.",
+            "product": ""
+          }
+        },
+        "testimonial_gJ949i": {
+          "type": "testimonial",
+          "settings": {
+            "review_language": "fr",
+            "show_country_flag": true,
+            "show_language_code": false,
+            "country_flag": "🇫🇷",
+            "use_single_image": true,
+            "image_combined": "shopify:\/\/shop_images\/tdrt.jpg",
+            "author_name": "Céline Fabre",
+            "author_age": "",
+            "rating": 5,
+            "review_title": "Une découverte",
+            "review_text": "Je ne connaissais pas le Bakuchiol, c'est une révélation. Plus de rougeurs comme avec le rétinol.",
+            "product": ""
+          }
+        },
+        "testimonial_d9jFVJ": {
+          "type": "testimonial",
+          "settings": {
+            "review_language": "fr",
+            "show_country_flag": true,
+            "show_language_code": false,
+            "country_flag": "🇫🇷",
+            "use_single_image": true,
+            "image_combined": "shopify:\/\/shop_images\/3.webp",
+            "author_name": "Thomas Leroy",
+            "author_age": "",
+            "rating": 4,
+            "review_title": "Qualité premium",
+            "review_text": "On sent que c'est un produit de qualité dès l'ouverture. Le flacon pompe est très pratique. Livraison nickel.",
+            "product": ""
+          }
+        },
+        "testimonial_g8VcXy": {
+          "type": "testimonial",
+          "settings": {
+            "review_language": "fr",
+            "show_country_flag": true,
+            "show_language_code": false,
+            "country_flag": "🇫🇷",
+            "use_single_image": true,
+            "image_combined": "shopify:\/\/shop_images\/ChatGPT_Image_7_nov._2025_03_31_14.png",
+            "author_name": "Elodie Roux",
+            "author_age": "",
+            "rating": 5,
+            "review_title": "Bye bye acné",
+            "review_text": "Non seulement il lisse les rides, mais il a aussi aidé à réduire mes petites imperfections. Un must-have !",
+            "product": ""
+          }
+        },
+        "testimonial_3knG6C": {
+          "type": "testimonial",
+          "settings": {
+            "review_language": "fr",
+            "show_country_flag": true,
+            "show_language_code": false,
+            "country_flag": "🇫🇷",
+            "use_single_image": true,
+            "image_combined": "shopify:\/\/shop_images\/484969078_1122275229942227_5423022375784141444_n.jpg",
+            "author_name": "Sora K.",
+            "author_age": "",
+            "rating": 5,
+            "review_title": "Top qualité",
+            "review_text": "Produit luxueux à un prix abordable. Les résultats sont là. Je valide à 100%.",
+            "product": ""
+          }
+        },
+        "testimonial_Fh7e7G": {
+          "type": "testimonial",
+          "settings": {
+            "review_language": "fr",
+            "show_country_flag": true,
+            "show_language_code": false,
+            "country_flag": "🇫🇷",
+            "use_single_image": true,
+            "image_combined": "shopify:\/\/shop_images\/H0e2893dba7d440ec9937d67baceeebc6u_cb4190b7-df54-47cb-8857-5fbdf8f07c0d.avif",
+            "author_name": "Emma Johnson",
+            "author_age": "",
+            "rating": 5,
+            "review_title": "Better than retinol",
+            "review_text": "No irritation at all! My skin texture has improved so much in just 3 weeks. Equallyberry is now my go-to brand.",
+            "product": ""
+          }
+        },
+        "testimonial_EYmjRX": {
+          "type": "testimonial",
+          "settings": {
+            "review_language": "fr",
+            "show_country_flag": true,
+            "show_language_code": false,
+            "country_flag": "🇫🇷",
+            "use_single_image": true,
+            "image_combined": "shopify:\/\/shop_images\/Untitleddesign14_1757049320772png_1757049348136.webp",
+            "author_name": "Justine M.",
+            "author_age": "",
+            "rating": 5,
+            "review_title": "Recommandé !",
+            "review_text": "N'hésitez pas, c'est le meilleur sérum au Bakuchiol que j'ai testé. Livraison soignée.",
+            "product": ""
+          }
+        },
+        "testimonial_exEPBe": {
+          "type": "testimonial",
+          "settings": {
+            "review_language": "fr",
+            "show_country_flag": true,
+            "show_language_code": false,
+            "country_flag": "🇫🇷",
+            "use_single_image": true,
+            "image_combined": "shopify:\/\/shop_images\/Sans_titre.jpg",
+            "author_name": "Rachel Green",
+            "author_age": "",
+            "rating": 5,
+            "review_title": "Love it!",
+            "review_text": "Best natural alternative to retinol I've found. Shipping was super fast too. Will definitely repurchase.",
+            "product": ""
+          }
+        },
+        "testimonial_bkVnHe": {
+          "type": "testimonial",
+          "settings": {
+            "review_language": "fr",
+            "show_country_flag": true,
+            "show_language_code": false,
+            "country_flag": "🇫🇷",
+            "use_single_image": true,
+            "image_combined": "shopify:\/\/shop_images\/tf7i.jpg",
+            "author_name": "sarah Blanc",
+            "author_age": "",
+            "rating": 5,
+            "review_title": "Livraison gratuite top",
+            "review_text": "J'ai apprécié la livraison gratuite. Le sérum est arrivé bien protégé. Je recommande ce site.",
+            "product": ""
+          }
+        },
+        "testimonial_g43Naa": {
+          "type": "testimonial",
+          "settings": {
+            "review_language": "fr",
+            "show_country_flag": true,
+            "show_language_code": false,
+            "country_flag": "🇫🇷",
+            "use_single_image": true,
+            "image_combined": "shopify:\/\/shop_images\/8.jpg",
+            "author_name": "James O'Connor",
+            "author_age": "",
+            "rating": 5,
+            "review_title": "Great value",
+            "review_text": "For the quality ingredients, the price is very reasonable. Shipping to Ireland was surprisingly fast.",
+            "product": ""
+          }
+        },
+        "testimonial_UXBhG8": {
+          "type": "testimonial",
+          "settings": {
+            "review_language": "fr",
+            "show_country_flag": true,
+            "show_language_code": false,
+            "country_flag": "🇫🇷",
+            "use_single_image": true,
+            "image_combined": "shopify:\/\/shop_images\/1.webp",
+            "author_name": "Audrey T.",
+            "author_age": "",
+            "rating": 5,
+            "review_title": "Fidèle cliente",
+            "review_text": "C'est ma 3ème commande. Toujours aussi satisfaite de la rapidité d'envoi et de la qualité du sérum.",
+            "product": ""
+          }
+        },
+        "testimonial_giiQFp": {
+          "type": "testimonial",
+          "settings": {
+            "review_language": "fr",
+            "show_country_flag": true,
+            "show_language_code": false,
+            "country_flag": "🇫🇷",
+            "use_single_image": true,
+            "image_combined": "shopify:\/\/shop_images\/7.jpg",
+            "author_name": "Julie Moreau",
+            "author_age": "",
+            "rating": 5,
+            "review_title": "Routine indispensable",
+            "review_text": "Il fait partie de ma routine soir depuis 1 mois et je vois la différence. Ma peau est repulpée au réveil.",
+            "product": "serum-equallyberry-au-bakuchiol"
+          }
+        },
+        "testimonial_nr8YN8": {
+          "type": "testimonial",
+          "settings": {
+            "review_language": "fr",
+            "show_country_flag": true,
+            "show_language_code": false,
+            "country_flag": "🇫🇷",
+            "use_single_image": true,
+            "image_combined": "shopify:\/\/shop_images\/images3.jpg",
+            "author_name": "Maria Garcia",
+            "author_age": "",
+            "rating": 5,
+            "review_title": "Muy buen producto",
+            "review_text": "Envío muy rápido a España. La calidad del sérum es excelente, mi piel está mucho más suave.",
+            "product": ""
+          }
+        },
+        "testimonial_yfTXwc": {
+          "type": "testimonial",
+          "settings": {
+            "review_language": "fr",
+            "show_country_flag": true,
+            "show_language_code": false,
+            "country_flag": "🇫🇷",
+            "use_single_image": true,
+            "image_combined": "shopify:\/\/shop_images\/e687.jpg",
+            "author_name": "Sandrine V.",
+            "author_age": "",
+            "rating": 5,
+            "review_title": "Odeur agréable",
+            "review_text": "Le parfum est subtil et naturel, j'adore. Et l'effet anti-âge est bien là !",
+            "product": ""
+          }
+        }
+      },
+      "block_order": [
+        "testimonial_nYJfar",
+        "testimonial_HUbXYF",
+        "testimonial_aqyU6g",
+        "testimonial_Y6neBe",
+        "testimonial_xX6TP9",
+        "testimonial_EJnbFq",
+        "testimonial_TQ8bP7",
+        "testimonial_xdWdUC",
+        "testimonial_hE3EV6",
+        "testimonial_geR4ba",
+        "testimonial_ghD8PG",
+        "testimonial_i3LrhU",
+        "testimonial_4EcwRB",
+        "testimonial_fr9PLF",
+        "testimonial_ybPGPN",
+        "testimonial_gJ949i",
+        "testimonial_d9jFVJ",
+        "testimonial_g8VcXy",
+        "testimonial_3knG6C",
+        "testimonial_Fh7e7G",
+        "testimonial_EYmjRX",
+        "testimonial_exEPBe",
+        "testimonial_bkVnHe",
+        "testimonial_g43Naa",
+        "testimonial_UXBhG8",
+        "testimonial_giiQFp",
+        "testimonial_nr8YN8",
+        "testimonial_yfTXwc"
+      ],
+      "name": "Témoignages 3D Focus",
+      "settings": {
+        "subheading": "",
+        "title": "★★★★★  +1523 avis",
+        "description": "<strong>Résultats visibles dès 2 à 4 semaines<\/strong>",
+        "alignment": "center",
+        "show_language_filter": false,
+        "badge_1_icon": "🛡️",
+        "badge_1_text": "Avis vérifiés",
+        "badge_2_icon": "⏱️",
+        "badge_2_text": "Résultats en 28 jours",
+        "badge_3_icon": "❤️",
+        "badge_3_text": "98% satisfaits",
+        "stat_1_number": "1,523+",
+        "stat_1_label": "Clients satisfaits",
+        "stat_2_number": "4.9\/5",
+        "stat_2_label": "Note moyenne",
+        "stat_3_number": "94%",
+        "stat_3_label": "Résultats visibles",
+        "slides_desktop": 2,
+        "stars_style": "★★★★★",
+        "read_more_label": "Voir plus",
+        "read_less_label": "Voir moins",
+        "show_navigation": false,
+        "show_pagination": true,
+        "enable_autoplay": false,
+        "autoplay_delay": 7,
+        "bg_color": "#f2e9f7",
+        "card_bg_color": "#ffffff",
+        "card_border_color": "rgba(0,0,0,0)",
+        "card_active_border_color": "#000000",
+        "title_color": "#1a1a1a",
+        "text_color": "#555555",
+        "verified_icon_color": "#4caf50",
+        "star_color": "#4caf50",
+        "product_bg_color": "#f4f4f4",
+        "padding_top": 32,
+        "padding_bottom": 36,
+        "layout_width": "container"
+      }
+    },
+    "how_to_use_g8XLkn": {
+      "type": "how-to-use",
+      "blocks": {
+        "step_DUzMnM": {
+          "type": "step",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/76b5efee-1750-48c6-8db2-4595df6e2792_2f307055-4df9-441a-9875-82ff31f47b1d.jpg",
+            "step_label": "Étape",
+            "title": "Préparez",
+            "description": "<p>Nettoyez votre peau pour maximiser l’efficacité du bakuchiol et préparer une absorption optimale.<br><br><\/p>",
+            "button_label": "Voir les détails",
+            "modal_title": "Préparation",
+            "modal_content": "Nettoyez délicatement votre visage avec un nettoyant doux adapté à votre type de peau."
+          }
+        },
+        "step_T36UQQ": {
+          "type": "step",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/ChatGPT_Image_5_dec._2025_17_03_28-min.jpg",
+            "step_label": "Étape",
+            "title": "Appliquez",
+            "description": "<p>Appliquez le Sérum Equallyberry en respectant la zone sensible du contour des yeux.<br><br><\/p>",
+            "button_label": "Voir les details",
+            "modal_title": "Application du sérum",
+            "modal_content": "La peau du contour des yeux est extrêmement fine et fragile.\nAppliquez le sérum avec la pulpe de l’annulaire, sans jamais tirer la peau.\nEffectuez des mouvements lents, fluides et légers.\nCommencez du coin interne de l’œil vers les tempes afin de favoriser le drainage lymphatique.\nLaissez le sérum pénétrer naturellement, sans frotter."
+          }
+        },
+        "step_y4KPFM": {
+          "type": "step",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/image_14f1d20b-6713-4960-af4b-4a57281b8b5b.jpg",
+            "step_label": "Étape",
+            "title": "Massez en douceur",
+            "description": "<p>Effectuez de légers mouvements circulaires pour stimuler la circulation et favoriser l’absorption.<br><br><\/p>",
+            "button_label": "Voir les détails",
+            "modal_title": "Massage",
+            "modal_content": "Le massage est une étape clé pour réveiller le regard et améliorer les résultats.\nUtilisez la pulpe de l’annulaire, le doigt le plus doux et le moins puissant.\nRéalisez des mouvements circulaires lents et légers, sans appuyer.\nTerminez par de légers tapotements “piano” pour stimuler la microcirculation sanguine.\nLaissez le sérum pénétrer naturellement sans rincer.\n✨ Un massage régulier aide à décongestionner, lisser et illuminer le regard."
+          }
+        }
+      },
+      "block_order": [
+        "step_DUzMnM",
+        "step_T36UQQ",
+        "step_y4KPFM"
+      ],
+      "name": "Icones Luxe (Interactive)",
+      "settings": {
+        "subtitle": "Guide d'utilisation",
+        "title": "Votre routine",
+        "description": "Découvrez comment maximiser les effets de votre soin avec une routine optimisée pour l'éclat et la jeunesse de votre peau.",
+        "bg_color": "#e5e5e5",
+        "primary_color": "#000000",
+        "title_color": "#1a1a1a",
+        "text_color": "#555555",
+        "card_bg": "#e5e5e5",
+        "card_border_color": "#e0e0e0",
+        "card_border_width": 2,
+        "card_radius": 12,
+        "number_bg": "#333333",
+        "number_text": "#ffffff",
+        "show_connector_line": true,
+        "padding_top_desktop": 40,
+        "padding_bottom_desktop": 40,
+        "container_width_desktop": 90,
+        "header_margin_bottom_desktop": 30,
+        "title_size_desktop": 28,
+        "card_width_desktop": 240,
+        "grid_gap_desktop": 15,
+        "number_size": 40,
+        "number_font_size": 18,
+        "number_margin_bottom": 10,
+        "image_ratio": 70,
+        "content_padding_desktop": 12,
+        "card_title_size_desktop": 14,
+        "card_text_size_desktop": 12,
+        "container_width_tablet": 95,
+        "grid_gap_tablet": 15,
+        "header_margin_bottom_tablet": 25,
+        "title_size_tablet": 24,
+        "padding_top_mobile": 25,
+        "padding_bottom_mobile": 25,
+        "container_width_mobile": 96,
+        "header_margin_bottom_mobile": 20,
+        "title_size_mobile": 28,
+        "grid_gap_mobile": 18,
+        "number_size_mobile": 35,
+        "number_font_size_mobile": 16,
+        "number_margin_bottom_mobile": 6,
+        "image_ratio_mobile": 100,
+        "content_padding_mobile": 14,
+        "card_title_size_mobile": 16,
+        "card_text_size_mobile": 14,
+        "modal_close_text": "Compris"
+      }
+    },
+    "liste_de_comparaison_zT9KEH": {
+      "type": "Liste-de-comparaison",
+      "blocks": {
+        "feature_xt46fc": {
+          "type": "feature",
+          "settings": {
+            "title": "Ingrédient naturel",
+            "tooltip": "",
+            "col_1": "progress",
+            "text_1": "Oui",
+            "percent_1": 100,
+            "col_2": "progress",
+            "text_2": "Non",
+            "percent_2": 47,
+            "col_3": "cross",
+            "text_3": "",
+            "percent_3": 20
+          }
+        },
+        "feature_4TDBN8": {
+          "type": "feature",
+          "settings": {
+            "title": "Efficacité",
+            "tooltip": "",
+            "col_1": "progress",
+            "text_1": "Oui",
+            "percent_1": 98,
+            "col_2": "progress",
+            "text_2": "Non",
+            "percent_2": 20,
+            "col_3": "cross",
+            "text_3": "",
+            "percent_3": 20
+          }
+        },
+        "feature_NQnHiq": {
+          "type": "feature",
+          "settings": {
+            "title": "Soin doux",
+            "tooltip": "",
+            "col_1": "check",
+            "text_1": "Oui",
+            "percent_1": 95,
+            "col_2": "check",
+            "text_2": "Non",
+            "percent_2": 40,
+            "col_3": "cross",
+            "text_3": "",
+            "percent_3": 20
+          }
+        },
+        "feature_gUTXYk": {
+          "type": "feature",
+          "settings": {
+            "title": "Tous types de peaux",
+            "tooltip": "",
+            "col_1": "check",
+            "text_1": "Oui",
+            "percent_1": 95,
+            "col_2": "cross",
+            "text_2": "Non",
+            "percent_2": 40,
+            "col_3": "cross",
+            "text_3": "",
+            "percent_3": 20
+          }
+        },
+        "feature_XjD6xj": {
+          "type": "feature",
+          "settings": {
+            "title": "Transparence",
+            "tooltip": "",
+            "col_1": "check",
+            "text_1": "Oui",
+            "percent_1": 95,
+            "col_2": "cross",
+            "text_2": "Non",
+            "percent_2": 40,
+            "col_3": "cross",
+            "text_3": "",
+            "percent_3": 20
+          }
+        }
+      },
+      "block_order": [
+        "feature_xt46fc",
+        "feature_4TDBN8",
+        "feature_NQnHiq",
+        "feature_gUTXYk",
+        "feature_XjD6xj"
+      ],
+      "name": "Liste de comparaison",
+      "settings": {
+        "label_width": 30,
+        "title": "Pourquoi choisir le Bakuchiol ?",
+        "subheading": "",
+        "description": "",
+        "alignment": "center",
+        "brand_img_1": "shopify:\/\/shop_images\/ChatGPT_Image_10_nov._2025__00_52_43-removebg-preview.png",
+        "brand_heading_1": "NOUS",
+        "col_1_bg": "#d7dac9",
+        "col_1_text": "#000000",
+        "col_1_check": "#00b67a",
+        "hero_shadow_opacity": 35,
+        "brand_heading_2": "RÉTINOL",
+        "col_2_bg": "rgba(0,0,0,0)",
+        "col_2_text": "#333333",
+        "col_2_check": "#e17a5f",
+        "col_enable_3": false,
+        "brand_heading_3": "",
+        "col_3_bg": "rgba(0,0,0,0)",
+        "col_3_text": "#333333",
+        "col_3_check": "#4caf50",
+        "bg_color": "#f2e9f7",
+        "text_color": "#333333",
+        "heading_color": "#1a1a1a",
+        "border_color": "#e5e5e5",
+        "cross_color": "#999999",
+        "max_width": 1200,
+        "padding_top": 0,
+        "padding_bottom": 100,
+        "padding_top_sm": 10,
+        "padding_bottom_sm": 40,
+        "separator_top": "none",
+        "separator_bottom": "none"
+      }
+    },
+    "slideshow_MhctJP": {
+      "type": "slideshow",
+      "name": "t:sections.slideshow.presets.name",
+      "settings": {
+        "section_id": "",
+        "height": "adapt",
+        "show_dots": true,
+        "navigation": true,
+        "pagination": true,
+        "autoplay": true,
+        "speed": 4,
+        "lazy": true,
+        "desktop_content_position": "middle_right",
+        "content_background_behavior": "transparent",
+        "enable_animations": true,
+        "animation": "fade-up",
+        "hide_desktop": false,
+        "hide_mobile": false,
+        "layout_width": "narrow",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "padding_top_sm": 0,
+        "padding_bottom_sm": 0,
+        "color_palette": "background-2",
+        "enable_cut_bg_color": false,
+        "cut_bg_color": "#f6f6f6",
+        "cut_bg_color_vertical": 0,
+        "cut_bg_color_vertical_mobile": 0,
+        "cut_bg_color_horizontal": 0,
+        "cut_bg_color_horizontal_mobile": 0,
+        "separator_top": "none",
+        "separator_top_invert": false,
+        "separator_bottom": "none",
+        "separator_bottom_invert": false,
+        "separator_animated": false,
+        "separator_bg_color": ""
+      }
+    },
+    "collapsible_content_AzPF8X": {
+      "type": "collapsible-content",
+      "blocks": {
+        "collapsible_row_HwxExx": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Quand vais-je voir les premiers résultats?",
+            "icon": "question_mark",
+            "row_content": "<p>La plupart des utilisateurs observent une peau plus lisse et éclatante après 2 à 4 semaines d’utilisation régulière.<\/p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_N8UqfT": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Quelle est la différence entre le Bakuchiol et le rétinol ?",
+            "icon": "question_mark",
+            "row_content": "<p><br\/>Le Bakuchiol offre les mêmes effets anti-âge que le rétinol : lissage, éclat et fermeté — mais sans irritation ni rougeurs. C’est l’alternative 100 % végétale et naturelle.<br\/><br\/><\/p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_3PAVb9": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Est-ce adapté à tous les âges ?",
+            "icon": "question_mark",
+            "row_content": "<p><br\/>Oui, il s’adresse à toute personne souhaitant préserver la jeunesse et la vitalité de sa peau — que ce soit pour prévenir les premiers signes de l’âge ou redonner de l’éclat à une peau plus mature<br\/><br\/><\/p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_GMbqPt": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Proposez-vous une garantie ou un retour ?",
+            "icon": "question_mark",
+            "row_content": "<p><br\/>Oui, vous bénéficiez d’une garantie <strong>“satisfait ou remboursé 30 jours”<\/strong>. Si le produit ne vous convient pas, nous vous remboursons sans discussion.<br\/><br\/><\/p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_QqU3Wp": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Est-ce adapté à tous types de peaux  ?",
+            "icon": "question_mark",
+            "row_content": "<p>Le serum equallyberry est dapté à tout type de peau même sensible<\/p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_3WALXT": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Est ce que les hommes peuvent-ils l'utilisé ?",
+            "icon": "question_mark",
+            "row_content": "<p> Oui, ce sérum convient à tous les genres. <br\/><br\/><\/p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_KW4fWb": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Combien de temps le serum peut me durer ?",
+            "icon": "question_mark",
+            "row_content": "<p>En général, la durée est  d'1 mois à peu près.                   <br\/><br\/><\/p>",
+            "page": ""
+          }
+        }
+      },
+      "block_order": [
+        "collapsible_row_HwxExx",
+        "collapsible_row_N8UqfT",
+        "collapsible_row_3PAVb9",
+        "collapsible_row_GMbqPt",
+        "collapsible_row_QqU3Wp",
+        "collapsible_row_3WALXT",
+        "collapsible_row_KW4fWb"
+      ],
+      "name": "t:sections.collapsible_content.presets.name",
+      "settings": {
+        "section_id": "",
+        "subheading": "",
+        "heading": "QUESTIONS FRÉQUENTES",
+        "heading_style": "3",
+        "description": "",
+        "alignment": "center",
+        "desktop_content_position": "top",
+        "enable_image": false,
+        "image": "shopify:\/\/shop_images\/chatgpt-image-22-nov-2025-21-35-06-692677459cde1.png",
+        "height": "adapt",
+        "layout": "image_first",
+        "open_first_collapsible_row": false,
+        "accordions_style": "2",
+        "secondary_bg_accordions": true,
+        "remove_gap": false,
+        "enable_animations": false,
+        "animation": "fade-up",
+        "layout_width": "normal",
+        "padding_top": 0,
+        "padding_bottom": 64,
+        "padding_top_sm": 0,
+        "padding_bottom_sm": 32,
+        "color_palette": "scheme-ac463579-e2b7-4eff-9caf-f3db0b45daa0",
+        "enable_cut_bg_color": false,
+        "cut_bg_color": "#f6f6f6",
+        "cut_bg_color_vertical": 0,
+        "cut_bg_color_vertical_mobile": 0,
+        "cut_bg_color_horizontal": 0,
+        "cut_bg_color_horizontal_mobile": 0,
+        "separator_top": "none",
+        "separator_top_invert": false,
+        "separator_bottom": "none",
+        "separator_bottom_invert": false,
+        "separator_animated": false,
+        "separator_bg_color": ""
+      }
+    },
+    "newsletter_Qhm4VU": {
+      "type": "newsletter",
+      "blocks": {
+        "heading_7D4QzD": {
+          "type": "heading",
+          "settings": {
+            "subheading": "",
+            "heading": "Rejoignez notre communauté",
+            "heading_style": "3"
+          }
+        },
+        "paragraph_zEEb7w": {
+          "type": "paragraph",
+          "settings": {
+            "description": "<p>Et profitez d'un maximum de privilèges et d'exclusivités !<br\/><\/p>"
+          }
+        },
+        "email_form_nzD46x": {
+          "type": "email_form",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "heading_7D4QzD",
+        "paragraph_zEEb7w",
+        "email_form_nzD46x"
+      ],
+      "name": "t:sections.newsletter.presets.name",
+      "settings": {
+        "section_id": "",
+        "desktop_content_alignment": "center",
+        "enable_animations": false,
+        "animation": "fade-up",
+        "layout_width": "normal",
+        "padding_top": 0,
+        "padding_bottom": 64,
+        "padding_top_sm": 0,
+        "padding_bottom_sm": 32,
+        "color_palette": "scheme-ac463579-e2b7-4eff-9caf-f3db0b45daa0",
+        "enable_cut_bg_color": false,
+        "cut_bg_color": "#f6f6f6",
+        "cut_bg_color_vertical": 0,
+        "cut_bg_color_vertical_mobile": 0,
+        "cut_bg_color_horizontal": 0,
+        "cut_bg_color_horizontal_mobile": 0,
+        "separator_top": "none",
+        "separator_top_invert": false,
+        "separator_bottom": "none",
+        "separator_bottom_invert": false,
+        "separator_animated": false,
+        "separator_bg_color": ""
+      }
+    }
+  },
+  "order": [
+    "main",
+    "collapsible_content_XFCiPC",
+    "marquee_logo_kFd8DJ",
+    "diagnostic_peau_U3eLLK",
+    "icons_MQpnDL",
+    "trust_stats_caqnbC",
+    "stories_VGKNRw",
+    "avis_clients_JrU9EG",
+    "how_to_use_g8XLkn",
+    "liste_de_comparaison_zT9KEH",
+    "slideshow_MhctJP",
+    "collapsible_content_AzPF8X",
+    "newsletter_Qhm4VU"
+  ]
+}

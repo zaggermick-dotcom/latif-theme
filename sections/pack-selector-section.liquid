@@ -1,0 +1,1205 @@
+{% comment %}
+  ╔══════════════════════════════════════════════════════════════════╗
+  ║  PACK SELECTOR SECTION - CONTAINER PRINCIPAL                    ║
+  ║  ✅ Appelle pack-selector (produits simples)                    ║
+  ║  ✅ Appelle pack-selector-2 (produits multiples)                ║
+  ║  ✅ Contient le schema pour l'éditeur Shopify                   ║
+  ╚══════════════════════════════════════════════════════════════════╝
+{% endcomment %}
+
+{% comment %} === APPEL DU SNIPPET PACK SELECTOR (PRODUITS SIMPLES) === {% endcomment %}
+{%- for block in section.blocks -%}
+  {%- if block.type == 'pack_selector' -%}
+    {% render 'pack-selector', block: block, section: section, product: product %}
+  {%- endif -%}
+{%- endfor -%}
+
+{% comment %} === APPEL DU SNIPPET PACK SELECTOR 2 (PRODUITS MULTIPLES) === {% endcomment %}
+{% render 'pack-selector-2', section: section, product: product %}
+
+{% schema %}
+{
+  "name": "🎯 Pack Selector Pro",
+  "tag": "section",
+  "class": "pack-selector-section",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "pack_selector",
+      "name": "📦 Pack Selector (Simple)",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "header",
+          "content": "📦 PACK 1"
+        },
+        {
+          "type": "number",
+          "id": "quantity0",
+          "label": "Quantité",
+          "default": 1
+        },
+        {
+          "type": "text",
+          "id": "title0",
+          "label": "Titre",
+          "default": "1 Unité"
+        },
+        {
+          "type": "text",
+          "id": "disclaimer0",
+          "label": "Sous-titre"
+        },
+        {
+          "type": "text",
+          "id": "price0",
+          "label": "Prix",
+          "default": "29,90€"
+        },
+        {
+          "type": "text",
+          "id": "price_before0",
+          "label": "Prix barré"
+        },
+        {
+          "type": "image_picker",
+          "id": "image0",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "badge_text_0",
+          "label": "Badge"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_best_badge",
+          "label": "Badge meilleure offre",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "best_offer_text",
+          "label": "Texte badge",
+          "default": "⭐ MEILLEURE OFFRE"
+        },
+        {
+          "type": "header",
+          "content": "📦 PACK 2"
+        },
+        {
+          "type": "number",
+          "id": "quantity1",
+          "label": "Quantité",
+          "default": 2
+        },
+        {
+          "type": "text",
+          "id": "title1",
+          "label": "Titre",
+          "default": "2 Unités"
+        },
+        {
+          "type": "text",
+          "id": "disclaimer1",
+          "label": "Sous-titre"
+        },
+        {
+          "type": "text",
+          "id": "price1",
+          "label": "Prix",
+          "default": "49,90€"
+        },
+        {
+          "type": "text",
+          "id": "price_before1",
+          "label": "Prix barré"
+        },
+        {
+          "type": "image_picker",
+          "id": "image1",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "badge_text_1",
+          "label": "Badge"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_badge_top_1",
+          "label": "Badge flottant",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "badge_top_1",
+          "label": "Texte badge"
+        },
+        {
+          "type": "header",
+          "content": "📦 PACK 3"
+        },
+        {
+          "type": "number",
+          "id": "quantity2",
+          "label": "Quantité",
+          "default": 3
+        },
+        {
+          "type": "text",
+          "id": "title2",
+          "label": "Titre",
+          "default": "3 Unités"
+        },
+        {
+          "type": "text",
+          "id": "disclaimer2",
+          "label": "Sous-titre"
+        },
+        {
+          "type": "text",
+          "id": "price2",
+          "label": "Prix",
+          "default": "69,90€"
+        },
+        {
+          "type": "text",
+          "id": "price_before2",
+          "label": "Prix barré"
+        },
+        {
+          "type": "image_picker",
+          "id": "image2",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "badge_text_2",
+          "label": "Badge"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_badge_top_2",
+          "label": "Badge flottant",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "badge_top_2",
+          "label": "Texte badge"
+        },
+        {
+          "type": "header",
+          "content": "📦 PACK 4"
+        },
+        {
+          "type": "number",
+          "id": "quantity3",
+          "label": "Quantité",
+          "default": 0
+        },
+        {
+          "type": "text",
+          "id": "title3",
+          "label": "Titre"
+        },
+        {
+          "type": "text",
+          "id": "disclaimer3",
+          "label": "Sous-titre"
+        },
+        {
+          "type": "text",
+          "id": "price3",
+          "label": "Prix"
+        },
+        {
+          "type": "text",
+          "id": "price_before3",
+          "label": "Prix barré"
+        },
+        {
+          "type": "image_picker",
+          "id": "image3",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "badge_text_3",
+          "label": "Badge"
+        },
+        {
+          "type": "text",
+          "id": "badge_top_3",
+          "label": "Badge flottant"
+        },
+        {
+          "type": "header",
+          "content": "⏰ COUNTDOWN"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_countdown",
+          "label": "Afficher",
+          "default": false
+        },
+        {
+          "type": "number",
+          "id": "countdown_days",
+          "label": "Jours",
+          "default": 0
+        },
+        {
+          "type": "number",
+          "id": "countdown_hours",
+          "label": "Heures",
+          "default": 2
+        },
+        {
+          "type": "number",
+          "id": "countdown_minutes",
+          "label": "Minutes",
+          "default": 30
+        },
+        {
+          "type": "number",
+          "id": "countdown_seconds",
+          "label": "Secondes",
+          "default": 0
+        },
+        {
+          "type": "text",
+          "id": "countdown_text",
+          "label": "Texte",
+          "default": "🔥 OFFRE FLASH"
+        },
+        {
+          "type": "text",
+          "id": "countdown_subtext",
+          "label": "Sous-texte",
+          "default": "⚡ OFFRE LIMITÉE"
+        },
+        {
+          "type": "text",
+          "id": "countdown_end_text",
+          "label": "Texte fin",
+          "default": "⚡ DERNIÈRE CHANCE !"
+        },
+        {
+          "type": "select",
+          "id": "countdown_style",
+          "label": "Style",
+          "options": [
+            {"value": "fire", "label": "Fire"},
+            {"value": "luxury", "label": "Luxury"},
+            {"value": "neon", "label": "Neon"},
+            {"value": "urgency", "label": "Urgency"},
+            {"value": "gradient", "label": "Gradient"},
+            {"value": "minimal", "label": "Minimal"}
+          ],
+          "default": "fire"
+        },
+        {
+          "type": "select",
+          "id": "countdown_size",
+          "label": "Taille",
+          "options": [
+            {"value": "small", "label": "Petit"},
+            {"value": "medium", "label": "Moyen"},
+            {"value": "large", "label": "Grand"}
+          ],
+          "default": "medium"
+        },
+        {
+          "type": "select",
+          "id": "countdown_layout",
+          "label": "Layout",
+          "options": [
+            {"value": "horizontal", "label": "Horizontal"},
+            {"value": "vertical", "label": "Vertical"}
+          ],
+          "default": "horizontal"
+        },
+        {
+          "type": "header",
+          "content": "⚠️ URGENCE"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_urgency",
+          "label": "Afficher",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "urgency_text",
+          "label": "Texte",
+          "default": "⚠️ Stock limité !"
+        },
+        {
+          "type": "text",
+          "id": "urgency_suffix",
+          "label": "Suffixe",
+          "default": "articles restants"
+        },
+        {
+          "type": "number",
+          "id": "urgency_stock_initial",
+          "label": "Stock initial",
+          "default": 12
+        },
+        {
+          "type": "number",
+          "id": "urgency_stock_min",
+          "label": "Stock min",
+          "default": 3
+        },
+        {
+          "type": "checkbox",
+          "id": "urgency_variation_enabled",
+          "label": "Variation",
+          "default": true
+        },
+        {
+          "type": "number",
+          "id": "urgency_variation_interval",
+          "label": "Intervalle (sec)",
+          "default": 8
+        },
+        {
+          "type": "header",
+          "content": "👀 VIEWERS"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_viewers",
+          "label": "Afficher",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "viewers_text",
+          "label": "Texte",
+          "default": "personnes regardent"
+        },
+        {
+          "type": "number",
+          "id": "viewers_initial",
+          "label": "Initial",
+          "default": 18
+        },
+        {
+          "type": "number",
+          "id": "viewers_min",
+          "label": "Min",
+          "default": 8
+        },
+        {
+          "type": "number",
+          "id": "viewers_max",
+          "label": "Max",
+          "default": 35
+        },
+        {
+          "type": "checkbox",
+          "id": "viewers_variation_enabled",
+          "label": "Variation",
+          "default": true
+        },
+        {
+          "type": "header",
+          "content": "📊 VENTES"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_recent_sales",
+          "label": "Afficher",
+          "default": false
+        },
+        {
+          "type": "number",
+          "id": "recent_sales_count",
+          "label": "Nombre",
+          "default": 47
+        },
+        {
+          "type": "text",
+          "id": "recent_sales_text",
+          "label": "Texte",
+          "default": "ventes ces dernières 24h"
+        },
+        {
+          "type": "header",
+          "content": "📈 PROGRESSION"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_progress_bar",
+          "label": "Afficher",
+          "default": false
+        },
+        {
+          "type": "range",
+          "id": "progress_bar_percent",
+          "label": "Pourcentage",
+          "min": 0,
+          "max": 100,
+          "default": 73
+        },
+        {
+          "type": "text",
+          "id": "progress_bar_text",
+          "label": "Texte",
+          "default": "de l'objectif atteint"
+        },
+        {
+          "type": "header",
+          "content": "💰 ÉCONOMIES"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_savings",
+          "label": "Afficher",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "savings_prefix",
+          "label": "Préfixe",
+          "default": "🎉 Économie :"
+        },
+        {
+          "type": "header",
+          "content": "🛡️ GARANTIE"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_guarantee_banner",
+          "label": "Afficher",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "guarantee_text",
+          "label": "Texte",
+          "default": "Satisfait ou 100% remboursé"
+        },
+        {
+          "type": "header",
+          "content": "🎟️ PROMO"
+        },
+        {
+          "type": "checkbox",
+          "id": "promo_enabled",
+          "label": "Activer",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "promo_text",
+          "label": "Texte",
+          "default": "🎁 Cliquez pour copier :"
+        },
+        {
+          "type": "text",
+          "id": "promo_code",
+          "label": "Code",
+          "default": "BIENVENUE10"
+        },
+        {
+          "type": "header",
+          "content": "🚚 LIVRAISON"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_delivery",
+          "label": "Afficher",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "expedition_text",
+          "label": "Expédition",
+          "default": "Expédition 24-48h"
+        },
+        {
+          "type": "text",
+          "id": "delivery_text",
+          "label": "Livraison",
+          "default": "LIVRAISON OFFERTE"
+        },
+        {
+          "type": "header",
+          "content": "✅ TRUST BADGES"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_trust_badges",
+          "label": "Afficher",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "show_trust_1",
+          "label": "Badge 1",
+          "default": true
+        },
+        {
+          "type": "select",
+          "id": "trust_icon_1",
+          "label": "Icône 1",
+          "options": [
+            {"value": "lock", "label": "🔒"},
+            {"value": "shield", "label": "🛡️"},
+            {"value": "check", "label": "✅"},
+            {"value": "star", "label": "⭐"},
+            {"value": "truck", "label": "🚚"},
+            {"value": "return", "label": "↩️"}
+          ],
+          "default": "lock"
+        },
+        {
+          "type": "text",
+          "id": "trust_text_1",
+          "label": "Texte 1",
+          "default": "Paiement sécurisé"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_trust_2",
+          "label": "Badge 2",
+          "default": true
+        },
+        {
+          "type": "select",
+          "id": "trust_icon_2",
+          "label": "Icône 2",
+          "options": [
+            {"value": "lock", "label": "🔒"},
+            {"value": "shield", "label": "🛡️"},
+            {"value": "check", "label": "✅"},
+            {"value": "star", "label": "⭐"},
+            {"value": "truck", "label": "🚚"},
+            {"value": "return", "label": "↩️"}
+          ],
+          "default": "truck"
+        },
+        {
+          "type": "text",
+          "id": "trust_text_2",
+          "label": "Texte 2",
+          "default": "Livraison rapide"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_trust_3",
+          "label": "Badge 3",
+          "default": true
+        },
+        {
+          "type": "select",
+          "id": "trust_icon_3",
+          "label": "Icône 3",
+          "options": [
+            {"value": "lock", "label": "🔒"},
+            {"value": "shield", "label": "🛡️"},
+            {"value": "check", "label": "✅"},
+            {"value": "star", "label": "⭐"},
+            {"value": "truck", "label": "🚚"},
+            {"value": "return", "label": "↩️"}
+          ],
+          "default": "return"
+        },
+        {
+          "type": "text",
+          "id": "trust_text_3",
+          "label": "Texte 3",
+          "default": "Retours gratuits"
+        },
+        {
+          "type": "header",
+          "content": "🎨 COULEURS"
+        },
+        {
+          "type": "color",
+          "id": "color_accent",
+          "label": "Accent",
+          "default": "#10b981"
+        },
+        {
+          "type": "color",
+          "id": "color_border",
+          "label": "Bordure",
+          "default": "#000000"
+        },
+        {
+          "type": "range",
+          "id": "border_width",
+          "label": "Épaisseur",
+          "min": 1,
+          "max": 5,
+          "default": 2
+        },
+        {
+          "type": "color",
+          "id": "card_bg",
+          "label": "Fond carte",
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "card_bg_selected",
+          "label": "Fond sélectionné",
+          "default": "#f0fdf4"
+        },
+        {
+          "type": "header",
+          "content": "🔘 BOUTON"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Texte",
+          "default": "AJOUTER AU PANIER"
+        },
+        {
+          "type": "color",
+          "id": "btn_bg",
+          "label": "Fond",
+          "default": "#10b981"
+        },
+        {
+          "type": "color",
+          "id": "btn_text_color",
+          "label": "Texte",
+          "default": "#ffffff"
+        },
+        {
+          "type": "range",
+          "id": "btn_padding_horizontal",
+          "label": "Padding H",
+          "min": 10,
+          "max": 50,
+          "default": 24
+        },
+        {
+          "type": "range",
+          "id": "btn_padding_vertical",
+          "label": "Padding V",
+          "min": 8,
+          "max": 30,
+          "default": 16
+        },
+        {
+          "type": "header",
+          "content": "🎁 OPTIONS"
+        },
+        {
+          "type": "text",
+          "id": "options_title",
+          "label": "Titre",
+          "default": "🎁 Options & Cadeaux :"
+        }
+      ]
+    },
+    {
+      "type": "pack_multi_product",
+      "name": "🎁 Pack Multi-Produits",
+      "settings": [
+        {
+          "type": "header",
+          "content": "⚙️ GÉNÉRAL"
+        },
+        {
+          "type": "checkbox",
+          "id": "enabled",
+          "label": "Activer",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "is_default_selected",
+          "label": "Sélectionné par défaut",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "pack_title",
+          "label": "Titre",
+          "default": "Pack Découverte"
+        },
+        {
+          "type": "text",
+          "id": "pack_subtitle",
+          "label": "Sous-titre"
+        },
+        {
+          "type": "text",
+          "id": "pack_price",
+          "label": "Prix",
+          "default": "49,90€"
+        },
+        {
+          "type": "text",
+          "id": "pack_compare_price",
+          "label": "Prix barré"
+        },
+        {
+          "type": "text",
+          "id": "variant_id",
+          "label": "ID Variant"
+        },
+        {
+          "type": "number",
+          "id": "quantity",
+          "label": "Quantité",
+          "default": 1
+        },
+        {
+          "type": "header",
+          "content": "🏷️ BADGE"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_top_badge",
+          "label": "Afficher",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "top_badge_text",
+          "label": "Texte",
+          "default": "⭐ BEST-SELLER"
+        },
+        {
+          "type": "color",
+          "id": "top_badge_bg",
+          "label": "Fond",
+          "default": "#1f2937"
+        },
+        {
+          "type": "color",
+          "id": "top_badge_text_color",
+          "label": "Texte",
+          "default": "#ffffff"
+        },
+        {
+          "type": "header",
+          "content": "💰 ÉCONOMIES"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_savings_badge",
+          "label": "Afficher",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "savings_auto",
+          "label": "Auto",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "savings_manual",
+          "label": "Manuel",
+          "default": "20€"
+        },
+        {
+          "type": "color",
+          "id": "savings_badge_bg",
+          "label": "Fond",
+          "default": "#10b981"
+        },
+        {
+          "type": "color",
+          "id": "savings_badge_text",
+          "label": "Texte",
+          "default": "#ffffff"
+        },
+        {
+          "type": "header",
+          "content": "🎨 COULEURS PACK"
+        },
+        {
+          "type": "color",
+          "id": "border_color",
+          "label": "Bordure",
+          "default": "#e5e7eb"
+        },
+        {
+          "type": "color",
+          "id": "bg_color",
+          "label": "Fond",
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "border_color_selected",
+          "label": "Bordure sélectionné",
+          "default": "#10b981"
+        },
+        {
+          "type": "color",
+          "id": "bg_color_selected",
+          "label": "Fond sélectionné",
+          "default": "#f0fdf4"
+        },
+        {
+          "type": "color",
+          "id": "shadow_color_selected",
+          "label": "Ombre",
+          "default": "#10b981"
+        },
+        {
+          "type": "header",
+          "content": "✨ SECTION"
+        },
+         {
+          "type": "text",
+          "id": "section_title",
+          "label": "Texte",
+          "default": "✨ VOTRE RITUEL COMPLET ✨"
+        },
+        {
+          "type": "header",
+          "content": "📦 PRODUITS"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_products_section",
+          "label": "Afficher",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "show_product_titles",
+          "label": "Titres",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "show_product_subtitles",
+          "label": "Sous-titres",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "show_product_prices",
+          "label": "Prix",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "show_product_separators",
+          "label": "Séparateurs",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "show_connectors",
+          "label": "Connecteurs",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "connector_text",
+          "label": "Connecteur",
+          "default": "+►"
+        },
+        {
+          "type": "header",
+          "content": "🛍️ PRODUIT 1"
+        },
+        {
+          "type": "checkbox",
+          "id": "product1_enabled",
+          "label": "Activer",
+          "default": true
+        },
+        {
+          "type": "image_picker",
+          "id": "product1_image",
+          "label": "Image"
+        },
+        {
+          "type": "product",
+          "id": "product1_product",
+          "label": "Lier produit"
+        },
+        {
+          "type": "text",
+          "id": "product1_title",
+          "label": "Titre",
+          "default": "Produit 1"
+        },
+        {
+          "type": "text",
+          "id": "product1_subtitle",
+          "label": "Sous-titre"
+        },
+        {
+          "type": "text",
+          "id": "product1_price",
+          "label": "Prix",
+          "default": "29,90€"
+        },
+        {
+          "type": "header",
+          "content": "🛍️ PRODUIT 2"
+        },
+        {
+          "type": "checkbox",
+          "id": "product2_enabled",
+          "label": "Activer",
+          "default": true
+        },
+        {
+          "type": "image_picker",
+          "id": "product2_image",
+          "label": "Image"
+        },
+        {
+          "type": "product",
+          "id": "product2_product",
+          "label": "Lier produit"
+        },
+        {
+          "type": "text",
+          "id": "product2_title",
+          "label": "Titre",
+          "default": "Produit 2"
+        },
+        {
+          "type": "text",
+          "id": "product2_subtitle",
+          "label": "Sous-titre"
+        },
+        {
+          "type": "text",
+          "id": "product2_price",
+          "label": "Prix",
+          "default": "29,90€"
+        },
+        {
+          "type": "header",
+          "content": "🛍️ PRODUIT 3"
+        },
+        {
+          "type": "checkbox",
+          "id": "product3_enabled",
+          "label": "Activer",
+          "default": false
+        },
+        {
+          "type": "image_picker",
+          "id": "product3_image",
+          "label": "Image"
+        },
+        {
+          "type": "product",
+          "id": "product3_product",
+          "label": "Lier produit"
+        },
+        {
+          "type": "text",
+          "id": "product3_title",
+          "label": "Titre",
+          "default": "Produit 3"
+        },
+        {
+          "type": "text",
+          "id": "product3_subtitle",
+          "label": "Sous-titre"
+        },
+        {
+          "type": "text",
+          "id": "product3_price",
+          "label": "Prix"
+        },
+        {
+          "type": "header",
+          "content": "🛍️ PRODUIT 4"
+        },
+        {
+          "type": "checkbox",
+          "id": "product4_enabled",
+          "label": "Activer",
+          "default": false
+        },
+        {
+          "type": "image_picker",
+          "id": "product4_image",
+          "label": "Image"
+        },
+        {
+          "type": "product",
+          "id": "product4_product",
+          "label": "Lier produit"
+        },
+        {
+          "type": "text",
+          "id": "product4_title",
+          "label": "Titre",
+          "default": "Produit 4"
+        },
+        {
+          "type": "text",
+          "id": "product4_subtitle",
+          "label": "Sous-titre"
+        },
+        {
+          "type": "text",
+          "id": "product4_price",
+          "label": "Prix"
+        },
+        {
+          "type": "header",
+          "content": "📝 DESCRIPTION"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_description",
+          "label": "Afficher",
+          "default": false
+        },
+        {
+          "type": "textarea",
+          "id": "description_text",
+          "label": "Texte"
+        },
+        {
+          "type": "header",
+          "content": "⚡ SYNERGIE"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_synergy_block",
+          "label": "Afficher",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "synergy_title",
+          "label": "Titre",
+          "default": "⚡ SYNERGIE PARFAITE"
+        },
+        {
+          "type": "text",
+          "id": "synergy_subtitle",
+          "label": "Sous-titre"
+        },
+        {
+          "type": "color",
+          "id": "synergy_bg",
+          "label": "Fond",
+          "default": "#f0fdf4"
+        },
+        {
+          "type": "color",
+          "id": "synergy_border",
+          "label": "Bordure",
+          "default": "#10b981"
+        },
+        {
+          "type": "color",
+          "id": "synergy_title_color",
+          "label": "Couleur titre",
+          "default": "#10b981"
+        },
+        {
+          "type": "color",
+          "id": "synergy_subtitle_color",
+          "label": "Couleur sous-titre",
+          "default": "#065f46"
+        }
+      ]
+    },
+    {
+      "type": "option",
+      "name": "🎁 Option/Cadeau",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Titre",
+          "default": "Guide PDF"
+        },
+        {
+          "type": "text",
+          "id": "icon",
+          "label": "Emoji",
+          "default": "🎁"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "number",
+          "id": "price",
+          "label": "Prix",
+          "default": 0
+        },
+        {
+          "type": "checkbox",
+          "id": "active_default",
+          "label": "Actif par défaut",
+          "default": true
+        },
+        {
+          "type": "url",
+          "id": "download_url",
+          "label": "URL téléchargement"
+        },
+        {
+          "type": "text",
+          "id": "link_text",
+          "label": "Texte lien",
+          "default": "📥 Télécharger"
+        },
+        {
+          "type": "header",
+          "content": "Visibilité"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_for_pack0",
+          "label": "Pack 1",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "show_for_pack1",
+          "label": "Pack 2",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "show_for_pack2",
+          "label": "Pack 3",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "show_for_pack3",
+          "label": "Pack 4",
+          "default": true
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "🎯 Pack Selector Pro",
+      "blocks": [
+        {
+          "type": "pack_selector"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

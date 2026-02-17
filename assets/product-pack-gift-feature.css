@@ -1,0 +1,273 @@
+/* =========================
+   Pack Free Gifts — Updated
+   - Square placeholders (1:1)
+   - Gentler, slower reveal with less upward overshoot
+   - Hide animation for removals
+   - respects CSS vars for tuning
+   - prefers-reduced-motion friendly
+   ========================= */
+
+.pack-free-gifts {
+  /* tuned durations — change these if you want faster/slower globally */
+  --paper-pop-duration: 2000ms;          /* reveal animation */
+  --paper-hide-duration: 1200ms;         /* hide animation */
+  --paper-transform-duration: 2000ms;    /* transform timing used by real-media */
+  --paper-stagger-step: 280ms;           /* per-item stagger when multiple appear */
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+/* Respect user preference for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .pack-free-gift.paper-reveal,
+  .pack-free-gift.paper-hide,
+  .pack-free-gift.visible .pack-free-gift__real-media,
+  .pack-free-gifts[data-gift-display-behavior] .pack-free-gift__real-media {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* Title */
+.pack-free-gifts__title {
+  font-family: var(--font-heading-family);
+  font-style: var(--font-heading-style);
+  font-weight: var(--font-heading-weight);
+  color: rgb(var(--color-foreground));
+  line-height: 1.15;
+  word-break: break-word;
+  margin-bottom: 1rem;
+  color: #111 !important;
+}
+
+/* Grid */
+.pack-free-gifts__list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  align-items: start;
+  grid-auto-rows: min-content;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* Gift card base */
+.pack-free-gift {
+  width: 100%;
+  text-align: center;
+  opacity: 0.28;
+  transition: opacity 240ms ease, transform 320ms cubic-bezier(.2,.8,.2,1);
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  will-change: transform, opacity;
+  transform: translateY(6px);
+}
+
+/* Visible state */
+.pack-free-gift.visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+  transition: opacity 420ms ease, transform 520ms cubic-bezier(.2,.8,.2,1);
+}
+
+/* Media area — square container so placeholders remain 1:1 */
+.pack-free-gift__media {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 1 / 1;     /* ensures square layout for placeholders */
+}
+
+/* Placeholder (greyed square) */
+.pack-free-gift__placeholder {
+  width: 100%;
+  aspect-ratio: 1 / 1;     /* keep square */
+  background: #000000;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem;
+  margin-bottom: 0.5rem;
+  z-index: 3;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.6), 0 1px 4px rgba(0,0,0,0.03);
+  transition: opacity 320ms ease, transform 320ms cubic-bezier(.2,.8,.2,1);
+  position: relative;
+}
+
+.pack-free-gift__placeholder-text {
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  text-align: center;
+  line-height: 1.2;
+}
+
+/* Real media sits absolutely in the square container and is centered */
+.pack-free-gift__real-media {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  pointer-events: none;
+  border-radius: 8px;
+  overflow: hidden;
+  backface-visibility: hidden;
+  transform-origin: top center;
+}
+
+/* Placeholder-until-selected: hide the real-media when not visible */
+.pack-free-gifts[data-gift-display-behavior="placeholder_until_selected"]
+  .pack-free-gift:not(.visible) .pack-free-gift__real-media {
+  opacity: 0;
+  transform: rotateX(22deg) scaleY(.97) translateY(6px);
+  transition: opacity 360ms ease, transform var(--paper-transform-duration) cubic-bezier(.25,.8,.25,1);
+  visibility: hidden;
+  z-index: 1;
+}
+
+/* When visible, real media flips into place (gentler animation) */
+.pack-free-gift.visible .pack-free-gift__real-media {
+  opacity: 1;
+  visibility: visible;
+  transform: rotateX(0deg) scaleY(1) translateY(0);
+  transition: opacity 360ms ease, transform var(--paper-transform-duration) cubic-bezier(.25,.8,.25,1);
+  transition-delay: var(--reveal-delay, 0ms);
+  z-index: 2;
+}
+
+/* show images always */
+.pack-free-gifts[data-gift-display-behavior="show_images_always"]
+  .pack-free-gift .pack-free-gift__real-media {
+  opacity: 0.95;
+  visibility: visible;
+  transform: rotateX(0deg) scaleY(1);
+  z-index: 2;
+}
+
+/* Image sizing — contain images inside square area */
+.pack-free-gift__img {
+  width: 100%;
+  height: 100%;
+  max-height: none;
+  object-fit: contain;
+  display: block;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+}
+
+/* ensure empty real-media is lower z-index so placeholder is visible */
+.pack-free-gift__real-media:empty { z-index: 1; }
+
+/* Reveal animation class (gentler pop) */
+/* note: cubic-bezier chosen to provide smoother ending and less abrupt recentre */
+.pack-free-gift.paper-reveal {
+  animation: paperPop var(--paper-pop-duration) cubic-bezier(.18,.9,.3,1) both;
+  animation-delay: var(--reveal-delay, 0ms);
+}
+
+/* Hide animation for smooth removal */
+.pack-free-gift.paper-hide {
+  animation: paperHide var(--paper-hide-duration) cubic-bezier(.2,.8,.2,1) both;
+}
+
+/* Gentler pop: significantly reduced upward overshoot and smoother motion */
+/* Less negative translateY at midpoint and smaller scale overshoot */
+@keyframes paperPop {
+  0% {
+    transform: translateY(10px) rotateX(6deg) scale(.997);
+    opacity: 0;
+  }
+  60% {
+    transform: translateY(-2px) rotateX(0deg) scale(1.008);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0) rotateX(0deg) scale(1);
+    opacity: 1;
+  }
+}
+
+/* Soft hide: fade + small downward motion */
+@keyframes paperHide {
+  0% {
+    transform: translateY(0) rotateX(0deg) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(10px) rotateX(6deg) scale(.997);
+    opacity: 0;
+  }
+}
+
+/* Title + price */
+.pack-free-gift__title {
+  font-size: 14px;
+  line-height: 1.2;
+  margin-top: 0.5rem;
+  margin-bottom: 0.25rem;
+  color: #222;
+}
+.pack-free-gift__price {
+  font-size: 13px;
+  color: #444;
+}
+
+/* When a real image exists and is visible, hide placeholder smoothly */
+.pack-free-gift.has-real-image.visible .pack-free-gift__placeholder,
+.pack-free-gifts[data-gift-display-behavior="show_images_always"] .pack-free-gift.has-real-image .pack-free-gift__placeholder {
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(.99);
+  transition: opacity 240ms ease, transform 240ms cubic-bezier(.2,.8,.2,1), visibility 0s linear 240ms;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* If there's a real-image configured but not visible, keep placeholder shown */
+.pack-free-gifts[data-gift-display-behavior="placeholder_until_selected"]
+  .pack-free-gift.has-real-image:not(.visible) .pack-free-gift__placeholder {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition: opacity 240ms ease, transform 240ms cubic-bezier(.2,.8,.2,1);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Minor transition tuning when there is a real image */
+.pack-free-gift.has-real-image .pack-free-gift__placeholder {
+  transition: opacity 240ms ease, transform 240ms cubic-bezier(.2,.8,.2,1);
+}
+
+/* Focus & hover: lift card a bit and ensure accessibility via keyboard */
+.pack-free-gift:focus-within,
+.pack-free-gift:hover {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Responsive: keep layout tidy on small screens */
+@media (max-width: 740px) {
+  .pack-free-gifts__list { grid-template-columns: repeat(2, 1fr); }
+  .pack-free-gift__media { min-height: 100px; aspect-ratio: 1 / 1; }
+  .pack-free-gift__img { max-height: 360px; }
+}
+
+@media (max-width: 420px) {
+  .pack-free-gifts__list { grid-template-columns: 1fr; }
+  .pack-free-gift__media { min-height: 90px; aspect-ratio: 1 / 1; }
+  .pack-free-gift__img { max-height: 260px; }
+}
+
+/* End of file */

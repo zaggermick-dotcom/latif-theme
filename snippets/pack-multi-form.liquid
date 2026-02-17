@@ -1,0 +1,3000 @@
+{% comment %}
+  ╔══════════════════════════════════════════════════════════════════╗
+  ║  PACK MULTI-PRODUITS AUTONOME v2.1                              ║
+  ║  ✅ Conteneur parent avec TOUS les blocs pack_multi_product     ║
+  ║  ✅ UN SEUL BOUTON avec effet BRILLANCE                         ║
+  ║  ✅ COUNTDOWN TIMER                                              ║
+  ║  ✅ CODE PROMO avec copie                                        ║
+  ║  ✅ LIVRAISON + EXPÉDITION                                       ║
+  ║  ✅ URGENCY STOCK + VIEWERS                                      ║
+  ║  ✅ CADEAU MULTI-PACK                                            ║
+  ║  ✅ OPTION MULTI-PACK                                            ║
+  ║  ✅ OPTION (standard)                                            ║
+  ║  ✅ Design 100% identique à product-pack.liquid                 ║
+  ║  ✅ NEW: Design horizontal avec ➕ pour Options/Cadeaux          ║
+  ╚══════════════════════════════════════════════════════════════════╝
+{% endcomment %}
+
+{{ 'product-pack-conversion.css' | asset_url | stylesheet_tag }}
+
+{% comment %} === RÉCUPÉRATION DE TOUS LES BLOCS MULTI-PRODUITS === {% endcomment %}
+{%- assign multi_blocks = section.blocks | where: 'type', 'pack_multi_product' -%}
+{%- assign gift_blocks = section.blocks | where: 'type', 'pack_multi_gift' -%}
+{%- assign option_blocks = section.blocks | where: 'type', 'pack_multi_option' -%}
+{%- assign standard_option_blocks = section.blocks | where: 'type', 'option' -%}
+{%- assign first_block = multi_blocks | first -%}
+
+{% comment %} === SETTINGS GLOBAUX (depuis le premier bloc ou défauts) === {% endcomment %}
+{%- assign color_accent = first_block.settings.color_accent | default: '#10b981' -%}
+{%- assign color_border = first_block.settings.color_border | default: '#e5e7eb' -%}
+{%- assign card_bg = first_block.settings.card_bg | default: '#ffffff' -%}
+{%- assign card_bg_selected = first_block.settings.card_bg_selected | default: '#f0fdf4' -%}
+{%- assign border_width = first_block.settings.border_width | default: 2 -%}
+
+{% comment %} === COUNTDOWN SETTINGS === {% endcomment %}
+{%- assign show_countdown = first_block.settings.show_countdown | default: false -%}
+{%- assign countdown_days = first_block.settings.countdown_days | default: 0 -%}
+{%- assign countdown_hours = first_block.settings.countdown_hours | default: 2 -%}
+{%- assign countdown_minutes = first_block.settings.countdown_minutes | default: 30 -%}
+{%- assign countdown_seconds = first_block.settings.countdown_seconds | default: 0 -%}
+{%- assign countdown_text = first_block.settings.countdown_text | default: "🔥 OFFRE FLASH" -%}
+{%- assign countdown_subtext = first_block.settings.countdown_subtext | default: "⚡ OFFRE LIMITÉE" -%}
+{%- assign countdown_style = first_block.settings.countdown_style | default: "fire" -%}
+{%- assign countdown_end_text = first_block.settings.countdown_end_text | default: "⚡ DERNIÈRE CHANCE !" -%}
+{%- assign countdown_size = first_block.settings.countdown_size | default: "medium" -%}
+{%- assign countdown_bg = first_block.settings.countdown_bg | default: '#1a1a2e' -%}
+{%- assign countdown_accent = first_block.settings.countdown_accent | default: '#ff6b6b' -%}
+
+{% comment %} === URGENCY SETTINGS === {% endcomment %}
+{%- assign show_urgency = first_block.settings.show_urgency | default: false -%}
+{%- assign urgency_text = first_block.settings.urgency_text | default: '⚠️ Stock limité !' -%}
+{%- assign urgency_suffix = first_block.settings.urgency_suffix | default: 'articles restants' -%}
+{%- assign urgency_stock_initial = first_block.settings.urgency_stock_initial | default: 12 -%}
+{%- assign urgency_stock_min = first_block.settings.urgency_stock_min | default: 3 -%}
+{%- assign urgency_variation_enabled = first_block.settings.urgency_variation_enabled | default: true -%}
+{%- assign urgency_variation_interval = first_block.settings.urgency_variation_interval | default: 8 -%}
+{%- assign urgency_bg = first_block.settings.urgency_bg | default: '#fef2f2' -%}
+{%- assign urgency_border = first_block.settings.urgency_border | default: '#fecaca' -%}
+{%- assign urgency_text_color = first_block.settings.urgency_text_color | default: '#dc2626' -%}
+
+{% comment %} === VIEWERS SETTINGS === {% endcomment %}
+{%- assign show_viewers = first_block.settings.show_viewers | default: false -%}
+{%- assign viewers_text = first_block.settings.viewers_text | default: 'personnes regardent ce produit' -%}
+{%- assign viewers_initial = first_block.settings.viewers_initial | default: 18 -%}
+{%- assign viewers_min = first_block.settings.viewers_min | default: 8 -%}
+{%- assign viewers_max = first_block.settings.viewers_max | default: 35 -%}
+{%- assign viewers_variation_enabled = first_block.settings.viewers_variation_enabled | default: true -%}
+
+{% comment %} === DELIVERY SETTINGS === {% endcomment %}
+{%- assign show_delivery = first_block.settings.show_delivery | default: false -%}
+{%- assign expedition_text = first_block.settings.expedition_text | default: 'Expédition 24-48h' -%}
+{%- assign delivery_text = first_block.settings.delivery_text | default: 'LIVRAISON OFFERTE 5-8 JOURS' -%}
+
+{% comment %} === PROMO CODE SETTINGS === {% endcomment %}
+{%- assign promo_enabled = first_block.settings.promo_enabled | default: false -%}
+{%- assign promo_code = first_block.settings.promo_code | default: 'BIENVENUE10' -%}
+{%- assign promo_text = first_block.settings.promo_text | default: '🎁 Cliquez pour copier :' -%}
+{%- assign promo_bg = first_block.settings.promo_bg | default: '#fdf2f8' -%}
+{%- assign promo_border = first_block.settings.promo_border | default: '#ec4899' -%}
+{%- assign promo_text_color = first_block.settings.promo_text_color | default: '#be185d' -%}
+
+{% comment %} === TRUST BADGES SETTINGS === {% endcomment %}
+{%- assign show_trust_badges = first_block.settings.show_trust_badges | default: true -%}
+{%- assign trust_bg = first_block.settings.trust_bg | default: '#f9fafb' -%}
+{%- assign trust_text_color = first_block.settings.trust_text_color | default: '#374151' -%}
+{%- assign trust_border = first_block.settings.trust_border | default: '#e5e7eb' -%}
+
+{% comment %} === GUARANTEE SETTINGS === {% endcomment %}
+{%- assign show_guarantee_banner = first_block.settings.show_guarantee_banner | default: false -%}
+{%- assign guarantee_text = first_block.settings.guarantee_text | default: "Satisfait ou 100% remboursé pendant 30 jours" -%}
+{%- assign guarantee_bg = first_block.settings.guarantee_bg | default: '#ecfdf5' -%}
+{%- assign guarantee_border = first_block.settings.guarantee_border | default: '#10b981' -%}
+
+{% comment %} === BUTTON SETTINGS === {% endcomment %}
+{%- assign btn_bg_color = first_block.settings.btn_bg | default: '#10b981' -%}
+{%- assign btn_text_color = first_block.settings.btn_text_color | default: '#ffffff' -%}
+{%- assign button_text = first_block.settings.button_text | default: 'AJOUTER AU PANIER' -%}
+{%- assign btn_shine_enabled = first_block.settings.btn_shine_enabled | default: true -%}
+
+{% comment %} === TROUVER LE PACK SÉLECTIONNÉ PAR DÉFAUT === {% endcomment %}
+{%- assign default_block = nil -%}
+{%- assign default_index = 0 -%}
+{%- for mb in multi_blocks -%}
+  {%- if mb.settings.enabled and mb.settings.is_default_selected -%}
+    {%- assign default_block = mb -%}
+    {%- assign default_index = forloop.index0 -%}
+    {%- break -%}
+  {%- endif -%}
+{%- endfor -%}
+{%- unless default_block -%}
+  {%- for mb in multi_blocks -%}
+    {%- if mb.settings.enabled -%}
+      {%- assign default_block = mb -%}
+      {%- assign default_index = forloop.index0 -%}
+      {%- break -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endunless -%}
+
+{%- comment %} === CALCULER LE PRIX PAR DÉFAUT === {% endcomment -%}
+{%- assign default_auto_price = 0 -%}
+{%- if default_block.settings.auto_sync_price -%}
+  {%- if default_block.settings.linked_product_1 != blank -%}
+    {%- assign default_auto_price = default_auto_price | plus: default_block.settings.linked_product_1.selected_or_first_available_variant.price | times: default_block.settings.linked_product_1_qty | default: 1 -%}
+  {%- endif -%}
+  {%- if default_block.settings.linked_product_2 != blank -%}
+    {%- assign default_auto_price = default_auto_price | plus: default_block.settings.linked_product_2.selected_or_first_available_variant.price | times: default_block.settings.linked_product_2_qty | default: 1 -%}
+  {%- endif -%}
+  {%- if default_block.settings.linked_product_3 != blank -%}
+    {%- assign default_auto_price = default_auto_price | plus: default_block.settings.linked_product_3.selected_or_first_available_variant.price | times: default_block.settings.linked_product_3_qty | default: 1 -%}
+  {%- endif -%}
+  {%- if default_block.settings.linked_product_4 != blank -%}
+    {%- assign default_auto_price = default_auto_price | plus: default_block.settings.linked_product_4.selected_or_first_available_variant.price | times: default_block.settings.linked_product_4_qty | default: 1 -%}
+  {%- endif -%}
+{%- endif -%}
+
+{%- if default_block.settings.auto_sync_price and default_auto_price > 0 -%}
+  {%- assign default_price = default_auto_price | money -%}
+{%- else -%}
+  {%- assign default_price = default_block.settings.pack_price | default: '0,00€' -%}
+{%- endif -%}
+{%- assign default_variant_id = default_block.settings.variant_id | default: product.selected_or_first_available_variant.id -%}
+{%- assign default_quantity = default_block.settings.quantity | default: 1 -%}
+
+{% style %}
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;800;900&display=swap');
+
+  :root, .pack-multi-standalone {
+    --pack-font: 'Poppins', sans-serif;
+    --pack-accent: {{ color_accent }};
+    --pack-border: {{ color_border }};
+    --pack-border-width: {{ border_width }}px;
+    --card-bg: {{ card_bg }};
+    --card-bg-selected: {{ card_bg_selected }};
+    --btn-bg: {{ btn_bg_color }};
+    --btn-text: {{ btn_text_color }};
+    --urgency-bg: {{ urgency_bg }};
+    --urgency-border: {{ urgency_border }};
+    --urgency-text: {{ urgency_text_color }};
+    --countdown-bg: {{ countdown_bg }};
+    --countdown-accent: {{ countdown_accent }};
+    --promo-bg: {{ promo_bg }};
+    --promo-border: {{ promo_border }};
+    --promo-text: {{ promo_text_color }};
+    --trust-bg: {{ trust_bg }};
+    --trust-text: {{ trust_text_color }};
+    --trust-border: {{ trust_border }};
+    --guarantee-bg: {{ guarantee_bg }};
+    --guarantee-border: {{ guarantee_border }};
+  }
+
+  /* ══════════════════════════════════════════════════════════════════
+     BASE STYLES
+  ══════════════════════════════════════════════════════════════════ */
+  .pack-multi-standalone {
+    font-family: var(--pack-font);
+    margin-bottom: 16px;
+  }
+
+  .pack-multi-standalone .pack-multi-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  /* ══════════════════════════════════════════════════════════════════
+     COUNTDOWN TIMER - COMPACT & ULTRA CONVERTISSEUR
+  ══════════════════════════════════════════════════════════════════ */
+  .pack-multi-standalone .pack-countdown {
+    position: relative;
+    background: linear-gradient(135deg, #dc2626 0%, #ea580c 50%, #f59e0b 100%);
+    border-radius: 8px;
+    margin-bottom: 12px;
+    overflow: visible;
+    font-family: var(--pack-font);
+    box-shadow: 0 4px 15px rgba(220, 38, 38, 0.35);
+  }
+
+  .pack-multi-standalone .pack-countdown::after {
+    content: none;
+  }
+
+  .pack-multi-standalone .pack-countdown::before {
+    content: none;
+  }
+
+  .pack-multi-standalone .countdown__subtext-badge {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #ffffff;
+    background-size: unset;
+    color: #dc2626;
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 9px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    white-space: nowrap;
+    z-index: 100;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+    text-shadow: none;
+    animation: none;
+  }
+
+  .pack-multi-standalone .countdown__subtext-badge::before,
+  .pack-multi-standalone .countdown__subtext-badge::after {
+    content: none;
+  }
+
+  .pack-multi-standalone .countdown__inner {
+    position: relative;
+    z-index: 2;
+    padding: 12px 10px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    gap: 10px;
+  }
+
+  .pack-multi-standalone .countdown__left {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex: 0 0 auto;
+  }
+
+  .pack-multi-standalone .countdown__text {
+    font-weight: 700;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    white-space: nowrap;
+    font-size: 10px;
+  }
+
+  .pack-multi-standalone .countdown__accent {
+    color: #ffffff;
+    animation: none;
+  }
+
+  .pack-multi-standalone .countdown__emoji {
+    font-size: 14px;
+    animation: none;
+  }
+
+  .pack-multi-standalone .countdown__timer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    flex: 0 0 auto;
+  }
+
+  .pack-multi-standalone .countdown__block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1px;
+  }
+
+  .pack-multi-standalone .countdown__number {
+    font-family: 'Poppins', sans-serif;
+    background: rgba(0, 0, 0, 0.2);
+    border: none;
+    border-radius: 4px;
+    text-align: center;
+    font-weight: 800;
+    color: #ffffff;
+    box-shadow: none;
+    position: relative;
+    overflow: hidden;
+    font-size: 14px;
+    padding: 4px 8px;
+    min-width: 28px;
+  }
+
+  .pack-multi-standalone .countdown__number::before {
+    content: none;
+  }
+
+  .pack-multi-standalone .countdown__number.pulse {
+    animation: none;
+  }
+
+  .pack-multi-standalone .countdown__label {
+    color: rgba(255, 255, 255, 0.9);
+    text-transform: uppercase;
+    font-weight: 600;
+    line-height: 1;
+    font-size: 7px;
+    letter-spacing: 0.3px;
+  }
+
+  .pack-multi-standalone .countdown__separator {
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.8);
+    margin-top: -8px;
+    animation: none;
+    font-size: 12px;
+  }
+
+  .pack-multi-standalone .countdown__right {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex: 0 0 auto;
+  }
+
+  .pack-multi-standalone .countdown__end {
+    font-weight: 700;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+    animation: none;
+    font-size: 10px;
+  }
+
+  .pack-multi-standalone .countdown__end-emoji {
+    font-size: 12px;
+    animation: none;
+  }
+
+  .pack-multi-standalone .countdown__progress {
+    display: none;
+  }
+
+  .pack-multi-standalone .countdown__progress-fill {
+    display: none;
+  }
+
+  /* RESPONSIVE MOBILE - COUNTDOWN COMPACT */
+  @media (max-width: 480px) {
+    .pack-multi-standalone .pack-countdown {
+      margin-bottom: 10px;
+    }
+
+    .pack-multi-standalone .countdown__inner {
+      padding: 10px 8px 8px;
+      gap: 6px;
+      flex-wrap: nowrap;
+    }
+
+    .pack-multi-standalone .countdown__left {
+      display: none;
+    }
+
+    .pack-multi-standalone .countdown__right {
+      display: none;
+    }
+
+    .pack-multi-standalone .countdown__subtext-badge {
+      font-size: 8px;
+      padding: 3px 10px;
+      top: -8px;
+    }
+
+    .pack-multi-standalone .countdown__number {
+      font-size: 12px;
+      padding: 3px 6px;
+      min-width: 24px;
+    }
+
+    .pack-multi-standalone .countdown__label {
+      font-size: 6px;
+    }
+
+    .pack-multi-standalone .countdown__separator {
+      font-size: 10px;
+      margin-top: -6px;
+    }
+  }
+
+  @media (max-width: 360px) {
+    .pack-multi-standalone .countdown__number {
+      font-size: 11px;
+      padding: 2px 5px;
+      min-width: 22px;
+    }
+
+    .pack-multi-standalone .countdown__separator {
+      font-size: 9px;
+    }
+  }
+
+  /* ══════════════════════════════════════════════════════════════════
+     URGENCY STOCK
+  ══════════════════════════════════════════════════════════════════ */
+  .pack-multi-standalone .pack-urgency {
+    position: relative;
+    background: var(--urgency-bg);
+    border: 1px solid var(--urgency-border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-bottom: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--urgency-text);
+    font-weight: 600;
+  }
+
+  .pack-multi-standalone .urgency-dot {
+    width: 10px;
+    height: 10px;
+    background: var(--urgency-text);
+    border-radius: 50%;
+    animation: urgencyDotPulseMulti 1s ease-in-out infinite;
+  }
+
+  @keyframes urgencyDotPulseMulti {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.7); }
+  }
+
+  .pack-multi-standalone .pack-urgency-bar {
+    width: 100%;
+    height: 4px;
+    background: #fecaca;
+    border-radius: 2px;
+    margin-top: 6px;
+    overflow: hidden;
+  }
+
+  .pack-multi-standalone .pack-urgency-bar__fill {
+    height: 100%;
+    background: linear-gradient(90deg, #ef4444, #dc2626);
+    border-radius: 2px;
+    transition: width 0.5s ease;
+  }
+
+
+  /* ══════════════════════════════════════════════════════════════════
+     PACK CARDS
+  ══════════════════════════════════════════════════════════════════ */
+  .pack-multi-standalone .pack-multi-card {
+    position: relative;
+    background: var(--card-bg);
+    border: var(--pack-border-width) solid var(--pack-border);
+    border-radius: 12px;
+    padding: 16px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    font-family: var(--pack-font);
+  }
+
+  .pack-multi-standalone .pack-multi-card:hover {
+    border-color: var(--pack-accent);
+  }
+
+  .pack-multi-standalone .pack-multi-card.pack-multi--selected {
+    border-color: var(--pack-accent);
+    background: var(--card-bg-selected);
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+  }
+
+  /* === BADGE SUPÉRIEUR FLOTTANT === */
+  .pack-multi-standalone .pack-multi-card__top-badge {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    z-index: 10;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  /* === HEADER DU PACK === */
+  .pack-multi-standalone .pack-multi-card__header {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding-bottom: 12px;
+  }
+
+  /* === RADIO BOUTON = POINT === */
+  .pack-multi-standalone .pack-multi-card__radio {
+    width: 22px;
+    height: 22px;
+    min-width: 22px;
+    border: 2px solid #d1d5db;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    margin-top: 2px;
+    background: transparent;
+  }
+
+  .pack-multi-standalone .pack-multi-card.pack-multi--selected .pack-multi-card__radio {
+    border-color: var(--pack-accent);
+    background: var(--pack-accent);
+  }
+
+  .pack-multi-standalone .pack-multi-card__radio::after {
+    content: '';
+    width: 0;
+    height: 0;
+    background: white;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+  }
+
+  .pack-multi-standalone .pack-multi-card.pack-multi--selected .pack-multi-card__radio::after {
+    width: 10px;
+    height: 10px;
+  }
+
+  .pack-multi-standalone .pack-multi-card__info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .pack-multi-standalone .pack-multi-card__title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1f2937;
+    margin: 0 0 4px 0;
+    line-height: 1.3;
+  }
+
+  .pack-multi-standalone .pack-multi-card__subtitle {
+    font-size: 13px;
+    color: #6b7280;
+    margin: 0;
+  }
+
+  .pack-multi-standalone .pack-multi-card__pricing {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+  }
+
+  .pack-multi-standalone .pack-multi-card__price-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .pack-multi-standalone .pack-multi-card__price {
+    font-size: 20px;
+    font-weight: 800;
+    color: #1f2937;
+  }
+
+  .pack-multi-standalone .pack-multi-card__price-compare {
+    font-size: 14px;
+    color: #9ca3af;
+    text-decoration: line-through;
+  }
+
+  .pack-multi-standalone .pack-multi-card__savings-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  /* === SECTION CONTENU ÉTENDU === */
+  .pack-multi-standalone .pack-multi-card__expanded {
+    display: none;
+    border-top: 1px solid #e5e7eb;
+    padding-top: 16px;
+    margin-top: 4px;
+  }
+
+  .pack-multi-standalone .pack-multi-card.pack-multi--selected .pack-multi-card__expanded {
+    display: block;
+  }
+
+  /* === TITRE SECTION RITUEL === */
+  .pack-multi-standalone .pack-multi-card__section-title {
+    text-align: center;
+    font-size: 13px;
+    font-weight: 700;
+    color: #374151;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  /* === GRILLE DES PRODUITS === */
+  .pack-multi-standalone .pack-multi-card__products {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .pack-multi-standalone .pack-multi-card__product {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    flex: 1;
+    min-width: 70px;
+    max-width: 100px;
+  }
+
+  .pack-multi-standalone .pack-multi-card__product-image {
+    width: 75px;
+    height: 75px;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    margin-bottom: 6px;
+    display: block;
+    transition: all 0.2s ease;
+  }
+
+  .pack-multi-standalone a.pack-multi-card__product-image {
+    cursor: pointer;
+  }
+
+  .pack-multi-standalone a.pack-multi-card__product-image:hover {
+    border-color: var(--pack-accent);
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.2);
+    transform: scale(1.05);
+  }
+
+  .pack-multi-standalone .pack-multi-card__product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .pack-multi-standalone .pack-multi-card__product-title {
+    font-size: 11px;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 2px;
+    line-height: 1.2;
+  }
+
+  .pack-multi-standalone .pack-multi-card__product-subtitle {
+    font-size: 9px;
+    color: #6b7280;
+    margin-bottom: 4px;
+    line-height: 1.2;
+  }
+
+  .pack-multi-standalone .pack-multi-card__product-separator {
+    width: 100%;
+    height: 1px;
+    background: #e5e7eb;
+    margin: 3px 0;
+  }
+
+  .pack-multi-standalone .pack-multi-card__product-price {
+    font-size: 10px;
+    color: #9ca3af;
+    text-decoration: line-through;
+  }
+
+  /* === CONNECTEUR ENTRE PRODUITS === */
+  .pack-multi-standalone .pack-multi-card__connector {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0 2px;
+    min-width: 28px;
+  }
+
+  .pack-multi-standalone .pack-multi-card__connector-icon {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--pack-accent);
+    line-height: 1;
+    animation: connectorPulseStandalone 1.5s ease-in-out infinite;
+  }
+
+  @keyframes connectorPulseStandalone {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.1); opacity: 0.8; }
+  }
+
+  /* === DESCRIPTION === */
+  .pack-multi-standalone .pack-multi-card__description {
+    text-align: center;
+    font-size: 10px;
+    color: #6b7280;
+    margin: 12px 0;
+    padding: 0 8px;
+  }
+
+  /* === BLOC SYNERGIE === */
+  .pack-multi-standalone .pack-multi-card__synergy {
+    background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
+    border: 1px solid var(--pack-accent);
+    border-radius: 10px;
+    padding: 10px 14px;
+    text-align: center;
+    margin-top: 10px;
+  }
+
+  .pack-multi-standalone .pack-multi-card__synergy-title {
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--pack-accent);
+    margin-bottom: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .pack-multi-standalone .pack-multi-card__synergy-subtitle {
+    font-size: 10px;
+    color: #065f46;
+    font-weight: 600;
+  }
+
+  /* ══════════════════════════════════════════════════════════════════
+     NEW: DESIGN HORIZONTAL ULTRA-COMPACT AVEC ➕
+     Pour Cadeaux Multi-Pack et Options Multi-Pack
+  ══════════════════════════════════════════════════════════════════ */
+  
+  /* === SECTION HEADER HORIZONTAL === */
+  .pack-multi-standalone .pack-horizontal-section {
+    margin-top: 16px;
+    margin-bottom: 12px;
+  }
+
+  .pack-multi-standalone .pack-horizontal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    border-radius: 10px 10px 0 0;
+    margin-bottom: 0;
+  }
+
+  .pack-multi-standalone .pack-horizontal-header.pack-horizontal-header--options {
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    color: white;
+  }
+
+  .pack-multi-standalone .pack-horizontal-header.pack-horizontal-header--gifts {
+    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+    color: white;
+  }
+
+  .pack-multi-standalone .pack-horizontal-title {
+    font-size: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .pack-multi-standalone .pack-horizontal-badge {
+    font-size: 10px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.25);
+    backdrop-filter: blur(10px);
+  }
+
+  /* === CONTENEUR GRILLE HORIZONTALE === */
+  .pack-multi-standalone .pack-horizontal-body {
+    background: var(--card-bg);
+    border: 2px solid var(--pack-border);
+    border-top: none;
+    border-radius: 0 0 10px 10px;
+    padding: 12px;
+  }
+
+    .pack-multi-standalone .pack-horizontal-grid {
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    overflow-x: visible;
+    padding: 4px 0;
+  }
+
+
+  /* === SIGNE ➕ ENTRE LES CARTES === */
+  .pack-multi-standalone .pack-horizontal-plus {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 24px;
+    height: 24px;
+    background: linear-gradient(135deg, var(--pack-accent) 0%, #059669 100%);
+    color: white;
+    font-size: 14px;
+    font-weight: 800;
+    border-radius: 50%;
+    flex-shrink: 0;
+    box-shadow: 0 2px 6px rgba(16, 185, 129, 0.4);
+    align-self: center;
+    transition: all 0.3s ease;
+  }
+
+  .pack-multi-standalone .pack-horizontal-plus.pack-horizontal-plus--gift {
+    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+    box-shadow: 0 2px 6px rgba(139, 92, 246, 0.4);
+  }
+
+  .pack-multi-standalone .pack-horizontal-plus.pack-horizontal-plus--active {
+    transform: scale(1.15);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.5);
+  }
+
+  .pack-multi-standalone .pack-horizontal-plus.pack-horizontal-plus--gift.pack-horizontal-plus--active {
+    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.5);
+  }
+
+    .pack-multi-standalone .pack-mini-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 80px;
+    max-width: 95px;
+    padding: 8px 6px;
+    background: var(--card-bg);
+    border: 2px solid var(--pack-border);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    position: relative;
+    flex-shrink: 1;
+    flex-grow: 1;
+  }
+
+
+  .pack-multi-standalone .pack-mini-card:hover {
+    border-color: var(--pack-accent);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+
+  .pack-multi-standalone .pack-mini-card.pack-mini-card--selected {
+    border-color: var(--pack-accent);
+    background: var(--card-bg-selected);
+    box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+  }
+
+  .pack-multi-standalone .pack-mini-card.pack-mini-card--gift.pack-mini-card--selected {
+    border-color: #8b5cf6;
+    background: #faf5ff;
+    box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.2);
+  }
+
+  .pack-multi-standalone .pack-mini-card.pack-mini-card--hidden {
+    display: none !important;
+  }
+
+  /* Image mini carte */
+  .pack-multi-standalone .pack-mini-card__image {
+    width: 50px;
+    height: 50px;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 6px;
+    position: relative;
+    background: #f3f4f6;
+    border: 1px solid #e5e7eb;
+  }
+
+  .pack-multi-standalone .pack-mini-card__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .pack-multi-standalone .pack-mini-card__gift-badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    width: 18px;
+    height: 18px;
+    background: #8b5cf6;
+    color: white;
+    font-size: 10px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(139, 92, 246, 0.4);
+  }
+
+  /* Titre mini carte */
+  .pack-multi-standalone .pack-mini-card__title {
+    font-size: 10px;
+    font-weight: 600;
+    color: #1f2937;
+    text-align: center;
+    line-height: 1.2;
+    margin-bottom: 4px;
+    max-height: 24px;
+    overflow: hidden;
+  }
+
+  /* Prix mini carte */
+  .pack-multi-standalone .pack-mini-card__price {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--pack-accent);
+    margin-bottom: 6px;
+  }
+
+  .pack-multi-standalone .pack-mini-card__price.pack-mini-card__price--free {
+    color: #8b5cf6;
+  }
+
+  /* Checkbox mini carte */
+  .pack-multi-standalone .pack-mini-checkbox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    width: 100%;
+  }
+
+  .pack-multi-standalone .pack-mini-checkbox__box {
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--pack-border);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    background: white;
+  }
+
+  .pack-multi-standalone .pack-mini-card.pack-mini-card--selected .pack-mini-checkbox__box {
+    background: var(--pack-accent);
+    border-color: var(--pack-accent);
+  }
+
+  .pack-multi-standalone .pack-mini-card.pack-mini-card--gift.pack-mini-card--selected .pack-mini-checkbox__box {
+    background: #8b5cf6;
+    border-color: #8b5cf6;
+  }
+
+  .pack-multi-standalone .pack-mini-checkbox__box svg {
+    width: 10px;
+    height: 10px;
+    stroke: white;
+    stroke-width: 3;
+    opacity: 0;
+    transform: scale(0);
+    transition: all 0.2s ease;
+  }
+
+  .pack-multi-standalone .pack-mini-card.pack-mini-card--selected .pack-mini-checkbox__box svg {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .pack-multi-standalone .pack-mini-checkbox__label {
+    font-size: 9px;
+    font-weight: 600;
+    color: #6b7280;
+    transition: color 0.2s ease;
+  }
+
+  .pack-multi-standalone .pack-mini-card.pack-mini-card--selected .pack-mini-checkbox__label {
+    color: var(--pack-accent);
+  }
+
+  .pack-multi-standalone .pack-mini-card.pack-mini-card--gift.pack-mini-card--selected .pack-mini-checkbox__label {
+    color: #8b5cf6;
+  }
+
+  /* === TOTAL INLINE === */
+  .pack-multi-standalone .pack-horizontal-total {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px dashed var(--pack-border);
+  }
+
+  .pack-multi-standalone .pack-horizontal-total__label {
+    font-size: 11px;
+    color: #6b7280;
+  }
+
+  .pack-multi-standalone .pack-horizontal-total__value {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--pack-accent);
+    background: var(--card-bg-selected);
+    padding: 4px 10px;
+    border-radius: 16px;
+  }
+
+  .pack-multi-standalone .pack-horizontal-total__value.pack-horizontal-total__value--gift {
+    color: #8b5cf6;
+    background: #faf5ff;
+  }
+
+  /* === ANIMATIONS MINI CARTES === */
+  @keyframes packMiniPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.03); }
+  }
+
+  @keyframes packMiniCheckBounce {
+    0% { transform: scale(0); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+  }
+
+  .pack-multi-standalone .pack-mini-card.pack-mini-card--just-selected .pack-mini-checkbox__box svg {
+    animation: packMiniCheckBounce 0.3s ease;
+  }
+
+  .pack-multi-standalone .pack-mini-card.pack-mini-card--just-selected {
+    animation: packMiniPulse 0.3s ease;
+  }
+
+  /* === RESPONSIVE MOBILE HORIZONTAL === */
+  @media (max-width: 480px) {
+    .pack-multi-standalone .pack-horizontal-header {
+      padding: 8px 10px;
+      flex-direction: column;
+      gap: 4px;
+      text-align: center;
+    }
+
+    .pack-multi-standalone .pack-horizontal-title {
+      font-size: 11px;
+    }
+
+    .pack-multi-standalone .pack-horizontal-badge {
+      font-size: 9px;
+    }
+
+    .pack-multi-standalone .pack-horizontal-body {
+      padding: 10px 8px;
+    }
+
+        .pack-multi-standalone .pack-horizontal-grid {
+      gap: 5px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .pack-multi-standalone .pack-mini-card {
+      min-width: 70px;
+      max-width: 80px;
+      padding: 6px 5px;
+    }
+
+    .pack-multi-standalone .pack-mini-card__image {
+      width: 45px;
+      height: 45px;
+    }
+
+    .pack-multi-standalone .pack-mini-card__title {
+      font-size: 9px;
+    }
+
+    .pack-multi-standalone .pack-mini-card__price {
+      font-size: 10px;
+    }
+
+    .pack-multi-standalone .pack-horizontal-plus {
+      min-width: 20px;
+      height: 20px;
+      font-size: 12px;
+    }
+
+    .pack-multi-standalone .pack-mini-checkbox__box {
+      width: 16px;
+      height: 16px;
+    }
+
+    .pack-multi-standalone .pack-mini-checkbox__label {
+      font-size: 8px;
+    }
+
+    .pack-multi-standalone .pack-horizontal-total {
+      margin-top: 8px;
+      padding-top: 8px;
+    }
+
+    .pack-multi-standalone .pack-horizontal-total__label {
+      font-size: 10px;
+    }
+
+    .pack-multi-standalone .pack-horizontal-total__value {
+      font-size: 12px;
+      padding: 3px 8px;
+    }
+  }
+
+  @media (max-width: 360px) {
+    .pack-multi-standalone .pack-mini-card {
+      min-width: 62px;
+      max-width: 72px;
+      padding: 5px 4px;
+    }
+
+    .pack-multi-standalone .pack-mini-card__image {
+      width: 40px;
+      height: 40px;
+    }
+
+    .pack-multi-standalone .pack-mini-card__title {
+      font-size: 8px;
+    }
+
+    .pack-multi-standalone .pack-horizontal-plus {
+      min-width: 18px;
+      height: 18px;
+      font-size: 11px;
+    }
+  }
+
+  /* ══════════════════════════════════════════════════════════════════
+     ANCIEN DESIGN OPTIONS/CADEAUX (conservé pour compatibilité)
+  ══════════════════════════════════════════════════════════════════ */
+  .pack-multi-standalone .pack-options-section {
+    margin-top: 16px;
+    margin-bottom: 16px;
+  }
+
+  .pack-multi-standalone .pack-options-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #374151;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--pack-border);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .pack-multi-standalone .pack-option-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    background: var(--card-bg);
+    border: 2px solid var(--pack-border);
+    border-radius: 10px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .pack-multi-standalone .pack-option-item:hover {
+    border-color: var(--pack-accent);
+  }
+
+  .pack-multi-standalone .pack-option-item.pack-option--selected {
+    border-color: var(--pack-accent);
+    background: var(--card-bg-selected);
+  }
+
+  .pack-multi-standalone .pack-option-item.pack-option--hidden {
+    display: none !important;
+  }
+
+  .pack-multi-standalone .pack-option-checkbox {
+    width: 20px;
+    height: 20px;
+    min-width: 20px;
+    border: 2px solid #d1d5db;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    background: transparent;
+  }
+
+  .pack-multi-standalone .pack-option-item.pack-option--selected .pack-option-checkbox {
+    border-color: var(--pack-accent);
+    background: var(--pack-accent);
+  }
+
+  .pack-multi-standalone .pack-option-checkbox svg {
+    width: 14px;
+    height: 14px;
+    stroke: white;
+    stroke-width: 3;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+
+  .pack-multi-standalone .pack-option-item.pack-option--selected .pack-option-checkbox svg {
+    opacity: 1;
+  }
+
+  .pack-multi-standalone .pack-option-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    flex-shrink: 0;
+  }
+
+  .pack-multi-standalone .pack-option-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .pack-multi-standalone .pack-option-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .pack-multi-standalone .pack-option-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #1f2937;
+    margin: 0 0 2px 0;
+  }
+
+  .pack-multi-standalone .pack-option-subtitle {
+    font-size: 11px;
+    color: #6b7280;
+    margin: 0;
+  }
+
+  .pack-multi-standalone .pack-option-price {
+    font-size: 14px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  .pack-multi-standalone .pack-option-price.pack-option-price--free {
+    color: var(--pack-accent);
+  }
+
+  .pack-multi-standalone .pack-option-price.pack-option-price--paid {
+    color: #dc2626;
+  }
+
+  /* === LIEN DE TÉLÉCHARGEMENT POUR OPTIONS STANDARD === */
+  .pack-multi-standalone .pack-option-download {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    color: var(--pack-accent);
+    text-decoration: none;
+    margin-top: 4px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+  }
+
+  .pack-multi-standalone .pack-option-download:hover {
+    text-decoration: underline;
+    color: #059669;
+  }
+
+  /* ══════════════════════════════════════════════════════════════════
+     BOUTON AVEC EFFET BRILLANCE - SANS HOVER
+  ══════════════════════════════════════════════════════════════════ */
+  .pack-multi-standalone .pack-multi-button {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 16px 24px;
+    background: var(--btn-bg) !important;
+    color: var(--btn-text) !important;
+    border: none;
+    border-radius: 8px;
+    font-family: var(--pack-font);
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    margin-top: 16px;
+    overflow: hidden;
+    transition: none !important;
+  }
+
+  .pack-multi-standalone .pack-multi-button:hover,
+  .pack-multi-standalone .pack-multi-button:focus,
+  .pack-multi-standalone .pack-multi-button:active {
+    background: var(--btn-bg) !important;
+    color: var(--btn-text) !important;
+    transform: none !important;
+    box-shadow: none !important;
+    filter: none !important;
+    opacity: 1 !important;
+  }
+
+  /* === EFFET BRILLANCE/SHINE === */
+  .pack-multi-standalone .pack-multi-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.4),
+      transparent
+    );
+    animation: btnShineMulti 2.5s ease-in-out infinite;
+  }
+
+  @keyframes btnShineMulti {
+    0% { left: -100%; }
+    50%, 100% { left: 100%; }
+  }
+
+  .pack-multi-standalone .pack-multi-button__text { font-weight: 700; position: relative; z-index: 1; }
+  .pack-multi-standalone .pack-multi-button__sep { opacity: 0.8; position: relative; z-index: 1; }
+  .pack-multi-standalone .pack-multi-button__price { font-weight: 800; position: relative; z-index: 1; }
+
+  /* ══════════════════════════════════════════════════════════════════
+     CODE PROMO
+  ══════════════════════════════════════════════════════════════════ */
+  .pack-multi-standalone .pack-promo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: var(--promo-bg);
+    border: 2px dashed var(--promo-border);
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin-top: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .pack-multi-standalone .pack-promo:hover {
+    background: #fce7f3;
+    transform: scale(1.02);
+  }
+
+  .pack-multi-standalone .pack-promo__text {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--promo-text);
+  }
+
+  .pack-multi-standalone .pack-promo__code {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: white;
+    border: 2px solid var(--promo-border);
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--promo-border);
+    letter-spacing: 1px;
+  }
+
+  .pack-multi-standalone .pack-promo__code-icon {
+    font-size: 14px;
+  }
+
+  /* ══════════════════════════════════════════════════════════════════
+     DELIVERY / LIVRAISON
+  ══════════════════════════════════════════════════════════════════ */
+  .pack-multi-standalone .pack-delivery {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 12px;
+    padding: 10px 14px;
+    background: #f9fafb;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+  }
+
+  .pack-multi-standalone .pack-delivery__item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: #4b5563;
+  }
+
+  .pack-multi-standalone .pack-delivery__item span:first-child {
+    font-size: 14px;
+  }
+
+  .pack-multi-standalone .pack-delivery__item strong {
+    color: #1f2937;
+    font-weight: 700;
+  }
+
+  /* ══════════════════════════════════════════════════════════════════
+     VIEWERS
+  ══════════════════════════════════════════════════════════════════ */
+  .pack-multi-standalone .pack-viewers {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px 12px;
+    background: #fef3c7;
+    border: 1px solid #f59e0b;
+    border-radius: 6px;
+    font-size: 12px;
+    color: #92400e;
+    margin-top: 12px;
+  }
+
+  .pack-multi-standalone .pack-viewers__icon {
+    font-size: 14px;
+    animation: viewersPulseMulti 1.5s ease-in-out infinite;
+  }
+
+  @keyframes viewersPulseMulti {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+  }
+
+  /* ══════════════════════════════════════════════════════════════════
+     TRUST BADGES
+  ══════════════════════════════════════════════════════════════════ */
+  .pack-multi-standalone .pack-trust-badges {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: stretch;
+    gap: 6px;
+    padding: 8px 0;
+    margin-top: 10px;
+    width: 100%;
+  }
+
+  .pack-multi-standalone .trust-badge {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    background: var(--trust-bg);
+    border: 1px solid var(--trust-border);
+    border-radius: 6px;
+    padding: 5px 8px;
+    flex: 1 1 auto;
+    min-width: 70px;
+    max-width: 120px;
+    transition: all 0.2s ease;
+  }
+
+  .pack-multi-standalone .trust-badge:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    border-color: var(--pack-accent);
+  }
+
+  .pack-multi-standalone .trust-badge__icon { font-size: 12px; }
+  .pack-multi-standalone .trust-badge__text { font-size: 8px; font-weight: 600; color: var(--trust-text); }
+/* ══════════════════════════════════════════════════════════════════
+     GUARANTEE BANNER
+  ══════════════════════════════════════════════════════════════════ */
+  .pack-multi-standalone .pack-guarantee {
+    background: var(--guarantee-bg);
+    border: 1px solid var(--guarantee-border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: 11px;
+  }
+
+  .pack-multi-standalone .pack-guarantee__icon { font-size: 18px; }
+  .pack-multi-standalone .pack-guarantee__text { font-weight: 600; color: #065f46; }
+  .pack-multi-standalone .pack-guarantee__badge {
+    background: var(--guarantee-border);
+    color: white;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 9px;
+    font-weight: 700;
+  }
+
+  /* ══════════════════════════════════════════════════════════════════
+     RESPONSIVE MOBILE
+  ══════════════════════════════════════════════════════════════════ */
+  @media (max-width: 480px) {
+    .pack-multi-standalone .pack-countdown__inner {
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 16px 10px 10px;
+    }
+
+    .pack-multi-standalone .countdown__left,
+    .pack-multi-standalone .countdown__right {
+      flex: 0 0 50%;
+      justify-content: center;
+    }
+
+    .pack-multi-standalone .countdown__timer {
+      flex: 0 0 100%;
+      order: -1;
+      margin-bottom: 6px;
+    }
+
+    .pack-multi-standalone .countdown__number {
+      font-size: 14px;
+      padding: 4px 8px;
+      min-width: 30px;
+    }
+
+    .pack-multi-standalone .countdown__text,
+    .pack-multi-standalone .countdown__end {
+      font-size: 9px;
+    }
+
+    .pack-multi-standalone .countdown__subtext-badge {
+      font-size: 9px;
+      padding: 4px 14px;
+      top: -10px;
+    }
+
+    .pack-multi-standalone .pack-multi-card {
+      padding: 12px;
+    }
+
+    .pack-multi-standalone .pack-multi-card__header {
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .pack-multi-standalone .pack-multi-card__radio {
+      width: 20px;
+      height: 20px;
+      min-width: 20px;
+    }
+
+    .pack-multi-standalone .pack-multi-card.pack-multi--selected .pack-multi-card__radio::after {
+      width: 8px;
+      height: 8px;
+    }
+
+    .pack-multi-standalone .pack-multi-card__title {
+      font-size: 14px;
+    }
+
+    .pack-multi-standalone .pack-multi-card__subtitle {
+      font-size: 11px;
+    }
+
+    .pack-multi-standalone .pack-multi-card__price {
+      font-size: 18px;
+    }
+
+    .pack-multi-standalone .pack-multi-card__price-compare {
+      font-size: 12px;
+    }
+
+    .pack-multi-standalone .pack-multi-card__savings-badge {
+      font-size: 10px;
+      padding: 3px 8px;
+    }
+
+    .pack-multi-standalone .pack-multi-card__pricing {
+      width: 100%;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 8px;
+      padding-left: 28px;
+    }
+
+    .pack-multi-standalone .pack-multi-card__top-badge {
+      font-size: 9px;
+      padding: 4px 12px;
+      top: -10px;
+    }
+
+    .pack-multi-standalone .pack-multi-card__section-title {
+      font-size: 11px;
+      margin-bottom: 12px;
+      padding-bottom: 10px;
+    }
+
+    .pack-multi-standalone .pack-multi-card__products {
+      gap: 4px;
+    }
+
+    .pack-multi-standalone .pack-multi-card__product {
+      min-width: 55px;
+      max-width: 75px;
+    }
+
+    .pack-multi-standalone .pack-multi-card__product-image {
+      width: 58px;
+      height: 58px;
+      border-radius: 8px;
+      margin-bottom: 5px;
+    }
+
+    .pack-multi-standalone .pack-multi-card__product-title {
+      font-size: 9px;
+      line-height: 1.15;
+    }
+
+    .pack-multi-standalone .pack-multi-card__product-subtitle {
+      font-size: 8px;
+      margin-bottom: 3px;
+    }
+
+    .pack-multi-standalone .pack-multi-card__product-separator {
+      margin: 2px 0;
+    }
+
+    .pack-multi-standalone .pack-multi-card__product-price {
+      font-size: 9px;
+    }
+
+    .pack-multi-standalone .pack-multi-card__connector {
+      min-width: 22px;
+      padding: 0;
+    }
+
+    .pack-multi-standalone .pack-multi-card__connector-icon {
+      font-size: 14px;
+    }
+
+    .pack-multi-standalone .pack-multi-card__description {
+      font-size: 9px;
+      margin: 10px 0;
+    }
+
+    .pack-multi-standalone .pack-multi-card__synergy {
+      padding: 8px 10px;
+      margin-top: 8px;
+    }
+
+    .pack-multi-standalone .pack-multi-card__synergy-title {
+      font-size: 11px;
+    }
+
+    .pack-multi-standalone .pack-multi-card__synergy-subtitle {
+      font-size: 9px;
+    }
+
+    .pack-multi-standalone .pack-multi-card__expanded {
+      padding-top: 12px;
+    }
+
+    .pack-multi-standalone .pack-multi-button {
+      padding: 14px 20px;
+      font-size: 14px;
+    }
+
+    .pack-multi-standalone .pack-promo {
+      flex-direction: column;
+      gap: 8px;
+      padding: 10px 12px;
+    }
+
+    .pack-multi-standalone .pack-promo__text {
+      font-size: 11px;
+    }
+
+    .pack-multi-standalone .pack-promo__code {
+      font-size: 12px;
+      padding: 5px 10px;
+    }
+
+    .pack-multi-standalone .pack-delivery {
+      padding: 8px 10px;
+    }
+
+    .pack-multi-standalone .pack-delivery__item {
+      font-size: 11px;
+    }
+
+    .pack-multi-standalone .pack-guarantee {
+      flex-direction: column;
+      text-align: center;
+      gap: 6px;
+    }
+
+    .pack-multi-standalone .pack-option-item {
+      padding: 10px 12px;
+      gap: 10px;
+    }
+
+    .pack-multi-standalone .pack-option-image {
+      width: 40px;
+      height: 40px;
+    }
+
+    .pack-multi-standalone .pack-option-title {
+      font-size: 12px;
+    }
+
+    .pack-multi-standalone .pack-option-price {
+      font-size: 12px;
+    }
+  }
+
+  @media (max-width: 360px) {
+    .pack-multi-standalone .pack-multi-card__product {
+      min-width: 50px;
+      max-width: 65px;
+    }
+
+    .pack-multi-standalone .pack-multi-card__product-image {
+      width: 50px;
+      height: 50px;
+    }
+
+    .pack-multi-standalone .pack-multi-card__product-title {
+      font-size: 8px;
+    }
+
+    .pack-multi-standalone .pack-multi-card__connector {
+      min-width: 18px;
+    }
+
+    .pack-multi-standalone .pack-multi-card__connector-icon {
+      font-size: 12px;
+    }
+  }
+{% endstyle %}
+
+{%- if multi_blocks.size > 0 -%}
+<div class="pack-multi-standalone" 
+     data-section-id="{{ section.id }}"
+     data-urgency-initial="{{ urgency_stock_initial }}"
+     data-urgency-min="{{ urgency_stock_min }}"
+     data-urgency-variation="{{ urgency_variation_enabled }}"
+     data-urgency-interval="{{ urgency_variation_interval }}"
+     data-viewers-initial="{{ viewers_initial }}"
+     data-viewers-min="{{ viewers_min }}"
+     data-viewers-max="{{ viewers_max }}"
+     data-viewers-variation="{{ viewers_variation_enabled }}"
+     id="pack-multi-standalone-{{ section.id }}">
+
+   {% comment %} === COUNTDOWN TIMER SIMPLE === {% endcomment %}
+  {%- if show_countdown -%}
+    <div class="pack-countdown" id="packMultiCountdown-{{ section.id }}"
+         data-days="{{ countdown_days }}"
+         data-hours="{{ countdown_hours }}"
+         data-minutes="{{ countdown_minutes }}"
+         data-seconds="{{ countdown_seconds }}">
+      
+      <div class="countdown__inner">
+        <div class="countdown__left">
+          <span class="countdown__emoji">🔥</span>
+          <span class="countdown__text">{{ countdown_text }}</span>
+        </div>
+        
+        <div class="countdown__timer">
+          {% if countdown_days > 0 %}
+          <div class="countdown__block">
+            <div class="countdown__number" id="countdownDaysMulti-{{ section.id }}">{{ countdown_days | default: 0 | prepend: '00' | slice: -2, 2 }}</div>
+            <div class="countdown__label">Jours</div>
+          </div>
+          <div class="countdown__separator">:</div>
+          {% endif %}
+          
+          <div class="countdown__block">
+            <div class="countdown__number" id="countdownHoursMulti-{{ section.id }}">{{ countdown_hours | default: 0 | prepend: '00' | slice: -2, 2 }}</div>
+            <div class="countdown__label">Heures</div>
+          </div>
+          <div class="countdown__separator">:</div>
+          
+          <div class="countdown__block">
+            <div class="countdown__number" id="countdownMinutesMulti-{{ section.id }}">{{ countdown_minutes | default: 0 | prepend: '00' | slice: -2, 2 }}</div>
+            <div class="countdown__label">Min</div>
+          </div>
+          <div class="countdown__separator">:</div>
+          
+          <div class="countdown__block">
+            <div class="countdown__number" id="countdownSecondsMulti-{{ section.id }}">{{ countdown_seconds | default: 0 | prepend: '00' | slice: -2, 2 }}</div>
+            <div class="countdown__label">Sec</div>
+          </div>
+        </div>
+        
+        <div class="countdown__right">
+          <span class="countdown__end">{{ countdown_end_text }}</span>
+          <span class="countdown__end-emoji">⚡</span>
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+
+  {% comment %} === URGENCY STOCK === {% endcomment %}
+  {%- if show_urgency -%}
+    <div class="pack-urgency">
+      <div class="urgency-dot"></div>
+      <span>{{ urgency_text }} <strong id="packMultiUrgencyCount-{{ section.id }}">{{ urgency_stock_initial }}</strong> {{ urgency_suffix }}</span>
+      <div class="pack-urgency-bar">
+        <div class="pack-urgency-bar__fill" id="packMultiUrgencyBar-{{ section.id }}" style="width: 100%;"></div>
+      </div>
+    </div>
+  {%- endif -%}
+
+  {% comment %} === FORMULAIRE UNIQUE === {% endcomment %}
+<form id="product-pack-multi-form-{{ section.id }}" class="pack-multi-form" accept-charset="UTF-8">
+  <input type="hidden" name="id" id="pack-multi-variant-id-{{ section.id }}" value="{{ default_variant_id }}">
+  <input type="hidden" name="quantity" id="pack-multi-quantity-{{ section.id }}" value="{{ default_quantity }}">
+
+  {% comment %} === TOUTES LES CARTES DE PACKS === {% endcomment %}
+  <div class="pack-multi-wrapper" id="pack-multi-wrapper-{{ section.id }}">
+    {%- for multi_block in multi_blocks -%}
+      {%- if multi_block.settings.enabled -%}
+        
+        {% comment %} === CALCUL AUTO DU PRIX DEPUIS LES PRODUITS LIÉS === {% endcomment %}
+        {%- assign auto_total_price = 0 -%}
+        {%- assign auto_compare_price = 0 -%}
+        {%- assign has_linked_products = false -%}
+
+        {%- if multi_block.settings.linked_product_1 != blank -%}
+          {%- assign has_linked_products = true -%}
+          {%- assign p1_qty = multi_block.settings.linked_product_1_qty | default: 1 -%}
+          {%- assign p1_price = multi_block.settings.linked_product_1.selected_or_first_available_variant.price | times: p1_qty -%}
+          {%- assign p1_compare_raw = multi_block.settings.linked_product_1.selected_or_first_available_variant.compare_at_price -%}
+          {%- if p1_compare_raw and p1_compare_raw > 0 -%}
+            {%- assign p1_compare = p1_compare_raw | times: p1_qty -%}
+          {%- else -%}
+            {%- assign p1_compare = p1_price -%}
+          {%- endif -%}
+          {%- assign auto_total_price = auto_total_price | plus: p1_price -%}
+          {%- assign auto_compare_price = auto_compare_price | plus: p1_compare -%}
+        {%- endif -%}
+
+        {%- if multi_block.settings.linked_product_2 != blank -%}
+          {%- assign has_linked_products = true -%}
+          {%- assign p2_qty = multi_block.settings.linked_product_2_qty | default: 1 -%}
+          {%- assign p2_price = multi_block.settings.linked_product_2.selected_or_first_available_variant.price | times: p2_qty -%}
+          {%- assign p2_compare_raw = multi_block.settings.linked_product_2.selected_or_first_available_variant.compare_at_price -%}
+          {%- if p2_compare_raw and p2_compare_raw > 0 -%}
+            {%- assign p2_compare = p2_compare_raw | times: p2_qty -%}
+          {%- else -%}
+            {%- assign p2_compare = p2_price -%}
+          {%- endif -%}
+          {%- assign auto_total_price = auto_total_price | plus: p2_price -%}
+          {%- assign auto_compare_price = auto_compare_price | plus: p2_compare -%}
+        {%- endif -%}
+
+        {%- if multi_block.settings.linked_product_3 != blank -%}
+          {%- assign has_linked_products = true -%}
+          {%- assign p3_qty = multi_block.settings.linked_product_3_qty | default: 1 -%}
+          {%- assign p3_price = multi_block.settings.linked_product_3.selected_or_first_available_variant.price | times: p3_qty -%}
+          {%- assign p3_compare_raw = multi_block.settings.linked_product_3.selected_or_first_available_variant.compare_at_price -%}
+          {%- if p3_compare_raw and p3_compare_raw > 0 -%}
+            {%- assign p3_compare = p3_compare_raw | times: p3_qty -%}
+          {%- else -%}
+            {%- assign p3_compare = p3_price -%}
+          {%- endif -%}
+          {%- assign auto_total_price = auto_total_price | plus: p3_price -%}
+          {%- assign auto_compare_price = auto_compare_price | plus: p3_compare -%}
+        {%- endif -%}
+
+        {%- if multi_block.settings.linked_product_4 != blank -%}
+          {%- assign has_linked_products = true -%}
+          {%- assign p4_qty = multi_block.settings.linked_product_4_qty | default: 1 -%}
+          {%- assign p4_price = multi_block.settings.linked_product_4.selected_or_first_available_variant.price | times: p4_qty -%}
+          {%- assign p4_compare_raw = multi_block.settings.linked_product_4.selected_or_first_available_variant.compare_at_price -%}
+          {%- if p4_compare_raw and p4_compare_raw > 0 -%}
+            {%- assign p4_compare = p4_compare_raw | times: p4_qty -%}
+          {%- else -%}
+            {%- assign p4_compare = p4_price -%}
+          {%- endif -%}
+          {%- assign auto_total_price = auto_total_price | plus: p4_price -%}
+          {%- assign auto_compare_price = auto_compare_price | plus: p4_compare -%}
+        {%- endif -%}
+
+        {% comment %} === DÉTERMINER LES PRIX À AFFICHER === {% endcomment %}
+        {%- if has_linked_products and auto_total_price > 0 -%}
+          {%- assign display_price = auto_total_price | money -%}
+          {%- if auto_compare_price > auto_total_price -%}
+            {%- assign display_compare_price = auto_compare_price | money -%}
+          {%- else -%}
+            {%- assign display_compare_price = nil -%}
+          {%- endif -%}
+          {%- assign data_price_value = auto_total_price | divided_by: 100.0 -%}
+        {%- else -%}
+          {%- assign display_price = multi_block.settings.pack_price | default: '0,00€' -%}
+          {%- assign display_compare_price = multi_block.settings.pack_compare_price -%}
+          {%- assign data_price_value = multi_block.settings.pack_price | remove: '€' | remove: ' ' | replace: ',', '.' | times: 1.0 -%}
+        {%- endif -%}
+
+        <div class="pack-multi-card {% if multi_block.settings.is_default_selected %}pack-multi--selected{% endif %}"
+             data-pack-multi-index="{{ forloop.index0 }}"
+             data-price="{{ data_price_value }}"
+             data-price-display="{{ display_price }}"
+             data-compare-price="{{ display_compare_price }}"
+             data-variant-id="{{ multi_block.settings.variant_id }}"
+             data-quantity="{{ multi_block.settings.quantity | default: 1 }}"
+             {%- if multi_block.settings.linked_product_1 != blank %}
+             data-linked-product-1-id="{{ multi_block.settings.linked_product_1.selected_or_first_available_variant.id }}"
+             data-linked-product-1-qty="{{ multi_block.settings.linked_product_1_qty | default: 1 }}"
+             {%- endif %}
+             {%- if multi_block.settings.linked_product_2 != blank %}
+             data-linked-product-2-id="{{ multi_block.settings.linked_product_2.selected_or_first_available_variant.id }}"
+             data-linked-product-2-qty="{{ multi_block.settings.linked_product_2_qty | default: 1 }}"
+             {%- endif %}
+             {%- if multi_block.settings.linked_product_3 != blank %}
+             data-linked-product-3-id="{{ multi_block.settings.linked_product_3.selected_or_first_available_variant.id }}"
+             data-linked-product-3-qty="{{ multi_block.settings.linked_product_3_qty | default: 1 }}"
+             {%- endif %}
+             {%- if multi_block.settings.linked_product_4 != blank %}
+             data-linked-product-4-id="{{ multi_block.settings.linked_product_4.selected_or_first_available_variant.id }}"
+             data-linked-product-4-qty="{{ multi_block.settings.linked_product_4_qty | default: 1 }}"
+             {%- endif %}
+             onclick="selectMultiPackStandalone(this, '{{ section.id }}')"
+             {{ multi_block.shopify_attributes }}>
+          
+          {%- if multi_block.settings.show_top_badge and multi_block.settings.top_badge_text != blank -%}
+            <div class="pack-multi-card__top-badge" style="background: {{ multi_block.settings.top_badge_bg | default: '#1f2937' }}; color: {{ multi_block.settings.top_badge_text_color | default: '#ffffff' }};">
+              {{ multi_block.settings.top_badge_text }}
+            </div>
+          {%- endif -%}
+
+          <div class="pack-multi-card__header">
+            <div class="pack-multi-card__radio"></div>
+            
+            <div class="pack-multi-card__info">
+              <h3 class="pack-multi-card__title">{{ multi_block.settings.pack_title | default: 'Pack Multi-Produits' }}</h3>
+              {%- if multi_block.settings.pack_subtitle != blank -%}
+                <p class="pack-multi-card__subtitle">{{ multi_block.settings.pack_subtitle }}</p>
+              {%- endif -%}
+            </div>
+
+            <div class="pack-multi-card__pricing">
+              {% comment %} === BADGE ÉCONOMIE AUTO === {% endcomment %}
+              {%- if multi_block.settings.show_savings_badge -%}
+                {%- if has_linked_products and auto_compare_price > auto_total_price -%}
+                  {%- assign savings_amount = auto_compare_price | minus: auto_total_price | divided_by: 100.0 -%}
+                  {%- if savings_amount > 0 -%}
+                    <div class="pack-multi-card__savings-badge" style="background: {{ multi_block.settings.savings_badge_bg | default: '#10b981' }}; color: {{ multi_block.settings.savings_badge_text | default: '#ffffff' }};">
+                      Économisez {{ savings_amount | round: 2 | replace: '.', ',' }}€
+                    </div>
+                  {%- endif -%}
+                {%- elsif multi_block.settings.savings_auto -%}
+                  {%- assign price_num = multi_block.settings.pack_price | remove: '€' | remove: ' ' | replace: ',', '.' | times: 1.0 -%}
+                  {%- assign compare_num = multi_block.settings.pack_compare_price | remove: '€' | remove: ' ' | replace: ',', '.' | times: 1.0 -%}
+                  {%- assign savings = compare_num | minus: price_num -%}
+                  {%- if savings > 0 -%}
+                    <div class="pack-multi-card__savings-badge" style="background: {{ multi_block.settings.savings_badge_bg | default: '#10b981' }}; color: {{ multi_block.settings.savings_badge_text | default: '#ffffff' }};">
+                      Économisez {{ savings | round: 2 | replace: '.', ',' }}€
+                    </div>
+                  {%- endif -%}
+                {%- elsif multi_block.settings.savings_manual != blank -%}
+                  <div class="pack-multi-card__savings-badge" style="background: {{ multi_block.settings.savings_badge_bg | default: '#10b981' }}; color: {{ multi_block.settings.savings_badge_text | default: '#ffffff' }};">
+                    Économisez {{ multi_block.settings.savings_manual }}
+                  </div>
+                {%- endif -%}
+              {%- endif -%}
+              
+              {% comment %} === PRIX AFFICHÉ (AUTO-SYNCHRONISÉ) === {% endcomment %}
+              <div class="pack-multi-card__price-row">
+                <span class="pack-multi-card__price">{{ display_price }}</span>
+                {%- if display_compare_price != blank and display_compare_price != display_price -%}
+                  <span class="pack-multi-card__price-compare">{{ display_compare_price }}</span>
+                {%- endif -%}
+              </div>
+            </div>
+          </div>
+
+          <div class="pack-multi-card__expanded">
+            
+            {%- if multi_block.settings.show_section_title -%}
+              <div class="pack-multi-card__section-title">
+                {{ multi_block.settings.section_title | default: '✨ VOTRE RITUEL COMPLET ✨' }}
+              </div>
+            {%- endif -%}
+
+            {%- if multi_block.settings.show_products_section -%}
+              <div class="pack-multi-card__products">
+                
+                {% comment %} === PRODUIT 1 === {% endcomment %}
+                {%- if multi_block.settings.product1_enabled and multi_block.settings.product1_image != blank -%}
+                  <div class="pack-multi-card__product">
+                    {%- if multi_block.settings.product1_product != blank -%}
+                      <a href="{{ multi_block.settings.product1_product.url }}" class="pack-multi-card__product-image" onclick="event.stopPropagation();">
+                        {{ multi_block.settings.product1_image | image_url: width: 160 | image_tag: loading: 'lazy' }}
+                      </a>
+                    {%- else -%}
+                      <div class="pack-multi-card__product-image">
+                        {{ multi_block.settings.product1_image | image_url: width: 160 | image_tag: loading: 'lazy' }}
+                      </div>
+                    {%- endif -%}
+                    {%- if multi_block.settings.show_product_titles -%}
+                      <div class="pack-multi-card__product-title">{{ multi_block.settings.product1_title }}</div>
+                      {%- if multi_block.settings.show_product_subtitles and multi_block.settings.product1_subtitle != blank -%}
+                        <div class="pack-multi-card__product-subtitle">{{ multi_block.settings.product1_subtitle }}</div>
+                      {%- endif -%}
+                    {%- endif -%}
+                    {%- if multi_block.settings.show_product_separators -%}
+                      <div class="pack-multi-card__product-separator"></div>
+                    {%- endif -%}
+                    {%- if multi_block.settings.show_product_prices and multi_block.settings.product1_price != blank -%}
+                      <div class="pack-multi-card__product-price">{{ multi_block.settings.product1_price }}</div>
+                    {%- endif -%}
+                  </div>
+                {%- endif -%}
+
+                {%- if multi_block.settings.product2_enabled and multi_block.settings.product2_image != blank and multi_block.settings.show_connectors -%}
+                  <div class="pack-multi-card__connector">
+                    <span class="pack-multi-card__connector-icon">{{ multi_block.settings.connector_text | default: '+' }}</span>
+                  </div>
+                {%- endif -%}
+
+                {% comment %} === PRODUIT 2 === {% endcomment %}
+                {%- if multi_block.settings.product2_enabled and multi_block.settings.product2_image != blank -%}
+                  <div class="pack-multi-card__product">
+                    {%- if multi_block.settings.product2_product != blank -%}
+                      <a href="{{ multi_block.settings.product2_product.url }}" class="pack-multi-card__product-image" onclick="event.stopPropagation();">
+                        {{ multi_block.settings.product2_image | image_url: width: 160 | image_tag: loading: 'lazy' }}
+                      </a>
+                    {%- else -%}
+                      <div class="pack-multi-card__product-image">
+                        {{ multi_block.settings.product2_image | image_url: width: 160 | image_tag: loading: 'lazy' }}
+                      </div>
+                    {%- endif -%}
+                    {%- if multi_block.settings.show_product_titles -%}
+                      <div class="pack-multi-card__product-title">{{ multi_block.settings.product2_title }}</div>
+                      {%- if multi_block.settings.show_product_subtitles and multi_block.settings.product2_subtitle != blank -%}
+                        <div class="pack-multi-card__product-subtitle">{{ multi_block.settings.product2_subtitle }}</div>
+                      {%- endif -%}
+                    {%- endif -%}
+                    {%- if multi_block.settings.show_product_separators -%}
+                      <div class="pack-multi-card__product-separator"></div>
+                    {%- endif -%}
+                    {%- if multi_block.settings.show_product_prices and multi_block.settings.product2_price != blank -%}
+                      <div class="pack-multi-card__product-price">{{ multi_block.settings.product2_price }}</div>
+                    {%- endif -%}
+                  </div>
+                {%- endif -%}
+
+                {%- if multi_block.settings.product3_enabled and multi_block.settings.product3_image != blank and multi_block.settings.show_connectors -%}
+                  <div class="pack-multi-card__connector">
+                    <span class="pack-multi-card__connector-icon">{{ multi_block.settings.connector_text | default: '+' }}</span>
+                  </div>
+                {%- endif -%}
+
+                {% comment %} === PRODUIT 3 === {% endcomment %}
+                {%- if multi_block.settings.product3_enabled and multi_block.settings.product3_image != blank -%}
+                  <div class="pack-multi-card__product">
+                    {%- if multi_block.settings.product3_product != blank -%}
+                      <a href="{{ multi_block.settings.product3_product.url }}" class="pack-multi-card__product-image" onclick="event.stopPropagation();">
+                        {{ multi_block.settings.product3_image | image_url: width: 160 | image_tag: loading: 'lazy' }}
+                      </a>
+                    {%- else -%}
+                      <div class="pack-multi-card__product-image">
+                        {{ multi_block.settings.product3_image | image_url: width: 160 | image_tag: loading: 'lazy' }}
+                      </div>
+                    {%- endif -%}
+                    {%- if multi_block.settings.show_product_titles -%}
+                      <div class="pack-multi-card__product-title">{{ multi_block.settings.product3_title }}</div>
+                      {%- if multi_block.settings.show_product_subtitles and multi_block.settings.product3_subtitle != blank -%}
+                        <div class="pack-multi-card__product-subtitle">{{ multi_block.settings.product3_subtitle }}</div>
+                      {%- endif -%}
+                    {%- endif -%}
+                    {%- if multi_block.settings.show_product_separators -%}
+                      <div class="pack-multi-card__product-separator"></div>
+                    {%- endif -%}
+                    {%- if multi_block.settings.show_product_prices and multi_block.settings.product3_price != blank -%}
+                      <div class="pack-multi-card__product-price">{{ multi_block.settings.product3_price }}</div>
+                    {%- endif -%}
+                  </div>
+                {%- endif -%}
+
+                {%- if multi_block.settings.product4_enabled and multi_block.settings.product4_image != blank and multi_block.settings.show_connectors -%}
+                  <div class="pack-multi-card__connector">
+                    <span class="pack-multi-card__connector-icon">{{ multi_block.settings.connector_text | default: '+' }}</span>
+                  </div>
+                {%- endif -%}
+
+                {% comment %} === PRODUIT 4 === {% endcomment %}
+                {%- if multi_block.settings.product4_enabled and multi_block.settings.product4_image != blank -%}
+                  <div class="pack-multi-card__product">
+                    {%- if multi_block.settings.product4_product != blank -%}
+                      <a href="{{ multi_block.settings.product4_product.url }}" class="pack-multi-card__product-image" onclick="event.stopPropagation();">
+                        {{ multi_block.settings.product4_image | image_url: width: 160 | image_tag: loading: 'lazy' }}
+                      </a>
+                    {%- else -%}
+                      <div class="pack-multi-card__product-image">
+                        {{ multi_block.settings.product4_image | image_url: width: 160 | image_tag: loading: 'lazy' }}
+                      </div>
+                    {%- endif -%}
+                    {%- if multi_block.settings.show_product_titles -%}
+                      <div class="pack-multi-card__product-title">{{ multi_block.settings.product4_title }}</div>
+                      {%- if multi_block.settings.show_product_subtitles and multi_block.settings.product4_subtitle != blank -%}
+                        <div class="pack-multi-card__product-subtitle">{{ multi_block.settings.product4_subtitle }}</div>
+                      {%- endif -%}
+                    {%- endif -%}
+                    {%- if multi_block.settings.show_product_separators -%}
+                      <div class="pack-multi-card__product-separator"></div>
+                    {%- endif -%}
+                    {%- if multi_block.settings.show_product_prices and multi_block.settings.product4_price != blank -%}
+                      <div class="pack-multi-card__product-price">{{ multi_block.settings.product4_price }}</div>
+                    {%- endif -%}
+                  </div>
+                {%- endif -%}
+
+              </div>
+            {%- endif -%}
+
+            {%- if multi_block.settings.show_description and multi_block.settings.description_text != blank -%}
+              <div class="pack-multi-card__description">
+                {{ multi_block.settings.description_text }}
+              </div>
+            {%- endif -%}
+
+            {%- if multi_block.settings.show_synergy_block -%}
+              <div class="pack-multi-card__synergy" style="background: {{ multi_block.settings.synergy_bg | default: '#f0fdf4' }}; border-color: {{ multi_block.settings.synergy_border | default: '#10b981' }};">
+                <div class="pack-multi-card__synergy-title" style="color: {{ multi_block.settings.synergy_title_color | default: '#10b981' }};">
+                  {{ multi_block.settings.synergy_title | default: '⚡ SYNERGIE PARFAITE' }}
+                </div>
+                {%- if multi_block.settings.synergy_subtitle != blank -%}
+                  <div class="pack-multi-card__synergy-subtitle" style="color: {{ multi_block.settings.synergy_subtitle_color | default: '#065f46' }};">
+                    {{ multi_block.settings.synergy_subtitle }}
+                  </div>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+
+          </div>
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+
+  {% comment %} ══════════════════════════════════════════════════════════════════
+     NEW: OPTIONS MULTI-PACK - DESIGN HORIZONTAL AVEC ➕
+  ══════════════════════════════════════════════════════════════════ {% endcomment %}
+  {%- if option_blocks.size > 0 -%}
+    <div class="pack-horizontal-section" id="pack-horizontal-options-{{ section.id }}">
+      
+      {% comment %} Header Options {% endcomment %}
+      <div class="pack-horizontal-header pack-horizontal-header--options">
+        <span class="pack-horizontal-title">
+          🛒 BOOSTEZ VOS RÉSULTATS
+        </span>
+        <span class="pack-horizontal-badge">⚡ 73% des clients ajoutent</span>
+      </div>
+      
+      {% comment %} Grille horizontale Options {% endcomment %}
+      <div class="pack-horizontal-body">
+        <div class="pack-horizontal-grid" id="pack-horizontal-options-grid-{{ section.id }}">
+          
+          {%- for option_block in option_blocks -%}
+            {%- assign is_active = option_block.settings.active_default | default: false -%}
+            
+            {% comment %} Signe + avant (sauf premier) {% endcomment %}
+            {%- unless forloop.first -%}
+              <div class="pack-horizontal-plus {% if is_active %}pack-horizontal-plus--active{% endif %}" 
+                   data-plus-type="option" 
+                   data-plus-index="{{ forloop.index0 }}">+</div>
+            {%- endunless -%}
+            
+            {% comment %} Mini carte option {% endcomment %}
+            <div class="pack-mini-card {% if is_active %}pack-mini-card--selected{% endif %}"
+                 data-option-type="option"
+                 data-option-index="{{ forloop.index0 }}"
+                 data-price="{{ option_block.settings.option_price | default: '0' }}"
+                 data-variant-id="{{ option_block.settings.variant_id }}"
+                 data-show-for-pack-0="{{ option_block.settings.show_for_pack_0 | default: true }}"
+                 data-show-for-pack-1="{{ option_block.settings.show_for_pack_1 | default: true }}"
+                 data-show-for-pack-2="{{ option_block.settings.show_for_pack_2 | default: true }}"
+                 data-show-for-pack-3="{{ option_block.settings.show_for_pack_3 | default: true }}"
+                 onclick="toggleMiniCard(this, '{{ section.id }}')"
+                 {{ option_block.shopify_attributes }}>
+              
+              {% comment %} Image {% endcomment %}
+              <div class="pack-mini-card__image">
+                {%- if option_block.settings.option_image != blank -%}
+                  {{ option_block.settings.option_image | image_url: width: 120 | image_tag: loading: 'lazy' }}
+                {%- else -%}
+                  <svg viewBox="0 0 24 24" fill="none" stroke="#d1d5db" stroke-width="1">
+                    <rect x="3" y="3" width="18" height="18" rx="2"/>
+                    <circle cx="8.5" cy="8.5" r="1.5"/>
+                    <path d="M21 15l-5-5L5 21"/>
+                  </svg>
+                {%- endif -%}
+              </div>
+              
+              {% comment %} Titre {% endcomment %}
+              <div class="pack-mini-card__title">{{ option_block.settings.option_title | default: 'Option' }}</div>
+              
+              {% comment %} Prix {% endcomment %}
+              <div class="pack-mini-card__price">+{{ option_block.settings.option_price | default: '0€' }}</div>
+              
+              {% comment %} Checkbox {% endcomment %}
+              <div class="pack-mini-checkbox">
+                <div class="pack-mini-checkbox__box">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <polyline points="20 6 9 17 4 12"/>
+                  </svg>
+                </div>
+                <span class="pack-mini-checkbox__label">{% if is_active %}OUI{% else %}NON{% endif %}</span>
+              </div>
+            </div>
+          {%- endfor -%}
+          
+        </div>
+        
+        {% comment %} Total options {% endcomment %}
+        <div class="pack-horizontal-total">
+          <span class="pack-horizontal-total__label">Total options:</span>
+          <span class="pack-horizontal-total__value" id="pack-horizontal-options-total-{{ section.id }}">+0,00€</span>
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+
+  {% comment %} ══════════════════════════════════════════════════════════════════
+     NEW: CADEAUX MULTI-PACK - DESIGN HORIZONTAL AVEC ➕
+  ══════════════════════════════════════════════════════════════════ {% endcomment %}
+  {%- if gift_blocks.size > 0 -%}
+    <div class="pack-horizontal-section" id="pack-horizontal-gifts-{{ section.id }}">
+      
+      {% comment %} Header Cadeaux {% endcomment %}
+      <div class="pack-horizontal-header pack-horizontal-header--gifts">
+        <span class="pack-horizontal-title">
+          🎁 CADEAUX EXCLUSIFS OFFERTS
+        </span>
+        <span class="pack-horizontal-badge" id="pack-horizontal-gifts-value-{{ section.id }}">🎉 Valeur: 0€</span>
+      </div>
+      
+      {% comment %} Grille horizontale Cadeaux {% endcomment %}
+      <div class="pack-horizontal-body">
+        <div class="pack-horizontal-grid" id="pack-horizontal-gifts-grid-{{ section.id }}">
+          
+          {%- for gift_block in gift_blocks -%}
+            {%- assign is_active = gift_block.settings.active_default | default: true -%}
+            {%- assign is_free = gift_block.settings.is_free | default: true -%}
+            
+            {% comment %} Signe + avant (sauf premier) {% endcomment %}
+            {%- unless forloop.first -%}
+              <div class="pack-horizontal-plus pack-horizontal-plus--gift {% if is_active %}pack-horizontal-plus--active{% endif %}" 
+                   data-plus-type="gift" 
+                   data-plus-index="{{ forloop.index0 }}">+</div>
+            {%- endunless -%}
+            
+            {% comment %} Mini carte cadeau {% endcomment %}
+            <div class="pack-mini-card pack-mini-card--gift {% if is_active %}pack-mini-card--selected{% endif %}"
+                 data-option-type="gift"
+                 data-option-index="{{ forloop.index0 }}"
+                 data-is-free="{{ is_free }}"
+                 data-price="{{ gift_block.settings.gift_price | default: '0' }}"
+                 data-value="{{ gift_block.settings.gift_value | default: '0' }}"
+                 data-variant-id="{{ gift_block.settings.variant_id }}"
+                 data-show-for-pack-0="{{ gift_block.settings.show_for_pack_0 | default: true }}"
+                 data-show-for-pack-1="{{ gift_block.settings.show_for_pack_1 | default: true }}"
+                 data-show-for-pack-2="{{ gift_block.settings.show_for_pack_2 | default: true }}"
+                 data-show-for-pack-3="{{ gift_block.settings.show_for_pack_3 | default: true }}"
+                 onclick="toggleMiniCard(this, '{{ section.id }}')"
+                 {{ gift_block.shopify_attributes }}>
+              
+              {% comment %} Image avec badge cadeau {% endcomment %}
+              <div class="pack-mini-card__image">
+                {%- if gift_block.settings.gift_image != blank -%}
+                  {{ gift_block.settings.gift_image | image_url: width: 120 | image_tag: loading: 'lazy' }}
+                {%- else -%}
+                  <svg viewBox="0 0 24 24" fill="none" stroke="#d1d5db" stroke-width="1">
+                    <rect x="3" y="3" width="18" height="18" rx="2"/>
+                    <circle cx="8.5" cy="8.5" r="1.5"/>
+                    <path d="M21 15l-5-5L5 21"/>
+                  </svg>
+                {%- endif -%}
+                <span class="pack-mini-card__gift-badge">🎁</span>
+              </div>
+              
+              {% comment %} Titre {% endcomment %}
+              <div class="pack-mini-card__title">{{ gift_block.settings.gift_title | default: 'Cadeau' }}</div>
+              
+              {% comment %} Prix (OFFERT ou payant) {% endcomment %}
+              <div class="pack-mini-card__price pack-mini-card__price--free">
+                {%- if is_free -%}
+                  OFFERT
+                {%- else -%}
+                  +{{ gift_block.settings.gift_price | default: '0€' }}
+                {%- endif -%}
+              </div>
+              
+              {% comment %} Checkbox {% endcomment %}
+              <div class="pack-mini-checkbox">
+                <div class="pack-mini-checkbox__box">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <polyline points="20 6 9 17 4 12"/>
+                  </svg>
+                </div>
+                <span class="pack-mini-checkbox__label">{% if is_active %}OUI{% else %}NON{% endif %}</span>
+              </div>
+            </div>
+          {%- endfor -%}
+          
+        </div>
+        
+        {% comment %} Total cadeaux {% endcomment %}
+        <div class="pack-horizontal-total">
+          <span class="pack-horizontal-total__label">Cadeaux sélectionnés:</span>
+          <span class="pack-horizontal-total__value pack-horizontal-total__value--gift" id="pack-horizontal-gifts-count-{{ section.id }}">0 🎁</span>
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+
+  {% comment %} === OPTIONS STANDARD (Option / Cadeau) === {% endcomment %}
+  {%- if standard_option_blocks.size > 0 -%}
+    <div class="pack-options-section" id="pack-standard-options-{{ section.id }}">
+      <div class="pack-options-title">🎁 Options & Cadeaux</div>
+      {%- for std_option in standard_option_blocks -%}
+        {%- assign opt_price = std_option.settings.price | default: 0 -%}
+        {%- assign is_free_option = false -%}
+        {%- if opt_price == 0 or opt_price == blank -%}
+          {%- assign is_free_option = true -%}
+        {%- endif -%}
+        
+        <div class="pack-option-item {% if std_option.settings.active_default %}pack-option--selected{% endif %}"
+             data-option-type="standard"
+             data-option-index="{{ forloop.index0 }}"
+             data-is-free="{{ is_free_option }}"
+             data-price="{{ opt_price }}"
+             data-variant-id="{{ std_option.settings.variant_id }}"
+             data-show-for-pack-0="{{ std_option.settings.show_for_pack0 | default: true }}"
+             data-show-for-pack-1="{{ std_option.settings.show_for_pack1 | default: true }}"
+             data-show-for-pack-2="{{ std_option.settings.show_for_pack2 | default: true }}"
+             data-show-for-pack-3="{{ std_option.settings.show_for_pack3 | default: true }}"
+             onclick="toggleMultiOption(this, '{{ section.id }}')"
+             {{ std_option.shopify_attributes }}>
+          
+          <div class="pack-option-checkbox">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          
+          {%- if std_option.settings.image != blank -%}
+            <div class="pack-option-image">
+              {{ std_option.settings.image | image_url: width: 100 | image_tag: loading: 'lazy' }}
+            </div>
+          {%- elsif std_option.settings.icon != blank -%}
+            <div class="pack-option-image" style="display: flex; align-items: center; justify-content: center; font-size: 24px;">
+              {{ std_option.settings.icon }}
+            </div>
+          {%- endif -%}
+          
+          <div class="pack-option-info">
+            <p class="pack-option-title">{{ std_option.settings.title | default: 'Option' }}</p>
+            {%- if std_option.settings.download_url != blank -%}
+              <a href="{{ std_option.settings.download_url }}" class="pack-option-download" onclick="event.stopPropagation();" target="_blank">
+                {{ std_option.settings.link_text | default: '📥 Télécharger' }}
+              </a>
+            {%- endif -%}
+          </div>
+          
+          <span class="pack-option-price {% if is_free_option %}pack-option-price--free{% else %}pack-option-price--paid{% endif %}">
+            {%- if is_free_option -%}
+              OFFERT
+            {%- else -%}
+              +{{ opt_price }}€
+            {%- endif -%}
+          </span>
+        </div>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+
+  {% comment %} === BOUTON UNIQUE AVEC BRILLANCE === {% endcomment %}
+  <button type="submit" name="add" class="pack-multi-button" id="pack-multi-btn-{{ section.id }}">
+    <span class="pack-multi-button__text">{{ button_text }}</span>
+    <span class="pack-multi-button__sep"> - </span>
+    <span class="pack-multi-button__price" id="packMultiButtonPrice-{{ section.id }}">{{ default_price }}</span>
+  </button>
+</form>
+
+{% comment %} === CODE PROMO === {% endcomment %}
+{%- if promo_enabled -%}
+  <div class="pack-promo" id="packMultiPromo-{{ section.id }}" data-promo-code="{{ promo_code }}">
+    <span class="pack-promo__text">{{ promo_text }}</span>
+    <div class="pack-promo__code">
+      <span class="pack-promo__code-text" id="packMultiPromoText-{{ section.id }}">{{ promo_code }}</span>
+      <span class="pack-promo__code-icon">📋</span>
+    </div>
+  </div>
+{%- endif -%}
+
+{% comment %} === DELIVERY / LIVRAISON === {% endcomment %}
+{%- if show_delivery -%}
+  <div class="pack-delivery">
+    <div class="pack-delivery__item">
+      <span>⚡</span>
+      <span>{{ expedition_text }}</span>
+    </div>
+    <div class="pack-delivery__item">
+      <span>🚚</span>
+      <strong>{{ delivery_text }}</strong>
+    </div>
+  </div>
+{%- endif -%}
+
+{% comment %} === TRUST BADGES === {% endcomment %}
+{%- if show_trust_badges -%}
+  <div class="pack-trust-badges">
+    {%- if first_block.settings.show_trust_1 -%}
+      <div class="trust-badge">
+        <span class="trust-badge__icon">🔒</span>
+        <span class="trust-badge__text">{{ first_block.settings.trust_text_1 | default: 'Paiement sécurisé' }}</span>
+      </div>
+    {%- endif -%}
+    {%- if first_block.settings.show_trust_2 -%}
+      <div class="trust-badge">
+        <span class="trust-badge__icon">🚚</span>
+        <span class="trust-badge__text">{{ first_block.settings.trust_text_2 | default: 'Livraison rapide' }}</span>
+      </div>
+    {%- endif -%}
+    {%- if first_block.settings.show_trust_3 -%}
+      <div class="trust-badge">
+        <span class="trust-badge__icon">↩️</span>
+        <span class="trust-badge__text">{{ first_block.settings.trust_text_3 | default: 'Retours gratuits' }}</span>
+      </div>
+    {%- endif -%}
+  </div>
+{%- endif -%}
+
+{% comment %} === GUARANTEE BANNER === {% endcomment %}
+{%- if show_guarantee_banner -%}
+  <div class="pack-guarantee">
+    <span class="pack-guarantee__icon">🛡️</span>
+    <span class="pack-guarantee__text">{{ guarantee_text }}</span>
+    <span class="pack-guarantee__badge">GARANTI</span>
+  </div>
+{%- endif -%}
+
+{% comment %} === VIEWERS === {% endcomment %}
+{%- if show_viewers -%}
+  <div class="pack-viewers">
+    <span class="pack-viewers__icon">👀</span>
+    <span><strong id="packMultiViewersCount-{{ section.id }}">{{ viewers_initial }}</strong> {{ viewers_text }}</span>
+  </div>
+{%- endif -%}
+
+</div>
+
+<script>
+(function() {
+  'use strict';
+  
+  var sectionId = '{{ section.id }}';
+  
+  /* === ÉTAT GLOBAL === */
+  window.packMultiState = window.packMultiState || {};
+  window.packMultiState[sectionId] = {
+    basePrice: 0,
+    variantId: '{{ default_variant_id }}',
+    quantity: {{ default_quantity }},
+    selectedPackIndex: {{ default_index }},
+    currency: '€'
+  };
+  
+  /* === PARSE PRIX === */
+  function parsePackMultiPrice(priceStr) {
+    if (!priceStr) return 0;
+    var cleaned = priceStr.toString().replace(/[^0-9.,]/g, '').replace(',', '.');
+    return parseFloat(cleaned) || 0;
+  }
+  window.parsePackMultiPrice = parsePackMultiPrice;
+  
+  /* === MISE À JOUR VISIBILITÉ OPTIONS (ANCIEN DESIGN) === */
+  function updateOptionsVisibility(secId, packIndex) {
+    var container = document.getElementById('pack-multi-standalone-' + secId);
+    if (!container) return;
+    
+    var allOptions = container.querySelectorAll('.pack-option-item');
+    allOptions.forEach(function(item) {
+      var showForPack = item.dataset['showForPack' + packIndex];
+      if (showForPack === 'false') {
+        item.classList.add('pack-option--hidden');
+        item.classList.remove('pack-option--selected');
+      } else {
+        item.classList.remove('pack-option--hidden');
+      }
+    });
+  }
+  
+  /* === MISE À JOUR VISIBILITÉ OPTIONS HORIZONTAL === */
+  function updateHorizontalOptionsVisibility(secId, packIndex) {
+    var container = document.getElementById('pack-multi-standalone-' + secId);
+    if (!container) return;
+    
+    var allCards = container.querySelectorAll('.pack-mini-card');
+    allCards.forEach(function(card) {
+      var showForPack = card.dataset['showForPack' + packIndex];
+      if (showForPack === 'false') {
+        card.classList.add('pack-mini-card--hidden');
+        card.classList.remove('pack-mini-card--selected');
+        var label = card.querySelector('.pack-mini-checkbox__label');
+        if (label) label.textContent = 'NON';
+      } else {
+        card.classList.remove('pack-mini-card--hidden');
+      }
+    });
+    
+    updateHorizontalPlusSigns(secId);
+    updateHorizontalTotals(secId);
+  }
+  
+  /* === MISE À JOUR SIGNES + === */
+  function updateHorizontalPlusSigns(secId) {
+    var container = document.getElementById('pack-multi-standalone-' + secId);
+    if (!container) return;
+    
+    /* Options */
+    var optionsGrid = container.querySelector('#pack-horizontal-options-grid-' + secId);
+    if (optionsGrid) {
+      var optionCards = optionsGrid.querySelectorAll('.pack-mini-card');
+      var optionPluses = optionsGrid.querySelectorAll('.pack-horizontal-plus');
+      
+      optionPluses.forEach(function(plus, i) {
+        var prevCard = optionCards[i];
+        var nextCard = optionCards[i + 1];
+        var prevSelected = prevCard && prevCard.classList.contains('pack-mini-card--selected');
+        var nextSelected = nextCard && nextCard.classList.contains('pack-mini-card--selected');
+        
+        if (prevSelected && nextSelected) {
+          plus.classList.add('pack-horizontal-plus--active');
+        } else {
+          plus.classList.remove('pack-horizontal-plus--active');
+        }
+      });
+    }
+    
+    /* Cadeaux */
+    var giftsGrid = container.querySelector('#pack-horizontal-gifts-grid-' + secId);
+    if (giftsGrid) {
+      var giftCards = giftsGrid.querySelectorAll('.pack-mini-card');
+      var giftPluses = giftsGrid.querySelectorAll('.pack-horizontal-plus');
+      
+      giftPluses.forEach(function(plus, i) {
+        var prevCard = giftCards[i];
+        var nextCard = giftCards[i + 1];
+        var prevSelected = prevCard && prevCard.classList.contains('pack-mini-card--selected');
+        var nextSelected = nextCard && nextCard.classList.contains('pack-mini-card--selected');
+        
+        if (prevSelected && nextSelected) {
+          plus.classList.add('pack-horizontal-plus--active');
+        } else {
+          plus.classList.remove('pack-horizontal-plus--active');
+        }
+      });
+    }
+  }
+  
+  /* === MISE À JOUR TOTAUX HORIZONTAL === */
+  function updateHorizontalTotals(secId) {
+    var container = document.getElementById('pack-multi-standalone-' + secId);
+    if (!container) return;
+    
+    /* Total options */
+    var optionsTotal = 0;
+    var optionCards = container.querySelectorAll('#pack-horizontal-options-grid-' + secId + ' .pack-mini-card.pack-mini-card--selected:not(.pack-mini-card--hidden)');
+    optionCards.forEach(function(card) {
+      optionsTotal += parsePackMultiPrice(card.dataset.price);
+    });
+    
+    var optionsTotalEl = document.getElementById('pack-horizontal-options-total-' + secId);
+    if (optionsTotalEl) {
+      optionsTotalEl.textContent = '+' + optionsTotal.toFixed(2).replace('.', ',') + '€';
+    }
+    
+    /* Total cadeaux */
+    var giftsCount = 0;
+    var giftsValue = 0;
+    var giftCards = container.querySelectorAll('#pack-horizontal-gifts-grid-' + secId + ' .pack-mini-card.pack-mini-card--selected:not(.pack-mini-card--hidden)');
+    giftCards.forEach(function(card) {
+      giftsCount++;
+      giftsValue += parsePackMultiPrice(card.dataset.value || '0');
+    });
+    
+    var giftsCountEl = document.getElementById('pack-horizontal-gifts-count-' + secId);
+    if (giftsCountEl) {
+      giftsCountEl.textContent = giftsCount + ' 🎁';
+    }
+    
+    var giftsValueEl = document.getElementById('pack-horizontal-gifts-value-' + secId);
+    if (giftsValueEl) {
+      giftsValueEl.textContent = '🎉 Valeur: ' + giftsValue.toFixed(2).replace('.', ',') + '€';
+    }
+  }
+  
+  /* === MISE À JOUR DU TOTAL DU BOUTON === */
+  function updateMultiPackTotal(secId) {
+    var state = window.packMultiState[secId];
+    var container = document.getElementById('pack-multi-standalone-' + secId);
+    if (!container || !state) return;
+    
+    /* Récupérer le prix de base depuis la carte sélectionnée */
+    var selectedCard = container.querySelector('.pack-multi-card.pack-multi--selected');
+    var basePrice = 0;
+    var priceDisplay = '';
+    
+    if (selectedCard) {
+      priceDisplay = selectedCard.dataset.priceDisplay || '';
+      var priceValue = selectedCard.dataset.price;
+      if (priceValue) {
+        basePrice = parsePackMultiPrice(priceValue);
+      }
+    }
+    
+    var optionsTotal = 0;
+    
+    /* Ajouter les prix des options/cadeaux sélectionnés (ancien design) */
+    var selectedItems = container.querySelectorAll('.pack-option-item.pack-option--selected:not(.pack-option--hidden)');
+    selectedItems.forEach(function(item) {
+      var isFree = item.dataset.isFree === 'true';
+      if (!isFree) {
+        optionsTotal += parsePackMultiPrice(item.dataset.price);
+      }
+    });
+    
+    /* Ajouter les prix des mini-cards sélectionnées (nouveau design horizontal) */
+    var selectedMiniCards = container.querySelectorAll('.pack-mini-card.pack-mini-card--selected:not(.pack-mini-card--hidden)');
+    selectedMiniCards.forEach(function(card) {
+      var isFree = card.dataset.isFree === 'true';
+      if (!isFree) {
+        optionsTotal += parsePackMultiPrice(card.dataset.price);
+      }
+    });
+    
+    /* Calculer le total final */
+    var total = basePrice + optionsTotal;
+    
+    /* Mettre à jour le prix du bouton */
+    var priceEl = document.getElementById('packMultiButtonPrice-' + secId);
+    if (priceEl) {
+      if (optionsTotal > 0) {
+        priceEl.textContent = total.toFixed(2).replace('.', ',') + ' €';
+      } else if (priceDisplay) {
+        priceEl.textContent = priceDisplay;
+      } else {
+        priceEl.textContent = total.toFixed(2).replace('.', ',') + ' €';
+      }
+    }
+    
+    /* Mettre à jour l'état */
+    state.basePrice = basePrice;
+  }
+  
+  /* === SÉLECTION DU PACK === */
+  window.selectMultiPackStandalone = function(card, secId) {
+    var wrapper = card.closest('.pack-multi-wrapper');
+    if (!wrapper) return;
+    
+    /* Retirer la sélection de toutes les cartes */
+    wrapper.querySelectorAll('.pack-multi-card').forEach(function(c) {
+      c.classList.remove('pack-multi--selected');
+    });
+    
+    /* Ajouter la sélection à la carte cliquée */
+    card.classList.add('pack-multi--selected');
+    
+    /* Récupérer les données */
+    var state = window.packMultiState[secId];
+    if (!state) return;
+    
+    var packIndex = parseInt(card.dataset.packMultiIndex) || 0;
+    var variantId = card.dataset.variantId;
+    var quantity = parseInt(card.dataset.quantity) || 1;
+    
+    /* Mettre à jour l'état */
+    state.selectedPackIndex = packIndex;
+    state.variantId = variantId;
+    state.quantity = quantity;
+    
+    /* Mettre à jour les inputs cachés */
+    var variantInput = document.getElementById('pack-multi-variant-id-' + secId);
+    var quantityInput = document.getElementById('pack-multi-quantity-' + secId);
+    if (variantInput) variantInput.value = variantId || '';
+    if (quantityInput) quantityInput.value = quantity;
+    
+    /* Mettre à jour la visibilité des options/cadeaux */
+    updateOptionsVisibility(secId, packIndex);
+    updateHorizontalOptionsVisibility(secId, packIndex);
+    
+    /* Mettre à jour le prix du bouton */
+    updateMultiPackTotal(secId);
+  };
+  
+  /* === TOGGLE OPTION (ANCIEN DESIGN) === */
+  window.toggleMultiOption = function(item, secId) {
+    item.classList.toggle('pack-option--selected');
+    updateMultiPackTotal(secId);
+  };
+  
+  /* === TOGGLE MINI CARD (NOUVEAU DESIGN HORIZONTAL) === */
+  window.toggleMiniCard = function(card, secId) {
+    var isSelected = card.classList.contains('pack-mini-card--selected');
+    
+    /* Toggle classe */
+    card.classList.toggle('pack-mini-card--selected');
+    card.classList.add('pack-mini-card--just-selected');
+    setTimeout(function() { card.classList.remove('pack-mini-card--just-selected'); }, 300);
+    
+    /* Update label */
+    var label = card.querySelector('.pack-mini-checkbox__label');
+    if (label) {
+      label.textContent = isSelected ? 'NON' : 'OUI';
+    }
+    
+    /* Update signe + */
+    updateHorizontalPlusSigns(secId);
+    
+    /* Recalculer totaux */
+    updateHorizontalTotals(secId);
+    updateMultiPackTotal(secId);
+  };
+  
+  /* === SOUMISSION DU FORMULAIRE === */
+  var form = document.getElementById('product-pack-multi-form-' + sectionId);
+  var btn = document.getElementById('pack-multi-btn-' + sectionId);
+  
+  if (form && btn) {
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      var container = document.getElementById('pack-multi-standalone-' + sectionId);
+      
+      /* Récupérer la carte pack sélectionnée */
+      var selectedCard = container.querySelector('.pack-multi-card.pack-multi--selected');
+      if (!selectedCard) {
+        alert('Veuillez sélectionner un pack');
+        return;
+      }
+      
+      var variantId = document.getElementById('pack-multi-variant-id-' + sectionId).value;
+      var quantity = document.getElementById('pack-multi-quantity-' + sectionId).value;
+      
+      /* Désactiver le bouton */
+      btn.disabled = true;
+      var originalText = btn.querySelector('.pack-multi-button__text').textContent;
+      btn.querySelector('.pack-multi-button__text').textContent = 'Ajout en cours...';
+      
+      /* Préparer les items à ajouter */
+      var items = [];
+      
+      /* 1. Ajouter le variant principal du pack (si défini) */
+      if (variantId && variantId !== '') {
+        items.push({
+          id: parseInt(variantId),
+          quantity: parseInt(quantity) || 1
+        });
+      }
+      
+      /* 2. Ajouter les 4 produits Shopify liés avec leurs quantités */
+      for (var i = 1; i <= 4; i++) {
+        var linkedProductId = selectedCard.dataset['linkedProduct' + i + 'Id'];
+        var linkedProductQty = selectedCard.dataset['linkedProduct' + i + 'Qty'];
+        
+        if (linkedProductId && linkedProductId !== '' && linkedProductId !== 'undefined') {
+          items.push({
+            id: parseInt(linkedProductId),
+            quantity: parseInt(linkedProductQty) || 1
+          });
+        }
+      }
+      
+      /* 3. Ajouter les options/cadeaux sélectionnés (ancien design) */
+      var selectedItems = container.querySelectorAll('.pack-option-item.pack-option--selected:not(.pack-option--hidden)');
+      selectedItems.forEach(function(item) {
+        var optionVariantId = item.dataset.variantId;
+        if (optionVariantId && optionVariantId !== '') {
+          items.push({
+            id: parseInt(optionVariantId),
+            quantity: 1
+          });
+        }
+      });
+      
+      /* 4. Ajouter les mini-cards sélectionnées (nouveau design horizontal) */
+      var selectedMiniCards = container.querySelectorAll('.pack-mini-card.pack-mini-card--selected:not(.pack-mini-card--hidden)');
+      selectedMiniCards.forEach(function(card) {
+        var cardVariantId = card.dataset.variantId;
+        if (cardVariantId && cardVariantId !== '') {
+          items.push({
+            id: parseInt(cardVariantId),
+            quantity: 1
+          });
+        }
+      });
+      
+      /* Vérifier qu'il y a au moins un produit à ajouter */
+      if (items.length === 0) {
+        alert('Aucun produit à ajouter. Veuillez configurer les produits liés dans le panneau Shopify.');
+        btn.disabled = false;
+        btn.querySelector('.pack-multi-button__text').textContent = originalText;
+        return;
+      }
+      
+      /* Envoyer au panier */
+      fetch('/cart/add.js', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({ items: items })
+      })
+      .then(function(response) {
+        if (!response.ok) throw new Error('Erreur ajout panier');
+        return response.json();
+      })
+      .then(function(data) {
+        /* Succès - Ouvrir le cart drawer */
+        var cartDrawer = document.querySelector('cart-drawer');
+        if (cartDrawer && typeof cartDrawer.open === 'function') {
+          cartDrawer.open();
+        } else if (typeof window.openCartDrawer === 'function') {
+          window.openCartDrawer();
+        } else {
+          document.dispatchEvent(new CustomEvent('cart:refresh'));
+          var drawerEl = document.querySelector('cart-drawer, .cart-drawer, #cart-drawer, [data-cart-drawer]');
+          if (drawerEl) {
+            drawerEl.classList.add('is-open', 'active', 'drawer--is-open');
+            drawerEl.setAttribute('open', '');
+            document.body.classList.add('overflow-hidden');
+          }
+        }
+        
+        /* Reset bouton */
+        btn.disabled = false;
+        btn.querySelector('.pack-multi-button__text').textContent = '✓ Ajouté !';
+        setTimeout(function() {
+          btn.querySelector('.pack-multi-button__text').textContent = originalText;
+        }, 2000);
+      })
+      .catch(function(error) {
+        console.error('Pack Multi Error:', error);
+        alert('Erreur lors de l\'ajout au panier.');
+        btn.disabled = false;
+        btn.querySelector('.pack-multi-button__text').textContent = originalText;
+      });
+    });
+  }
+  
+  /* === COUNTDOWN TIMER === */
+  var countdownEl = document.getElementById('packMultiCountdown-' + sectionId);
+  if (countdownEl) {
+    var days = parseInt(countdownEl.dataset.days) || 0;
+    var hours = parseInt(countdownEl.dataset.hours) || 0;
+    var minutes = parseInt(countdownEl.dataset.minutes) || 0;
+    var seconds = parseInt(countdownEl.dataset.seconds) || 0;
+    var totalSeconds = (days * 86400) + (hours * 3600) + (minutes * 60) + seconds;
+    var initialTotal = totalSeconds;
+    
+    var daysEl = document.getElementById('countdownDaysMulti-' + sectionId);
+    var hoursEl = document.getElementById('countdownHoursMulti-' + sectionId);
+    var minutesEl = document.getElementById('countdownMinutesMulti-' + sectionId);
+    var secondsEl = document.getElementById('countdownSecondsMulti-' + sectionId);
+    
+    function updateCountdown() {
+      if (totalSeconds <= 0) totalSeconds = initialTotal;
+      
+      var d = Math.floor(totalSeconds / 86400);
+      var h = Math.floor((totalSeconds % 86400) / 3600);
+      var m = Math.floor((totalSeconds % 3600) / 60);
+      var s = totalSeconds % 60;
+      
+      if (daysEl) daysEl.textContent = String(d).padStart(2, '0');
+      if (hoursEl) hoursEl.textContent = String(h).padStart(2, '0');
+      if (minutesEl) minutesEl.textContent = String(m).padStart(2, '0');
+      if (secondsEl) secondsEl.textContent = String(s).padStart(2, '0');
+      
+      totalSeconds--;
+    }
+    
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  }
+  
+  /* === URGENCY ANIMATION === */
+  var urgencyCount = document.getElementById('packMultiUrgencyCount-' + sectionId);
+  var urgencyBar = document.getElementById('packMultiUrgencyBar-' + sectionId);
+  var urgencyInitial = {{ urgency_stock_initial }};
+  var urgencyMin = {{ urgency_stock_min }};
+  var currentUrgency = urgencyInitial;
+  
+  function updateUrgencyBar() {
+    if (urgencyBar) {
+      urgencyBar.style.width = Math.max(10, (currentUrgency - urgencyMin) / (urgencyInitial - urgencyMin) * 100) + '%';
+    }
+  }
+  
+  if (urgencyCount && {{ urgency_variation_enabled | json }}) {
+    setInterval(function() {
+      if (Math.random() > 0.6 && currentUrgency > urgencyMin) {
+        currentUrgency--;
+        urgencyCount.textContent = currentUrgency;
+        updateUrgencyBar();
+      }
+    }, {{ urgency_variation_interval }} * 1000);
+  }
+  
+  /* === VIEWERS ANIMATION === */
+  var viewersCount = document.getElementById('packMultiViewersCount-' + sectionId);
+  var viewersInitial = {{ viewers_initial }};
+  var viewersMin = {{ viewers_min }};
+  var viewersMax = {{ viewers_max }};
+  var currentViewers = viewersInitial;
+  
+  if (viewersCount && {{ viewers_variation_enabled | json }}) {
+    setInterval(function() {
+      currentViewers = Math.max(viewersMin, Math.min(viewersMax, currentViewers + (Math.random() > 0.5 ? 1 : -1)));
+      viewersCount.textContent = currentViewers;
+    }, 5000);
+  }
+  
+  /* === PROMO CODE COPY === */
+  var promoBox = document.getElementById('packMultiPromo-' + sectionId);
+  if (promoBox) {
+    promoBox.addEventListener('click', function() {
+      var code = this.dataset.promoCode;
+      var textEl = document.getElementById('packMultiPromoText-' + sectionId);
+      var originalText = textEl.textContent;
+      
+      navigator.clipboard.writeText(code).then(function() {
+        textEl.textContent = '✓ COPIÉ !';
+        setTimeout(function() {
+          textEl.textContent = originalText;
+        }, 2000);
+      });
+    });
+  }
+  
+  /* === INITIALISATION === */
+  var selectedCard = document.querySelector('#pack-multi-standalone-' + sectionId + ' .pack-multi--selected');
+  if (selectedCard) {
+    var packIndex = parseInt(selectedCard.dataset.packMultiIndex) || 0;
+    updateOptionsVisibility(sectionId, packIndex);
+    updateHorizontalOptionsVisibility(sectionId, packIndex);
+    updateHorizontalPlusSigns(sectionId);
+    updateHorizontalTotals(sectionId);
+    updateMultiPackTotal(sectionId);
+  }
+  
+})();
+</script>
+{%- endif -%}

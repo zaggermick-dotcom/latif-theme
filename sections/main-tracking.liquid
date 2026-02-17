@@ -1,0 +1,1449 @@
+{{ 'section-tracking.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign enable_animations = section.settings.enable_animations
+  assign animation = section.settings.animation
+
+  assign bgImage = section.settings.image_bg_colored
+  assign bgImageMobile = section.settings.image_bg_colored_mobile
+  if section.settings.enable_cut_bg_color or bgImage != blank or bgImageMobile != blank
+    render 'cut-colored'
+  endif
+-%}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top_sm }}px;
+    padding-bottom: {{ section.settings.padding_bottom_sm }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  /* ========================================
+     LATIF SKIN - TRACKING PREMIUM STYLES
+     ======================================== */
+  
+  .latif-tracking-container {
+    max-width: 900px;
+    margin: 0 auto;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+  }
+
+  .latif-tracking-header {
+    text-align: center;
+    margin-bottom: 50px;
+  }
+
+  .latif-tracking-header h1 {
+    font-size: 42px;
+    font-weight: 300;
+    color: #1a1a1a;
+    margin-bottom: 15px;
+    letter-spacing: -0.5px;
+  }
+
+  .latif-tracking-header p {
+    font-size: 16px;
+    color: #666;
+    max-width: 500px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  /* Trust Badges */
+  .latif-tracking-trust {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin: 30px 0;
+    flex-wrap: wrap;
+  }
+
+  .latif-trust-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #666;
+  }
+
+  .latif-trust-item span {
+    font-size: 20px;
+  }
+
+  /* Search Box */
+  .latif-tracking-search {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+    border-radius: 24px;
+    padding: 50px 40px;
+    margin-bottom: 40px;
+  }
+
+  .latif-tracking-search-title {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  .latif-tracking-search-title h2 {
+    font-size: 24px;
+    font-weight: 400;
+    color: #fff;
+    margin-bottom: 10px;
+  }
+
+  .latif-tracking-search-title p {
+    font-size: 14px;
+    color: #999;
+  }
+
+  .latif-tracking-input-wrapper {
+    display: flex;
+    gap: 15px;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .latif-tracking-input-container {
+    flex: 1;
+    position: relative;
+  }
+
+  .latif-tracking-input {
+    width: 100%;
+    padding: 18px 25px 18px 50px;
+    background: rgba(255,255,255,0.08);
+    border: 2px solid rgba(255,255,255,0.15);
+    border-radius: 50px;
+    font-size: 16px;
+    color: #fff;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+  }
+
+  .latif-tracking-input:focus {
+    outline: none;
+    border-color: #c9a87c;
+    background: rgba(255,255,255,0.12);
+    box-shadow: 0 0 0 4px rgba(201, 168, 124, 0.2);
+  }
+
+  .latif-tracking-input::placeholder {
+    color: #888;
+  }
+
+  .latif-tracking-input-icon {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 20px;
+    opacity: 0.6;
+  }
+
+  .latif-tracking-btn {
+    padding: 18px 35px;
+    background: linear-gradient(135deg, #c9a87c 0%, #d4b896 100%);
+    color: #1a1a1a;
+    border: none;
+    border-radius: 50px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+  }
+
+  .latif-tracking-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(201, 168, 124, 0.4);
+  }
+
+  .latif-tracking-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  /* Timeline */
+  .latif-tracking-timeline {
+    background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%);
+    border-radius: 24px;
+    padding: 40px;
+    margin-bottom: 40px;
+    border: 1px solid #eee;
+    display: none;
+  }
+
+  .latif-tracking-timeline.active {
+    display: block;
+    animation: fadeIn 0.5s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .latif-timeline-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+
+  .latif-timeline-status {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .latif-timeline-status-icon {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #c9a87c 0%, #d4b896 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+  }
+
+  .latif-timeline-status-text h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0 0 5px 0;
+  }
+
+  .latif-timeline-status-text p {
+    font-size: 13px;
+    color: #888;
+    margin: 0;
+  }
+
+  .latif-timeline-tracking-number {
+    background: rgba(201, 168, 124, 0.15);
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-size: 13px;
+    color: #1a1a1a;
+    font-weight: 500;
+  }
+
+  /* Progress Bar */
+  .latif-timeline-progress {
+    margin-bottom: 40px;
+  }
+
+  .latif-timeline-progress-bar {
+    height: 6px;
+    background: #e0e0e0;
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+
+  .latif-timeline-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #c9a87c 0%, #d4b896 100%);
+    border-radius: 3px;
+    transition: width 1s ease;
+    width: 0%;
+  }
+
+  .latif-timeline-steps {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .latif-timeline-step {
+    text-align: center;
+    flex: 1;
+    position: relative;
+  }
+
+  .latif-timeline-step-icon {
+    width: 45px;
+    height: 45px;
+    background: #e0e0e0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 10px;
+    font-size: 18px;
+    transition: all 0.3s ease;
+    color: #888;
+  }
+
+  .latif-timeline-step.completed .latif-timeline-step-icon {
+    background: linear-gradient(135deg, #c9a87c 0%, #d4b896 100%);
+    color: #fff;
+  }
+
+  .latif-timeline-step.active .latif-timeline-step-icon {
+    background: linear-gradient(135deg, #c9a87c 0%, #d4b896 100%);
+    color: #fff;
+    box-shadow: 0 0 0 4px rgba(201, 168, 124, 0.3);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 4px rgba(201, 168, 124, 0.3); }
+    50% { box-shadow: 0 0 0 8px rgba(201, 168, 124, 0.1); }
+  }
+
+  .latif-timeline-step-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 5px;
+  }
+
+  .latif-timeline-step.completed .latif-timeline-step-label,
+  .latif-timeline-step.active .latif-timeline-step-label {
+    color: #1a1a1a;
+  }
+
+  .latif-timeline-step-date {
+    font-size: 11px;
+    color: #aaa;
+  }
+
+  /* Map Section */
+  .latif-tracking-map {
+    background: #fff;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-bottom: 30px;
+    border: 1px solid #eee;
+  }
+
+  .latif-tracking-map-header {
+    padding: 20px 25px;
+    background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%);
+    border-bottom: 1px solid #eee;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .latif-tracking-map-header span {
+    font-size: 20px;
+  }
+
+  .latif-tracking-map-header h4 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0;
+  }
+
+  .latif-tracking-map-container {
+    height: 300px;
+    background: #f0f0f0;
+    position: relative;
+  }
+
+  .latif-tracking-map-container iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+
+  .latif-tracking-map-location {
+    padding: 20px 25px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+
+  .latif-tracking-map-location-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .latif-tracking-map-location-icon {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #c9a87c 0%, #d4b896 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+  }
+
+  .latif-tracking-map-location-text h5 {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0 0 3px 0;
+  }
+
+  .latif-tracking-map-location-text p {
+    font-size: 12px;
+    color: #888;
+    margin: 0;
+  }
+
+  .latif-tracking-map-updated {
+    font-size: 12px;
+    color: #888;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .latif-tracking-map-updated span {
+    color: #4ade80;
+  }
+
+  /* Events List */
+  .latif-tracking-events {
+    background: #fff;
+    border-radius: 20px;
+    padding: 25px;
+    border: 1px solid #eee;
+  }
+
+  .latif-tracking-events-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+  }
+
+  .latif-tracking-events-header span {
+    font-size: 20px;
+  }
+
+  .latif-tracking-events-header h4 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0;
+  }
+
+  .latif-tracking-event {
+    display: flex;
+    gap: 15px;
+    padding: 15px 0;
+    border-bottom: 1px solid #f5f5f5;
+  }
+
+  .latif-tracking-event:last-child {
+    border-bottom: none;
+  }
+
+  .latif-tracking-event-dot {
+    width: 12px;
+    height: 12px;
+    background: #e0e0e0;
+    border-radius: 50%;
+    margin-top: 5px;
+    flex-shrink: 0;
+  }
+
+  .latif-tracking-event:first-child .latif-tracking-event-dot {
+    background: linear-gradient(135deg, #c9a87c 0%, #d4b896 100%);
+    box-shadow: 0 0 0 4px rgba(201, 168, 124, 0.2);
+  }
+
+  .latif-tracking-event-content h5 {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0 0 5px 0;
+  }
+
+  .latif-tracking-event-content p {
+    font-size: 13px;
+    color: #888;
+    margin: 0 0 5px 0;
+  }
+
+  .latif-tracking-event-content time {
+    font-size: 12px;
+    color: #aaa;
+  }
+
+  /* 17track Container Override */
+  #YQContainer {
+    margin-top: 30px;
+    background: #fff;
+    border-radius: 20px;
+    padding: 25px;
+    border: 1px solid #eee;
+  }
+
+  /* Loading State */
+  .latif-tracking-loading {
+    text-align: center;
+    padding: 60px 20px;
+    display: none;
+  }
+
+  .latif-tracking-loading.active {
+    display: block;
+  }
+
+  .latif-tracking-spinner {
+    width: 50px;
+    height: 50px;
+    border: 3px solid #eee;
+    border-top-color: #c9a87c;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 20px;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  .latif-tracking-loading p {
+    font-size: 16px;
+    color: #666;
+  }
+
+  /* Error State */
+  .latif-tracking-error {
+    text-align: center;
+    padding: 40px 20px;
+    background: linear-gradient(135deg, #fff5f5 0%, #ffe5e5 100%);
+    border-radius: 20px;
+    border: 1px solid #ffcdd2;
+    display: none;
+  }
+
+  .latif-tracking-error.active {
+    display: block;
+  }
+
+  .latif-tracking-error-icon {
+    font-size: 48px;
+    margin-bottom: 15px;
+  }
+
+  .latif-tracking-error h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #c62828;
+    margin-bottom: 10px;
+  }
+
+  .latif-tracking-error p {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 20px;
+  }
+
+  .latif-tracking-error-btn {
+    display: inline-block;
+    padding: 12px 25px;
+    background: #1a1a1a;
+    color: #fff;
+    border-radius: 50px;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .latif-tracking-error-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+  }
+
+  /* Help Section */
+  .latif-tracking-help {
+    background: linear-gradient(135deg, #f8f4ef 0%, #f5f0e8 100%);
+    border-radius: 20px;
+    padding: 40px;
+    margin-top: 50px;
+    text-align: center;
+  }
+
+  .latif-tracking-help h3 {
+    font-size: 22px;
+    font-weight: 400;
+    color: #1a1a1a;
+    margin-bottom: 15px;
+  }
+
+  .latif-tracking-help p {
+    font-size: 15px;
+    color: #666;
+    margin-bottom: 25px;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .latif-tracking-help-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+  }
+
+  .latif-tracking-help-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 28px;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 50px;
+    color: #1a1a1a;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .latif-tracking-help-btn:hover {
+    background: linear-gradient(135deg, #c9a87c 0%, #d4b896 100%);
+    border-color: #c9a87c;
+    color: #fff;
+    transform: translateY(-2px);
+  }
+
+  .latif-tracking-help-btn span {
+    font-size: 18px;
+  }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    .latif-tracking-header h1 {
+      font-size: 32px;
+    }
+
+    .latif-tracking-search {
+      padding: 30px 20px;
+    }
+
+    .latif-tracking-input-wrapper {
+      flex-direction: column;
+    }
+
+    .latif-tracking-btn {
+      width: 100%;
+    }
+
+    .latif-timeline-steps {
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .latif-timeline-step {
+      flex: none;
+      width: calc(50% - 10px);
+    }
+
+    .latif-tracking-timeline {
+      padding: 25px 20px;
+    }
+
+    .latif-timeline-header {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .latif-tracking-map-location {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .latif-tracking-help {
+      padding: 30px 20px;
+    }
+  }
+{%- endstyle -%}
+
+{%- render 'separator-top', section: section -%}
+
+<div class="color-{{ section.settings.color_palette }} section-{{ section.id }}-padding{% if section.settings.enable_cut_bg_color or bgImage != blank or bgImageMobile != blank %} cut-colored-section{% endif %}">
+  <div class="tracking container container--{{ section.settings.layout_width }}">
+    
+    <div class="latif-tracking-container">
+      
+      <!-- Header -->
+      <div class="latif-tracking-header">
+        <h1>{{ section.settings.heading | default: "Suivre ma Commande" }}</h1>
+        <p>{{ section.settings.description | default: "Entrez votre numéro de suivi pour voir où se trouve votre colis en temps réel." }}</p>
+        
+        <!-- Trust Badges -->
+        <div class="latif-tracking-trust">
+          <div class="latif-trust-item">
+            <span>🚚</span> Livraison mondiale
+          </div>
+          <div class="latif-trust-item">
+            <span>📍</span> Suivi en temps réel
+          </div>
+          <div class="latif-trust-item">
+            <span>🔒</span> 100% sécurisé
+          </div>
+        </div>
+      </div>
+
+      <!-- Search Box -->
+      <div class="latif-tracking-search"
+        {%- render 'animation',
+          enable_animations: section.settings.enable_animations,
+          animation: section.settings.animation
+        -%}
+      >
+        <div class="latif-tracking-search-title">
+          <h2>🔍 Où est mon colis ?</h2>
+          <p>Votre numéro de suivi se trouve dans l'email de confirmation d'expédition</p>
+        </div>
+        
+        <div class="latif-tracking-input-wrapper">
+          <div class="latif-tracking-input-container">
+            <span class="latif-tracking-input-icon">📦</span>
+            <input
+              type="text"
+              id="YQNum"
+              class="latif-tracking-input"
+              placeholder="{{ section.settings.track | default: 'Entrez votre numéro de suivi' }}"
+            >
+          </div>
+          <button type="button" id="latifTrackBtn" onclick="doTrackLatif()" class="latif-tracking-btn">
+            {{ section.settings.button_text | default: "Suivre" }}
+          </button>
+        </div>
+      </div>
+
+      <!-- Loading State -->
+      <div class="latif-tracking-loading" id="latifTrackingLoading">
+        <div class="latif-tracking-spinner"></div>
+        <p>Recherche de votre colis en cours...</p>
+      </div>
+
+      <!-- Error State -->
+      <div class="latif-tracking-error" id="latifTrackingError">
+        <div class="latif-tracking-error-icon">😕</div>
+        <h3>Numéro de suivi introuvable</h3>
+        <p>Vérifiez que vous avez entré le bon numéro. Si le problème persiste, contactez-nous.</p>
+        <a href="/pages/contact" class="latif-tracking-error-btn">Contacter le support</a>
+      </div>
+
+      <!-- Timeline Section -->
+      <div class="latif-tracking-timeline" id="latifTrackingTimeline">
+        
+        <!-- Header -->
+        <div class="latif-timeline-header">
+          <div class="latif-timeline-status">
+            <div class="latif-timeline-status-icon" id="latifStatusIcon">📦</div>
+            <div class="latif-timeline-status-text">
+              <h3 id="latifStatusTitle">En cours de livraison</h3>
+              <p id="latifStatusSubtitle">Votre colis est en route</p>
+            </div>
+          </div>
+          <div class="latif-timeline-tracking-number">
+            N° <span id="latifTrackingNumber">-</span>
+          </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="latif-timeline-progress">
+          <div class="latif-timeline-progress-bar">
+            <div class="latif-timeline-progress-fill" id="latifProgressFill"></div>
+          </div>
+          <div class="latif-timeline-steps">
+            <div class="latif-timeline-step" id="step1">
+              <div class="latif-timeline-step-icon">✓</div>
+              <div class="latif-timeline-step-label">Commandé</div>
+              <div class="latif-timeline-step-date" id="step1Date">-</div>
+            </div>
+            <div class="latif-timeline-step" id="step2">
+              <div class="latif-timeline-step-icon">📦</div>
+              <div class="latif-timeline-step-label">Expédié</div>
+              <div class="latif-timeline-step-date" id="step2Date">-</div>
+            </div>
+            <div class="latif-timeline-step" id="step3">
+              <div class="latif-timeline-step-icon">✈️</div>
+              <div class="latif-timeline-step-label">En transit</div>
+              <div class="latif-timeline-step-date" id="step3Date">-</div>
+            </div>
+            <div class="latif-timeline-step" id="step4">
+              <div class="latif-timeline-step-icon">🏠</div>
+              <div class="latif-timeline-step-label">Livré</div>
+              <div class="latif-timeline-step-date" id="step4Date">-</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Map Section -->
+        <div class="latif-tracking-map">
+          <div class="latif-tracking-map-header">
+            <span>🗺️</span>
+            <h4>Dernière localisation</h4>
+          </div>
+          <div class="latif-tracking-map-container" id="latifMapContainer">
+            <!-- Map will be inserted here -->
+          </div>
+          <div class="latif-tracking-map-location">
+            <div class="latif-tracking-map-location-info">
+              <div class="latif-tracking-map-location-icon">📍</div>
+              <div class="latif-tracking-map-location-text">
+                <h5 id="latifLocationCity">-</h5>
+                <p id="latifLocationCountry">-</p>
+              </div>
+            </div>
+            <div class="latif-tracking-map-updated">
+              <span>●</span> Mis à jour <span id="latifLastUpdate">-</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Events List -->
+        <div class="latif-tracking-events">
+          <div class="latif-tracking-events-header">
+            <span>📋</span>
+            <h4>Historique détaillé</h4>
+          </div>
+          <div id="latifEventsList">
+            <!-- Events will be inserted here -->
+          </div>
+        </div>
+
+      </div>
+
+      <!-- 17track Container (hidden, used for data) -->
+      <div id="YQContainer" style="display: none;"></div>
+
+      <!-- Help Section -->
+      <div class="latif-tracking-help">
+        <h3>Besoin d'aide ?</h3>
+        <p>Notre équipe est disponible 7j/7 pour répondre à toutes vos questions concernant votre commande.</p>
+        <div class="latif-tracking-help-actions">
+          <a href="/pages/contact" class="latif-tracking-help-btn">
+            <span>💬</span> Chat en direct
+          </a>
+          <a href="mailto:contact@latifskin.com" class="latif-tracking-help-btn">
+            <span>📧</span> contact@latifskin.com
+          </a>
+          <a href="/pages/faq" class="latif-tracking-help-btn">
+            <span>❓</span> FAQ Livraison
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- 17track Script -->
+<script type="text/javascript" src="//www.17track.net/externalcall.js" defer></script>
+
+<!-- Leaflet Map (Free & Open Source) -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer></script>
+
+<script type="text/javascript">
+  // LATIF SKIN - Premium Tracking Script
+  
+  let map = null;
+  let marker = null;
+
+  // Main tracking function
+  function doTrackLatif() {
+    const num = document.getElementById('YQNum').value.trim();
+    
+    if (!num) {
+      alert('Veuillez entrer un numéro de suivi');
+      return;
+    }
+
+    // Show loading
+    document.getElementById('latifTrackingLoading').classList.add('active');
+    document.getElementById('latifTrackingTimeline').classList.remove('active');
+    document.getElementById('latifTrackingError').classList.remove('active');
+
+    // Update tracking number display
+    document.getElementById('latifTrackingNumber').textContent = num;
+
+    // Call 17track API
+    YQV5.trackSingle({
+      YQ_ContainerId: 'YQContainer',
+      YQ_Lang: '{{ shop.locale }}',
+      YQ_Num: num,
+      YQ_Fc: function(data) {
+        handleTrackingData(data, num);
+      }
+    });
+
+    // Fallback timeout (if 17track doesn't respond)
+    setTimeout(() => {
+      const loading = document.getElementById('latifTrackingLoading');
+      if (loading.classList.contains('active')) {
+        // Check if YQContainer has content
+        const container = document.getElementById('YQContainer');
+        if (container.innerHTML.trim() !== '') {
+          // 17track responded but callback didn't fire, parse manually
+          parseYQContainer(num);
+        } else {
+          showError();
+        }
+      }
+    }, 10000);
+  }
+
+  // Handle tracking data from 17track
+  function handleTrackingData(data, trackingNum) {
+    document.getElementById('latifTrackingLoading').classList.remove('active');
+
+    if (!data || data.length === 0 || !data[0].found) {
+      showError();
+      return;
+    }
+
+    const trackInfo = data[0];
+    showTimeline(trackInfo, trackingNum);
+  }
+
+  // Parse YQContainer manually (fallback)
+  function parseYQContainer(trackingNum) {
+    document.getElementById('latifTrackingLoading').classList.remove('active');
+    
+    const container = document.getElementById('YQContainer');
+    const hasData = container.querySelector('.yq-detail-item') || container.innerHTML.length > 100;
+    
+    if (hasData) {
+      // Show timeline with default data, real data is in YQContainer
+      showTimelineDefault(trackingNum);
+      // Also show the original 17track data
+      container.style.display = 'block';
+    } else {
+      showError();
+    }
+  }
+
+  // Show timeline with tracking data
+  function showTimeline(trackInfo, trackingNum) {
+    const timeline = document.getElementById('latifTrackingTimeline');
+    timeline.classList.add('active');
+
+    // Determine status
+    const status = trackInfo.status || 0;
+    let statusIcon = '📦';
+    let statusTitle = 'En cours de traitement';
+    let statusSubtitle = 'Votre commande est en préparation';
+    let progress = 25;
+    let activeStep = 1;
+
+    // Status codes from 17track
+    // 0: Not found, 10: In transit, 20: Expired, 30: Pick up, 35: Undelivered, 40: Delivered, 50: Alert
+    
+    if (status >= 40) {
+      statusIcon = '✅';
+      statusTitle = 'Livré';
+      statusSubtitle = 'Votre colis a été livré avec succès';
+      progress = 100;
+      activeStep = 4;
+    } else if (status >= 30) {
+      statusIcon = '🚚';
+      statusTitle = 'En livraison';
+      statusSubtitle = 'Le livreur est en route vers vous';
+      progress = 85;
+      activeStep = 4;
+    } else if (status >= 10) {
+      statusIcon = '✈️';
+      statusTitle = 'En transit';
+      statusSubtitle = 'Votre colis voyage vers sa destination';
+      progress = 60;
+      activeStep = 3;
+    } else {
+      statusIcon = '📦';
+      statusTitle = 'Expédié';
+      statusSubtitle = 'Votre colis a quitté notre entrepôt';
+      progress = 35;
+      activeStep = 2;
+    }
+
+    // Update status display
+    document.getElementById('latifStatusIcon').textContent = statusIcon;
+    document.getElementById('latifStatusTitle').textContent = statusTitle;
+    document.getElementById('latifStatusSubtitle').textContent = statusSubtitle;
+
+    // Update progress bar
+    document.getElementById('latifProgressFill').style.width = progress + '%';
+
+    // Update steps
+    updateSteps(activeStep);
+
+    // Update events list
+    if (trackInfo.track && trackInfo.track.length > 0) {
+      updateEventsList(trackInfo.track);
+      
+      // Update map with last location
+      const lastEvent = trackInfo.track[0];
+      if (lastEvent.z) {
+        updateMap(lastEvent.z, lastEvent.a || '', lastEvent.b || new Date().toISOString());
+      }
+    }
+
+    // Show original 17track data too
+    document.getElementById('YQContainer').style.display = 'block';
+  }
+
+  // Show timeline with default appearance (when we can't parse 17track data)
+  function showTimelineDefault(trackingNum) {
+    const timeline = document.getElementById('latifTrackingTimeline');
+    timeline.classList.add('active');
+
+    document.getElementById('latifStatusIcon').textContent = '📦';
+    document.getElementById('latifStatusTitle').textContent = 'Suivi en cours';
+    document.getElementById('latifStatusSubtitle').textContent = 'Les détails sont affichés ci-dessous';
+    document.getElementById('latifProgressFill').style.width = '50%';
+    
+    updateSteps(2);
+
+    // Default map location (Montreal - LATIF SKIN HQ)
+    updateMap('Montreal, Canada', 'Expédié depuis notre entrepôt', new Date().toISOString());
+  }
+
+  // Update timeline steps
+  function updateSteps(activeStep) {
+    for (let i = 1; i <= 4; i++) {
+      const step = document.getElementById('step' + i);
+      step.classList.remove('completed', 'active');
+      
+      if (i < activeStep) {
+        step.classList.add('completed');
+      } else if (i === activeStep) {
+        step.classList.add('active');
+      }
+    }
+  }
+
+  // Update events list
+  function updateEventsList(events) {
+    const container = document.getElementById('latifEventsList');
+    container.innerHTML = '';
+
+    events.slice(0, 10).forEach((event, index) => {
+      const eventEl = document.createElement('div');
+      eventEl.className = 'latif-tracking-event';
+      
+      const date = new Date(event.a || event.b);
+      const formattedDate = date.toLocaleDateString('fr-FR', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+
+      eventEl.innerHTML = `
+        <div class="latif-tracking-event-dot"></div>
+        <div class="latif-tracking-event-content">
+          <h5>${event.z || 'Mise à jour'}</h5>
+          <p>${event.c || '-'}</p>
+          <time>${formattedDate}</time>
+        </div>
+      `;
+      
+      container.appendChild(eventEl);
+    });
+  }
+
+  // Update map with location
+  function updateMap(location, description, timestamp) {
+    const mapContainer = document.getElementById('latifMapContainer');
+    
+    // Update location text
+    const parts = location.split(',');
+    document.getElementById('latifLocationCity').textContent = parts[0] ? parts[0].trim() : location;
+    document.getElementById('latifLocationCountry').textContent = parts[1] ? parts[1].trim() : '';
+    
+    // Update timestamp
+    const date = new Date(timestamp);
+    const timeAgo = getTimeAgo(date);
+    document.getElementById('latifLastUpdate').textContent = timeAgo;
+
+    // Initialize map with Leaflet + OpenStreetMap (Free)
+    if (typeof L !== 'undefined') {
+      // Geocode location
+      fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(location)}`)
+        .then(response => response.json())
+        .then(data => {
+          if (data && data.length > 0) {
+            const lat = parseFloat(data[0].lat);
+            const lon = parseFloat(data[0].lon);
+            
+            if (map) {
+              map.remove();
+            }
+            
+            map = L.map(mapContainer).setView([lat, lon], 10);
+            
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+              attribution: '© OpenStreetMap'
+            }).addTo(map);
+            
+            // Custom marker
+            const customIcon = L.divIcon({
+              className: 'latif-map-marker',
+              html: '<div style="background: linear-gradient(135deg, #c9a87c 0%, #d4b896 100%); width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; box-shadow: 0 4px 15px rgba(201,168,124,0.5);">📦</div>',
+              iconSize: [30, 30],
+              iconAnchor: [15, 15]
+            });
+            
+            marker = L.marker([lat, lon], { icon: customIcon }).addTo(map);
+            marker.bindPopup(`<strong>${location}</strong><br>${description}`).openPopup();
+          }
+        })
+        .catch(() => {
+          // Fallback: show static image
+          mapContainer.innerHTML = `
+            <div style="height: 100%; display: flex; align-items: center; justify-content: center; flex-direction: column; background: linear-gradient(135deg, #f8f4ef 0%, #f5f0e8 100%);">
+              <div style="font-size: 48px; margin-bottom: 15px;">📍</div>
+              <div style="font-size: 18px; font-weight: 600; color: #1a1a1a;">${location}</div>
+              <div style="font-size: 14px; color: #888; margin-top: 5px;">${description}</div>
+            </div>
+          `;
+        });
+    } else {
+      // Leaflet not loaded, show fallback
+      mapContainer.innerHTML = `
+        <div style="height: 100%; display: flex; align-items: center; justify-content: center; flex-direction: column; background: linear-gradient(135deg, #f8f4ef 0%, #f5f0e8 100%);">
+          <div style="font-size: 48px; margin-bottom: 15px;">📍</div>
+          <div style="font-size: 18px; font-weight: 600; color: #1a1a1a;">${location}</div>
+          <div style="font-size: 14px; color: #888; margin-top: 5px;">${description}</div>
+        </div>
+      `;
+    }
+  }
+
+  // Get time ago string
+  function getTimeAgo(date) {
+    const now = new Date();
+    const diff = now - date;
+    const minutes = Math.floor(diff / 60000);
+    const hours = Math.floor(diff / 3600000);
+    const days = Math.floor(diff / 86400000);
+
+    if (minutes < 60) return `il y a ${minutes} min`;
+    if (hours < 24) return `il y a ${hours}h`;
+    return `il y a ${days} jour${days > 1 ? 's' : ''}`;
+  }
+
+  // Show error state
+  function showError() {
+    document.getElementById('latifTrackingLoading').classList.remove('active');
+    document.getElementById('latifTrackingTimeline').classList.remove('active');
+    document.getElementById('latifTrackingError').classList.add('active');
+  }
+
+  // Enter key support
+  document.addEventListener('DOMContentLoaded', function() {
+    const input = document.getElementById('YQNum');
+    if (input) {
+      input.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          doTrackLatif();
+        }
+      });
+    }
+  });
+</script>
+
+{%- render 'separator-bottom', section: section -%}
+
+{% schema %}
+{
+  "name": "Suivi Commande Premium",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "track",
+      "label": "Placeholder du champ",
+      "default": "Entrez votre numéro de suivi"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Titre",
+      "default": "Suivre ma Commande"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "Entrez votre numéro de suivi pour voir où se trouve votre colis en temps réel."
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Texte du bouton",
+      "default": "Suivre mon colis"
+    },
+    {
+      "type": "header",
+      "content": "Animations"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_animations",
+      "label": "Activer les animations",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "animation",
+      "options": [
+        {
+          "value": "fade-up",
+          "label": "Fade Up"
+        },
+        {
+          "value": "fade-down",
+          "label": "Fade Down"
+        },
+        {
+          "value": "zoom-in",
+          "label": "Zoom In"
+        }
+      ],
+      "default": "fade-up",
+      "label": "Type d'animation"
+    },
+    {
+      "type": "header",
+      "content": "Mise en page"
+    },
+    {
+      "type": "select",
+      "id": "layout_width",
+      "options": [
+        {
+          "value": "narrow",
+          "label": "Étroit"
+        },
+        {
+          "value": "normal",
+          "label": "Normal"
+        },
+        {
+          "value": "full-padded",
+          "label": "Pleine largeur avec padding"
+        }
+      ],
+      "default": "normal",
+      "label": "Largeur"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding haut (desktop)",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bas (desktop)",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_top_sm",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding haut (mobile)",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_sm",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bas (mobile)",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Couleurs"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_palette",
+      "default": "background",
+      "label": "Palette de couleurs"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_cut_bg_color",
+      "default": false,
+      "label": "Activer le fond coloré"
+    },
+    {
+      "type": "color",
+      "id": "cut_bg_color",
+      "default": "#F6F6F6",
+      "label": "Couleur de fond"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_bg_colored",
+      "label": "Image de fond (desktop)"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_bg_colored_mobile",
+      "label": "Image de fond (mobile)"
+    },
+    {
+      "type": "range",
+      "id": "cut_bg_color_vertical",
+      "min": -100,
+      "max": 100,
+      "step": 2,
+      "unit": "%",
+      "label": "Position verticale fond",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "cut_bg_color_vertical_mobile",
+      "min": -100,
+      "max": 100,
+      "step": 2,
+      "unit": "%",
+      "label": "Position verticale fond (mobile)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "cut_bg_color_horizontal",
+      "min": -100,
+      "max": 100,
+      "step": 2,
+      "unit": "%",
+      "label": "Position horizontale fond",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "cut_bg_color_horizontal_mobile",
+      "min": -100,
+      "max": 100,
+      "step": 2,
+      "unit": "%",
+      "label": "Position horizontale fond (mobile)",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Séparateurs"
+    },
+    {
+      "type": "select",
+      "id": "separator_top",
+      "options": [
+        {
+          "value": "none",
+          "label": "Aucun"
+        },
+        {
+          "value": "wave",
+          "label": "Vague"
+        },
+        {
+          "value": "curve-1",
+          "label": "Courbe 1"
+        },
+        {
+          "value": "line",
+          "label": "Ligne"
+        }
+      ],
+      "default": "none",
+      "label": "Séparateur haut"
+    },
+    {
+      "type": "checkbox",
+      "id": "separator_top_invert",
+      "label": "Inverser séparateur haut",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "separator_bottom",
+      "options": [
+        {
+          "value": "none",
+          "label": "Aucun"
+        },
+        {
+          "value": "wave",
+          "label": "Vague"
+        },
+        {
+          "value": "curve-1",
+          "label": "Courbe 1"
+        },
+        {
+          "value": "line",
+          "label": "Ligne"
+        }
+      ],
+      "default": "none",
+      "label": "Séparateur bas"
+    },
+    {
+      "type": "checkbox",
+      "id": "separator_bottom_invert",
+      "label": "Inverser séparateur bas",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "separator_animated",
+      "label": "Animer les séparateurs",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "separator_bg_color",
+      "label": "Couleur séparateurs"
+    }
+  ]
+}
+{% endschema %}

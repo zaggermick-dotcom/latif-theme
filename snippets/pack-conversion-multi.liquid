@@ -1,0 +1,1303 @@
+{% comment %}
+  ╔══════════════════════════════════════════════════════════════════════════════╗
+  ║  PACK CONVERSION MULTI v7.0 - PACKS MULTI-PRODUITS                          ║
+  ║  ══════════════════════════════════════════════════════════════════════════  ║
+  ║  ✅ 2 à 4 produits par pack avec flèches courbées                           ║
+  ║  ✅ Titres et descriptions au-dessus/en-dessous des images                  ║
+  ║  ✅ Séparateur "+" entre les produits                                        ║
+  ║  ✅ Cadeaux et Options par pack (affichage horizontal)                       ║
+  ║  ✅ Badge économie automatique ou manuel                                     ║
+  ║  ✅ Countdown Timer ULTRA (6 styles)                                         ║
+  ║  ✅ Trust Badges compacts                                                    ║
+  ║  ✅ 100% administrable via Shopify                                           ║
+  ╚══════════════════════════════════════════════════════════════════════════════╝
+  
+  UTILISATION:
+  {% render 'pack-conversion-multi', block: block, section: section, product: product %}
+{% endcomment %}
+
+{{ 'product-pack-conversion.css' | asset_url | stylesheet_tag }}
+
+{% comment %} === RÉCUPÉRATION DES SETTINGS ADMIN === {% endcomment %}
+{% assign urgency_stock_initial = block.settings.urgency_stock_initial | default: 12 %}
+{% assign urgency_stock_min = block.settings.urgency_stock_min | default: 3 %}
+{% assign urgency_variation_enabled = block.settings.urgency_variation_enabled | default: true %}
+{% assign urgency_variation_interval = block.settings.urgency_variation_interval | default: 8 %}
+
+{% assign viewers_initial = block.settings.viewers_initial | default: 18 %}
+{% assign viewers_min = block.settings.viewers_min | default: 8 %}
+{% assign viewers_max = block.settings.viewers_max | default: 35 %}
+{% assign viewers_variation_enabled = block.settings.viewers_variation_enabled | default: true %}
+
+{% comment %} === COUNTDOWN TIMER SETTINGS === {% endcomment %}
+{% assign show_countdown = block.settings.show_countdown | default: false %}
+{% assign countdown_days = block.settings.countdown_days | default: 0 %}
+{% assign countdown_hours = block.settings.countdown_hours | default: 2 %}
+{% assign countdown_minutes = block.settings.countdown_minutes | default: 30 %}
+{% assign countdown_seconds = block.settings.countdown_seconds | default: 0 %}
+{% assign countdown_text = block.settings.countdown_text | default: "🔥 OFFRE FLASH" %}
+{% assign countdown_subtext = block.settings.countdown_subtext | default: "⚡ OFFRE LIMITÉE" %}
+{% assign countdown_style = block.settings.countdown_style | default: "fire" %}
+{% assign countdown_end_text = block.settings.countdown_end_text | default: "⚡ DERNIÈRE CHANCE !" %}
+{% assign countdown_size = block.settings.countdown_size | default: "medium" %}
+{% assign countdown_layout = block.settings.countdown_layout | default: "horizontal" %}
+
+{% comment %} === TRUST BADGES SETTINGS === {% endcomment %}
+{% assign show_trust_badges = block.settings.show_trust_badges | default: true %}
+{% assign show_trust_1 = block.settings.show_trust_1 | default: true %}
+{% assign show_trust_2 = block.settings.show_trust_2 | default: true %}
+{% assign show_trust_3 = block.settings.show_trust_3 | default: true %}
+{% assign show_trust_4 = block.settings.show_trust_4 | default: true %}
+
+{% comment %} === AUTRES FONCTIONNALITÉS === {% endcomment %}
+{% assign show_recent_sales = block.settings.show_recent_sales | default: false %}
+{% assign recent_sales_count = block.settings.recent_sales_count | default: 47 %}
+{% assign recent_sales_text = block.settings.recent_sales_text | default: "ventes ces dernières 24h" %}
+
+{% assign show_progress_bar = block.settings.show_progress_bar | default: false %}
+{% assign progress_bar_percent = block.settings.progress_bar_percent | default: 73 %}
+{% assign progress_bar_text = block.settings.progress_bar_text | default: "de l'objectif atteint aujourd'hui" %}
+
+{% assign show_guarantee_banner = block.settings.show_guarantee_banner | default: false %}
+{% assign guarantee_text = block.settings.guarantee_text | default: "Satisfait ou 100% remboursé pendant 30 jours" %}
+
+{% style %}
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;800;900&display=swap');
+
+  .pack-multi-{{ section.id }} {
+    --pack-font: 'Poppins', sans-serif;
+    --pack-accent: {{ block.settings.color_accent | default: '#10b981' }};
+    --pack-border: {{ block.settings.color_border | default: '#e5e7eb' }};
+    --pack-border-width: {{ block.settings.border_width | default: 2 }}px;
+    --card-bg: {{ block.settings.card_bg | default: '#ffffff' }};
+    --card-bg-selected: {{ block.settings.card_bg_selected | default: '#f0fdf4' }};
+    --urgency-bg: {{ block.settings.urgency_bg | default: '#fef2f2' }};
+    --urgency-border: {{ block.settings.urgency_border | default: '#fecaca' }};
+    --urgency-text: {{ block.settings.urgency_text_color | default: '#dc2626' }};
+    --btn-bg: {{ block.settings.btn_bg | default: '#6b7280' }};
+    --btn-text: {{ block.settings.btn_text_color | default: '#ffffff' }};
+    --promo-bg: {{ block.settings.promo_bg | default: '#fdf2f8' }};
+    --promo-border: {{ block.settings.promo_border | default: '#ec4899' }};
+    --promo-text: {{ block.settings.promo_text_color | default: '#be185d' }};
+    --savings-bg: {{ block.settings.savings_bg | default: '#fffbeb' }};
+    --savings-text: {{ block.settings.savings_text_color | default: '#b45309' }};
+    --savings-border: {{ block.settings.savings_border | default: '#f59e0b' }};
+    --opt-bg: {{ block.settings.opt_bg | default: '#f9fafb' }};
+    --opt-border: {{ block.settings.opt_border | default: '#cbd5e1' }};
+    --opt-bg-active: {{ block.settings.opt_bg_active | default: '#f0fdf4' }};
+    --delivery-text: {{ block.settings.delivery_text_color | default: '#4b5563' }};
+    --countdown-bg: {{ block.settings.countdown_bg | default: '#1a1a2e' }};
+    --countdown-text: {{ block.settings.countdown_text_color | default: '#ffffff' }};
+    --countdown-accent: {{ block.settings.countdown_accent | default: '#ff6b6b' }};
+    --countdown-number-bg: {{ block.settings.countdown_number_bg | default: '#0f0f23' }};
+    --countdown-number-text: {{ block.settings.countdown_number_text | default: '#ffffff' }};
+    --progress-bar-color: {{ block.settings.progress_bar_color | default: '#10b981' }};
+    --guarantee-bg: {{ block.settings.guarantee_bg | default: '#ecfdf5' }};
+    --guarantee-border: {{ block.settings.guarantee_border | default: '#10b981' }};
+    --trust-bg: {{ block.settings.trust_bg | default: '#f9fafb' }};
+    --trust-text: {{ block.settings.trust_text_color | default: '#374151' }};
+    --trust-border: {{ block.settings.trust_border | default: '#e5e7eb' }};
+  }
+
+  /* === STYLES SPÉCIFIQUES MULTI-PRODUITS === */
+  .pack-multi-{{ section.id }} .pack-multi-card {
+    border-color: var(--pack-border);
+  }
+
+  .pack-multi-{{ section.id }} .pack-multi-card.selected {
+    border-color: var(--pack-accent);
+    background: var(--card-bg-selected);
+  }
+
+  .pack-multi-{{ section.id }} .pack-multi-card.selected .pack-multi-radio {
+    border-color: var(--pack-accent);
+    background: var(--pack-accent);
+  }
+
+  .pack-multi-{{ section.id }} .pack-multi-plus {
+    color: var(--pack-accent);
+  }
+
+  .pack-multi-{{ section.id }} .pack-multi-savings-badge {
+    background: var(--pack-accent);
+  }
+
+  /* === FLÈCHES COURBÉES === */
+  .pack-multi-arrow-svg {
+    width: 24px;
+    height: 20px;
+    display: block;
+    margin: 0 auto;
+  }
+
+  .pack-multi-arrow-svg path {
+    fill: none;
+    stroke: var(--pack-accent);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .pack-multi-arrow-left .pack-multi-arrow-svg {
+    transform: scaleX(1);
+  }
+
+  .pack-multi-arrow-right .pack-multi-arrow-svg {
+    transform: scaleX(-1);
+  }
+{% endstyle %}
+
+<product-pack class="product-pack-conversion pack-multi-{{ section.id }}" 
+  data-section-id="{{ section.id }}" 
+  data-product-id="{{ product.selected_or_first_available_variant.id }}"
+  data-urgency-initial="{{ urgency_stock_initial }}"
+  data-urgency-min="{{ urgency_stock_min }}"
+  data-urgency-variation="{{ urgency_variation_enabled }}"
+  data-urgency-interval="{{ urgency_variation_interval }}"
+  data-viewers-initial="{{ viewers_initial }}"
+  data-viewers-min="{{ viewers_min }}"
+  data-viewers-max="{{ viewers_max }}"
+  data-viewers-variation="{{ viewers_variation_enabled }}"
+  data-mode="multi"
+>
+
+  {% comment %} ═══════════════════════════════════════════════════════════════
+     COUNTDOWN TIMER ULTRA v7.0
+  ═══════════════════════════════════════════════════════════════ {% endcomment %}
+  {%- if show_countdown -%}
+    <div class="pack-countdown-ultra style-{{ countdown_style }} size-{{ countdown_size }} layout-{{ countdown_layout }}" 
+         id="packCountdownMulti-{{ section.id }}"
+         data-days="{{ countdown_days }}"
+         data-hours="{{ countdown_hours }}"
+         data-minutes="{{ countdown_minutes }}"
+         data-seconds="{{ countdown_seconds }}">
+      
+      {%- if countdown_subtext != blank -%}
+        <div class="countdown-ultra__subtext-badge">{{ countdown_subtext }}</div>
+      {%- endif -%}
+      
+      <div class="countdown-ultra__inner">
+        <div class="countdown-ultra__left">
+          <span class="countdown-ultra__emoji">🔥</span>
+          <span class="countdown-ultra__text">
+            <span class="countdown-ultra__accent">{{ countdown_text }}</span>
+          </span>
+        </div>
+        
+        <div class="countdown-ultra__timer">
+          {% if countdown_days > 0 %}
+          <div class="countdown-ultra__block">
+            <div class="countdown-ultra__number" id="countdownDaysMulti-{{ section.id }}">{{ countdown_days | default: 0 | prepend: '00' | slice: -2, 2 }}</div>
+            <div class="countdown-ultra__label">J</div>
+          </div>
+          <div class="countdown-ultra__separator">:</div>
+          {% endif %}
+          
+          <div class="countdown-ultra__block">
+            <div class="countdown-ultra__number" id="countdownHoursMulti-{{ section.id }}">{{ countdown_hours | default: 0 | prepend: '00' | slice: -2, 2 }}</div>
+            <div class="countdown-ultra__label">H</div>
+          </div>
+          <div class="countdown-ultra__separator">:</div>
+          
+          <div class="countdown-ultra__block">
+            <div class="countdown-ultra__number" id="countdownMinutesMulti-{{ section.id }}">{{ countdown_minutes | default: 0 | prepend: '00' | slice: -2, 2 }}</div>
+            <div class="countdown-ultra__label">M</div>
+          </div>
+          <div class="countdown-ultra__separator">:</div>
+          
+          <div class="countdown-ultra__block">
+            <div class="countdown-ultra__number" id="countdownSecondsMulti-{{ section.id }}">{{ countdown_seconds | default: 0 | prepend: '00' | slice: -2, 2 }}</div>
+            <div class="countdown-ultra__label">S</div>
+          </div>
+        </div>
+        
+        <div class="countdown-ultra__right">
+          <span class="countdown-ultra__end">{{ countdown_end_text }}</span>
+          <span class="countdown-ultra__end-emoji">⚡</span>
+        </div>
+      </div>
+      
+      <div class="countdown-ultra__progress">
+        <div class="countdown-ultra__progress-fill" id="countdownProgressMulti-{{ section.id }}" style="width: 100%;"></div>
+      </div>
+    </div>
+  {%- endif -%}
+
+  {% comment %} ═══════════════════════════════════════════════════════════════
+     VENTES RÉCENTES
+  ═══════════════════════════════════════════════════════════════ {% endcomment %}
+  {%- if show_recent_sales -%}
+    <div class="pack-recent-sales">
+      <span class="pack-recent-sales__icon">🔥</span>
+      <span><span class="pack-recent-sales__count" id="packSalesCountMulti-{{ section.id }}">{{ recent_sales_count }}</span> {{ recent_sales_text }}</span>
+    </div>
+  {%- endif -%}
+
+  {% comment %} ═══════════════════════════════════════════════════════════════
+     BARRE DE PROGRESSION
+  ═══════════════════════════════════════════════════════════════ {% endcomment %}
+  {%- if show_progress_bar -%}
+    <div class="pack-progress">
+      <div class="pack-progress__header">
+        <span class="pack-progress__text">🎯 {{ progress_bar_text }}</span>
+        <span class="pack-progress__percent" id="packProgressPercentMulti-{{ section.id }}">{{ progress_bar_percent }}%</span>
+      </div>
+      <div class="pack-progress__bar">
+        <div class="pack-progress__fill" id="packProgressFillMulti-{{ section.id }}" style="width: {{ progress_bar_percent }}%;"></div>
+      </div>
+    </div>
+  {%- endif -%}
+
+  {% comment %} ═══════════════════════════════════════════════════════════════
+     URGENCE STOCK
+  ═══════════════════════════════════════════════════════════════ {% endcomment %}
+  {%- if block.settings.show_urgency -%}
+    <div class="pack-conversion__urgency">
+      <div class="urgency-dot"></div>
+      <span>{{ block.settings.urgency_text | default: '⚠️ Stock limité !' }} <strong id="packUrgencyCountMulti-{{ section.id }}">{{ urgency_stock_initial }}</strong> {{ block.settings.urgency_suffix | default: 'articles restants' }}</span>
+      <div class="pack-urgency-bar">
+        <div class="pack-urgency-bar__fill" id="packUrgencyBarMulti-{{ section.id }}" style="width: 100%;"></div>
+      </div>
+    </div>
+  {%- endif -%}
+
+  {% comment %} ═══════════════════════════════════════════════════════════════
+     FORMULAIRE PRINCIPAL
+  ═══════════════════════════════════════════════════════════════ {% endcomment %}
+  <form id="product-pack-form-multi-{{ section.id }}" class="form" accept-charset="UTF-8">
+    <input type="hidden" name="id" id="pack-variant-id-multi-{{ section.id }}" value="{{ product.selected_or_first_available_variant.id }}">
+    <input type="hidden" name="quantity" id="pack-quantity-input-multi-{{ section.id }}" value="1">
+
+    {% comment %} ═══════════════════════════════════════════════════════════════
+       PACKS MULTI-PRODUITS
+    ═══════════════════════════════════════════════════════════════ {% endcomment %}
+    <div class="pack-multi-wrapper" id="pack-multi-wrapper-{{ section.id }}">
+      
+      {%- assign multi_blocks = section.blocks | where: 'type', 'pack_multi_product' -%}
+      {%- assign pack_index = 0 -%}
+      
+      {%- for multi_block in multi_blocks -%}
+        {%- if multi_block.settings.enabled -%}
+          
+          {%- comment %} Calculer l'économie {%- endcomment -%}
+          {%- assign pack_price = multi_block.settings.pack_price | remove: '€' | remove: ' ' | replace: ',', '.' | times: 1.0 -%}
+          {%- assign pack_compare = multi_block.settings.pack_compare_price | remove: '€' | remove: ' ' | replace: ',', '.' | times: 1.0 -%}
+          {%- assign savings_amount = pack_compare | minus: pack_price -%}
+          
+          {%- if multi_block.settings.savings_auto == false and multi_block.settings.savings_manual != blank -%}
+            {%- assign savings_display = multi_block.settings.savings_manual -%}
+          {%- else -%}
+            {%- assign savings_display = savings_amount | round: 2 | replace: '.', ',' | append: '€' -%}
+          {%- endif -%}
+          
+          <div class="pack-multi-card {% if multi_block.settings.is_default_selected or pack_index == 0 %}selected{% endif %}"
+               data-pack-multi-index="{{ pack_index }}"
+               data-price="{{ multi_block.settings.pack_price }}"
+               data-compare-price="{{ multi_block.settings.pack_compare_price }}"
+               data-variant-id="{{ multi_block.settings.variant_id }}"
+               data-quantity="{{ multi_block.settings.quantity | default: 1 }}"
+               data-savings="{{ savings_display }}"
+               onclick="selectPackMulti(this, '{{ section.id }}')"
+               {{ multi_block.shopify_attributes }}>
+            
+            {% comment %} === BADGE SUPÉRIEUR === {% endcomment %}
+            {%- if multi_block.settings.show_top_badge and multi_block.settings.top_badge_text != blank -%}
+              <div class="pack-multi-top-badge" style="background: {{ multi_block.settings.top_badge_bg | default: '#1f2937' }}; color: {{ multi_block.settings.top_badge_text_color | default: '#ffffff' }};">
+                {{ multi_block.settings.top_badge_text }}
+              </div>
+            {%- endif -%}
+
+            {% comment %} === EN-TÊTE DU PACK (toujours visible) === {% endcomment %}
+            <div class="pack-multi-header">
+              <div class="pack-multi-radio"></div>
+              
+              <div class="pack-multi-header-content">
+                <div class="pack-multi-header-top">
+                  <span class="pack-multi-name">{{ multi_block.settings.pack_title | default: 'Pack Combo' }}</span>
+                  
+                  {%- if multi_block.settings.show_savings_badge and savings_amount > 0 -%}
+                    <span class="pack-multi-savings-badge" style="background: {{ multi_block.settings.savings_badge_bg | default: '#10b981' }}; color: {{ multi_block.settings.savings_badge_text | default: '#ffffff' }};">
+                      Économie {{ savings_display }}
+                    </span>
+                  {%- endif -%}
+                </div>
+                
+                {%- if multi_block.settings.pack_subtitle != blank -%}
+                  <div class="pack-multi-subtitle">{{ multi_block.settings.pack_subtitle }}</div>
+                {%- endif -%}
+              </div>
+              
+              <div class="pack-multi-header-prices">
+                <span class="pack-multi-price">{{ multi_block.settings.pack_price }}</span>
+                {%- if multi_block.settings.pack_compare_price != blank -%}
+                  <span class="pack-multi-compare-price">{{ multi_block.settings.pack_compare_price }}</span>
+                {%- endif -%}
+              </div>
+            </div>
+
+            {% comment %} === CONTENU DÉPLIÉ (visible si sélectionné) === {% endcomment %}
+            <div class="pack-multi-body">
+              
+              {% comment %} === GRILLE DES PRODUITS === {% endcomment %}
+              <div class="pack-multi-products">
+                
+                {% comment %} === PRODUIT 1 === {% endcomment %}
+                {%- if multi_block.settings.product1_enabled -%}
+                  <div class="pack-multi-product">
+                    {%- if multi_block.settings.product1_title != blank or multi_block.settings.product1_subtitle != blank -%}
+                      <div class="pack-multi-product-header">
+                        {%- if multi_block.settings.product1_title != blank -%}
+                          <div class="pack-multi-product-title">{{ multi_block.settings.product1_title }}</div>
+                        {%- endif -%}
+                        {%- if multi_block.settings.product1_subtitle != blank -%}
+                          <div class="pack-multi-product-subtitle">{{ multi_block.settings.product1_subtitle }}</div>
+                        {%- endif -%}
+                      </div>
+                    {%- endif -%}
+                    
+                    {%- if multi_block.settings.show_arrows -%}
+                      <div class="pack-multi-arrow pack-multi-arrow-left">
+                        <svg class="pack-multi-arrow-svg" viewBox="0 0 24 20">
+                          <path d="M12 2 C8 2, 4 6, 4 10 C4 14, 8 18, 12 18" style="stroke: {{ multi_block.settings.arrow_color | default: '#6b7280' }};"/>
+                          <path d="M8 14 L12 18 L16 14" style="stroke: {{ multi_block.settings.arrow_color | default: '#6b7280' }};"/>
+                        </svg>
+                      </div>
+                    {%- endif -%}
+                    
+                    <div class="pack-multi-product-image-wrapper">
+                      {%- if multi_block.settings.product1_image != blank -%}
+                        {{ multi_block.settings.product1_image | image_url: width: 140 | image_tag: class: 'pack-multi-product-image', loading: 'lazy' }}
+                      {%- else -%}
+                        <div class="pack-multi-product-image" style="display: flex; align-items: center; justify-content: center; font-size: 32px; background: #f3f4f6;">📦</div>
+                      {%- endif -%}
+                    </div>
+                    
+                    <div class="pack-multi-product-footer">
+                      {%- if multi_block.settings.product1_price != blank -%}
+                        <div class="pack-multi-product-price">{{ multi_block.settings.product1_price }}</div>
+                      {%- endif -%}
+                      {%- if multi_block.settings.product1_description != blank -%}
+                        <div class="pack-multi-product-description">{{ multi_block.settings.product1_description }}</div>
+                      {%- endif -%}
+                    </div>
+                  </div>
+                {%- endif -%}
+                
+                {% comment %} === SÉPARATEUR + === {% endcomment %}
+                {%- if multi_block.settings.product1_enabled and multi_block.settings.product2_enabled -%}
+                  <div class="pack-multi-plus">+</div>
+                {%- endif -%}
+                
+                {% comment %} === PRODUIT 2 === {% endcomment %}
+                {%- if multi_block.settings.product2_enabled -%}
+                  <div class="pack-multi-product">
+                    {%- if multi_block.settings.product2_title != blank or multi_block.settings.product2_subtitle != blank -%}
+                      <div class="pack-multi-product-header">
+                        {%- if multi_block.settings.product2_title != blank -%}
+                          <div class="pack-multi-product-title">{{ multi_block.settings.product2_title }}</div>
+                        {%- endif -%}
+                        {%- if multi_block.settings.product2_subtitle != blank -%}
+                          <div class="pack-multi-product-subtitle">{{ multi_block.settings.product2_subtitle }}</div>
+                        {%- endif -%}
+                      </div>
+                    {%- endif -%}
+                    
+                    {%- if multi_block.settings.show_arrows -%}
+                      <div class="pack-multi-arrow pack-multi-arrow-right">
+                        <svg class="pack-multi-arrow-svg" viewBox="0 0 24 20">
+                          <path d="M12 2 C8 2, 4 6, 4 10 C4 14, 8 18, 12 18" style="stroke: {{ multi_block.settings.arrow_color | default: '#6b7280' }};"/>
+                          <path d="M8 14 L12 18 L16 14" style="stroke: {{ multi_block.settings.arrow_color | default: '#6b7280' }};"/>
+                        </svg>
+                      </div>
+                    {%- endif -%}
+                    
+                    <div class="pack-multi-product-image-wrapper">
+                      {%- if multi_block.settings.product2_image != blank -%}
+                        {{ multi_block.settings.product2_image | image_url: width: 140 | image_tag: class: 'pack-multi-product-image', loading: 'lazy' }}
+                      {%- else -%}
+                        <div class="pack-multi-product-image" style="display: flex; align-items: center; justify-content: center; font-size: 32px; background: #f3f4f6;">📦</div>
+                      {%- endif -%}
+                    </div>
+                    
+                    <div class="pack-multi-product-footer">
+                      {%- if multi_block.settings.product2_price != blank -%}
+                        <div class="pack-multi-product-price">{{ multi_block.settings.product2_price }}</div>
+                      {%- endif -%}
+                      {%- if multi_block.settings.product2_description != blank -%}
+                        <div class="pack-multi-product-description">{{ multi_block.settings.product2_description }}</div>
+                      {%- endif -%}
+                    </div>
+                  </div>
+                {%- endif -%}
+                
+                {% comment %} === SÉPARATEUR + === {% endcomment %}
+                {%- if multi_block.settings.product2_enabled and multi_block.settings.product3_enabled -%}
+                  <div class="pack-multi-plus">+</div>
+                {%- endif -%}
+                
+                {% comment %} === PRODUIT 3 (optionnel) === {% endcomment %}
+                {%- if multi_block.settings.product3_enabled -%}
+                  <div class="pack-multi-product">
+                    {%- if multi_block.settings.product3_title != blank or multi_block.settings.product3_subtitle != blank -%}
+                      <div class="pack-multi-product-header">
+                        {%- if multi_block.settings.product3_title != blank -%}
+                          <div class="pack-multi-product-title">{{ multi_block.settings.product3_title }}</div>
+                        {%- endif -%}
+                        {%- if multi_block.settings.product3_subtitle != blank -%}
+                          <div class="pack-multi-product-subtitle">{{ multi_block.settings.product3_subtitle }}</div>
+                        {%- endif -%}
+                      </div>
+                    {%- endif -%}
+                    
+                    {%- if multi_block.settings.show_arrows -%}
+                      <div class="pack-multi-arrow pack-multi-arrow-left">
+                        <svg class="pack-multi-arrow-svg" viewBox="0 0 24 20">
+                          <path d="M12 2 C8 2, 4 6, 4 10 C4 14, 8 18, 12 18" style="stroke: {{ multi_block.settings.arrow_color | default: '#6b7280' }};"/>
+                          <path d="M8 14 L12 18 L16 14" style="stroke: {{ multi_block.settings.arrow_color | default: '#6b7280' }};"/>
+                        </svg>
+                      </div>
+                    {%- endif -%}
+                    
+                    <div class="pack-multi-product-image-wrapper">
+                      {%- if multi_block.settings.product3_image != blank -%}
+                        {{ multi_block.settings.product3_image | image_url: width: 140 | image_tag: class: 'pack-multi-product-image', loading: 'lazy' }}
+                      {%- else -%}
+                        <div class="pack-multi-product-image" style="display: flex; align-items: center; justify-content: center; font-size: 32px; background: #f3f4f6;">📦</div>
+                      {%- endif -%}
+                    </div>
+                    
+                    <div class="pack-multi-product-footer">
+                      {%- if multi_block.settings.product3_price != blank -%}
+                        <div class="pack-multi-product-price">{{ multi_block.settings.product3_price }}</div>
+                      {%- endif -%}
+                      {%- if multi_block.settings.product3_description != blank -%}
+                        <div class="pack-multi-product-description">{{ multi_block.settings.product3_description }}</div>
+                      {%- endif -%}
+                    </div>
+                  </div>
+                {%- endif -%}
+                
+                {% comment %} === SÉPARATEUR + === {% endcomment %}
+                {%- if multi_block.settings.product3_enabled and multi_block.settings.product4_enabled -%}
+                  <div class="pack-multi-plus">+</div>
+                {%- endif -%}
+                
+                {% comment %} === PRODUIT 4 (optionnel) === {% endcomment %}
+                {%- if multi_block.settings.product4_enabled -%}
+                  <div class="pack-multi-product">
+                    {%- if multi_block.settings.product4_title != blank or multi_block.settings.product4_subtitle != blank -%}
+                      <div class="pack-multi-product-header">
+                        {%- if multi_block.settings.product4_title != blank -%}
+                          <div class="pack-multi-product-title">{{ multi_block.settings.product4_title }}</div>
+                        {%- endif -%}
+                        {%- if multi_block.settings.product4_subtitle != blank -%}
+                          <div class="pack-multi-product-subtitle">{{ multi_block.settings.product4_subtitle }}</div>
+                        {%- endif -%}
+                      </div>
+                    {%- endif -%}
+                    
+                    {%- if multi_block.settings.show_arrows -%}
+                      <div class="pack-multi-arrow pack-multi-arrow-right">
+                        <svg class="pack-multi-arrow-svg" viewBox="0 0 24 20">
+                          <path d="M12 2 C8 2, 4 6, 4 10 C4 14, 8 18, 12 18" style="stroke: {{ multi_block.settings.arrow_color | default: '#6b7280' }};"/>
+                          <path d="M8 14 L12 18 L16 14" style="stroke: {{ multi_block.settings.arrow_color | default: '#6b7280' }};"/>
+                        </svg>
+                      </div>
+                    {%- endif -%}
+                    
+                    <div class="pack-multi-product-image-wrapper">
+                      {%- if multi_block.settings.product4_image != blank -%}
+                        {{ multi_block.settings.product4_image | image_url: width: 140 | image_tag: class: 'pack-multi-product-image', loading: 'lazy' }}
+                      {%- else -%}
+                        <div class="pack-multi-product-image" style="display: flex; align-items: center; justify-content: center; font-size: 32px; background: #f3f4f6;">📦</div>
+                      {%- endif -%}
+                    </div>
+                    
+                    <div class="pack-multi-product-footer">
+                      {%- if multi_block.settings.product4_price != blank -%}
+                        <div class="pack-multi-product-price">{{ multi_block.settings.product4_price }}</div>
+                      {%- endif -%}
+                      {%- if multi_block.settings.product4_description != blank -%}
+                        <div class="pack-multi-product-description">{{ multi_block.settings.product4_description }}</div>
+                      {%- endif -%}
+                    </div>
+                  </div>
+                {%- endif -%}
+                
+              </div>
+              
+            </div>
+          </div>
+          
+          {%- assign pack_index = pack_index | plus: 1 -%}
+        {%- endif -%}
+      {%- endfor -%}
+      
+    </div>
+
+    {% comment %} ═══════════════════════════════════════════════════════════════
+       CADEAUX PAR PACK (affichage horizontal)
+    ═══════════════════════════════════════════════════════════════ {% endcomment %}
+    {%- assign gift_blocks = section.blocks | where: 'type', 'pack_multi_gift' -%}
+    {%- if gift_blocks.size > 0 -%}
+      <div class="pack-multi-gifts-options" id="pack-multi-gifts-{{ section.id }}">
+        <div class="pack-multi-gifts-title">🎁 Cadeaux inclus :</div>
+        <div class="pack-multi-gifts-grid">
+          {%- for gift_block in gift_blocks -%}
+            <div class="pack-multi-gift-item {% if gift_block.settings.active_default %}active{% endif %}"
+                 data-gift-id="{{ gift_block.id }}"
+                 data-show-pack-0="{{ gift_block.settings.show_for_pack_0 | default: true }}"
+                 data-show-pack-1="{{ gift_block.settings.show_for_pack_1 | default: true }}"
+                 data-show-pack-2="{{ gift_block.settings.show_for_pack_2 | default: true }}"
+                 data-show-pack-3="{{ gift_block.settings.show_for_pack_3 | default: true }}"
+                 onclick="toggleGiftMulti(this, '{{ section.id }}')"
+                 {{ gift_block.shopify_attributes }}>
+              
+              <div class="pack-multi-gift-image-wrapper">
+                {%- if gift_block.settings.gift_image != blank -%}
+                  {{ gift_block.settings.gift_image | image_url: width: 120 | image_tag: class: 'pack-multi-gift-image', loading: 'lazy' }}
+                {%- else -%}
+                  <div class="pack-multi-gift-image" style="display: flex; align-items: center; justify-content: center; font-size: 24px; background: #f3f4f6;">🎁</div>
+                {%- endif -%}
+              </div>
+              
+              <div class="pack-multi-gift-title">{{ gift_block.settings.gift_title | default: 'Cadeau' }}</div>
+              
+              <div class="pack-multi-gift-price {% if gift_block.settings.is_free %}free{% else %}paid{% endif %}">
+                {%- if gift_block.settings.is_free -%}
+                  OFFERT
+                {%- else -%}
+                  {{ gift_block.settings.gift_price }}
+                {%- endif -%}
+              </div>
+              
+              <div class="pack-multi-gift-check">✓</div>
+            </div>
+            
+            {%- unless forloop.last -%}
+              <div class="pack-multi-gift-plus">+</div>
+            {%- endunless -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- endif -%}
+
+    {% comment %} ═══════════════════════════════════════════════════════════════
+       OPTIONS PAR PACK (affichage horizontal)
+    ═══════════════════════════════════════════════════════════════ {% endcomment %}
+    {%- assign option_blocks = section.blocks | where: 'type', 'pack_multi_option' -%}
+    {%- if option_blocks.size > 0 -%}
+      <div class="pack-multi-gifts-options" id="pack-multi-options-{{ section.id }}">
+        <div class="pack-multi-gifts-title">🛒 Options disponibles :</div>
+        <div class="pack-multi-gifts-grid">
+          {%- for opt_block in option_blocks -%}
+            <div class="pack-multi-gift-item {% if opt_block.settings.active_default %}active{% endif %}"
+                 data-option-id="{{ opt_block.id }}"
+                 data-price="{{ opt_block.settings.option_price | remove: '+' | remove: '€' | remove: ' ' | replace: ',', '.' }}"
+                 data-variant-id="{{ opt_block.settings.variant_id }}"
+                 data-show-pack-0="{{ opt_block.settings.show_for_pack_0 | default: true }}"
+                 data-show-pack-1="{{ opt_block.settings.show_for_pack_1 | default: true }}"
+                 data-show-pack-2="{{ opt_block.settings.show_for_pack_2 | default: true }}"
+                 data-show-pack-3="{{ opt_block.settings.show_for_pack_3 | default: true }}"
+                 onclick="toggleOptionMulti(this, '{{ section.id }}')"
+                 {{ opt_block.shopify_attributes }}>
+              
+              <div class="pack-multi-gift-image-wrapper">
+                {%- if opt_block.settings.option_image != blank -%}
+                  {{ opt_block.settings.option_image | image_url: width: 120 | image_tag: class: 'pack-multi-gift-image', loading: 'lazy' }}
+                {%- else -%}
+                  <div class="pack-multi-gift-image" style="display: flex; align-items: center; justify-content: center; font-size: 24px; background: #f3f4f6;">🛒</div>
+                {%- endif -%}
+              </div>
+              
+              <div class="pack-multi-gift-title">{{ opt_block.settings.option_title | default: 'Option' }}</div>
+              
+              <div class="pack-multi-gift-price paid">{{ opt_block.settings.option_price }}</div>
+              
+              <div class="pack-multi-gift-check">✓</div>
+            </div>
+            
+            {%- unless forloop.last -%}
+              <div class="pack-multi-gift-plus">+</div>
+            {%- endunless -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- endif -%}
+
+    {% comment %} ═══════════════════════════════════════════════════════════════
+       BOX ÉCONOMIES
+    ═══════════════════════════════════════════════════════════════ {% endcomment %}
+    {%- if block.settings.show_savings -%}
+      <div id="savings-box-multi-{{ section.id }}" class="pack-savings-box">
+        {{ block.settings.savings_prefix | default: '🎉 Économie :' }} <span id="savings-amount-multi-{{ section.id }}">0€</span>
+      </div>
+    {%- endif -%}
+
+    {% comment %} ═══════════════════════════════════════════════════════════════
+       BOUTON AJOUTER AU PANIER
+    ═══════════════════════════════════════════════════════════════ {% endcomment %}
+    <button type="submit" name="add" class="pack-multi-add-btn" id="pack-add-btn-multi-{{ section.id }}">
+      <span class="pack-multi-add-btn-text">{{ block.settings.button_text | default: 'AJOUTER AU PANIER' }}</span>
+      <span class="pack-multi-add-btn-separator"></span>
+      <span class="pack-multi-add-btn-compare" id="packButtonCompareMulti-{{ section.id }}"></span>
+      <span class="pack-multi-add-btn-price" id="packButtonPriceMulti-{{ section.id }}"></span>
+    </button>
+  </form>
+
+  {% comment %} ═══════════════════════════════════════════════════════════════
+     TRUST BADGES COMPACTS
+  ═══════════════════════════════════════════════════════════════ {% endcomment %}
+  {%- if show_trust_badges -%}
+    {%- assign active_badges_count = 0 -%}
+    {%- if show_trust_1 -%}{%- assign active_badges_count = active_badges_count | plus: 1 -%}{%- endif -%}
+    {%- if show_trust_2 -%}{%- assign active_badges_count = active_badges_count | plus: 1 -%}{%- endif -%}
+    {%- if show_trust_3 -%}{%- assign active_badges_count = active_badges_count | plus: 1 -%}{%- endif -%}
+    {%- if show_trust_4 -%}{%- assign active_badges_count = active_badges_count | plus: 1 -%}{%- endif -%}
+
+    {%- if active_badges_count > 0 -%}
+      <div class="pack-conversion__trust-badges-compact">
+        {%- if show_trust_1 -%}
+          {%- assign icon_1 = block.settings.trust_icon_1 | default: 'lock' -%}
+          {%- case icon_1 -%}
+            {%- when 'lock' -%}{%- assign emoji_1 = '🔒' -%}
+            {%- when 'shield' -%}{%- assign emoji_1 = '🛡️' -%}
+            {%- when 'check' -%}{%- assign emoji_1 = '✅' -%}
+            {%- when 'star' -%}{%- assign emoji_1 = '⭐' -%}
+            {%- when 'truck' -%}{%- assign emoji_1 = '🚚' -%}
+            {%- when 'box' -%}{%- assign emoji_1 = '📦' -%}
+            {%- when 'return' -%}{%- assign emoji_1 = '↩️' -%}
+            {%- when 'heart' -%}{%- assign emoji_1 = '❤️' -%}
+            {%- when 'thumbup' -%}{%- assign emoji_1 = '👍' -%}
+            {%- when 'gift' -%}{%- assign emoji_1 = '🎁' -%}
+            {%- when 'clock' -%}{%- assign emoji_1 = '⏰' -%}
+            {%- when 'phone' -%}{%- assign emoji_1 = '📞' -%}
+            {%- when 'mail' -%}{%- assign emoji_1 = '✉️' -%}
+            {%- when 'wallet' -%}{%- assign emoji_1 = '💳' -%}
+            {%- when 'percent' -%}{%- assign emoji_1 = '💰' -%}
+            {%- when 'leaf' -%}{%- assign emoji_1 = '🌿' -%}
+            {%- when 'medal' -%}{%- assign emoji_1 = '🏅' -%}
+            {%- when 'crown' -%}{%- assign emoji_1 = '👑' -%}
+            {%- when 'fire' -%}{%- assign emoji_1 = '🔥' -%}
+            {%- when 'globe' -%}{%- assign emoji_1 = '🌍' -%}
+            {%- else -%}{%- assign emoji_1 = '🔒' -%}
+          {%- endcase -%}
+          <div class="trust-badge-compact">
+            <span class="trust-badge-compact__icon">{{ emoji_1 }}</span>
+            <span class="trust-badge-compact__text">{{ block.settings.trust_text_1 | default: 'Paiement sécurisé' }}</span>
+          </div>
+        {%- endif -%}
+        
+        {%- if show_trust_2 -%}
+          {%- assign icon_2 = block.settings.trust_icon_2 | default: 'truck' -%}
+          {%- case icon_2 -%}
+            {%- when 'lock' -%}{%- assign emoji_2 = '🔒' -%}
+            {%- when 'shield' -%}{%- assign emoji_2 = '🛡️' -%}
+            {%- when 'check' -%}{%- assign emoji_2 = '✅' -%}
+            {%- when 'star' -%}{%- assign emoji_2 = '⭐' -%}
+            {%- when 'truck' -%}{%- assign emoji_2 = '🚚' -%}
+            {%- when 'box' -%}{%- assign emoji_2 = '📦' -%}
+            {%- when 'return' -%}{%- assign emoji_2 = '↩️' -%}
+            {%- when 'heart' -%}{%- assign emoji_2 = '❤️' -%}
+            {%- when 'thumbup' -%}{%- assign emoji_2 = '👍' -%}
+            {%- when 'gift' -%}{%- assign emoji_2 = '🎁' -%}
+            {%- when 'clock' -%}{%- assign emoji_2 = '⏰' -%}
+            {%- when 'phone' -%}{%- assign emoji_2 = '📞' -%}
+            {%- when 'mail' -%}{%- assign emoji_2 = '✉️' -%}
+            {%- when 'wallet' -%}{%- assign emoji_2 = '💳' -%}
+            {%- when 'percent' -%}{%- assign emoji_2 = '💰' -%}
+            {%- when 'leaf' -%}{%- assign emoji_2 = '🌿' -%}
+            {%- when 'medal' -%}{%- assign emoji_2 = '🏅' -%}
+            {%- when 'crown' -%}{%- assign emoji_2 = '👑' -%}
+            {%- when 'fire' -%}{%- assign emoji_2 = '🔥' -%}
+            {%- when 'globe' -%}{%- assign emoji_2 = '🌍' -%}
+            {%- else -%}{%- assign emoji_2 = '🚚' -%}
+          {%- endcase -%}
+          <div class="trust-badge-compact">
+            <span class="trust-badge-compact__icon">{{ emoji_2 }}</span>
+            <span class="trust-badge-compact__text">{{ block.settings.trust_text_2 | default: 'Livraison rapide' }}</span>
+          </div>
+        {%- endif -%}
+        
+        {%- if show_trust_3 -%}
+          {%- assign icon_3 = block.settings.trust_icon_3 | default: 'return' -%}
+          {%- case icon_3 -%}
+            {%- when 'lock' -%}{%- assign emoji_3 = '🔒' -%}
+            {%- when 'shield' -%}{%- assign emoji_3 = '🛡️' -%}
+            {%- when 'check' -%}{%- assign emoji_3 = '✅' -%}
+            {%- when 'star' -%}{%- assign emoji_3 = '⭐' -%}
+            {%- when 'truck' -%}{%- assign emoji_3 = '🚚' -%}
+            {%- when 'box' -%}{%- assign emoji_3 = '📦' -%}
+            {%- when 'return' -%}{%- assign emoji_3 = '↩️' -%}
+            {%- when 'heart' -%}{%- assign emoji_3 = '❤️' -%}
+            {%- when 'thumbup' -%}{%- assign emoji_3 = '👍' -%}
+            {%- when 'gift' -%}{%- assign emoji_3 = '🎁' -%}
+            {%- when 'clock' -%}{%- assign emoji_3 = '⏰' -%}
+            {%- when 'phone' -%}{%- assign emoji_3 = '📞' -%}
+            {%- when 'mail' -%}{%- assign emoji_3 = '✉️' -%}
+            {%- when 'wallet' -%}{%- assign emoji_3 = '💳' -%}
+            {%- when 'percent' -%}{%- assign emoji_3 = '💰' -%}
+            {%- when 'leaf' -%}{%- assign emoji_3 = '🌿' -%}
+            {%- when 'medal' -%}{%- assign emoji_3 = '🏅' -%}
+            {%- when 'crown' -%}{%- assign emoji_3 = '👑' -%}
+            {%- when 'fire' -%}{%- assign emoji_3 = '🔥' -%}
+            {%- when 'globe' -%}{%- assign emoji_3 = '🌍' -%}
+            {%- else -%}{%- assign emoji_3 = '↩️' -%}
+          {%- endcase -%}
+          <div class="trust-badge-compact">
+            <span class="trust-badge-compact__icon">{{ emoji_3 }}</span>
+            <span class="trust-badge-compact__text">{{ block.settings.trust_text_3 | default: 'Retours gratuits' }}</span>
+          </div>
+        {%- endif -%}
+        
+        {%- if show_trust_4 -%}
+          {%- assign icon_4 = block.settings.trust_icon_4 | default: 'star' -%}
+          {%- case icon_4 -%}
+            {%- when 'lock' -%}{%- assign emoji_4 = '🔒' -%}
+            {%- when 'shield' -%}{%- assign emoji_4 = '🛡️' -%}
+            {%- when 'check' -%}{%- assign emoji_4 = '✅' -%}
+            {%- when 'star' -%}{%- assign emoji_4 = '⭐' -%}
+            {%- when 'truck' -%}{%- assign emoji_4 = '🚚' -%}
+            {%- when 'box' -%}{%- assign emoji_4 = '📦' -%}
+            {%- when 'return' -%}{%- assign emoji_4 = '↩️' -%}
+            {%- when 'heart' -%}{%- assign emoji_4 = '❤️' -%}
+            {%- when 'thumbup' -%}{%- assign emoji_4 = '👍' -%}
+            {%- when 'gift' -%}{%- assign emoji_4 = '🎁' -%}
+            {%- when 'clock' -%}{%- assign emoji_4 = '⏰' -%}
+            {%- when 'phone' -%}{%- assign emoji_4 = '📞' -%}
+            {%- when 'mail' -%}{%- assign emoji_4 = '✉️' -%}
+            {%- when 'wallet' -%}{%- assign emoji_4 = '💳' -%}
+            {%- when 'percent' -%}{%- assign emoji_4 = '💰' -%}
+            {%- when 'leaf' -%}{%- assign emoji_4 = '🌿' -%}
+            {%- when 'medal' -%}{%- assign emoji_4 = '🏅' -%}
+            {%- when 'crown' -%}{%- assign emoji_4 = '👑' -%}
+            {%- when 'fire' -%}{%- assign emoji_4 = '🔥' -%}
+            {%- when 'globe' -%}{%- assign emoji_4 = '🌍' -%}
+            {%- else -%}{%- assign emoji_4 = '⭐' -%}
+          {%- endcase -%}
+          <div class="trust-badge-compact">
+            <span class="trust-badge-compact__icon">{{ emoji_4 }}</span>
+            <span class="trust-badge-compact__text">{{ block.settings.trust_text_4 | default: '4.9/5 avis clients' }}</span>
+          </div>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  {%- endif -%}
+
+  {% comment %} ═══════════════════════════════════════════════════════════════
+     GARANTIE
+  ═══════════════════════════════════════════════════════════════ {% endcomment %}
+  {%- if show_guarantee_banner -%}
+    <div class="pack-guarantee">
+      <span class="pack-guarantee__icon">🛡️</span>
+      <span class="pack-guarantee__text">{{ guarantee_text }}</span>
+      <span class="pack-guarantee__badge">GARANTI</span>
+    </div>
+  {%- endif -%}
+
+  {% comment %} ═══════════════════════════════════════════════════════════════
+     CODE PROMO
+  ═══════════════════════════════════════════════════════════════ {% endcomment %}
+  {%- if block.settings.promo_enabled -%}
+    <div class="pack-conversion__promo-box" id="promoBoxMulti-{{ section.id }}" data-promo-code="{{ block.settings.promo_code }}">
+      <span class="promo-text">{{ block.settings.promo_text | default: '🎁 Cliquez pour copier :' }}</span>
+      <div class="promo-code-pill">
+        <span class="code-text">{{ block.settings.promo_code | default: 'BIENVENUE10' }}</span>
+        <span>📋</span>
+      </div>
+    </div>
+  {%- endif -%}
+
+  {% comment %} ═══════════════════════════════════════════════════════════════
+     LIVRAISON
+  ═══════════════════════════════════════════════════════════════ {% endcomment %}
+  {%- if block.settings.show_delivery -%}
+    <div class="pack-conversion__delivery">
+      <div class="delivery-item">
+        <span>⚡</span>
+        <span>{{ block.settings.expedition_text | default: 'Expédition 24-48h' }}</span>
+      </div>
+      <div class="delivery-item">
+        <span>🚚</span>
+        <strong>{{ block.settings.delivery_text | default: 'LIVRAISON OFFERTE 5-8 JOURS' }}</strong>
+      </div>
+    </div>
+  {%- endif -%}
+
+  {% comment %} ═══════════════════════════════════════════════════════════════
+     VIEWERS
+  ═══════════════════════════════════════════════════════════════ {% endcomment %}
+  {%- if block.settings.show_viewers -%}
+    <div class="pack-conversion__viewers">
+      <span class="viewers-icon">👀</span>
+      <span><strong id="viewersCountMulti-{{ section.id }}">{{ viewers_initial }}</strong> {{ block.settings.viewers_text | default: 'personnes regardent ce produit' }}</span>
+    </div>
+  {%- endif -%}
+
+</product-pack>
+
+{% comment %} ═══════════════════════════════════════════════════════════════
+   JAVASCRIPT - PACKS MULTI-PRODUITS
+═══════════════════════════════════════════════════════════════ {% endcomment %}
+<script>
+(function() {
+  'use strict';
+  
+  const SECTION_ID = '{{ section.id }}';
+  
+  // État global du pack multi
+  window.packMultiState = window.packMultiState || {};
+  window.packMultiState[SECTION_ID] = {
+    basePrice: 0,
+    comparePrice: 0,
+    optionsPrice: 0,
+    currency: '€',
+    currentPackIndex: 0,
+    variantId: null,
+    quantity: 1,
+    savings: '0€'
+  };
+  
+  // === UTILITAIRES ===
+  function parsePrice(priceStr) {
+    if (!priceStr) return 0;
+    return parseFloat(priceStr.replace(/[^0-9.,]/g, '').replace(',', '.'));
+  }
+  
+  function formatPrice(price, currency) {
+    return price.toFixed(2).replace('.', ',') + ' ' + currency;
+  }
+  
+  // === SÉLECTION DE PACK MULTI ===
+  window.selectPackMulti = function(card, sectionId) {
+    const wrapper = card.closest('.pack-multi-wrapper');
+    const state = window.packMultiState[sectionId];
+    
+    // Désélectionner tous les packs
+    wrapper.querySelectorAll('.pack-multi-card').forEach(c => {
+      c.classList.remove('selected');
+    });
+    
+    // Sélectionner le pack cliqué
+    card.classList.add('selected');
+    
+    // Mettre à jour l'état
+    state.basePrice = parsePrice(card.dataset.price);
+    state.comparePrice = parsePrice(card.dataset.comparePrice);
+    state.currentPackIndex = parseInt(card.dataset.packMultiIndex) || 0;
+    state.variantId = card.dataset.variantId || null;
+    state.quantity = parseInt(card.dataset.quantity) || 1;
+    state.savings = card.dataset.savings || '0€';
+    
+    // Mettre à jour le champ quantité
+    const qtyInput = document.getElementById('pack-quantity-input-multi-' + sectionId);
+    if (qtyInput) {
+      qtyInput.value = state.quantity;
+    }
+    
+    // Mettre à jour le variant ID si disponible
+    const variantInput = document.getElementById('pack-variant-id-multi-' + sectionId);
+    if (variantInput && state.variantId) {
+      variantInput.value = state.variantId;
+    }
+    
+    // Mettre à jour l'affichage des cadeaux et options
+    updateGiftsVisibility(sectionId);
+    updateOptionsVisibilityMulti(sectionId);
+    recalculateOptionsPriceMulti(sectionId);
+    updateTotalMulti(sectionId);
+  };
+  
+  // === TOGGLE CADEAU ===
+  window.toggleGiftMulti = function(item, sectionId) {
+    if (item.classList.contains('hidden')) return;
+    
+    // Les cadeaux sont toujours inclus, on toggle juste le visuel
+    item.classList.toggle('active');
+  };
+  
+  // === TOGGLE OPTION ===
+  window.toggleOptionMulti = function(item, sectionId) {
+    if (item.classList.contains('hidden')) return;
+    
+    const state = window.packMultiState[sectionId];
+    const price = parseFloat(item.dataset.price) || 0;
+    
+    if (item.classList.contains('active')) {
+      item.classList.remove('active');
+      state.optionsPrice -= price;
+    } else {
+      item.classList.add('active');
+      state.optionsPrice += price;
+    }
+    
+    updateTotalMulti(sectionId);
+  };
+  
+  // === VISIBILITÉ DES CADEAUX PAR PACK ===
+  function updateGiftsVisibility(sectionId) {
+    const state = window.packMultiState[sectionId];
+    const packIndex = state.currentPackIndex;
+    const giftsContainer = document.getElementById('pack-multi-gifts-' + sectionId);
+    
+    if (!giftsContainer) return;
+    
+    giftsContainer.querySelectorAll('.pack-multi-gift-item').forEach(item => {
+      const showForPack = item.dataset['showPack' + packIndex];
+      
+      if (showForPack === 'true') {
+        item.classList.remove('hidden');
+      } else {
+        item.classList.add('hidden');
+        item.classList.remove('active');
+      }
+    });
+  }
+  
+  // === VISIBILITÉ DES OPTIONS PAR PACK ===
+  function updateOptionsVisibilityMulti(sectionId) {
+    const state = window.packMultiState[sectionId];
+    const packIndex = state.currentPackIndex;
+    const optionsContainer = document.getElementById('pack-multi-options-' + sectionId);
+    
+    if (!optionsContainer) return;
+    
+    optionsContainer.querySelectorAll('.pack-multi-gift-item').forEach(item => {
+      const showForPack = item.dataset['showPack' + packIndex];
+      
+      if (showForPack === 'true') {
+        item.classList.remove('hidden');
+      } else {
+        item.classList.add('hidden');
+        item.classList.remove('active');
+      }
+    });
+  }
+  
+  // === RECALCUL DU PRIX DES OPTIONS ===
+  function recalculateOptionsPriceMulti(sectionId) {
+    const state = window.packMultiState[sectionId];
+    const optionsContainer = document.getElementById('pack-multi-options-' + sectionId);
+    
+    let total = 0;
+    if (optionsContainer) {
+      optionsContainer.querySelectorAll('.pack-multi-gift-item.active:not(.hidden)').forEach(item => {
+        total += parseFloat(item.dataset.price) || 0;
+      });
+    }
+    
+    state.optionsPrice = total;
+  }
+  
+  // === MISE À JOUR DU TOTAL ===
+  function updateTotalMulti(sectionId) {
+    const state = window.packMultiState[sectionId];
+    const total = state.basePrice + state.optionsPrice;
+    
+    // Bouton prix
+    const buttonPrice = document.getElementById('packButtonPriceMulti-' + sectionId);
+    if (buttonPrice) {
+      buttonPrice.textContent = formatPrice(total, state.currency);
+    }
+    
+    // Bouton prix barré
+    const buttonCompare = document.getElementById('packButtonCompareMulti-' + sectionId);
+    if (buttonCompare && state.comparePrice > state.basePrice) {
+      buttonCompare.textContent = formatPrice(state.comparePrice, state.currency);
+      buttonCompare.style.display = 'inline';
+    } else if (buttonCompare) {
+      buttonCompare.style.display = 'none';
+    }
+    
+    // Box économies
+    const savingsBox = document.getElementById('savings-box-multi-' + sectionId);
+    const savingsAmount = document.getElementById('savings-amount-multi-' + sectionId);
+    
+    if (savingsBox && savingsAmount) {
+      if (state.comparePrice > state.basePrice) {
+        savingsAmount.textContent = state.savings;
+        savingsBox.style.display = 'block';
+      } else {
+        savingsBox.style.display = 'none';
+      }
+    }
+  }
+  
+  // === COUNTDOWN TIMER ===
+  function initCountdownMulti(sectionId) {
+    const countdown = document.getElementById('packCountdownMulti-' + sectionId);
+    if (!countdown) return;
+    
+    let days = parseInt(countdown.dataset.days) || 0;
+    let hours = parseInt(countdown.dataset.hours) || 0;
+    let minutes = parseInt(countdown.dataset.minutes) || 0;
+    let seconds = parseInt(countdown.dataset.seconds) || 0;
+    
+    let totalSeconds = (days * 86400) + (hours * 3600) + (minutes * 60) + seconds;
+    const initialSeconds = totalSeconds;
+    
+    const daysEl = document.getElementById('countdownDaysMulti-' + sectionId);
+    const hoursEl = document.getElementById('countdownHoursMulti-' + sectionId);
+    const minutesEl = document.getElementById('countdownMinutesMulti-' + sectionId);
+    const secondsEl = document.getElementById('countdownSecondsMulti-' + sectionId);
+    const progressEl = document.getElementById('countdownProgressMulti-' + sectionId);
+    
+    function updateDisplay() {
+      if (totalSeconds <= 0) totalSeconds = initialSeconds;
+      
+      const d = Math.floor(totalSeconds / 86400);
+      const h = Math.floor((totalSeconds % 86400) / 3600);
+      const m = Math.floor((totalSeconds % 3600) / 60);
+      const s = totalSeconds % 60;
+      
+      if (daysEl) {
+        daysEl.textContent = String(d).padStart(2, '0');
+        daysEl.classList.add('pulse');
+        setTimeout(() => daysEl.classList.remove('pulse'), 400);
+      }
+      if (hoursEl) {
+        hoursEl.textContent = String(h).padStart(2, '0');
+        hoursEl.classList.add('pulse');
+        setTimeout(() => hoursEl.classList.remove('pulse'), 400);
+      }
+      if (minutesEl) {
+        minutesEl.textContent = String(m).padStart(2, '0');
+        minutesEl.classList.add('pulse');
+        setTimeout(() => minutesEl.classList.remove('pulse'), 400);
+      }
+      if (secondsEl) {
+        secondsEl.textContent = String(s).padStart(2, '0');
+        secondsEl.classList.add('pulse');
+        setTimeout(() => secondsEl.classList.remove('pulse'), 400);
+      }
+      if (progressEl) {
+        progressEl.style.width = ((totalSeconds / initialSeconds) * 100) + '%';
+      }
+      
+      totalSeconds--;
+    }
+    
+    updateDisplay();
+    setInterval(updateDisplay, 1000);
+  }
+  
+  // === URGENCE STOCK ===
+  function initUrgencyMulti(sectionId, config) {
+    let stock = config.initial;
+    const countEl = document.getElementById('packUrgencyCountMulti-' + sectionId);
+    const barEl = document.getElementById('packUrgencyBarMulti-' + sectionId);
+    
+    function updateBar() {
+      if (barEl) {
+        const percent = Math.max(10, ((stock - config.min) / (config.initial - config.min)) * 100);
+        barEl.style.width = percent + '%';
+      }
+    }
+    
+    if (countEl) countEl.textContent = stock;
+    updateBar();
+    
+    if (config.variation) {
+      setInterval(() => {
+        if (Math.random() > 0.6 && stock > config.min) {
+          stock--;
+          if (countEl) countEl.textContent = stock;
+          updateBar();
+        }
+      }, config.interval * 1000);
+    }
+  }
+  
+  // === VIEWERS ===
+  function initViewersMulti(sectionId, config) {
+    let viewers = config.initial;
+    const viewersEl = document.getElementById('viewersCountMulti-' + sectionId);
+    
+    if (viewersEl) viewersEl.textContent = viewers;
+    
+    if (config.variation) {
+      setInterval(() => {
+        const change = Math.random() > 0.5 ? 1 : -1;
+        viewers = Math.max(config.min, Math.min(config.max, viewers + change));
+        if (viewersEl) viewersEl.textContent = viewers;
+      }, 5000);
+    }
+  }
+  
+  // === VENTES RÉCENTES ===
+  function initSalesMulti(sectionId) {
+    const salesEl = document.getElementById('packSalesCountMulti-' + sectionId);
+    if (!salesEl) return;
+    
+    let count = parseInt(salesEl.textContent) || 47;
+    
+    setInterval(() => {
+      if (Math.random() > 0.7) {
+        count++;
+        salesEl.textContent = count;
+      }
+    }, 10000);
+  }
+  
+  // === BARRE DE PROGRESSION ===
+  function initProgressMulti(sectionId) {
+    const percentEl = document.getElementById('packProgressPercentMulti-' + sectionId);
+    const fillEl = document.getElementById('packProgressFillMulti-' + sectionId);
+    if (!percentEl || !fillEl) return;
+    
+    let percent = parseInt(percentEl.textContent) || 73;
+    
+    setInterval(() => {
+      if (Math.random() > 0.8 && percent < 98) {
+        percent++;
+        percentEl.textContent = percent + '%';
+        fillEl.style.width = percent + '%';
+      }
+    }, 15000);
+  }
+  
+  // === CODE PROMO ===
+  function initPromoMulti(sectionId) {
+    const promoBox = document.getElementById('promoBoxMulti-' + sectionId);
+    if (!promoBox) return;
+    
+    promoBox.addEventListener('click', function() {
+      const code = this.dataset.promoCode;
+      const codeText = this.querySelector('.code-text');
+      const originalText = codeText.innerText;
+      
+      navigator.clipboard.writeText(code).then(() => {
+        codeText.innerText = '✓ COPIÉ !';
+        setTimeout(() => {
+          codeText.innerText = originalText;
+        }, 2000);
+      });
+    });
+  }
+  
+  // === FORMULAIRE SOUMISSION ===
+  function initFormMulti(sectionId) {
+    const form = document.getElementById('product-pack-form-multi-' + sectionId);
+    const button = document.getElementById('pack-add-btn-multi-' + sectionId);
+    
+    if (!form || !button) return;
+    
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      button.classList.add('loading');
+      button.disabled = true;
+      
+      const state = window.packMultiState[sectionId];
+      
+      const payload = {
+        id: state.variantId || document.getElementById('pack-variant-id-multi-' + sectionId).value,
+        quantity: state.quantity,
+        properties: {}
+      };
+      
+      // Récupérer les options actives
+      const optionsContainer = document.getElementById('pack-multi-options-' + sectionId);
+      if (optionsContainer) {
+        optionsContainer.querySelectorAll('.pack-multi-gift-item.active:not(.hidden)').forEach((item, index) => {
+          const title = item.querySelector('.pack-multi-gift-title');
+          if (title) {
+            payload.properties['Option ' + (index + 1)] = title.textContent;
+          }
+        });
+      }
+      
+      // Récupérer les cadeaux actifs
+      const giftsContainer = document.getElementById('pack-multi-gifts-' + sectionId);
+      if (giftsContainer) {
+        giftsContainer.querySelectorAll('.pack-multi-gift-item.active:not(.hidden)').forEach((item, index) => {
+          const title = item.querySelector('.pack-multi-gift-title');
+          if (title) {
+            payload.properties['Cadeau ' + (index + 1)] = title.textContent;
+          }
+        });
+      }
+      
+      fetch('/cart/add.js', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      })
+      .then(response => {
+        if (!response.ok) throw new Error('Erreur');
+        return response.json();
+      })
+      .then(() => {
+        // Ouvrir le cart drawer si disponible
+        if (typeof window.openCartDrawer === 'function') {
+          window.openCartDrawer();
+        }
+        button.classList.remove('loading');
+        button.disabled = false;
+      })
+      .catch(() => {
+        alert('Erreur lors de l\'ajout au panier.');
+        button.classList.remove('loading');
+        button.disabled = false;
+      });
+    });
+  }
+  
+  // === INITIALISATION ===
+  function init() {
+    const container = document.querySelector('.pack-multi-' + SECTION_ID);
+    if (!container) return;
+    
+    // Initialiser l'état avec le premier pack sélectionné
+    const selectedCard = container.querySelector('.pack-multi-card.selected');
+    if (selectedCard) {
+      const state = window.packMultiState[SECTION_ID];
+      state.basePrice = parsePrice(selectedCard.dataset.price);
+      state.comparePrice = parsePrice(selectedCard.dataset.comparePrice);
+      state.currentPackIndex = parseInt(selectedCard.dataset.packMultiIndex) || 0;
+      state.variantId = selectedCard.dataset.variantId || null;
+      state.quantity = parseInt(selectedCard.dataset.quantity) || 1;
+      state.savings = selectedCard.dataset.savings || '0€';
+    }
+    
+    // Initialiser les composants
+    updateGiftsVisibility(SECTION_ID);
+    updateOptionsVisibilityMulti(SECTION_ID);
+    recalculateOptionsPriceMulti(SECTION_ID);
+    updateTotalMulti(SECTION_ID);
+    
+    initCountdownMulti(SECTION_ID);
+    
+    initUrgencyMulti(SECTION_ID, {
+      initial: parseInt(container.dataset.urgencyInitial) || 12,
+      min: parseInt(container.dataset.urgencyMin) || 3,
+      variation: container.dataset.urgencyVariation === 'true',
+      interval: parseInt(container.dataset.urgencyInterval) || 8
+    });
+    
+    initViewersMulti(SECTION_ID, {
+      initial: parseInt(container.dataset.viewersInitial) || 18,
+      min: parseInt(container.dataset.viewersMin) || 8,
+      max: parseInt(container.dataset.viewersMax) || 35,
+      variation: container.dataset.viewersVariation === 'true'
+    });
+    
+    initSalesMulti(SECTION_ID);
+    initProgressMulti(SECTION_ID);
+    initPromoMulti(SECTION_ID);
+    initFormMulti(SECTION_ID);
+  }
+  
+  // Lancer l'initialisation
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+  
+})();
+</script>

@@ -1,0 +1,52 @@
+{%- liquid
+  # CORRECTION BUG VITESSE : Valeurs par défaut pour éviter la division par zéro
+  assign desktop_columns = desktop_columns | default: 1
+  if desktop_columns == 0
+    assign desktop_columns = 1
+  endif
+  
+  assign mobile_columns = mobile_columns | default: 1
+  if mobile_columns == 0
+    assign mobile_columns = 1
+  endif
+
+  # Valeur par défaut pour la largeur du média si manquante
+  assign media_width = media_width | default: 0.55
+-%}
+
+{%- capture sizes -%}
+  (min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 100 | times: media_width | divided_by: desktop_columns | round }}px, (min-width: 990px) calc({{ media_width | times: 100 | divided_by: desktop_columns }}vw - 10rem), (min-width: 750px) calc((100vw - 11.5rem) / 2), calc(100vw / {{ mobile_columns }} - 4rem)
+{%- endcapture -%}
+
+{%- if media != blank -%}
+  <div
+    class="product__media product__media-{{ media.media_type }} media global-media-settings{% if enable_zoom %} swiper-zoom-container{% endif %}"
+    style="padding-bottom: {{ 1 | divided_by: ratio | times: 100 }}%"
+  >
+    {%- case media.media_type -%}
+      {%- when 'image' -%}
+        {{
+          media.preview_image
+          | image_url: width: 1500
+          | image_tag: loading: 'lazy', class: image_class, sizes: sizes, widths: '165, 360, 535, 750, 1070, 1500'
+        }}
+
+      {%- when 'video' -%}
+        {{ media | video_tag: image_size: '1100x', autoplay: true, muted: true, loop: true }}
+
+      {%- when 'external_video' -%}
+        {%- if media.host == 'youtube' -%}
+          {% echo media
+            | external_video_url: autoplay: true, loop: loop, playlist: media.external_id
+            | external_video_tag: class: video_class, loading: 'lazy'
+          %}
+        {%- else -%}
+          {% echo media
+            | external_video_url: autoplay: true, loop: loop
+            | external_video_tag: class: video_class, loading: 'lazy'
+          %}
+        {%- endif -%}
+      {%- when 'model' -%}
+    {%- endcase -%}
+  </div>
+{%- endif -%}

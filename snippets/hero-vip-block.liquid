@@ -1,0 +1,446 @@
+{% comment %}
+  ═══════════════════════════════════════════════════════════════════
+  SNIPPET: hero-vip-block.liquid
+  🔥 HERO BANNER VIP - NEUROMARKETING CONVERSION
+  Usage: {% render 'hero-vip-block', block: block %}
+  ═══════════════════════════════════════════════════════════════════
+{% endcomment %}
+
+{%- style -%}
+  .hero-vip-block-{{ block.id }} {
+    background: linear-gradient(135deg, {{ block.settings.bg_color_start | default: '#8B4F9D' }} 0%, {{ block.settings.bg_color_end | default: '#5D3A6E' }} 100%);
+    border-radius: 16px;
+    padding: {{ block.settings.padding_desktop | default: 25 }}px;
+    margin-bottom: {{ block.settings.margin_bottom | default: 15 }}px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-vip-block-{{ block.id }}::before {
+    content: "";
+    position: absolute;
+    top: 0; left: -100%; width: 200%; height: 100%;
+    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.05) 50%, transparent 100%);
+    animation: heroVipShine-{{ block.id }} 4s ease-in-out infinite;
+    pointer-events: none;
+  }
+  @keyframes heroVipShine-{{ block.id }} {
+    0%, 100% { transform: translateX(-50%); }
+    50% { transform: translateX(50%); }
+  }
+  .hero-vip-block__inner-{{ block.id }} {
+    position: relative; z-index: 2;
+    display: flex; align-items: center; gap: 20px;
+  }
+  .hero-vip-block__visual-{{ block.id }} {
+    flex: 0 0 140px; position: relative;
+  }
+  .hero-vip-block__visual-{{ block.id }} img {
+    width: 100%;
+    filter: drop-shadow(0 12px 30px rgba(0,0,0,0.35));
+    animation: heroVipFloat-{{ block.id }} 3.5s ease-in-out infinite;
+  }
+  .hero-vip-block__visual-{{ block.id }}::after {
+    content: "";
+    position: absolute; top: 50%; left: 50%;
+    width: 140%; height: 140%;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle, {{ block.settings.price_color | default: '#FFD700' }}40 0%, transparent 60%);
+    filter: blur(25px); z-index: -1;
+    animation: heroVipGlow-{{ block.id }} 3s ease-in-out infinite;
+  }
+  @keyframes heroVipFloat-{{ block.id }} {
+    0%, 100% { transform: translateY(0) rotate(-1deg); }
+    50% { transform: translateY(-10px) rotate(1deg); }
+  }
+  @keyframes heroVipGlow-{{ block.id }} {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 0.8; }
+  }
+  .hero-vip-block__content-{{ block.id }} { flex: 1; }
+  .hero-vip-block__badge-{{ block.id }} {
+    display: inline-flex; align-items: center; gap: 5px;
+    background: #FF6B6B; color: #fff;
+    padding: 6px 14px; border-radius: 20px;
+    font-size: 11px; font-weight: 800;
+    text-transform: uppercase; letter-spacing: 1px;
+    margin-bottom: 10px;
+    animation: heroVipBadgePulse-{{ block.id }} 2s infinite;
+    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+  }
+  @keyframes heroVipBadgePulse-{{ block.id }} {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.03); }
+  }
+  .hero-vip-block__title-{{ block.id }} {
+    color: {{ block.settings.text_color | default: '#FFFFFF' }};
+    font-size: 24px; font-weight: 900; line-height: 1.15;
+    margin: 0 0 6px 0;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.2);
+  }
+  .hero-vip-block__subtitle-{{ block.id }} {
+    color: {{ block.settings.text_color | default: '#FFFFFF' }};
+    font-size: 14px; font-weight: 500;
+    margin: 0 0 12px 0; opacity: 0.9;
+  }
+  .hero-vip-block__pricing-{{ block.id }} {
+    background: rgba(0,0,0,0.2);
+    border-radius: 12px; padding: 12px 14px;
+    margin-bottom: 12px; backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .hero-vip-block__price-row-{{ block.id }} {
+    display: flex; align-items: center; gap: 10px;
+    flex-wrap: wrap; margin-bottom: 6px;
+  }
+  .hero-vip-block__price-{{ block.id }} {
+    color: {{ block.settings.price_color | default: '#FFD700' }};
+    font-size: 30px; font-weight: 900;
+    text-shadow: 0 0 18px {{ block.settings.price_color | default: '#FFD700' }}50;
+  }
+  .hero-vip-block__price-old-{{ block.id }} {
+    color: {{ block.settings.text_color | default: '#FFFFFF' }};
+    font-size: 17px; text-decoration: line-through; opacity: 0.55;
+  }
+  .hero-vip-block__discount-{{ block.id }} {
+    background: linear-gradient(135deg, #FF4444, #FF0000);
+    color: #fff; padding: 5px 12px; border-radius: 8px;
+    font-size: 13px; font-weight: 900;
+    box-shadow: 0 4px 14px rgba(255, 0, 0, 0.45);
+    animation: heroVipDiscountPulse-{{ block.id }} 2.5s ease-in-out infinite;
+  }
+  @keyframes heroVipDiscountPulse-{{ block.id }} {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.06); }
+  }
+  .hero-vip-block__includes-{{ block.id }} {
+    display: flex; align-items: center; gap: 6px;
+    color: {{ block.settings.text_color | default: '#FFFFFF' }};
+    font-size: 12px; font-weight: 600; opacity: 0.9;
+  }
+  .hero-vip-block__includes-{{ block.id }} svg {
+    width: 16px; height: 16px; color: {{ block.settings.price_color | default: '#FFD700' }};
+  }
+  .hero-vip-block__benefits-{{ block.id }} {
+    display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px;
+  }
+  .hero-vip-block__benefit-{{ block.id }} {
+    display: inline-flex; align-items: center; gap: 4px;
+    background: rgba(255,255,255,0.1);
+    padding: 5px 10px; border-radius: 15px;
+    color: {{ block.settings.text_color | default: '#FFFFFF' }};
+    font-size: 11px; font-weight: 600;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .hero-vip-block__benefit-{{ block.id }} svg {
+    width: 12px; height: 12px; color: #00E676;
+  }
+  .hero-vip-block__timer-{{ block.id }} {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(255, 80, 80, 0.15);
+    border: 2px solid #FF6B6B;
+    padding: 8px 14px; border-radius: 25px;
+    margin-bottom: 12px;
+    animation: heroVipTimerPulse-{{ block.id }} 1.5s infinite;
+    position: relative;
+  }
+  .hero-vip-block__timer-{{ block.id }}::before {
+    content: "";
+    position: absolute; top: -3px; left: -3px; right: -3px; bottom: -3px;
+    border-radius: 28px;
+    background: linear-gradient(135deg, #FF6B6B, #FF4444);
+    opacity: 0.25; filter: blur(8px); z-index: -1;
+  }
+  @keyframes heroVipTimerPulse-{{ block.id }} {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.5); }
+    50% { box-shadow: 0 0 0 6px rgba(255, 107, 107, 0); }
+  }
+  .hero-vip-block__timer-icon-{{ block.id }} {
+    width: 18px; height: 18px; color: #FF6B6B;
+    animation: heroVipTimerShake-{{ block.id }} 0.8s infinite;
+  }
+  @keyframes heroVipTimerShake-{{ block.id }} {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-8deg); }
+    75% { transform: rotate(8deg); }
+  }
+  .hero-vip-block__timer-label-{{ block.id }} {
+    color: {{ block.settings.text_color | default: '#FFFFFF' }};
+    font-size: 12px; font-weight: 600;
+  }
+  .hero-vip-block__timer-digits-{{ block.id }} {
+    display: flex; gap: 3px;
+  }
+  .hero-vip-block__timer-num-{{ block.id }} {
+    background: rgba(0,0,0,0.35); color: #FF6B6B;
+    padding: 4px 7px; border-radius: 5px;
+    font-size: 16px; font-weight: 900;
+    font-family: 'SF Mono', Monaco, monospace;
+    min-width: 30px; text-align: center;
+  }
+  .hero-vip-block__timer-sep-{{ block.id }} {
+    color: #FF6B6B; font-size: 16px; font-weight: 900;
+    animation: heroVipBlink-{{ block.id }} 1s infinite;
+  }
+  @keyframes heroVipBlink-{{ block.id }} {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+  .hero-vip-block__cta-{{ block.id }} {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    background: {{ block.settings.cta_bg | default: '#FFD700' }};
+    color: {{ block.settings.cta_text_color | default: '#1a1a1a' }};
+    padding: 14px 32px; border-radius: 28px;
+    font-size: 15px; font-weight: 800;
+    text-decoration: none; text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 6px 22px {{ block.settings.cta_bg | default: '#FFD700' }}50;
+    position: relative; overflow: hidden;
+  }
+  .hero-vip-block__cta-{{ block.id }}::before {
+    content: "";
+    position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+    transition: left 0.5s ease;
+  }
+  .hero-vip-block__cta-{{ block.id }}:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px {{ block.settings.cta_bg | default: '#FFD700' }}60;
+  }
+  .hero-vip-block__cta-{{ block.id }}:hover::before { left: 100%; }
+  .hero-vip-block__cta-{{ block.id }} svg {
+    width: 18px; height: 18px; transition: transform 0.3s ease;
+  }
+  .hero-vip-block__cta-{{ block.id }}:hover svg { transform: translateX(4px); }
+  .hero-vip-block__cta-trust-{{ block.id }} {
+    display: flex; align-items: center; justify-content: flex-start;
+    gap: 5px; margin-top: 8px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 11px; font-weight: 600;
+  }
+  .hero-vip-block__cta-trust-{{ block.id }} svg {
+    width: 13px; height: 13px; color: #00E676;
+  }
+  .hero-vip-block__guarantees-{{ block.id }} {
+    display: flex; align-items: center; gap: 12px;
+    margin-top: 8px; flex-wrap: wrap;
+  }
+  .hero-vip-block__guarantee-{{ block.id }} {
+    display: flex; align-items: center; gap: 4px;
+    color: {{ block.settings.text_color | default: '#FFFFFF' }};
+    font-size: 11px; opacity: 0.8;
+  }
+  .hero-vip-block__guarantee-{{ block.id }} svg {
+    width: 13px; height: 13px; color: #00E676;
+  }
+  .hero-vip-block__social-{{ block.id }} {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(255, 255, 255, 0.12);
+    padding: 10px 16px; border-radius: 20px;
+    margin-top: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .hero-vip-block__avatars-{{ block.id }} { display: flex; }
+  .hero-vip-block__avatar-{{ block.id }} {
+    width: 26px; height: 26px; border-radius: 50%;
+    border: 2px solid {{ block.settings.bg_color_start | default: '#8B4F9D' }};
+    margin-left: -6px;
+    background: linear-gradient(135deg, #c9a87c 0%, #8B4F9D 100%);
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 10px; font-weight: 700;
+  }
+  .hero-vip-block__avatar-{{ block.id }}:first-child { margin-left: 0; }
+  .hero-vip-block__social-text-{{ block.id }} {
+    color: {{ block.settings.text_color | default: '#FFFFFF' }}; font-size: 12px;
+  }
+  .hero-vip-block__social-text-{{ block.id }} strong {
+    color: {{ block.settings.price_color | default: '#FFD700' }};
+    font-weight: 800; font-size: 14px;
+  }
+  
+  /* MOBILE */
+  @media screen and (max-width: 768px) {
+    .hero-vip-block-{{ block.id }} { padding: {{ block.settings.padding_mobile | default: 15 }}px; }
+    .hero-vip-block__inner-{{ block.id }} { flex-direction: column; text-align: center; gap: 15px; }
+    .hero-vip-block__visual-{{ block.id }} { flex: none; width: 110px; margin: 0 auto; }
+    .hero-vip-block__title-{{ block.id }} { font-size: 20px; }
+    .hero-vip-block__subtitle-{{ block.id }} { font-size: 13px; }
+    .hero-vip-block__price-row-{{ block.id }} { justify-content: center; }
+    .hero-vip-block__price-{{ block.id }} { font-size: 26px; }
+    .hero-vip-block__price-old-{{ block.id }} { font-size: 15px; }
+    .hero-vip-block__discount-{{ block.id }} { font-size: 12px; padding: 4px 10px; }
+    .hero-vip-block__includes-{{ block.id }} { justify-content: center; font-size: 11px; }
+    .hero-vip-block__benefits-{{ block.id }} { justify-content: center; }
+    .hero-vip-block__benefit-{{ block.id }} { font-size: 10px; padding: 4px 8px; }
+    .hero-vip-block__timer-{{ block.id }} { padding: 6px 12px; gap: 6px; }
+    .hero-vip-block__timer-icon-{{ block.id }} { width: 15px; height: 15px; }
+    .hero-vip-block__timer-label-{{ block.id }} { font-size: 11px; }
+    .hero-vip-block__timer-num-{{ block.id }} { font-size: 14px; min-width: 26px; padding: 3px 5px; }
+    .hero-vip-block__timer-sep-{{ block.id }} { font-size: 14px; }
+    .hero-vip-block__cta-{{ block.id }} { width: 100%; padding: 12px 24px; font-size: 14px; }
+    .hero-vip-block__cta-trust-{{ block.id }} { justify-content: center; }
+    .hero-vip-block__guarantees-{{ block.id }} { justify-content: center; }
+    .hero-vip-block__social-{{ block.id }} { padding: 8px 14px; }
+    .hero-vip-block__avatar-{{ block.id }} { width: 22px; height: 22px; font-size: 9px; }
+    .hero-vip-block__social-text-{{ block.id }} { font-size: 11px; }
+    .hero-vip-block__social-text-{{ block.id }} strong { font-size: 13px; }
+  }
+{%- endstyle -%}
+
+<div class="hero-vip-block-{{ block.id }}" {{ block.shopify_attributes }}>
+  <div class="hero-vip-block__inner-{{ block.id }}">
+    
+    {%- if block.settings.show_image and block.settings.image != blank -%}
+    <div class="hero-vip-block__visual-{{ block.id }}">
+      {{ block.settings.image | image_url: width: 350 | image_tag: loading: 'lazy', alt: block.settings.title }}
+    </div>
+    {%- endif -%}
+    
+    <div class="hero-vip-block__content-{{ block.id }}">
+      
+      {%- if block.settings.badge_text != blank -%}
+      <div class="hero-vip-block__badge-{{ block.id }}">{{ block.settings.badge_text }}</div>
+      {%- endif -%}
+      
+      {%- if block.settings.title != blank -%}
+      <h3 class="hero-vip-block__title-{{ block.id }}">{{ block.settings.title }}</h3>
+      {%- endif -%}
+      
+      {%- if block.settings.subtitle != blank -%}
+      <p class="hero-vip-block__subtitle-{{ block.id }}">{{ block.settings.subtitle }}</p>
+      {%- endif -%}
+      
+      <div class="hero-vip-block__pricing-{{ block.id }}">
+        <div class="hero-vip-block__price-row-{{ block.id }}">
+          <span class="hero-vip-block__price-{{ block.id }}">{{ block.settings.price | default: '104,97€' }}</span>
+          {%- if block.settings.price_old != blank -%}
+          <span class="hero-vip-block__price-old-{{ block.id }}">{{ block.settings.price_old }}</span>
+          {%- endif -%}
+          {%- if block.settings.discount_text != blank -%}
+          <span class="hero-vip-block__discount-{{ block.id }}">{{ block.settings.discount_text }}</span>
+          {%- endif -%}
+        </div>
+        {%- if block.settings.includes_text != blank -%}
+        <div class="hero-vip-block__includes-{{ block.id }}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 12v10H4V12M2 7h20v5H2zM12 22V7M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/></svg>
+          <span>{{ block.settings.includes_text }}</span>
+        </div>
+        {%- endif -%}
+      </div>
+      
+      <div class="hero-vip-block__benefits-{{ block.id }}">
+        {%- if block.settings.benefit_1 != blank -%}
+        <span class="hero-vip-block__benefit-{{ block.id }}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>{{ block.settings.benefit_1 }}</span>
+        {%- endif -%}
+        {%- if block.settings.benefit_2 != blank -%}
+        <span class="hero-vip-block__benefit-{{ block.id }}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>{{ block.settings.benefit_2 }}</span>
+        {%- endif -%}
+        {%- if block.settings.benefit_3 != blank -%}
+        <span class="hero-vip-block__benefit-{{ block.id }}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>{{ block.settings.benefit_3 }}</span>
+        {%- endif -%}
+      </div>
+      
+      {%- if block.settings.show_timer -%}
+      <div class="hero-vip-block__timer-{{ block.id }}" id="heroVipBlockTimer-{{ block.id }}">
+        <svg class="hero-vip-block__timer-icon-{{ block.id }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        <span class="hero-vip-block__timer-label-{{ block.id }}">{{ block.settings.timer_label | default: 'Expire dans' }}</span>
+        <div class="hero-vip-block__timer-digits-{{ block.id }}">
+          <span class="hero-vip-block__timer-num-{{ block.id }}" id="heroVipBlockHours-{{ block.id }}">00</span>
+          <span class="hero-vip-block__timer-sep-{{ block.id }}">:</span>
+          <span class="hero-vip-block__timer-num-{{ block.id }}" id="heroVipBlockMins-{{ block.id }}">00</span>
+          <span class="hero-vip-block__timer-sep-{{ block.id }}">:</span>
+          <span class="hero-vip-block__timer-num-{{ block.id }}" id="heroVipBlockSecs-{{ block.id }}">00</span>
+        </div>
+      </div>
+      <script>
+      (function(){
+        var blockId='{{ block.id }}';
+        var h=document.getElementById('heroVipBlockHours-'+blockId);
+        var m=document.getElementById('heroVipBlockMins-'+blockId);
+        var s=document.getElementById('heroVipBlockSecs-'+blockId);
+        if(!h||!m||!s)return;
+        var dur=({{ block.settings.timer_hours | default: 23 }}*3600)+({{ block.settings.timer_minutes | default: 59 }}*60)+{{ block.settings.timer_seconds | default: 59 }};
+        var key='heroVipBlockTimer_'+blockId;
+        var saved=localStorage.getItem(key);
+        var end;
+        if(saved&&parseInt(saved)>Date.now()){end=parseInt(saved);}else{end=Date.now()+(dur*1000);localStorage.setItem(key,end.toString());}
+        function tick(){
+          var rem=Math.max(0,Math.floor((end-Date.now())/1000));
+          if(rem<=0){end=Date.now()+(dur*1000);localStorage.setItem(key,end.toString());rem=dur;}
+          h.textContent=String(Math.floor(rem/3600)).padStart(2,'0');
+          m.textContent=String(Math.floor((rem%3600)/60)).padStart(2,'0');
+          s.textContent=String(rem%60).padStart(2,'0');
+        }
+        tick();setInterval(tick,1000);
+      })();
+      </script>
+      {%- endif -%}
+      
+      <div>
+        <a href="{{ block.settings.cta_link | default: '#' }}" class="hero-vip-block__cta-{{ block.id }}" id="heroVipBlockCta-{{ block.id }}">
+          <span>{{ block.settings.cta_text | default: "J'EN PROFITE" }}</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <div class="hero-vip-block__cta-trust-{{ block.id }}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <span>Paiement 100% sécurisé</span>
+        </div>
+        {%- if block.settings.show_guarantees -%}
+        <div class="hero-vip-block__guarantees-{{ block.id }}">
+          {%- if block.settings.guarantee_1 != blank -%}
+          <span class="hero-vip-block__guarantee-{{ block.id }}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>{{ block.settings.guarantee_1 }}</span>
+          {%- endif -%}
+          {%- if block.settings.guarantee_2 != blank -%}
+          <span class="hero-vip-block__guarantee-{{ block.id }}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>{{ block.settings.guarantee_2 }}</span>
+          {%- endif -%}
+        </div>
+        {%- endif -%}
+      </div>
+      
+      {%- if block.settings.show_social -%}
+      <div class="hero-vip-block__social-{{ block.id }}">
+        <div class="hero-vip-block__avatars-{{ block.id }}">
+          <span class="hero-vip-block__avatar-{{ block.id }}">C</span>
+          <span class="hero-vip-block__avatar-{{ block.id }}">M</span>
+          <span class="hero-vip-block__avatar-{{ block.id }}">S</span>
+          <span class="hero-vip-block__avatar-{{ block.id }}">+</span>
+        </div>
+        <p class="hero-vip-block__social-text-{{ block.id }}">
+          <strong>{{ block.settings.social_number | default: '1,523' }}</strong> {{ block.settings.social_text | default: 'clientes satisfaites' }}
+        </p>
+      </div>
+      {%- endif -%}
+      
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var blockId='{{ block.id }}';
+  var cta=document.getElementById('heroVipBlockCta-'+blockId);
+  if(!cta)return;
+  cta.addEventListener('click',function(e){
+    var href=cta.getAttribute('href');
+    if(!href||href==='#'||href===''){
+      e.preventDefault();
+      var target=document.querySelector('.pack-conversion__wrapper')||document.querySelector('.pack-multi-wrapper')||document.querySelector('.product-pack-conversion')||document.querySelector('product-pack');
+      if(target){
+        var header=document.querySelector('.header-wrapper')||document.querySelector('header');
+        var headerH=header?header.offsetHeight:0;
+        var rect=target.getBoundingClientRect();
+        var scrollTop=window.pageYOffset||document.documentElement.scrollTop;
+        var targetY=rect.top+scrollTop-headerH-20;
+        window.scrollTo({top:targetY,behavior:'smooth'});
+        setTimeout(function(){
+          target.style.transition='box-shadow 0.4s ease';
+          target.style.boxShadow='0 0 0 4px rgba(139,79,157,0.5),0 0 20px rgba(139,79,157,0.3)';
+          setTimeout(function(){target.style.boxShadow='none';},2500);
+        },700);
+      }else{
+        window.scrollTo({top:document.body.scrollHeight*0.35,behavior:'smooth'});
+      }
+    }
+  });
+})();
+</script>

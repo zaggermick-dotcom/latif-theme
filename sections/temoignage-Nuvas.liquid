@@ -1,0 +1,3127 @@
+{% comment %}
+  ═══════════════════════════════════════════════════════════════════════════
+  LATIF SKIN - TÉMOIGNAGES PREMIUM v3.0
+  Style Nuvaskin avec OwlCarousel Effect
+  TOUTES LES PARTIES MODIFIABLES
+  ═══════════════════════════════════════════════════════════════════════════
+{% endcomment %}
+
+{%- style -%}
+  /* ═══════════════════════════════════════════════════════════
+     VARIABLES DYNAMIQUES - TOUT EST PERSONNALISABLE
+     ═══════════════════════════════════════════════════════════ */
+  
+  #shopify-section-{{ section.id }} {
+    /* Polices */
+    --font-heading: {{ section.settings.font_heading }};
+    --font-body: {{ section.settings.font_body }};
+    --font-accent: {{ section.settings.font_accent }};
+    
+    /* Section */
+    --section-bg: {{ section.settings.section_bg_color }};
+    --section-padding-top: {{ section.settings.padding_top }}px;
+    --section-padding-bottom: {{ section.settings.padding_bottom }}px;
+    
+    /* Header */
+    --header-subheading-color: {{ section.settings.subheading_color }};
+    --header-subheading-size: {{ section.settings.subheading_size }}px;
+    --header-title-color: {{ section.settings.title_color }};
+    --header-title-size-desktop: {{ section.settings.title_size_desktop }}px;
+    --header-title-size-mobile: {{ section.settings.title_size_mobile }}px;
+    --header-description-color: {{ section.settings.description_color }};
+    --header-description-size: {{ section.settings.description_size }}px;
+    
+    /* Cartes */
+    --card-bg: {{ section.settings.card_bg_color }};
+    --card-border-color: {{ section.settings.card_border_color }};
+    --card-border-width: {{ section.settings.card_border_width }}px;
+    --card-border-radius: {{ section.settings.card_border_radius }}px;
+    --card-active-border-color: {{ section.settings.card_active_border_color }};
+    --card-shadow-color: {{ section.settings.card_shadow_color }};
+    --card-width-desktop: {{ section.settings.card_width_desktop }}px;
+    --card-height-desktop: {{ section.settings.card_height_desktop }}px;
+    --card-width-mobile: {{ section.settings.card_width_mobile }}px;
+    --card-height-mobile: {{ section.settings.card_height_mobile }}px;
+    --card-gap: {{ section.settings.card_gap }}px;
+    
+    /* Images */
+    --image-border-radius: {{ section.settings.image_border_radius }}px;
+    --image-overlay-color: {{ section.settings.image_overlay_color }};
+    --image-overlay-opacity: {{ section.settings.image_overlay_opacity }};
+    
+    /* Labels Avant/Après */
+    --label-bg: {{ section.settings.label_bg_color }};
+    --label-text-color: {{ section.settings.label_text_color }};
+    --label-font-size: {{ section.settings.label_font_size }}px;
+    --label-padding-y: {{ section.settings.label_padding_y }}px;
+    --label-padding-x: {{ section.settings.label_padding_x }}px;
+    --label-border-radius: {{ section.settings.label_border_radius }}px;
+    
+    /* Auteur */
+    --author-name-color: {{ section.settings.author_name_color }};
+    --author-name-size: {{ section.settings.author_name_size }}px;
+    --author-age-color: {{ section.settings.author_age_color }};
+    --author-age-size: {{ section.settings.author_age_size }}px;
+    
+    /* Icône vérifié */
+    --verified-icon-color: {{ section.settings.verified_icon_color }};
+    --verified-icon-size: {{ section.settings.verified_icon_size }}px;
+    
+    /* Étoiles */
+    --star-filled-color: {{ section.settings.star_filled_color }};
+    --star-empty-color: {{ section.settings.star_empty_color }};
+    --star-size: {{ section.settings.star_size }}px;
+    --star-gap: {{ section.settings.star_gap }}px;
+    --rating-text-color: {{ section.settings.rating_text_color }};
+    --rating-text-size: {{ section.settings.rating_text_size }}px;
+    
+    /* Titre avis */
+    --review-title-color: {{ section.settings.review_title_color }};
+    --review-title-size-desktop: {{ section.settings.review_title_size_desktop }}px;
+    --review-title-size-mobile: {{ section.settings.review_title_size_mobile }}px;
+    
+    /* Texte avis */
+    --review-text-color: {{ section.settings.review_text_color }};
+    --review-text-size: {{ section.settings.review_text_size }}px;
+    --review-text-line-height: {{ section.settings.review_text_line_height }};
+    
+    /* Produit */
+    --product-bg: {{ section.settings.product_bg_color }};
+    --product-border-radius: {{ section.settings.product_border_radius }}px;
+    --product-title-color: {{ section.settings.product_title_color }};
+    --product-title-size: {{ section.settings.product_title_size }}px;
+    --product-subtitle-color: {{ section.settings.product_subtitle_color }};
+    --product-subtitle-size: {{ section.settings.product_subtitle_size }}px;
+    --product-image-size: {{ section.settings.product_image_size }}px;
+    --product-image-radius: {{ section.settings.product_image_radius }}px;
+    
+    /* Bouton panier */
+    --cart-btn-bg: {{ section.settings.cart_btn_bg_color }};
+    --cart-btn-color: {{ section.settings.cart_btn_icon_color }};
+    --cart-btn-size: {{ section.settings.cart_btn_size }}px;
+    --cart-btn-hover-bg: {{ section.settings.cart_btn_hover_bg }};
+    --cart-btn-hover-color: {{ section.settings.cart_btn_hover_color }};
+    
+    /* Navigation */
+    --nav-btn-bg: {{ section.settings.nav_btn_bg }};
+    --nav-btn-color: {{ section.settings.nav_btn_color }};
+    --nav-btn-size: {{ section.settings.nav_btn_size }}px;
+    --nav-btn-hover-bg: {{ section.settings.nav_btn_hover_bg }};
+    --nav-btn-hover-color: {{ section.settings.nav_btn_hover_color }};
+    
+    /* Pagination */
+    --dot-color: {{ section.settings.dot_color }};
+    --dot-active-color: {{ section.settings.dot_active_color }};
+    --dot-size: {{ section.settings.dot_size }}px;
+    --dot-active-scale: {{ section.settings.dot_active_scale }};
+    --dot-gap: {{ section.settings.dot_gap }}px;
+    
+    /* Animation */
+    --transition-speed: {{ section.settings.transition_speed }}s;
+    --card-inactive-opacity: {{ section.settings.card_inactive_opacity }};
+    --card-inactive-scale: {{ section.settings.card_inactive_scale }};
+    --card-inactive-blur: {{ section.settings.card_inactive_blur }}px;
+    --card-adjacent-opacity: {{ section.settings.card_adjacent_opacity }};
+    --card-adjacent-scale: {{ section.settings.card_adjacent_scale }};
+    --card-adjacent-blur: {{ section.settings.card_adjacent_blur }}px;
+  }
+
+  /* ═══════════════════════════════════════════════════════════
+     SECTION CONTAINER
+     ═══════════════════════════════════════════════════════════ */
+  
+  .ls-testimonials-section {
+    background: var(--section-bg);
+    padding-top: var(--section-padding-top);
+    padding-bottom: var(--section-padding-bottom);
+    overflow: hidden;
+    font-family: var(--font-body);
+  }
+
+  .ls-container {
+    max-width: {{ section.settings.container_width }}px;
+    margin: 0 auto;
+    padding: 0 {{ section.settings.container_padding }}px;
+  }
+
+  /* ═══════════════════════════════════════════════════════════
+     HEADER
+     ═══════════════════════════════════════════════════════════ */
+  
+  .ls-header {
+    text-align: {{ section.settings.header_alignment }};
+    margin-bottom: {{ section.settings.header_margin_bottom }}px;
+    max-width: {{ section.settings.header_max_width }}px;
+    {% if section.settings.header_alignment == 'center' %}
+    margin-left: auto;
+    margin-right: auto;
+    {% endif %}
+  }
+
+  .ls-subheading {
+    font-family: var(--font-heading);
+    font-size: var(--header-subheading-size);
+    color: var(--header-subheading-color);
+    text-transform: uppercase;
+    letter-spacing: {{ section.settings.subheading_letter_spacing }}px;
+    margin-bottom: {{ section.settings.subheading_margin_bottom }}px;
+    font-weight: {{ section.settings.subheading_weight }};
+  }
+
+  .ls-title {
+    font-family: var(--font-heading);
+    font-size: var(--header-title-size-desktop);
+    color: var(--header-title-color);
+    font-weight: {{ section.settings.title_weight }};
+    line-height: {{ section.settings.title_line_height }};
+    margin-bottom: {{ section.settings.title_margin_bottom }}px;
+    letter-spacing: {{ section.settings.title_letter_spacing }}px;
+  }
+
+  .ls-description {
+    font-family: var(--font-body);
+    font-size: var(--header-description-size);
+    color: var(--header-description-color);
+    line-height: {{ section.settings.description_line_height }};
+    font-style: {{ section.settings.description_style }};
+    margin-bottom: {{ section.settings.description_margin_bottom }}px;
+  }
+
+  /* ═══════════════════════════════════════════════════════════
+     SLIDER WRAPPER - STYLE OWLCAROUSEL
+     ═══════════════════════════════════════════════════════════ */
+  
+  .ls-slider-container {
+    position: relative;
+    margin: 0 -{{ section.settings.container_padding }}px;
+  }
+
+  .ls-slider {
+    display: flex;
+    overflow-x: auto;
+    overflow-y: visible;
+    padding: {{ section.settings.slider_padding_y }}px calc(50% - var(--card-width-desktop) / 2);
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    gap: 0;
+    align-items: center;
+    perspective: 1500px;
+  }
+
+  .ls-slider::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* ═══════════════════════════════════════════════════════════
+     CARTES - BASE
+     ═══════════════════════════════════════════════════════════ */
+  
+  .ls-card {
+    flex: 0 0 var(--card-width-desktop);
+    width: var(--card-width-desktop);
+    height: var(--card-height-desktop);
+    background: var(--card-bg);
+    border: var(--card-border-width) solid var(--card-border-color);
+    border-radius: var(--card-border-radius);
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+    scroll-snap-align: center;
+    position: relative;
+    cursor: pointer;
+    
+    /* Effet superposition style OwlCarousel */
+    margin: 0 {{ section.settings.card_overlap_inactive | times: -1 }}px;
+    
+    /* État inactif */
+    opacity: var(--card-inactive-opacity);
+    filter: blur(var(--card-inactive-blur));
+    transform: translate3d(0, 0, {{ section.settings.card_z_inactive }}px) scale3d(var(--card-inactive-scale), var(--card-inactive-scale), 1);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    
+    /* Transition */
+    transition: all var(--transition-speed) {{ section.settings.transition_easing }};
+    
+    /* Stabilisation GPU */
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    will-change: transform, opacity, filter;
+    z-index: 1;
+  }
+
+  /* Carte adjacente */
+  .ls-card.adjacent {
+    opacity: var(--card-adjacent-opacity);
+    filter: blur(var(--card-adjacent-blur));
+    transform: translate3d(0, 0, {{ section.settings.card_z_adjacent }}px) scale3d(var(--card-adjacent-scale), var(--card-adjacent-scale), 1);
+    z-index: 5;
+  }
+
+  /* Carte active */
+  .ls-card.active {
+    opacity: 1;
+    filter: blur(0);
+    transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
+    border-color: var(--card-active-border-color);
+    margin: 0 {{ section.settings.card_overlap_active | times: -1 }}px;
+    z-index: 10;
+    box-shadow: 
+      0 {{ section.settings.shadow_y }}px {{ section.settings.shadow_blur }}px {{ section.settings.shadow_spread }}px var(--card-shadow-color),
+      0 {{ section.settings.shadow_y | times: 0.6 | round }}px {{ section.settings.shadow_blur | times: 0.5 | round }}px {{ section.settings.shadow_spread | times: -1 }}px var(--card-shadow-color);
+  }
+
+  /* ═══════════════════════════════════════════════════════════
+     IMAGES
+     ═══════════════════════════════════════════════════════════ */
+  
+  .ls-images {
+    flex: 0 0 {{ section.settings.image_width_percent }}%;
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    position: relative;
+    background: {{ section.settings.image_placeholder_bg }};
+  }
+
+  .ls-image-box {
+    flex: 1;
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  /* Overlay dégradé */
+  .ls-image-box::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      to top, 
+      var(--image-overlay-color) 0%, 
+      transparent {{ section.settings.image_overlay_height }}%
+    );
+    opacity: var(--image-overlay-opacity);
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .ls-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: transform {{ section.settings.image_zoom_speed }}s ease;
+  }
+
+  .ls-card.active .ls-image {
+    transform: scale({{ section.settings.image_zoom_scale }});
+  }
+
+  /* Séparateur entre images */
+  .ls-images:not(.single-mode) .ls-image-box:first-child::before {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: {{ section.settings.separator_margin }}%;
+    bottom: {{ section.settings.separator_margin }}%;
+    width: {{ section.settings.separator_width }}px;
+    background: {{ section.settings.separator_color }};
+    z-index: 3;
+  }
+
+  .ls-images.single-mode .ls-image-box {
+    width: 100%;
+    flex: 0 0 100%;
+  }
+
+  /* Labels Avant/Après */
+  .ls-label {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--label-bg);
+    color: var(--label-text-color);
+    text-align: center;
+    padding: var(--label-padding-y) var(--label-padding-x);
+    font-family: var(--font-heading);
+    font-size: var(--label-font-size);
+    font-weight: {{ section.settings.label_font_weight }};
+    text-transform: {{ section.settings.label_text_transform }};
+    letter-spacing: {{ section.settings.label_letter_spacing }}px;
+    z-index: 2;
+    border-radius: 0 0 var(--label-border-radius) var(--label-border-radius);
+    {% if section.settings.label_backdrop_blur > 0 %}
+    backdrop-filter: blur({{ section.settings.label_backdrop_blur }}px);
+    {% endif %}
+  }
+
+  /* ═══════════════════════════════════════════════════════════
+     CONTENU
+     ═══════════════════════════════════════════════════════════ */
+  
+  .ls-content {
+    flex: 1;
+    padding: {{ section.settings.content_padding }}px;
+    display: flex;
+    flex-direction: column;
+    justify-content: {{ section.settings.content_justify }};
+    background: var(--card-bg);
+    overflow: hidden;
+  }
+
+  /* Header auteur + étoiles */
+  .ls-author-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: {{ section.settings.author_row_margin }}px;
+    gap: 10px;
+  }
+
+  .ls-author {
+    display: flex;
+    align-items: center;
+    gap: {{ section.settings.author_gap }}px;
+  }
+
+  .ls-author-name {
+    font-family: var(--font-heading);
+    font-size: var(--author-name-size);
+    font-weight: {{ section.settings.author_name_weight }};
+    color: var(--author-name-color);
+  }
+
+  .ls-verified-icon {
+    width: var(--verified-icon-size);
+    height: var(--verified-icon-size);
+    color: var(--verified-icon-color);
+    fill: currentColor;
+    flex-shrink: 0;
+  }
+
+  .ls-author-age {
+    font-family: var(--font-body);
+    font-size: var(--author-age-size);
+    color: var(--author-age-color);
+    font-style: {{ section.settings.author_age_style }};
+  }
+
+  /* Étoiles */
+  .ls-stars-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .ls-stars {
+    display: flex;
+    gap: var(--star-gap);
+  }
+
+  .ls-star-box {
+    position: relative;
+    width: var(--star-size);
+    height: var(--star-size);
+    background: var(--star-empty-color);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: {{ section.settings.star_border_radius }}px;
+  }
+
+  .ls-star-fill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    background: var(--star-filled-color);
+    transition: width 0.5s ease;
+  }
+
+  .ls-star-icon {
+    position: relative;
+    z-index: 2;
+    width: {{ section.settings.star_icon_size }}px;
+    height: {{ section.settings.star_icon_size }}px;
+    fill: #fff;
+  }
+
+  .ls-rating-text {
+    font-family: var(--font-heading);
+    font-size: var(--rating-text-size);
+    font-weight: {{ section.settings.rating_text_weight }};
+    color: var(--rating-text-color);
+    white-space: nowrap;
+  }
+
+  /* Titre avis */
+  .ls-review-title {
+    font-family: var(--font-accent);
+    font-size: var(--review-title-size-desktop);
+    font-weight: {{ section.settings.review_title_weight }};
+    color: var(--review-title-color);
+    line-height: {{ section.settings.review_title_line_height }};
+    margin-bottom: {{ section.settings.review_title_margin }}px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: {{ section.settings.review_title_lines }};
+    -webkit-box-orient: vertical;
+  }
+
+  /* Texte avis */
+  .ls-review-text {
+    font-family: var(--font-body);
+    font-size: var(--review-text-size);
+    line-height: var(--review-text-line-height);
+    color: var(--review-text-color);
+    margin-bottom: {{ section.settings.review_text_margin }}px;
+    flex: 1;
+  }
+
+  .ls-review-text.collapsed {
+    display: -webkit-box;
+    -webkit-line-clamp: {{ section.settings.review_text_lines }};
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* Lire plus */
+  .ls-read-more {
+    font-family: var(--font-heading);
+    font-size: {{ section.settings.read_more_size }}px;
+    font-weight: {{ section.settings.read_more_weight }};
+    color: {{ section.settings.read_more_color }};
+    text-decoration: {{ section.settings.read_more_decoration }};
+    cursor: pointer;
+    margin-bottom: {{ section.settings.read_more_margin }}px;
+    display: inline-block;
+    transition: all 0.3s ease;
+  }
+
+  .ls-read-more:hover {
+    color: {{ section.settings.read_more_hover_color }};
+  }
+
+  /* ═══════════════════════════════════════════════════════════
+     BLOC PRODUIT - STYLE NUVASKIN
+     ═══════════════════════════════════════════════════════════ */
+  
+  .ls-product {
+    background: var(--product-bg);
+    border-radius: var(--product-border-radius);
+    padding: {{ section.settings.product_padding }}px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: {{ section.settings.product_gap }}px;
+    margin-top: auto;
+    transition: all 0.3s ease;
+  }
+
+  .ls-product:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  }
+
+  .ls-product-left {
+    display: flex;
+    align-items: center;
+    gap: {{ section.settings.product_info_gap }}px;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .ls-product-image {
+    width: var(--product-image-size);
+    height: var(--product-image-size);
+    min-width: var(--product-image-size);
+    border-radius: var(--product-image-radius);
+    object-fit: cover;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+
+  .ls-product-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  .ls-product-title {
+    font-family: var(--font-heading);
+    font-size: var(--product-title-size);
+    font-weight: {{ section.settings.product_title_weight }};
+    color: var(--product-title-color);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .ls-product-subtitle {
+    font-family: var(--font-body);
+    font-size: var(--product-subtitle-size);
+    color: var(--product-subtitle-color);
+  }
+
+  /* Bouton panier - Bulle style Nuvaskin */
+  .ls-cart-btn {
+    width: var(--cart-btn-size);
+    height: var(--cart-btn-size);
+    min-width: var(--cart-btn-size);
+    background: var(--cart-btn-bg);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--cart-btn-color);
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+
+  .ls-cart-btn:hover {
+    background: var(--cart-btn-hover-bg);
+    color: var(--cart-btn-hover-color);
+    transform: scale(1.15) rotate(5deg);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+  }
+
+  .ls-cart-btn svg {
+    width: {{ section.settings.cart_icon_size }}px;
+    height: {{ section.settings.cart_icon_size }}px;
+  }
+
+  /* ═══════════════════════════════════════════════════════════
+     NAVIGATION
+     ═══════════════════════════════════════════════════════════ */
+  
+  .ls-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: var(--nav-btn-size);
+    height: var(--nav-btn-size);
+    background: var(--nav-btn-bg);
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--nav-btn-color);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+
+  .ls-nav-btn:hover {
+    transform: translateY(-50%) scale(1.1);
+    background: var(--nav-btn-hover-bg);
+    color: var(--nav-btn-hover-color);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.18);
+  }
+
+  .ls-nav-btn.prev {
+    left: {{ section.settings.nav_btn_position }}px;
+  }
+
+  .ls-nav-btn.next {
+    right: {{ section.settings.nav_btn_position }}px;
+  }
+
+  .ls-nav-btn svg {
+    width: {{ section.settings.nav_icon_size }}px;
+    height: {{ section.settings.nav_icon_size }}px;
+  }
+
+  /* ═══════════════════════════════════════════════════════════
+     PAGINATION DOTS - STYLE OWLCAROUSEL
+     ═══════════════════════════════════════════════════════════ */
+  
+  .ls-pagination {
+    display: flex;
+    justify-content: center;
+    gap: var(--dot-gap);
+    margin-top: {{ section.settings.pagination_margin_top }}px;
+  }
+
+  .ls-dot {
+    width: var(--dot-size);
+    height: var(--dot-size);
+    background: var(--dot-color);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    opacity: 0.5;
+    border: none;
+    padding: 0;
+  }
+
+  .ls-dot:hover {
+    opacity: 0.7;
+    transform: scale(1.2);
+  }
+
+  .ls-dot.active {
+    background: var(--dot-active-color);
+    opacity: 1;
+    transform: scale(var(--dot-active-scale));
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  }
+
+  /* ═══════════════════════════════════════════════════════════
+     RESPONSIVE MOBILE
+     ═══════════════════════════════════════════════════════════ */
+  
+  @media screen and (max-width: 768px) {
+    .ls-title {
+      font-size: var(--header-title-size-mobile);
+    }
+
+    .ls-slider {
+  padding: {{ section.settings.slider_padding_y_mobile }}px 0;
+  padding-left: calc(50% - var(--card-width-mobile) / 2);
+  padding-right: calc(50% - var(--card-width-mobile) / 2);
+}
+
+
+    .ls-card {
+      flex: 0 0 var(--card-width-mobile);
+      width: var(--card-width-mobile);
+      height: auto;
+      min-height: var(--card-height-mobile);
+      flex-direction: column;
+      margin: 0 {{ section.settings.card_overlap_inactive_mobile | times: -1 }}px;
+    }
+
+    .ls-card.active {
+      margin: 0 {{ section.settings.card_overlap_active_mobile | times: -1 }}px;
+    }
+
+    .ls-images {
+      flex: 0 0 {{ section.settings.image_height_mobile }}px;
+      width: 100%;
+      height: {{ section.settings.image_height_mobile }}px;
+    }
+
+    .ls-content {
+      flex: 1;
+      width: 100%;
+      padding: {{ section.settings.content_padding_mobile }}px;
+    }
+
+    .ls-review-title {
+      font-size: var(--review-title-size-mobile);
+    }
+
+    .ls-nav-btn {
+      display: {{ section.settings.show_nav_mobile }};
+    }
+
+    .ls-pagination {
+      margin-top: {{ section.settings.pagination_margin_top_mobile }}px;
+    }
+  }
+
+  /* ═══════════════════════════════════════════════════════════
+     ANIMATIONS CONTENU
+     ═══════════════════════════════════════════════════════════ */
+  
+  {% if section.settings.enable_content_animations %}
+  .ls-card .ls-content > * {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .ls-card.in-view .ls-content > * {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .ls-card.in-view .ls-author-row { transition-delay: 0.1s; }
+  .ls-card.in-view .ls-review-title { transition-delay: 0.15s; }
+  .ls-card.in-view .ls-review-text { transition-delay: 0.2s; }
+  .ls-card.in-view .ls-read-more { transition-delay: 0.25s; }
+  .ls-card.in-view .ls-product { transition-delay: 0.3s; }
+
+  .ls-star-box {
+    opacity: 0;
+    transform: scale(0) rotate(-30deg);
+    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .ls-card.in-view .ls-star-box {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+
+  .ls-card.in-view .ls-star-box:nth-child(1) { transition-delay: 0.15s; }
+  .ls-card.in-view .ls-star-box:nth-child(2) { transition-delay: 0.2s; }
+  .ls-card.in-view .ls-star-box:nth-child(3) { transition-delay: 0.25s; }
+  .ls-card.in-view .ls-star-box:nth-child(4) { transition-delay: 0.3s; }
+  .ls-card.in-view .ls-star-box:nth-child(5) { transition-delay: 0.35s; }
+  {% endif %}
+{%- endstyle -%}
+
+<!-- ═══════════════════════════════════════════════════════════
+     HTML STRUCTURE
+     ═══════════════════════════════════════════════════════════ -->
+
+<section class="ls-testimonials-section" id="{{ section.settings.section_id }}">
+  <div class="ls-container">
+
+    <!-- Header -->
+    <div class="ls-header">
+      {% if section.settings.subheading != blank %}
+        <p class="ls-subheading">{{ section.settings.subheading }}</p>
+      {% endif %}
+      
+      {% if section.settings.title != blank %}
+        <h2 class="ls-title">{{ section.settings.title }}</h2>
+      {% endif %}
+      
+      {% if section.settings.description != blank %}
+        <p class="ls-description">{{ section.settings.description }}</p>
+      {% endif %}
+    </div>
+
+    <!-- Slider -->
+    <div class="ls-slider-container">
+      
+      <!-- Navigation Arrows -->
+      {% if section.settings.show_navigation %}
+        <button class="ls-nav-btn prev" aria-label="{{ section.settings.nav_prev_label }}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M15 18l-6-6 6-6"/>
+          </svg>
+        </button>
+        <button class="ls-nav-btn next" aria-label="{{ section.settings.nav_next_label }}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 18l6-6-6-6"/>
+          </svg>
+        </button>
+      {% endif %}
+
+      <!-- Slider Track -->
+      <div class="ls-slider" id="LSSlider-{{ section.id }}"
+           data-autoplay="{{ section.settings.enable_autoplay }}"
+           data-delay="{{ section.settings.autoplay_delay | times: 1000 }}">
+        
+        {% for block in section.blocks %}
+          {% assign rating = block.settings.rating %}
+          {% assign rating_floor = rating | floor %}
+          {% assign rating_next = rating_floor | plus: 1 %}
+          {% assign rating_decimal = rating | minus: rating_floor | times: 100 | round %}
+
+          <div class="ls-card {% if forloop.first %}active in-view{% endif %}"
+               data-index="{{ forloop.index0 }}"
+               {{ block.shopify_attributes }}>
+
+            <!-- Images -->
+            <div class="ls-images {% if block.settings.use_single_image %}single-mode{% endif %}">
+              {% if block.settings.use_single_image %}
+                <div class="ls-image-box">
+                  {% if block.settings.image_single != blank %}
+                    <img src="{{ block.settings.image_single | image_url: width: 800 }}" 
+                         class="ls-image" 
+                         loading="lazy" 
+                         alt="{{ block.settings.author_name }}">
+                  {% else %}
+                    {{ 'image' | placeholder_svg_tag: 'ls-image' }}
+                  {% endif %}
+                </div>
+              {% else %}
+                <!-- Image Avant -->
+                <div class="ls-image-box">
+                  {% if block.settings.image_before != blank %}
+                    <img src="{{ block.settings.image_before | image_url: width: 600 }}" 
+                         class="ls-image" 
+                         loading="lazy" 
+                         alt="Avant">
+                  {% else %}
+                    {{ 'image' | placeholder_svg_tag: 'ls-image' }}
+                  {% endif %}
+                  <div class="ls-label">
+                    {{ block.settings.label_before | default: section.settings.default_label_before }}
+                  </div>
+                </div>
+                
+                <!-- Image Après -->
+                <div class="ls-image-box">
+                  {% if block.settings.image_after != blank %}
+                    <img src="{{ block.settings.image_after | image_url: width: 600 }}" 
+                         class="ls-image" 
+                         loading="lazy" 
+                         alt="Après">
+                  {% else %}
+                    {{ 'image' | placeholder_svg_tag: 'ls-image' }}
+                  {% endif %}
+                  <div class="ls-label">
+                    {{ block.settings.label_after | default: section.settings.default_label_after }}
+                  </div>
+                </div>
+              {% endif %}
+            </div>
+
+            <!-- Contenu -->
+            <div class="ls-content">
+              
+              <!-- Auteur + Étoiles -->
+              <div class="ls-author-row">
+                <div class="ls-author">
+                  <span class="ls-author-name">{{ block.settings.author_name }}</span>
+                  
+                  {% if section.settings.show_verified_icon %}
+                    <svg class="ls-verified-icon" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                    </svg>
+                  {% endif %}
+                  
+                  {% if block.settings.author_age != blank %}
+                    <span class="ls-author-age">({{ block.settings.author_age }})</span>
+                  {% endif %}
+                </div>
+
+                <!-- Étoiles -->
+                {% if section.settings.show_stars %}
+                  <div class="ls-stars-wrapper">
+                    <div class="ls-stars">
+                      {%- for i in (1..5) -%}
+                        {% if i <= rating_floor %}
+                          {% assign fill = 100 %}
+                        {% elsif i == rating_next %}
+                          {% assign fill = rating_decimal %}
+                        {% else %}
+                          {% assign fill = 0 %}
+                        {% endif %}
+
+                        <div class="ls-star-box">
+                          <div class="ls-star-fill" style="width: {{ fill }}%;"></div>
+                          <svg class="ls-star-icon" viewBox="0 0 24 24">
+                            <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                          </svg>
+                        </div>
+                      {%- endfor -%}
+                    </div>
+                    
+                    {% if section.settings.show_rating_text %}
+                      <span class="ls-rating-text">{{ block.settings.rating }}/5</span>
+                    {% endif %}
+                  </div>
+                {% endif %}
+              </div>
+
+              <!-- Titre -->
+              <h3 class="ls-review-title">{{ block.settings.review_title }}</h3>
+
+              <!-- Texte -->
+              <div class="ls-review-text collapsed" id="LSReview-{{ block.id }}">
+                {{ block.settings.review_text }}
+              </div>
+
+              <!-- Lire plus -->
+              {% if section.settings.show_read_more %}
+                <span class="ls-read-more" 
+                      onclick="toggleLSReadMore('{{ block.id }}', '{{ section.settings.read_more_text }}', '{{ section.settings.read_less_text }}')">
+                  {{ section.settings.read_more_text }}
+                </span>
+              {% endif %}
+
+              <!-- Produit -->
+              {% if section.settings.show_product_block %}
+                <div class="ls-product">
+                  {% if block.settings.product != blank %}
+                    {% assign prod = block.settings.product %}
+                    <div class="ls-product-left">
+                      <img src="{{ prod.featured_image | image_url: width: 100 }}" 
+                           class="ls-product-image" 
+                           alt="{{ prod.title }}">
+                      <div class="ls-product-info">
+                        <span class="ls-product-title">{{ prod.title | truncate: 30 }}</span>
+                        <span class="ls-product-subtitle">{{ prod.price | money }}</span>
+                      </div>
+                    </div>
+                    <a href="{{ prod.url }}" class="ls-cart-btn" aria-label="{{ section.settings.cart_btn_label }}">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+                        <line x1="3" y1="6" x2="21" y2="6"/>
+                      </svg>
+                    </a>
+                  {% else %}
+                    <div class="ls-product-left">
+                      {{ 'product-1' | placeholder_svg_tag: 'ls-product-image' }}
+                      <div class="ls-product-info">
+                        <span class="ls-product-title">{{ section.settings.product_placeholder_title }}</span>
+                        <span class="ls-product-subtitle">{{ section.settings.product_placeholder_price }}</span>
+                      </div>
+                    </div>
+                    <button class="ls-cart-btn">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+                        <line x1="3" y1="6" x2="21" y2="6"/>
+                      </svg>
+                    </button>
+                  {% endif %}
+                </div>
+              {% endif %}
+
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Pagination -->
+    {% if section.settings.show_pagination %}
+      <div class="ls-pagination" id="LSPagination-{{ section.id }}">
+        {% for block in section.blocks %}
+          <button class="ls-dot {% if forloop.first %}active{% endif %}" 
+                  data-index="{{ forloop.index0 }}"
+                  aria-label="Slide {{ forloop.index }}"></button>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     JAVASCRIPT
+     ═══════════════════════════════════════════════════════════ -->
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const slider = document.getElementById('LSSlider-{{ section.id }}');
+  if (!slider) return;
+
+  const originalCards = Array.from(slider.querySelectorAll('.ls-card'));
+  const dots = document.querySelectorAll('#LSPagination-{{ section.id }} .ls-dot');
+  const prevBtn = slider.parentElement.querySelector('.prev');
+  const nextBtn = slider.parentElement.querySelector('.next');
+
+  if (originalCards.length < 2) return;
+
+  const totalOriginal = originalCards.length;
+  let isTransitioning = false;
+
+  // ═══════════════════════════════════════════════════════════
+  // CLONE CARDS FOR INFINITE LOOP (3 sets: clones + originals + clones)
+  // ═══════════════════════════════════════════════════════════
+  
+  // Clone all cards and append to end
+  originalCards.forEach(function(card) {
+    const clone = card.cloneNode(true);
+    clone.classList.add('clone', 'clone-end');
+    clone.removeAttribute('id');
+    slider.appendChild(clone);
+  });
+
+  // Clone all cards and prepend to start
+  for (let i = originalCards.length - 1; i >= 0; i--) {
+    const clone = originalCards[i].cloneNode(true);
+    clone.classList.add('clone', 'clone-start');
+    clone.removeAttribute('id');
+    slider.insertBefore(clone, slider.firstChild);
+  }
+
+  // Get all cards now
+  const allCards = Array.from(slider.querySelectorAll('.ls-card'));
+  const totalCards = allCards.length;
+
+  // ═══════════════════════════════════════════════════════════
+  // HELPER FUNCTIONS
+  // ═══════════════════════════════════════════════════════════
+
+  // Toggle Read More
+  window.toggleLSReadMore = function(id, moreText, lessText) {
+    const textDiv = document.getElementById('LSReview-' + id);
+    if (!textDiv) return;
+    const btn = event.target;
+    if (textDiv.classList.contains('collapsed')) {
+      textDiv.classList.remove('collapsed');
+      btn.innerText = lessText;
+    } else {
+      textDiv.classList.add('collapsed');
+      btn.innerText = moreText;
+    }
+  };
+
+  // Get current active index
+  function getActiveIndex() {
+    const center = slider.scrollLeft + (slider.offsetWidth / 2);
+    let closestIndex = 0;
+    let minDist = Infinity;
+
+    allCards.forEach(function(card, i) {
+      const cardCenter = card.offsetLeft + (card.offsetWidth / 2);
+      const dist = Math.abs(cardCenter - center);
+      if (dist < minDist) {
+        minDist = dist;
+        closestIndex = i;
+      }
+    });
+
+    return closestIndex;
+  }
+
+  // Center card by index
+  function centerCardByIndex(index, smooth = true) {
+    if (index < 0 || index >= totalCards) return;
+    const card = allCards[index];
+    const cardCenter = card.offsetLeft + (card.offsetWidth / 2);
+    const sliderCenter = slider.offsetWidth / 2;
+    slider.scrollTo({ 
+      left: cardCenter - sliderCenter, 
+      behavior: smooth ? 'smooth' : 'auto' 
+    });
+  }
+
+  // Update visual state
+  function updateVisualState() {
+    const activeIndex = getActiveIndex();
+
+    // Remove all classes
+    allCards.forEach(function(c) {
+      c.classList.remove('active', 'adjacent', 'in-view');
+    });
+
+    // Add active
+    allCards[activeIndex].classList.add('active', 'in-view');
+
+    // Add adjacent
+    if (activeIndex > 0) {
+      allCards[activeIndex - 1].classList.add('adjacent', 'in-view');
+    }
+    if (activeIndex < totalCards - 1) {
+      allCards[activeIndex + 1].classList.add('adjacent', 'in-view');
+    }
+
+    // Update dots (map to original index)
+    let originalIndex = (activeIndex - totalOriginal) % totalOriginal;
+    if (originalIndex < 0) originalIndex += totalOriginal;
+
+    dots.forEach(function(d, i) { 
+      d.classList.toggle('active', i === originalIndex);
+    });
+  }
+
+  // Jump to equivalent position (for infinite loop)
+  function jumpToEquivalent() {
+    if (isTransitioning) return;
+
+    const activeIndex = getActiveIndex();
+
+    // If in first clone set, jump to original set
+    if (activeIndex < totalOriginal) {
+      isTransitioning = true;
+      const targetIndex = activeIndex + totalOriginal;
+      centerCardByIndex(targetIndex, false);
+      setTimeout(function() {
+        isTransitioning = false;
+      }, 50);
+    }
+    // If in last clone set, jump to original set
+    else if (activeIndex >= totalOriginal * 2) {
+      isTransitioning = true;
+      const targetIndex = activeIndex - totalOriginal;
+      centerCardByIndex(targetIndex, false);
+      setTimeout(function() {
+        isTransitioning = false;
+      }, 50);
+    }
+  }
+
+  // ═══════════════════════════════════════════════════════════
+  // NAVIGATION - ALWAYS FORWARD OR BACKWARD, NEVER REVERSE
+  // ═══════════════════════════════════════════════════════════
+
+  function goNext() {
+    if (isTransitioning) return;
+    const activeIndex = getActiveIndex();
+    centerCardByIndex(activeIndex + 1, true);
+  }
+
+  function goPrev() {
+    if (isTransitioning) return;
+    const activeIndex = getActiveIndex();
+    centerCardByIndex(activeIndex - 1, true);
+  }
+
+  // ═══════════════════════════════════════════════════════════
+  // EVENT LISTENERS
+  // ═══════════════════════════════════════════════════════════
+
+  // Scroll listener
+  let scrollTimeout;
+  slider.addEventListener('scroll', function() {
+    window.requestAnimationFrame(updateVisualState);
+
+    clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(function() {
+      jumpToEquivalent();
+    }, 200);
+  }, { passive: true });
+
+  // Click on card
+  allCards.forEach(function(card, index) {
+    card.addEventListener('click', function() {
+      if (card.classList.contains('active') || isTransitioning) return;
+      centerCardByIndex(index, true);
+    });
+  });
+
+  // Navigation buttons
+  if (prevBtn) {
+    prevBtn.addEventListener('click', goPrev);
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener('click', goNext);
+  }
+
+  // Dots
+  dots.forEach(function(dot, i) {
+    dot.addEventListener('click', function() {
+      if (isTransitioning) return;
+      // Navigate to the original card (middle set)
+      const targetIndex = i + totalOriginal;
+      centerCardByIndex(targetIndex, true);
+    });
+  });
+
+  // Touch swipe
+  let touchStartX = 0;
+
+  slider.addEventListener('touchstart', function(e) {
+    touchStartX = e.changedTouches[0].screenX;
+  }, { passive: true });
+
+  slider.addEventListener('touchend', function(e) {
+    const touchEndX = e.changedTouches[0].screenX;
+    const diff = touchStartX - touchEndX;
+    
+    if (Math.abs(diff) > 50) {
+      if (diff > 0) {
+        goNext();
+      } else {
+        goPrev();
+      }
+    }
+  }, { passive: true });
+
+  // ═══════════════════════════════════════════════════════════
+  // AUTOPLAY - CONTINUOUS INFINITE LOOP
+  // ═══════════════════════════════════════════════════════════
+
+  const autoplay = slider.dataset.autoplay === 'true';
+  const delay = parseInt(slider.dataset.delay) || 5000;
+  
+  if (autoplay) {
+    setInterval(function() {
+      if (!slider.matches(':hover') && !isTransitioning) {
+        goNext();
+      }
+    }, delay);
+  }
+
+  // ═══════════════════════════════════════════════════════════
+  // INIT - Start at first original card (middle set)
+  // ═══════════════════════════════════════════════════════════
+
+  setTimeout(function() {
+    // Position at first original card
+    centerCardByIndex(totalOriginal, false);
+    updateVisualState();
+  }, 100);
+
+});
+</script>
+
+
+{% schema %}
+{
+  "name": "Témoignages LATIF v3",
+  "tag": "section",
+  "class": "ls-testimonials",
+  "settings": [
+    {
+      "type": "header",
+      "content": "═══ GÉNÉRAL ═══"
+    },
+    {
+      "type": "text",
+      "id": "section_id",
+      "label": "ID de section",
+      "default": "testimonials"
+    },
+
+    {
+      "type": "header",
+      "content": "═══ POLICES ═══"
+    },
+    {
+      "type": "select",
+      "id": "font_heading",
+      "label": "Police titres",
+      "options": [
+        { "value": "'Playfair Display', serif", "label": "Playfair Display" },
+        { "value": "'Cormorant Garamond', serif", "label": "Cormorant Garamond" },
+        { "value": "'Montserrat', sans-serif", "label": "Montserrat" },
+        { "value": "'Poppins', sans-serif", "label": "Poppins" },
+        { "value": "'Lato', sans-serif", "label": "Lato" },
+        { "value": "inherit", "label": "Hériter du thème" }
+      ],
+      "default": "'Playfair Display', serif"
+    },
+    {
+      "type": "select",
+      "id": "font_body",
+      "label": "Police corps",
+      "options": [
+        { "value": "'Cormorant Garamond', serif", "label": "Cormorant Garamond" },
+        { "value": "'Playfair Display', serif", "label": "Playfair Display" },
+        { "value": "'Montserrat', sans-serif", "label": "Montserrat" },
+        { "value": "'Open Sans', sans-serif", "label": "Open Sans" },
+        { "value": "'Lato', sans-serif", "label": "Lato" },
+        { "value": "inherit", "label": "Hériter du thème" }
+      ],
+      "default": "'Cormorant Garamond', serif"
+    },
+    {
+      "type": "select",
+      "id": "font_accent",
+      "label": "Police accent (titres avis)",
+      "options": [
+        { "value": "'Dancing Script', cursive", "label": "Dancing Script" },
+        { "value": "'Great Vibes', cursive", "label": "Great Vibes" },
+        { "value": "'Playfair Display', serif", "label": "Playfair Display" },
+        { "value": "'Cormorant Garamond', serif", "label": "Cormorant Garamond" },
+        { "value": "inherit", "label": "Hériter du thème" }
+      ],
+      "default": "'Dancing Script', cursive"
+    },
+
+    {
+      "type": "header",
+      "content": "═══ SECTION ═══"
+    },
+    {
+      "type": "color",
+      "id": "section_bg_color",
+      "label": "Couleur de fond",
+      "default": "#FDFBF9"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Marge haut",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Marge bas",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "container_width",
+      "label": "Largeur max container",
+      "min": 800,
+      "max": 1600,
+      "step": 50,
+      "unit": "px",
+      "default": 1200
+    },
+    {
+      "type": "range",
+      "id": "container_padding",
+      "label": "Padding container",
+      "min": 10,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+
+    {
+      "type": "header",
+      "content": "═══ EN-TÊTE ═══"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Sous-titre",
+      "default": "TÉMOIGNAGES VÉRIFIÉS"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Titre",
+      "default": "Résultats prouvés par notre communauté"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Découvrez les transformations réelles de femmes qui ont retrouvé confiance en leur peau."
+    },
+    {
+      "type": "select",
+      "id": "header_alignment",
+      "label": "Alignement",
+      "options": [
+        { "value": "left", "label": "Gauche" },
+        { "value": "center", "label": "Centré" },
+        { "value": "right", "label": "Droite" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "header_max_width",
+      "label": "Largeur max en-tête",
+      "min": 400,
+      "max": 1000,
+      "step": 50,
+      "unit": "px",
+      "default": 800
+    },
+    {
+      "type": "range",
+      "id": "header_margin_bottom",
+      "label": "Marge bas en-tête",
+      "min": 10,
+      "max": 80,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+
+    {
+      "type": "header",
+      "content": "── Sous-titre"
+    },
+    {
+      "type": "color",
+      "id": "subheading_color",
+      "label": "Couleur",
+      "default": "#555555"
+    },
+    {
+      "type": "range",
+      "id": "subheading_size",
+      "label": "Taille",
+      "min": 8,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "subheading_letter_spacing",
+      "label": "Espacement lettres",
+      "min": 0,
+      "max": 8,
+      "step": 1,
+      "unit": "px",
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "subheading_margin_bottom",
+      "label": "Marge bas",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "select",
+      "id": "subheading_weight",
+      "label": "Épaisseur",
+      "options": [
+        { "value": "400", "label": "Normal" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi-bold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "600"
+    },
+
+    {
+      "type": "header",
+      "content": "── Titre principal"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Couleur",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "range",
+      "id": "title_size_desktop",
+      "label": "Taille desktop",
+      "min": 20,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "title_size_mobile",
+      "label": "Taille mobile",
+      "min": 18,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 26
+    },
+    {
+      "type": "select",
+      "id": "title_weight",
+      "label": "Épaisseur",
+      "options": [
+        { "value": "400", "label": "Normal" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi-bold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "range",
+      "id": "title_line_height",
+      "label": "Hauteur de ligne",
+      "min": 1,
+      "max": 2,
+      "step": 0.1,
+      "default": 1.2
+    },
+    {
+      "type": "range",
+      "id": "title_letter_spacing",
+      "label": "Espacement lettres",
+      "min": -2,
+      "max": 5,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "title_margin_bottom",
+      "label": "Marge bas",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+
+    {
+      "type": "header",
+      "content": "── Description"
+    },
+    {
+      "type": "color",
+      "id": "description_color",
+      "label": "Couleur",
+      "default": "#555555"
+    },
+    {
+      "type": "range",
+      "id": "description_size",
+      "label": "Taille",
+      "min": 12,
+      "max": 22,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "description_line_height",
+      "label": "Hauteur de ligne",
+      "min": 1,
+      "max": 2,
+      "step": 0.1,
+      "default": 1.6
+    },
+    {
+      "type": "select",
+      "id": "description_style",
+      "label": "Style",
+      "options": [
+        { "value": "normal", "label": "Normal" },
+        { "value": "italic", "label": "Italique" }
+      ],
+      "default": "italic"
+    },
+    {
+      "type": "range",
+      "id": "description_margin_bottom",
+      "label": "Marge bas",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 20
+    },
+
+    {
+      "type": "header",
+      "content": "═══ CARTES ═══"
+    },
+    {
+      "type": "color",
+      "id": "card_bg_color",
+      "label": "Fond carte",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "card_border_color",
+      "label": "Bordure carte",
+      "default": "#e0e0e0"
+    },
+    {
+      "type": "color",
+      "id": "card_active_border_color",
+      "label": "Bordure carte active",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "range",
+      "id": "card_border_width",
+      "label": "Épaisseur bordure",
+      "min": 0,
+      "max": 5,
+      "step": 1,
+      "unit": "px",
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "label": "Arrondi coins",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "card_gap",
+      "label": "Espacement cartes",
+      "min": 0,
+      "max": 40,
+      "step": 5,
+      "unit": "px",
+      "default": 0
+    },
+
+    {
+      "type": "header",
+      "content": "── Taille cartes Desktop"
+    },
+    {
+      "type": "range",
+      "id": "card_width_desktop",
+      "label": "Largeur",
+      "min": 500,
+      "max": 900,
+      "step": 10,
+      "unit": "px",
+      "default": 650
+    },
+    {
+      "type": "range",
+      "id": "card_height_desktop",
+      "label": "Hauteur",
+      "min": 300,
+      "max": 550,
+      "step": 10,
+      "unit": "px",
+      "default": 380
+    },
+
+    {
+      "type": "header",
+      "content": "── Taille cartes Mobile"
+    },
+    {
+      "type": "range",
+      "id": "card_width_mobile",
+      "label": "Largeur",
+      "min": 260,
+      "max": 380,
+      "step": 5,
+      "unit": "px",
+      "default": 300
+    },
+    {
+      "type": "range",
+      "id": "card_height_mobile",
+      "label": "Hauteur min",
+      "min": 400,
+      "max": 650,
+      "step": 10,
+      "unit": "px",
+      "default": 500
+    },
+
+    {
+      "type": "header",
+      "content": "── Ombre carte active"
+    },
+    {
+      "type": "color",
+      "id": "card_shadow_color",
+      "label": "Couleur ombre",
+      "default": "rgba(0,0,0,0.2)"
+    },
+    {
+      "type": "range",
+      "id": "shadow_y",
+      "label": "Décalage Y",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "unit": "px",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "shadow_blur",
+      "label": "Flou",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "unit": "px",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "shadow_spread",
+      "label": "Étendue",
+      "min": -50,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "default": -20
+    },
+
+    {
+      "type": "header",
+      "content": "═══ ANIMATION SLIDER ═══"
+    },
+    {
+      "type": "range",
+      "id": "transition_speed",
+      "label": "Vitesse transition",
+      "min": 0.2,
+      "max": 1.5,
+      "step": 0.1,
+      "unit": "s",
+      "default": 0.6
+    },
+    {
+      "type": "select",
+      "id": "transition_easing",
+      "label": "Courbe animation",
+      "options": [
+        { "value": "ease", "label": "Ease" },
+        { "value": "ease-in-out", "label": "Ease In Out" },
+        { "value": "cubic-bezier(0.25, 0.46, 0.45, 0.94)", "label": "Smooth" },
+        { "value": "cubic-bezier(0.68, -0.55, 0.265, 1.55)", "label": "Bounce" },
+        { "value": "cubic-bezier(0.175, 0.885, 0.32, 1.275)", "label": "Elastic" }
+      ],
+      "default": "cubic-bezier(0.25, 0.46, 0.45, 0.94)"
+    },
+
+    {
+      "type": "header",
+      "content": "── Cartes inactives"
+    },
+    {
+      "type": "range",
+      "id": "card_inactive_opacity",
+      "label": "Opacité",
+      "min": 0.1,
+      "max": 0.8,
+      "step": 0.1,
+      "default": 0.3
+    },
+    {
+      "type": "range",
+      "id": "card_inactive_scale",
+      "label": "Échelle",
+      "min": 0.5,
+      "max": 0.9,
+      "step": 0.1,
+      "default": 0.8
+    },
+    {
+      "type": "range",
+      "id": "card_inactive_blur",
+      "label": "Flou",
+      "min": 0,
+      "max": 10,
+      "step": 1,
+      "unit": "px",
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "card_z_inactive",
+      "label": "Position Z",
+      "min": -200,
+      "max": 0,
+      "step": 10,
+      "unit": "px",
+      "default": -100
+    },
+    {
+      "type": "range",
+      "id": "card_overlap_inactive",
+      "label": "Chevauchement",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "card_overlap_inactive_mobile",
+      "label": "Chevauchement mobile",
+      "min": 0,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+
+    {
+      "type": "header",
+      "content": "── Cartes adjacentes"
+    },
+    {
+      "type": "range",
+      "id": "card_adjacent_opacity",
+      "label": "Opacité",
+      "min": 0.3,
+      "max": 0.9,
+      "step": 0.1,
+      "default": 0.5
+    },
+    {
+      "type": "range",
+      "id": "card_adjacent_scale",
+      "label": "Échelle",
+      "min": 0.7,
+      "max": 1,
+      "step": 0.1,
+      "default": 0.9
+    },
+    {
+      "type": "range",
+      "id": "card_adjacent_blur",
+      "label": "Flou",
+      "min": 0,
+      "max": 5,
+      "step": 1,
+      "unit": "px",
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "card_z_adjacent",
+      "label": "Position Z",
+      "min": -100,
+      "max": 0,
+      "step": 10,
+      "unit": "px",
+      "default": -50
+    },
+
+    {
+      "type": "header",
+      "content": "── Carte active"
+    },
+    {
+      "type": "range",
+      "id": "card_overlap_active",
+      "label": "Chevauchement",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "card_overlap_active_mobile",
+      "label": "Chevauchement mobile",
+      "min": 0,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+
+    {
+      "type": "header",
+      "content": "── Slider padding"
+    },
+    {
+      "type": "range",
+      "id": "slider_padding_y",
+      "label": "Padding vertical desktop",
+      "min": 40,
+      "max": 150,
+      "step": 10,
+      "unit": "px",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "slider_padding_y_mobile",
+      "label": "Padding vertical mobile",
+      "min": 30,
+      "max": 100,
+      "step": 10,
+      "unit": "px",
+      "default": 70
+    },
+
+    {
+      "type": "header",
+      "content": "═══ IMAGES ═══"
+    },
+    {
+      "type": "range",
+      "id": "image_width_percent",
+      "label": "Largeur images (%)",
+      "min": 30,
+      "max": 60,
+      "step": 1,
+      "unit": "%",
+      "default": 45
+    },
+    {
+      "type": "range",
+      "id": "image_height_mobile",
+      "label": "Hauteur images mobile",
+      "min": 150,
+      "max": 300,
+      "step": 10,
+      "unit": "px",
+      "default": 220
+    },
+    {
+      "type": "color",
+      "id": "image_placeholder_bg",
+      "label": "Fond placeholder",
+      "default": "#f0f0f0"
+    },
+    {
+      "type": "range",
+      "id": "image_border_radius",
+      "label": "Arrondi coins",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    },
+
+    {
+      "type": "header",
+      "content": "── Overlay images"
+    },
+    {
+      "type": "color",
+      "id": "image_overlay_color",
+      "label": "Couleur overlay",
+      "default": "rgba(0,0,0,1)"
+    },
+    {
+      "type": "range",
+      "id": "image_overlay_opacity",
+      "label": "Opacité overlay",
+      "min": 0,
+      "max": 1,
+      "step": 0.1,
+      "default": 0.5
+    },
+    {
+      "type": "range",
+      "id": "image_overlay_height",
+      "label": "Hauteur overlay (%)",
+      "min": 20,
+      "max": 80,
+      "step": 5,
+      "unit": "%",
+      "default": 50
+    },
+
+    {
+      "type": "header",
+      "content": "── Zoom image active"
+    },
+    {
+      "type": "range",
+      "id": "image_zoom_scale",
+      "label": "Échelle zoom",
+      "min": 1,
+      "max": 1.2,
+      "step": 0.1,
+      "default": 1.1
+    },
+    {
+      "type": "range",
+      "id": "image_zoom_speed",
+      "label": "Durée zoom",
+      "min": 0.3,
+      "max": 2,
+      "step": 0.1,
+      "unit": "s",
+      "default": 1
+    },
+
+    {
+      "type": "header",
+      "content": "── Séparateur images"
+    },
+    {
+      "type": "range",
+      "id": "separator_width",
+      "label": "Largeur",
+      "min": 0,
+      "max": 4,
+      "step": 1,
+      "unit": "px",
+      "default": 2
+    },
+    {
+      "type": "color",
+      "id": "separator_color",
+      "label": "Couleur",
+      "default": "rgba(255,255,255,0.3)"
+    },
+    {
+      "type": "range",
+      "id": "separator_margin",
+      "label": "Marge haut/bas (%)",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "%",
+      "default": 8
+    },
+
+    {
+      "type": "header",
+      "content": "═══ LABELS AVANT/APRÈS ═══"
+    },
+    {
+      "type": "text",
+      "id": "default_label_before",
+      "label": "Label Avant par défaut",
+      "default": "AVANT"
+    },
+    {
+      "type": "text",
+      "id": "default_label_after",
+      "label": "Label Après par défaut",
+      "default": "APRÈS"
+    },
+    {
+      "type": "color",
+      "id": "label_bg_color",
+      "label": "Fond label",
+      "default": "#4F564E"
+    },
+    {
+      "type": "color",
+      "id": "label_text_color",
+      "label": "Couleur texte",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "label_font_size",
+      "label": "Taille police",
+      "min": 8,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "select",
+      "id": "label_font_weight",
+      "label": "Épaisseur",
+      "options": [
+        { "value": "400", "label": "Normal" },
+        { "value": "600", "label": "Semi-bold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "select",
+      "id": "label_text_transform",
+      "label": "Transformation",
+      "options": [
+        { "value": "none", "label": "Aucune" },
+        { "value": "uppercase", "label": "MAJUSCULES" },
+        { "value": "capitalize", "label": "Capitale" }
+      ],
+      "default": "uppercase"
+    },
+    {
+      "type": "range",
+      "id": "label_letter_spacing",
+      "label": "Espacement lettres",
+      "min": 0,
+      "max": 4,
+      "step": 1,
+      "unit": "px",
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "label_padding_y",
+      "label": "Padding vertical",
+      "min": 4,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "label_padding_x",
+      "label": "Padding horizontal",
+      "min": 8,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "label_border_radius",
+      "label": "Arrondi coins",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "label_backdrop_blur",
+      "label": "Flou arrière-plan",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    },
+
+    {
+      "type": "header",
+      "content": "═══ CONTENU CARTE ═══"
+    },
+    {
+      "type": "range",
+      "id": "content_padding",
+      "label": "Padding desktop",
+      "min": 15,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "content_padding_mobile",
+      "label": "Padding mobile",
+      "min": 12,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "select",
+      "id": "content_justify",
+      "label": "Alignement vertical",
+      "options": [
+        { "value": "flex-start", "label": "Haut" },
+        { "value": "center", "label": "Centré" },
+        { "value": "space-between", "label": "Espacé" }
+      ],
+      "default": "flex-start"
+    },
+
+    {
+      "type": "header",
+      "content": "── Auteur"
+    },
+    {
+      "type": "color",
+      "id": "author_name_color",
+      "label": "Couleur nom",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "range",
+      "id": "author_name_size",
+      "label": "Taille nom",
+      "min": 12,
+      "max": 22,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "select",
+      "id": "author_name_weight",
+      "label": "Épaisseur nom",
+      "options": [
+        { "value": "400", "label": "Normal" },
+        { "value": "600", "label": "Semi-bold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "color",
+      "id": "author_age_color",
+      "label": "Couleur âge",
+      "default": "#666666"
+    },
+    {
+      "type": "range",
+      "id": "author_age_size",
+      "label": "Taille âge",
+      "min": 10,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "default": 13
+    },
+    {
+      "type": "select",
+      "id": "author_age_style",
+      "label": "Style âge",
+      "options": [
+        { "value": "normal", "label": "Normal" },
+        { "value": "italic", "label": "Italique" }
+      ],
+      "default": "italic"
+    },
+    {
+      "type": "range",
+      "id": "author_gap",
+      "label": "Espacement éléments",
+      "min": 4,
+      "max": 16,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "author_row_margin",
+      "label": "Marge bas ligne auteur",
+      "min": 8,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "default": 14
+    },
+
+    {
+      "type": "header",
+      "content": "── Icône vérifié"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_verified_icon",
+      "label": "Afficher icône",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "verified_icon_color",
+      "label": "Couleur",
+      "default": "#27AE60"
+    },
+    {
+      "type": "range",
+      "id": "verified_icon_size",
+      "label": "Taille",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 18
+    },
+
+    {
+      "type": "header",
+      "content": "── Étoiles"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_stars",
+      "label": "Afficher étoiles",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating_text",
+      "label": "Afficher note chiffrée",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "star_filled_color",
+      "label": "Couleur remplie",
+      "default": "#00B67A"
+    },
+    {
+      "type": "color",
+      "id": "star_empty_color",
+      "label": "Couleur vide",
+      "default": "#dcdce6"
+    },
+    {
+      "type": "range",
+      "id": "star_size",
+      "label": "Taille boîte étoile",
+      "min": 16,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "star_icon_size",
+      "label": "Taille icône étoile",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 13
+    },
+    {
+      "type": "range",
+      "id": "star_gap",
+      "label": "Espacement étoiles",
+      "min": 2,
+      "max": 8,
+      "step": 1,
+      "unit": "px",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "star_border_radius",
+      "label": "Arrondi coins",
+      "min": 0,
+      "max": 10,
+      "step": 1,
+      "unit": "px",
+      "default": 5
+    },
+    {
+      "type": "color",
+      "id": "rating_text_color",
+      "label": "Couleur note",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "range",
+      "id": "rating_text_size",
+      "label": "Taille note",
+      "min": 10,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "default": 13
+    },
+    {
+      "type": "select",
+      "id": "rating_text_weight",
+      "label": "Épaisseur note",
+      "options": [
+        { "value": "400", "label": "Normal" },
+        { "value": "600", "label": "Semi-bold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "700"
+    },
+
+    {
+      "type": "header",
+      "content": "── Titre avis"
+    },
+    {
+      "type": "color",
+      "id": "review_title_color",
+      "label": "Couleur",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "range",
+      "id": "review_title_size_desktop",
+      "label": "Taille desktop",
+      "min": 18,
+      "max": 36,
+      "step": 2,
+      "unit": "px",
+      "default": 26
+    },
+    {
+      "type": "range",
+      "id": "review_title_size_mobile",
+      "label": "Taille mobile",
+      "min": 16,
+      "max": 28,
+      "step": 2,
+      "unit": "px",
+      "default": 22
+    },
+    {
+      "type": "select",
+      "id": "review_title_weight",
+      "label": "Épaisseur",
+      "options": [
+        { "value": "400", "label": "Normal" },
+        { "value": "600", "label": "Semi-bold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "range",
+      "id": "review_title_line_height",
+      "label": "Hauteur de ligne",
+      "min": 1,
+      "max": 2,
+      "step": 0.1,
+      "default": 1.2
+    },
+    {
+      "type": "range",
+      "id": "review_title_margin",
+      "label": "Marge bas",
+      "min": 4,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "review_title_lines",
+      "label": "Lignes max",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "default": 2
+    },
+
+    {
+      "type": "header",
+      "content": "── Texte avis"
+    },
+    {
+      "type": "color",
+      "id": "review_text_color",
+      "label": "Couleur",
+      "default": "#555555"
+    },
+    {
+      "type": "range",
+      "id": "review_text_size",
+      "label": "Taille",
+      "min": 12,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "review_text_line_height",
+      "label": "Hauteur de ligne",
+      "min": 1,
+      "max": 2,
+      "step": 0.1,
+      "default": 1.8
+    },
+    {
+      "type": "range",
+      "id": "review_text_margin",
+      "label": "Marge bas",
+      "min": 4,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "review_text_lines",
+      "label": "Lignes max (collapsed)",
+      "min": 2,
+      "max": 8,
+      "step": 1,
+      "default": 4
+    },
+
+    {
+      "type": "header",
+      "content": "── Lire plus"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_read_more",
+      "label": "Afficher bouton",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "read_more_text",
+      "label": "Texte 'Lire plus'",
+      "default": "Lire la suite..."
+    },
+    {
+      "type": "text",
+      "id": "read_less_text",
+      "label": "Texte 'Réduire'",
+      "default": "Réduire"
+    },
+    {
+      "type": "color",
+      "id": "read_more_color",
+      "label": "Couleur",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "read_more_hover_color",
+      "label": "Couleur hover",
+      "default": "#555555"
+    },
+    {
+      "type": "range",
+      "id": "read_more_size",
+      "label": "Taille",
+      "min": 10,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "select",
+      "id": "read_more_weight",
+      "label": "Épaisseur",
+      "options": [
+        { "value": "400", "label": "Normal" },
+        { "value": "600", "label": "Semi-bold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "600"
+    },
+    {
+      "type": "select",
+      "id": "read_more_decoration",
+      "label": "Décoration",
+      "options": [
+        { "value": "none", "label": "Aucune" },
+        { "value": "underline", "label": "Souligné" }
+      ],
+      "default": "underline"
+    },
+    {
+      "type": "range",
+      "id": "read_more_margin",
+      "label": "Marge bas",
+      "min": 8,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "default": 20
+    },
+
+    {
+      "type": "header",
+      "content": "═══ PRODUIT ═══"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_product_block",
+      "label": "Afficher bloc produit",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "product_bg_color",
+      "label": "Couleur fond",
+      "default": "#f5f5f5"
+    },
+    {
+      "type": "range",
+      "id": "product_border_radius",
+      "label": "Arrondi coins",
+      "min": 0,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "product_padding",
+      "label": "Padding",
+      "min": 8,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "product_gap",
+      "label": "Espacement",
+      "min": 8,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "product_info_gap",
+      "label": "Espacement info",
+      "min": 8,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "text",
+      "id": "product_placeholder_title",
+      "label": "Titre placeholder",
+      "default": "Produit Exemple"
+    },
+    {
+      "type": "text",
+      "id": "product_placeholder_price",
+      "label": "Prix placeholder",
+      "default": "29.90€"
+    },
+
+    {
+      "type": "header",
+      "content": "── Image produit"
+    },
+    {
+      "type": "range",
+      "id": "product_image_size",
+      "label": "Taille",
+      "min": 32,
+      "max": 64,
+      "step": 4,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "product_image_radius",
+      "label": "Arrondi coins",
+      "min": 0,
+      "max": 16,
+      "step": 2,
+      "unit": "px",
+      "default": 10
+    },
+
+    {
+      "type": "header",
+      "content": "── Texte produit"
+    },
+    {
+      "type": "color",
+      "id": "product_title_color",
+      "label": "Couleur titre",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "range",
+      "id": "product_title_size",
+      "label": "Taille titre",
+      "min": 11,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "select",
+      "id": "product_title_weight",
+      "label": "Épaisseur titre",
+      "options": [
+        { "value": "400", "label": "Normal" },
+        { "value": "600", "label": "Semi-bold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "color",
+      "id": "product_subtitle_color",
+      "label": "Couleur sous-titre",
+      "default": "#666666"
+    },
+    {
+      "type": "range",
+      "id": "product_subtitle_size",
+      "label": "Taille sous-titre",
+      "min": 10,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+
+    {
+      "type": "header",
+      "content": "── Bouton panier"
+    },
+    {
+      "type": "text",
+      "id": "cart_btn_label",
+      "label": "Label accessibilité",
+      "default": "Voir le produit"
+    },
+    {
+      "type": "color",
+      "id": "cart_btn_bg_color",
+      "label": "Fond",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "cart_btn_icon_color",
+      "label": "Couleur icône",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "cart_btn_hover_bg",
+      "label": "Fond hover",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "cart_btn_hover_color",
+      "label": "Couleur hover",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "cart_btn_size",
+      "label": "Taille bouton",
+      "min": 32,
+      "max": 56,
+      "step": 4,
+      "unit": "px",
+      "default": 44
+    },
+    {
+      "type": "range",
+      "id": "cart_icon_size",
+      "label": "Taille icône",
+      "min": 14,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "default": 18
+    },
+
+    {
+      "type": "header",
+      "content": "═══ NAVIGATION ═══"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_navigation",
+      "label": "Afficher flèches",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "show_nav_mobile",
+      "label": "Afficher sur mobile",
+      "options": [
+        { "value": "flex", "label": "Oui" },
+        { "value": "none", "label": "Non" }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "text",
+      "id": "nav_prev_label",
+      "label": "Label précédent",
+      "default": "Précédent"
+    },
+    {
+      "type": "text",
+      "id": "nav_next_label",
+      "label": "Label suivant",
+      "default": "Suivant"
+    },
+    {
+      "type": "color",
+      "id": "nav_btn_bg",
+      "label": "Fond bouton",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "nav_btn_color",
+      "label": "Couleur icône",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "nav_btn_hover_bg",
+      "label": "Fond hover",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "nav_btn_hover_color",
+      "label": "Couleur hover",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "nav_btn_size",
+      "label": "Taille bouton",
+      "min": 40,
+      "max": 70,
+      "step": 5,
+      "unit": "px",
+      "default": 55
+    },
+    {
+      "type": "range",
+      "id": "nav_icon_size",
+      "label": "Taille icône",
+      "min": 16,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "nav_btn_position",
+      "label": "Position (depuis bord)",
+      "min": 5,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "default": 15
+    },
+
+    {
+      "type": "header",
+      "content": "═══ PAGINATION ═══"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_pagination",
+      "label": "Afficher points",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "dot_color",
+      "label": "Couleur point",
+      "default": "#cccccc"
+    },
+    {
+      "type": "color",
+      "id": "dot_active_color",
+      "label": "Couleur point actif",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "range",
+      "id": "dot_size",
+      "label": "Taille point",
+      "min": 6,
+      "max": 16,
+      "step": 2,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "dot_active_scale",
+      "label": "Échelle point actif",
+      "min": 1,
+      "max": 2,
+      "step": 0.1,
+      "default": 1.5
+    },
+    {
+      "type": "range",
+      "id": "dot_gap",
+      "label": "Espacement points",
+      "min": 4,
+      "max": 16,
+      "step": 2,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "pagination_margin_top",
+      "label": "Marge haut desktop",
+      "min": 10,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "pagination_margin_top_mobile",
+      "label": "Marge haut mobile",
+      "min": 20,
+      "max": 80,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+
+    {
+      "type": "header",
+      "content": "═══ AUTOPLAY ═══"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_autoplay",
+      "label": "Activer autoplay",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "autoplay_delay",
+      "label": "Délai",
+      "min": 2,
+      "max": 10,
+      "step": 1,
+      "unit": "s",
+      "default": 5
+    },
+
+    {
+      "type": "header",
+      "content": "═══ ANIMATIONS CONTENU ═══"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_content_animations",
+      "label": "Activer animations",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Témoignage",
+      "settings": [
+        {
+          "type": "header",
+          "content": "📸 Images"
+        },
+        {
+          "type": "checkbox",
+          "id": "use_single_image",
+          "label": "Image unique (pas Avant/Après)",
+          "default": false
+        },
+        {
+          "type": "image_picker",
+          "id": "image_single",
+          "label": "Image unique"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_before",
+          "label": "Image Avant"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_after",
+          "label": "Image Après"
+        },
+        {
+          "type": "text",
+          "id": "label_before",
+          "label": "Label Avant personnalisé",
+          "info": "Laissez vide pour utiliser la valeur par défaut"
+        },
+        {
+          "type": "text",
+          "id": "label_after",
+          "label": "Label Après personnalisé",
+          "info": "Laissez vide pour utiliser la valeur par défaut"
+        },
+
+        {
+          "type": "header",
+          "content": "👤 Auteur"
+        },
+        {
+          "type": "text",
+          "id": "author_name",
+          "label": "Nom",
+          "default": "Sophie M."
+        },
+        {
+          "type": "text",
+          "id": "author_age",
+          "label": "Âge",
+          "default": "42 ans"
+        },
+        {
+          "type": "range",
+          "id": "rating",
+          "label": "Note (sur 5)",
+          "min": 0,
+          "max": 5,
+          "step": 0.5,
+          "default": 5
+        },
+
+        {
+          "type": "header",
+          "content": "💬 Avis"
+        },
+        {
+          "type": "text",
+          "id": "review_title",
+          "label": "Titre",
+          "default": "Ma peau a changé de vie !"
+        },
+        {
+          "type": "textarea",
+          "id": "review_text",
+          "label": "Texte",
+          "default": "Après des années à chercher LE produit miracle, j'ai enfin trouvé ce qui fonctionne pour moi. Dès les premières semaines, j'ai vu une vraie différence. Ma peau est plus lisse, plus éclatante. Je recommande à 100% !"
+        },
+
+        {
+          "type": "header",
+          "content": "🛍️ Produit"
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Produit associé"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Témoignages LATIF v3",
+      "blocks": [
+        {
+          "type": "testimonial",
+          "settings": {
+            "author_name": "Émilie R.",
+            "author_age": "28 ans",
+            "rating": 5,
+            "review_title": "Enfin une peau nette !",
+            "review_text": "J'avais des boutons depuis l'adolescence et rien ne fonctionnait. Avec cette routine, en 2 mois mes boutons ont quasiment disparu. Ma peau est plus lisse, plus uniforme.",
+            "label_before": "JOUR 1",
+            "label_after": "JOUR 60"
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "author_name": "Catherine D.",
+            "author_age": "54 ans",
+            "rating": 5,
+            "review_title": "10 ans de moins !",
+            "review_text": "À 54 ans, j'avais accepté mes rides comme une fatalité. Après 4 mois d'utilisation, le résultat est bluffant : mes rides du front sont estompées, mes pattes d'oie moins visibles.",
+            "label_before": "SEMAINE 1",
+            "label_after": "SEMAINE 16"
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "author_name": "Marie L.",
+            "author_age": "35 ans",
+            "rating": 4.5,
+            "review_title": "Adieu les rougeurs !",
+            "review_text": "Le froid aggravait terriblement mes rougeurs et ma rosacée. Depuis que j'utilise ces produits, ma peau tolère beaucoup mieux les changements de température.",
+            "label_before": "JOUR 1",
+            "label_after": "JOUR 42"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

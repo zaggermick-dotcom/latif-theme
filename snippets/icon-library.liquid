@@ -1,0 +1,334 @@
+{%- comment -%}
+  ═══════════════════════════════════════════════════════════════════════════
+  TRUSTPILOT STARS - Widget Étoiles Trustpilot Réutilisable
+  ═══════════════════════════════════════════════════════════════════════════
+  
+  Utilisation:
+  {% render 'trustpilot-stars' %}
+  {% render 'trustpilot-stars', rating: 4.9, reviews_count: 2500 %}
+  {% render 'trustpilot-stars', rating: 4.8, style: 'compact', size: 'small' %}
+  {% render 'trustpilot-stars', rating: 5, style: 'detailed', show_logo: true %}
+  
+  Paramètres:
+  - rating............. Note sur 5 (défaut: 4.9)
+  - reviews_count...... Nombre d'avis (défaut: 2500)
+  - style.............. 'default', 'compact', 'minimal', 'detailed', 'box', 'inline'
+  - size............... 'small', 'medium', 'large'
+  - show_logo.......... Afficher logo Trustpilot (true/false, défaut: true)
+  - show_count......... Afficher nombre d'avis (true/false, défaut: true)
+  - show_label......... Afficher "Basé sur Trustpilot" (true/false, défaut: false)
+  - show_rating_text... Afficher "4.9/5" (true/false, défaut: true)
+  - color_stars........ Couleur des étoiles (défaut: #00B67A)
+  - color_bg........... Couleur fond étoiles (défaut: #00B67A)
+  - color_empty........ Couleur étoiles vides (défaut: #DCDCE6)
+  - color_text......... Couleur du texte (défaut: #191919)
+  - alignment.......... 'left', 'center', 'right' (défaut: center)
+  - link_url........... URL de redirection (optionnel)
+  - class.............. Classes CSS additionnelles (optionnel)
+  
+{%- endcomment -%}
+
+{%- liquid
+  assign rating = rating | default: 4.9
+  assign reviews_count = reviews_count | default: 2500
+  assign style = style | default: 'default'
+  assign size = size | default: 'medium'
+  assign show_logo = show_logo | default: true
+  assign show_count = show_count | default: true
+  assign show_label = show_label | default: false
+  assign show_rating_text = show_rating_text | default: true
+  assign color_stars = color_stars | default: '#00B67A'
+  assign color_bg = color_bg | default: '#00B67A'
+  assign color_empty = color_empty | default: '#DCDCE6'
+  assign color_text = color_text | default: '#191919'
+  assign alignment = alignment | default: 'center'
+  assign link_url = link_url | default: ''
+  assign custom_class = class | default: ''
+  
+  assign unique_id = 'tps-' | append: section.id | append: '-' | append: 'now' | date: '%N'
+  
+  case size
+    when 'small'
+      assign star_size = 18
+      assign star_gap = 2
+      assign font_size_rating = 14
+      assign font_size_count = 11
+      assign font_size_label = 9
+      assign logo_width = 75
+      assign widget_gap = 8
+      assign padding_box = '12px 16px'
+    when 'large'
+      assign star_size = 30
+      assign star_gap = 4
+      assign font_size_rating = 20
+      assign font_size_count = 15
+      assign font_size_label = 11
+      assign logo_width = 120
+      assign widget_gap = 14
+      assign padding_box = '24px 32px'
+    else
+      assign star_size = 24
+      assign star_gap = 3
+      assign font_size_rating = 17
+      assign font_size_count = 13
+      assign font_size_label = 10
+      assign logo_width = 100
+      assign widget_gap = 10
+      assign padding_box = '18px 24px'
+  endcase
+  
+  assign full_stars = rating | floor
+  assign decimal = rating | modulo: 1
+  assign has_half = false
+  if decimal >= 0.25 and decimal < 0.75
+    assign has_half = true
+  elsif decimal >= 0.75
+    assign full_stars = full_stars | plus: 1
+  endif
+  assign empty_stars = 5 | minus: full_stars
+  if has_half
+    assign empty_stars = empty_stars | minus: 1
+  endif
+-%}
+
+<style>
+  .tps-{{ unique_id }} {
+    display: inline-flex;
+    align-items: center;
+    gap: {{ widget_gap }}px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    text-decoration: none;
+    color: inherit;
+    {% case alignment %}
+      {% when 'left' %}justify-content: flex-start;
+      {% when 'right' %}justify-content: flex-end;
+      {% else %}justify-content: center;
+    {% endcase %}
+    {% if style == 'box' or style == 'detailed' %}
+      flex-direction: column;
+      text-align: center;
+    {% endif %}
+  }
+  
+  {% if link_url != blank %}
+  .tps-{{ unique_id }}:hover {
+    opacity: 0.9;
+  }
+  {% endif %}
+  
+  /* Style Variations */
+  .tps-{{ unique_id }}.tps--detailed,
+  .tps-{{ unique_id }}.tps--box {
+    background: #f7f7f7;
+    padding: {{ padding_box }};
+    border-radius: 12px;
+    border: 1px solid #e5e5e5;
+  }
+  
+  .tps-{{ unique_id }}.tps--box {
+    background: #ffffff;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    border: none;
+  }
+  
+  .tps-{{ unique_id }}.tps--compact {
+    gap: {{ widget_gap | divided_by: 2 }}px;
+  }
+  
+  .tps-{{ unique_id }}.tps--minimal {
+    gap: 6px;
+  }
+  
+  .tps-{{ unique_id }}.tps--inline {
+    flex-wrap: wrap;
+  }
+  
+  /* Logo Trustpilot */
+  .tps-{{ unique_id }} .tps-logo {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  
+  .tps-{{ unique_id }} .tps-logo svg {
+    width: {{ logo_width }}px;
+    height: auto;
+  }
+  
+  /* Étoiles Container */
+  .tps-{{ unique_id }} .tps-stars {
+    display: flex;
+    align-items: center;
+    gap: {{ star_gap }}px;
+  }
+  
+  /* Étoile individuelle */
+  .tps-{{ unique_id }} .tps-star {
+    width: {{ star_size }}px;
+    height: {{ star_size }}px;
+    background: {{ color_bg }};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  
+  .tps-{{ unique_id }}.tps--minimal .tps-star {
+    background: transparent;
+  }
+  
+  .tps-{{ unique_id }} .tps-star svg {
+    width: {{ star_size | times: 0.6 }}px;
+    height: {{ star_size | times: 0.6 }}px;
+    fill: #ffffff;
+  }
+  
+  .tps-{{ unique_id }}.tps--minimal .tps-star svg {
+    fill: {{ color_stars }};
+    width: {{ star_size | times: 0.9 }}px;
+    height: {{ star_size | times: 0.9 }}px;
+  }
+  
+  /* Étoile demi-remplie */
+  .tps-{{ unique_id }} .tps-star--half {
+    background: linear-gradient(90deg, {{ color_bg }} 50%, {{ color_empty }} 50%);
+  }
+  
+  .tps-{{ unique_id }}.tps--minimal .tps-star--half {
+    background: transparent;
+    position: relative;
+  }
+  
+  .tps-{{ unique_id }}.tps--minimal .tps-star--half svg {
+    fill: {{ color_empty }};
+  }
+  
+  .tps-{{ unique_id }}.tps--minimal .tps-star--half::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+  }
+  
+  /* Étoile vide */
+  .tps-{{ unique_id }} .tps-star--empty {
+    background: {{ color_empty }};
+  }
+  
+  .tps-{{ unique_id }}.tps--minimal .tps-star--empty {
+    background: transparent;
+  }
+  
+  .tps-{{ unique_id }}.tps--minimal .tps-star--empty svg {
+    fill: {{ color_empty }};
+  }
+  
+  /* Informations */
+  .tps-{{ unique_id }} .tps-info {
+    display: flex;
+    flex-direction: column;
+    {% if style == 'box' or style == 'detailed' %}
+      align-items: center;
+    {% else %}
+      align-items: flex-start;
+    {% endif %}
+    gap: 2px;
+    line-height: 1.3;
+  }
+  
+  .tps-{{ unique_id }}.tps--minimal .tps-info,
+  .tps-{{ unique_id }}.tps--inline .tps-info {
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .tps-{{ unique_id }} .tps-rating {
+    font-size: {{ font_size_rating }}px;
+    font-weight: 700;
+    color: {{ color_text }};
+  }
+  
+  .tps-{{ unique_id }} .tps-count {
+    font-size: {{ font_size_count }}px;
+    color: {{ color_text }};
+    opacity: 0.7;
+  }
+  
+  .tps-{{ unique_id }} .tps-label {
+    font-size: {{ font_size_label }}px;
+    color: {{ color_text }};
+    opacity: 0.5;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 4px;
+  }
+  
+  .tps-{{ unique_id }} .tps-separator {
+    color: {{ color_text }};
+    opacity: 0.3;
+  }
+</style>
+
+{% if link_url != blank %}<a href="{{ link_url }}" target="_blank" rel="noopener noreferrer" {% else %}<div {% endif %}
+  class="tps-{{ unique_id }} tps--{{ style }} {{ custom_class }}"
+  {% if link_url != blank %}aria-label="Voir nos avis sur Trustpilot"{% endif %}
+>
+  
+  {%- # Logo Trustpilot -%}
+  {%- if show_logo and style != 'minimal' and style != 'compact' and style != 'inline' -%}
+    <div class="tps-logo">
+      <svg viewBox="0 0 126 31" xmlns="http://www.w3.org/2000/svg" aria-label="Trustpilot">
+        <path fill="#00B67A" d="M36.54 11.42h5.78l-4.68 3.32 1.79 5.38-4.68-3.4-4.68 3.4 1.79-5.38-4.68-3.32h5.78l1.79-5.38 1.79 5.38z"/>
+        <path fill="#005128" d="M40.53 17.07l-1.06-3.24-4.68 3.4z"/>
+        <path fill="#191919" d="M48.87 6.1h10.88v2.72h-3.9v12.04h-3.08V8.82h-3.9V6.1zm11.02 0h5.23c1.49 0 2.68.37 3.56 1.1.88.74 1.33 1.8 1.33 3.18 0 .9-.19 1.67-.58 2.3-.38.64-.94 1.13-1.66 1.5l2.73 6.68h-3.36l-2.25-5.95h-1.88v5.95H60V6.1h-.1zm5.03 6.25c.6 0 1.07-.17 1.42-.5.35-.34.52-.8.52-1.4 0-.6-.17-1.05-.52-1.38-.35-.33-.82-.5-1.42-.5h-1.95v3.78h1.95zm6.38-6.25h3.08v11.88h5.63v2.88H71.3V6.1zm9.79 0h3.08v14.76h-3.08V6.1zm4.74 7.38c0-1.05.2-2.02.61-2.91.41-.89.96-1.66 1.67-2.32.71-.65 1.54-1.17 2.49-1.54a8.21 8.21 0 013.06-.55c1.05 0 2.06.18 3.04.55.98.37 1.83.89 2.54 1.56.72.67 1.28 1.46 1.7 2.37.42.92.63 1.92.63 3.01v.12c0 1.08-.2 2.07-.61 2.97-.41.9-.97 1.68-1.68 2.34-.71.66-1.53 1.17-2.47 1.54-.94.37-1.96.55-3.05.55-1.08 0-2.1-.18-3.05-.55-.95-.37-1.78-.89-2.48-1.56-.71-.67-1.26-1.46-1.68-2.37-.41-.91-.62-1.9-.62-2.98v-.12l-.1-.11zm3.18.1c0 .65.1 1.26.32 1.82.22.57.52 1.06.91 1.49.39.43.86.77 1.41 1.01.55.25 1.15.37 1.81.37.66 0 1.26-.12 1.81-.36.55-.24 1.02-.58 1.41-1 .39-.43.7-.93.92-1.5.22-.57.33-1.18.33-1.83v-.13c0-.65-.11-1.26-.33-1.82-.22-.57-.52-1.06-.91-1.49-.39-.43-.86-.77-1.41-1.01-.55-.25-1.16-.37-1.82-.37-.66 0-1.26.12-1.81.37-.55.24-1.02.58-1.41 1.01-.39.43-.7.93-.92 1.5-.22.57-.33 1.18-.33 1.83v.13l.02-.02zm13.47-7.48h5.55c.82 0 1.6.12 2.35.35.75.24 1.41.59 2 1.07.58.48 1.05 1.08 1.39 1.81.34.73.51 1.58.51 2.55 0 .97-.17 1.82-.51 2.55-.34.73-.8 1.34-1.39 1.82-.58.48-1.25.84-2 1.07-.75.24-1.53.35-2.35.35h-2.47v5.19h-3.08V6.1zm5.34 8.85c.83 0 1.5-.23 2.02-.7.52-.47.78-1.11.78-1.94 0-.83-.26-1.47-.78-1.94-.52-.47-1.2-.7-2.02-.7h-2.26v5.28h2.26zm7.23-8.85h3.08v14.76h-3.08V6.1zm5.55 0h3.08v11.88h5.63v2.88h-8.71V6.1z"/>
+      </svg>
+    </div>
+  {%- endif -%}
+  
+  {%- # Étoiles -%}
+  <div class="tps-stars" role="img" aria-label="Note: {{ rating }} sur 5 étoiles">
+    {%- for i in (1..5) -%}
+      {%- if i <= full_stars -%}
+        <span class="tps-star" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </span>
+      {%- elsif has_half and i == full_stars | plus: 1 -%}
+        <span class="tps-star tps-star--half" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </span>
+      {%- else -%}
+        <span class="tps-star tps-star--empty" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </span>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+  
+  {%- # Informations -%}
+  {%- if show_rating_text or show_count or show_label -%}
+    <div class="tps-info">
+      {%- if show_rating_text -%}
+        <span class="tps-rating">{{ rating }}/5</span>
+      {%- endif -%}
+      
+      {%- if style == 'inline' or style == 'minimal' -%}
+        {%- if show_rating_text and show_count -%}
+          <span class="tps-separator">•</span>
+        {%- endif -%}
+      {%- endif -%}
+      
+      {%- if show_count -%}
+        <span class="tps-count">{{ reviews_count }}+ avis</span>
+      {%- endif -%}
+      
+      {%- if show_label -%}
+        <span class="tps-label">Basé sur Trustpilot</span>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+  
+{% if link_url != blank %}</a>{% else %}</div>{% endif %}

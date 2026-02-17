@@ -1,0 +1,800 @@
+{
+  "sections": {
+    "42f1fbd7-9a5f-4361-bee4-1dd38dc77aa3": {
+      "type": "banner",
+      "blocks": {
+        "template--19360652722473__42f1fbd7-9a5f-4361-bee4-1dd38dc77aa3-168655670373b01bcd-0": {
+          "type": "heading",
+          "settings": {
+            "subheading": "<div style=\"display:inline-flex;align-items:center;gap:12px;background:linear-gradient(135deg,#fff,#f8f9fa);padding:10px 24px;border-radius:12px;box-shadow:0 4px 15px rgba(0,0,0,.1);margin-top:8px;margin-bottom:24px\">\n<div style=\"display:flex;gap:2px;color:#00b67a;font-size:20px\">★★★★★<\/div>\n<div style=\"font-size:16px;font-weight:700;color:#00b67a\">Note Excellente<\/div>\n<div style=\"font-size:14px;color:#666\">1,523 avis<\/div>\n<\/div>",
+            "heading": "<strong>Redonnez à Votre Peau l’Éclat Qu’elle Mérite en 4 semaines <\/strong>",
+            "heading_style": "1",
+            "heading_font_size": 80,
+            "heading_font_size_mobile": 80,
+            "enable_slides": false,
+            "slides": "",
+            "margin_bottom": 20
+          }
+        },
+        "text_BQFEgG": {
+          "type": "text",
+          "settings": {
+            "description": "<p><strong>Rides, ridiles ,  taches, teint terne, boutons , rougeurs , anti-âge<\/strong> ?<\/p><p> Redonnez à votre peau un éclat visible en 4 semaines.<br\/><br\/><\/p>",
+            "description_font_size": 95,
+            "description_font_size_mobile": 80,
+            "margin_bottom": 12
+          }
+        },
+        "button_WVjEXa": {
+          "type": "button",
+          "settings": {
+            "button_text": "Je veux mon sérum maintenant",
+            "button_link": "shopify:\/\/products\/serum-equallyberry-au-bakuchiol",
+            "button_style": "3",
+            "button_text_secondary": "",
+            "button_link_secondary": "shopify:\/\/products\/serum-equalyberry-bakuchiol",
+            "button_style_secondary": "2",
+            "extra_button": false,
+            "margin_bottom": 12
+          }
+        },
+        "icons_tHWYyi": {
+          "type": "icons",
+          "settings": {
+            "icons_style": "grid",
+            "fill_color": "accent",
+            "fill_fade_background": true,
+            "bg_color_icons": false,
+            "icon_1_icon_type": "check_mark",
+            "icon_1_text": "",
+            "icon_1_description": "",
+            "icon_1_url": "",
+            "icon_2_icon_type": "check_mark",
+            "icon_2_text": "",
+            "icon_2_description": "",
+            "icon_2_url": "",
+            "icon_3_icon_type": "check_mark",
+            "icon_3_text": "",
+            "icon_3_description": "",
+            "icon_3_url": "",
+            "icon_4_icon_type": "check_mark",
+            "icon_4_custom_icon": "shopify:\/\/shop_images\/enleve-juste-le-cercle-blanc-au-milieu--removebg-preview.png",
+            "icon_4_text": "<strong>Approuvé par les dermatologues<\/strong>",
+            "icon_4_description": "",
+            "icon_4_url": "",
+            "margin_bottom": 16
+          }
+        }
+      },
+      "block_order": [
+        "template--19360652722473__42f1fbd7-9a5f-4361-bee4-1dd38dc77aa3-168655670373b01bcd-0",
+        "text_BQFEgG",
+        "button_WVjEXa",
+        "icons_tHWYyi"
+      ],
+      "custom_css": [],
+      "settings": {
+        "section_id": "",
+        "image_overlay_opacity": 0,
+        "image_overlay_color": "foreground",
+        "height": "adapt",
+        "layout": "image_with_text",
+        "layout_orientation": "right",
+        "gutterless_mobile": true,
+        "media_type": "image",
+        "image": "shopify:\/\/shop_images\/produit_page_d_accueille_jpg.jpg",
+        "media_type_mobile": "image",
+        "image_mobile": "shopify:\/\/shop_images\/produit_page_d_accueille_jpg.jpg",
+        "lazy": false,
+        "content_container_width": 580,
+        "text_color": "text",
+        "desktop_content_position": "middle",
+        "mobile_content_position": "middle",
+        "content_background_behavior": "transparent",
+        "enable_animations": false,
+        "animation": "fade-up",
+        "hide_desktop": false,
+        "hide_mobile": false,
+        "layout_width": "full",
+        "padding_top": 0,
+        "padding_bottom": 44,
+        "padding_top_sm": 0,
+        "padding_bottom_sm": 0,
+        "color_palette": "scheme-ac463579-e2b7-4eff-9caf-f3db0b45daa0",
+        "enable_cut_bg_color": false,
+        "cut_bg_color": "#f6f6f6",
+        "cut_bg_color_vertical": 0,
+        "cut_bg_color_vertical_mobile": 0,
+        "cut_bg_color_horizontal": 0,
+        "cut_bg_color_horizontal_mobile": 0,
+        "separator_top": "none",
+        "separator_top_invert": false,
+        "separator_bottom": "none",
+        "separator_bottom_invert": true,
+        "separator_animated": false,
+        "separator_bg_color": ""
+      }
+    },
+    "marquee_logo_kcrtUy": {
+      "type": "marquee-logo",
+      "blocks": {
+        "marquee_RaMCVU": {
+          "type": "marquee",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/ChatGPT_Image_28_nov._2025_00_00_04.png"
+          }
+        },
+        "marquee_TmRi6W": {
+          "type": "marquee",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/ChatGPT_Image_27_nov._2025_23_48_17.png"
+          }
+        },
+        "marquee_UUk8NQ": {
+          "type": "marquee",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/ChatGPT_Image_27_nov._2025_23_45_01.png"
+          }
+        },
+        "marquee_bjapfy": {
+          "type": "marquee",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/ChatGPT_Image_28_nov._2025_00_01_39.png"
+          }
+        }
+      },
+      "block_order": [
+        "marquee_RaMCVU",
+        "marquee_TmRi6W",
+        "marquee_UUk8NQ",
+        "marquee_bjapfy"
+      ],
+      "name": "t:sections.scrolling-gallery.name",
+      "settings": {
+        "subheading": "",
+        "heading": "",
+        "heading_style": "3",
+        "description": "",
+        "alignment": "center",
+        "image_ratio": "adapt",
+        "delay": 10,
+        "width": 70,
+        "gap": 24,
+        "border-radius": true,
+        "enable_animations": false,
+        "animation": "fade-up",
+        "layout_width": "normal",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "padding_top_sm": 0,
+        "padding_bottom_sm": 0,
+        "color_palette": "scheme-18368b80-0f66-40ea-ac40-d05753066fb6",
+        "separator_top": "none",
+        "separator_top_invert": false,
+        "separator_bottom": "none",
+        "separator_bottom_invert": false,
+        "separator_animated": false,
+        "separator_bg_color": ""
+      }
+    },
+    "diagnostic_peau_GAD6nF": {
+      "type": "diagnostic-peau",
+      "name": "Diagnostic V11.1",
+      "settings": {
+        "color_bg_page": "#ede6f2",
+        "visitors_count": 48,
+        "color_accent": "#5c3b6f",
+        "color_accent_light": "#c84a7a",
+        "color_bg_card": "#b7a9c6",
+        "color_bg_card_center": "#ede6f2",
+        "color_text_title": "#2e1a38",
+        "color_text_body": "#5a4a63",
+        "color_btn_text": "#000000",
+        "color_input_bg": "#ffffff",
+        "color_input_text": "#2e1a38",
+        "color_option_bg": "#efe7f3",
+        "enable_aura": true,
+        "glass_opacity": 60,
+        "glass_blur": 25,
+        "intro_title": "NOTRE DIAGNOSTIC GRATUIT",
+        "intro_subtitle": "Identifiez en 6 étapes votre peau et la prescription dont votre peau a réellement besoin.",
+        "intro_btn_label": "Démarrer l'analyse",
+        "product_link": "shopify:\/\/products\/serum-equallyberry-au-bakuchiol",
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "padding_horizontal": 40,
+        "padding_top_mobile": 20,
+        "padding_bottom_mobile": 20,
+        "padding_horizontal_mobile": 20,
+        "emailjs_service_id": "service_p9tq1zo",
+        "emailjs_template_id": "template_sj0dauh",
+        "emailjs_public_key": "1sRceXahZUmKwB5_I",
+        "avatar_size": 320
+      }
+    },
+    "trust_stats_p9GRyp": {
+      "type": "trust-stats",
+      "blocks": {
+        "stat_A6FUAL": {
+          "type": "stat",
+          "settings": {
+            "percentage": 97,
+            "title": "Teint plus lumineux dès 4 semaines",
+            "text": "<p>Après 4 semaines, nos clientes constatent un teint plus lumineux et plus homogène, comme réveillé de l’intérieur<br\/><br\/><\/p>"
+          }
+        },
+        "stat_ELyyqt": {
+          "type": "stat",
+          "settings": {
+            "percentage": 85,
+            "title": "En 3 semaines, une peau plus lisse",
+            "text": "<p>En 3 semaines seulement, nos clientes remarquent une peau plus lisse, des ridules estompées et un toucher plus doux.<br\/><br\/><br\/><br\/><\/p>"
+          }
+        },
+        "stat_feMQ9a": {
+          "type": "stat",
+          "settings": {
+            "percentage": 94,
+            "title": "Boutons,rides,cernes etc ... atténuées au fil des semaines",
+            "text": "<p>Nos clientes voient leurs boutons, rides, cernes et petites imperfections s’atténuer au fil des semaines, pour une peau plus nette et plus uniforme.<br\/><br\/><\/p>"
+          }
+        }
+      },
+      "block_order": [
+        "stat_A6FUAL",
+        "stat_ELyyqt",
+        "stat_feMQ9a"
+      ],
+      "name": "Stats Animées (Latif)",
+      "settings": {
+        "mobile_layout": "stack",
+        "show_dots": true,
+        "bg_color": "#ebebeb",
+        "heading_color": "#222222",
+        "text_color": "#121212",
+        "show_badge": true,
+        "badge_text": "Recommandé par les dermatologues",
+        "badge_bg": "#3b82f6",
+        "badge_text_color": "#333333",
+        "avatar_1": "shopify:\/\/shop_images\/IMG_8356.jpg",
+        "avatar_2": "shopify:\/\/shop_images\/dr_veilleux.jpg",
+        "avatar_3": "shopify:\/\/shop_images\/Dermato.jpg",
+        "card_radius": 20,
+        "shadow_opacity": 3,
+        "card_bg_color": "#f2e9f7",
+        "card_border_color": "#eaeaea",
+        "card_title_color": "#222222",
+        "card_text_color": "#444444",
+        "circle_bg_color": "#e0e0e0",
+        "ticks_color": "#666666",
+        "percent_color": "#333333",
+        "title": "Efficacité prouvée par les professionnels de santé",
+        "heading_size": "h1",
+        "description": "<p>NOTRE SÉRUM <strong>EQUALLYBERRY™ <\/strong>EST<br\/>RECOMMANDÉ PAR  LES DERMATOLOGUES.<br\/><\/p>",
+        "page_width": 1000,
+        "padding_top": 36,
+        "padding_bottom": 60,
+        "padding_top_mobile": 28,
+        "padding_bottom_mobile": 40
+      }
+    },
+    "temoignages_avant_apres_Dn3jrw": {
+      "type": "temoignages-avant-apres",
+      "blocks": {
+        "testimonial_6LNLNT": {
+          "type": "testimonial",
+          "settings": {
+            "use_single_image": true,
+            "image_combined": "shopify:\/\/shop_images\/b-a-1-month-into-bakuchiol-instead-of-retinol-v0-f81ykqjbs46e1_3b1847d6-f489-47bb-9dd6-696b831b825e.webp",
+            "time_before": "",
+            "time_after": "",
+            "author_name": "Claire",
+            "author_age": "",
+            "rating": 5,
+            "review_title": "Superbe produit !",
+            "review_text": "Voici ma photo d'avant et d'après une tres grande difference le produit est superbe.",
+            "product": "serum-equallyberry-au-bakuchiol"
+          }
+        },
+        "testimonial_VCxHQJ": {
+          "type": "testimonial",
+          "settings": {
+            "use_single_image": true,
+            "image_combined": "shopify:\/\/shop_images\/images8.jpg",
+            "time_before": "",
+            "time_after": "",
+            "author_name": "Inès",
+            "author_age": "",
+            "rating": 5,
+            "review_title": "Super et vous allez venir témoigner comme moi",
+            "review_text": "Résultats visibles dès la deuxième semaine. Ma peau est plus uniforme, je ne mets presque plus de fond de teint.",
+            "product": "serum-equallyberry-au-bakuchiol"
+          }
+        },
+        "testimonial_6UPwi9": {
+          "type": "testimonial",
+          "settings": {
+            "use_single_image": true,
+            "image_combined": "shopify:\/\/shop_images\/images4.jpg",
+            "time_before": "Nelie",
+            "time_after": "",
+            "author_name": "Nelie",
+            "author_age": "",
+            "rating": 5,
+            "review_title": "Exceptionnel !",
+            "review_text": "J'étais donc sceptique... mais ce sérum est une révélation ! ZÉRO irritation, même en l'utilisant tous les soirs.",
+            "product": "serum-equallyberry-au-bakuchiol"
+          }
+        }
+      },
+      "block_order": [
+        "testimonial_6LNLNT",
+        "testimonial_VCxHQJ",
+        "testimonial_6UPwi9"
+      ],
+      "name": "Témoignages & Avis",
+      "settings": {
+        "section_id": "",
+        "subheading": "Avis Clients",
+        "title": "Nos clientes témoignent",
+        "description": "Découvrez les transformations réelles de notre communauté et les résultats obtenus avec nos soins premium.",
+        "alignment": "center",
+        "stat_1_number": "1,523+",
+        "stat_1_label": "Clientes satisfaites",
+        "stat_2_number": "4.9\/5",
+        "stat_2_label": "Note moyenne",
+        "stat_3_number": "94%",
+        "stat_3_label": "Résultats visibles",
+        "stars_style": "★★★★★",
+        "enable_review_submission": false,
+        "review_btn_text": "",
+        "slides_desktop": 1.3,
+        "slides_mobile": 1,
+        "enable_read_more": true,
+        "read_more_label": "",
+        "read_less_label": "",
+        "show_navigation": false,
+        "show_pagination": true,
+        "enable_autoplay": false,
+        "autoplay_delay": 5,
+        "enable_animations": false,
+        "layout_width": "container",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "bg_color": "#f2e9f7",
+        "card_bg_color": "#ebebeb",
+        "card_border_color": "rgba(0,0,0,0)",
+        "card_active_border_color": "#000000",
+        "title_color": "#000000",
+        "text_color": "#000000",
+        "verified_icon_color": "#4caf50",
+        "star_color": "#4caf50",
+        "arrow_color": "#1a1a1a",
+        "dot_color": "#ebebeb",
+        "dot_active_color": "#1a1a1a",
+        "product_bg_color": "#d7dac9",
+        "cta_bg_color": "#1a1a1a",
+        "cta_text_color": "#000000",
+        "separator_top": "none",
+        "separator_bottom": "none"
+      }
+    },
+    "liste_de_comparaison_gQfcnU": {
+      "type": "Liste-de-comparaison",
+      "blocks": {
+        "feature_RxmzMc": {
+          "type": "feature",
+          "settings": {
+            "title": "Ingrédients naturels",
+            "tooltip": "",
+            "col_1": "progress",
+            "text_1": "Oui",
+            "percent_1": 95,
+            "col_2": "progress",
+            "text_2": "Non",
+            "percent_2": 47,
+            "col_3": "cross",
+            "text_3": "",
+            "percent_3": 20
+          }
+        },
+        "feature_KVkURM": {
+          "type": "feature",
+          "settings": {
+            "title": "Efficacité",
+            "tooltip": "",
+            "col_1": "progress",
+            "text_1": "Oui",
+            "percent_1": 98,
+            "col_2": "progress",
+            "text_2": "Non",
+            "percent_2": 28,
+            "col_3": "cross",
+            "text_3": "",
+            "percent_3": 20
+          }
+        },
+        "feature_RnnBHX": {
+          "type": "feature",
+          "settings": {
+            "title": "Respect de la peau",
+            "tooltip": "",
+            "col_1": "check",
+            "text_1": "Oui",
+            "percent_1": 95,
+            "col_2": "check",
+            "text_2": "Non",
+            "percent_2": 40,
+            "col_3": "cross",
+            "text_3": "",
+            "percent_3": 20
+          }
+        },
+        "feature_eTa9af": {
+          "type": "feature",
+          "settings": {
+            "title": "Soin doux",
+            "tooltip": "",
+            "col_1": "check",
+            "text_1": "Oui",
+            "percent_1": 95,
+            "col_2": "cross",
+            "text_2": "Non",
+            "percent_2": 40,
+            "col_3": "cross",
+            "text_3": "",
+            "percent_3": 20
+          }
+        },
+        "feature_e8mxDG": {
+          "type": "feature",
+          "settings": {
+            "title": "Transparence",
+            "tooltip": "",
+            "col_1": "check",
+            "text_1": "Oui",
+            "percent_1": 95,
+            "col_2": "cross",
+            "text_2": "Non",
+            "percent_2": 40,
+            "col_3": "cross",
+            "text_3": "",
+            "percent_3": 20
+          }
+        }
+      },
+      "block_order": [
+        "feature_RxmzMc",
+        "feature_KVkURM",
+        "feature_RnnBHX",
+        "feature_eTa9af",
+        "feature_e8mxDG"
+      ],
+      "name": "Liste de comparaison",
+      "settings": {
+        "label_width": 30,
+        "title": "Pourquoi nous choisir ?",
+        "subheading": "",
+        "description": "",
+        "alignment": "center",
+        "brand_img_1": "shopify:\/\/shop_images\/chatgpt-image-7-nov-2025-13-33-14-removebg-preview-6926862fb6793.png",
+        "brand_heading_1": "NOUS",
+        "col_1_bg": "#aebfa3",
+        "col_1_text": "#404040",
+        "col_1_check": "#00b67a",
+        "hero_shadow_opacity": 30,
+        "brand_heading_2": "AUTRES",
+        "col_2_bg": "rgba(0,0,0,0)",
+        "col_2_text": "#333333",
+        "col_2_check": "#e17a5f",
+        "col_enable_3": false,
+        "brand_heading_3": "",
+        "col_3_bg": "rgba(0,0,0,0)",
+        "col_3_text": "#333333",
+        "col_3_check": "#4caf50",
+        "bg_color": "#ebebeb",
+        "text_color": "#333333",
+        "heading_color": "#1a1a1a",
+        "border_color": "#e5e5e5",
+        "cross_color": "#999999",
+        "max_width": 900,
+        "padding_top": 60,
+        "padding_bottom": 60,
+        "padding_top_sm": 40,
+        "padding_bottom_sm": 40,
+        "separator_top": "none",
+        "separator_bottom": "none"
+      }
+    },
+    "image_with_text_gBn9Un": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_DnfqFb": {
+          "type": "heading",
+          "settings": {
+            "heading": "<strong>Offre de 3 achetés = 2 offferts sur le serum Equallyberry<\/strong>",
+            "heading_level": "2",
+            "heading_style": "3",
+            "icon": "none"
+          }
+        },
+        "timer_VnzMng": {
+          "type": "timer",
+          "settings": {
+            "timer_style": "full",
+            "text": ""
+          }
+        },
+        "button_HLdCNX": {
+          "type": "button",
+          "settings": {
+            "button_text": "Je profite maintenant",
+            "button_link": "shopify:\/\/products\/serum-equallyberry-au-bakuchiol",
+            "button_style": "3",
+            "button_text_secondary": "Discover",
+            "button_link_secondary": "",
+            "button_style_secondary": "2",
+            "extra_button": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_DnfqFb",
+        "timer_VnzMng",
+        "button_HLdCNX"
+      ],
+      "name": "t:sections.image-with-text.presets.name",
+      "settings": {
+        "section_id": "",
+        "media_type": "image",
+        "image": "shopify:\/\/shop_images\/ChatGPT_Image_22_nov._2025_21_23_22.png",
+        "height": "large",
+        "desktop_image_width": "medium",
+        "layout": "image_first",
+        "layout_style": "normal",
+        "remove_gap": false,
+        "make_square": false,
+        "text_container_max_width": 700,
+        "desktop_content_position": "middle",
+        "desktop_content_alignment": "center",
+        "mobile_content_alignment": "center",
+        "enable_animations": false,
+        "animation": "fade-up",
+        "hide_desktop": false,
+        "hide_mobile": false,
+        "layout_width": "full",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "padding_top_sm": 0,
+        "padding_bottom_sm": 0,
+        "color_palette": "scheme-43e8f965-eab2-4627-b49e-b55470f96789",
+        "enable_cut_bg_color": false,
+        "cut_bg_color": "#f6f6f6",
+        "cut_bg_color_vertical": 0,
+        "cut_bg_color_vertical_mobile": 0,
+        "cut_bg_color_horizontal": 0,
+        "cut_bg_color_horizontal_mobile": 0,
+        "separator_top": "none",
+        "separator_top_invert": false,
+        "separator_bottom": "none",
+        "separator_bottom_invert": false,
+        "separator_animated": false,
+        "separator_bg_color": ""
+      }
+    },
+    "rich_text_4MMKW9": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_pQKbxt": {
+          "type": "heading",
+          "settings": {
+            "subheading": "",
+            "heading": "",
+            "heading_style": "1"
+          }
+        }
+      },
+      "block_order": [
+        "heading_pQKbxt"
+      ],
+      "custom_css": [],
+      "name": "t:sections.rich-text.presets.name",
+      "settings": {
+        "section_id": "",
+        "alignment": "center",
+        "enable_animations": false,
+        "animation": "fade-up",
+        "layout_width": "normal",
+        "padding_top": 56,
+        "padding_bottom": 64,
+        "padding_top_sm": 0,
+        "padding_bottom_sm": 32,
+        "color_palette": "background-1",
+        "enable_cut_bg_color": true,
+        "cut_bg_color": "#f2e9f7",
+        "cut_bg_color_vertical": 0,
+        "cut_bg_color_vertical_mobile": 0,
+        "cut_bg_color_horizontal": 0,
+        "cut_bg_color_horizontal_mobile": 0,
+        "separator_top": "none",
+        "separator_top_invert": false,
+        "separator_bottom": "none",
+        "separator_bottom_invert": false,
+        "separator_animated": false,
+        "separator_bg_color": ""
+      }
+    },
+    "newsletter_4hKQLR": {
+      "type": "newsletter",
+      "blocks": {
+        "paragraph_tMQgA6": {
+          "type": "paragraph",
+          "settings": {
+            "description": "<p>Et profitez d'un maximum de privilèges et d'exclusivités !<\/p>"
+          }
+        },
+        "heading_9gXRwM": {
+          "type": "heading",
+          "settings": {
+            "subheading": "",
+            "heading": "Rejoignez notre communauté",
+            "heading_style": "3"
+          }
+        },
+        "email_form_DEPCNb": {
+          "type": "email_form",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "paragraph_tMQgA6",
+        "heading_9gXRwM",
+        "email_form_DEPCNb"
+      ],
+      "name": "t:sections.newsletter.presets.name",
+      "settings": {
+        "section_id": "",
+        "desktop_content_alignment": "center",
+        "enable_animations": false,
+        "animation": "fade-up",
+        "layout_width": "normal",
+        "padding_top": 32,
+        "padding_bottom": 64,
+        "padding_top_sm": 0,
+        "padding_bottom_sm": 32,
+        "color_palette": "scheme-18368b80-0f66-40ea-ac40-d05753066fb6",
+        "enable_cut_bg_color": false,
+        "cut_bg_color": "#f6f6f6",
+        "cut_bg_color_vertical": 0,
+        "cut_bg_color_vertical_mobile": 0,
+        "cut_bg_color_horizontal": 0,
+        "cut_bg_color_horizontal_mobile": 0,
+        "separator_top": "none",
+        "separator_top_invert": false,
+        "separator_bottom": "none",
+        "separator_bottom_invert": false,
+        "separator_animated": false,
+        "separator_bg_color": ""
+      }
+    },
+    "icons_RhY9Cj": {
+      "type": "icons",
+      "blocks": {
+        "icon_b9XcaX": {
+          "type": "icon",
+          "settings": {
+            "icon": "truck",
+            "heading": "LIVRAISON RAPIDE",
+            "description": "Expédition sous <strong>24 à 48h<\/strong>.Recevez votre commande directement chez vous avec un <strong>numéro de suivi en temps réel<\/strong> à l’international.",
+            "heading_font_size": 15,
+            "heading_font_size_mobile": 17,
+            "button_text": "",
+            "button_link": "",
+            "button_style": "2"
+          }
+        },
+        "icon_gYtw8g": {
+          "type": "icon",
+          "settings": {
+            "icon": "lock",
+            "heading": "PAIEMENT SÉCURISÉ",
+            "description": "Toutes vos transactions sont protégées par un <strong>système de cryptage SSL<\/strong>.Vos informations bancaires restent <strong>strictement confidentielles<\/strong> et ne sont jamais stockées.",
+            "heading_font_size": 15,
+            "heading_font_size_mobile": 17,
+            "button_text": "Discover",
+            "button_link": "",
+            "button_style": "2"
+          }
+        },
+        "icon_fnqRbT": {
+          "type": "icon",
+          "settings": {
+            "icon": "return",
+            "heading": "SATISFAIT OU REMBOURSÉ",
+            "description": "Chez <strong>LatifCosmos<\/strong>, nous avons confiance en nos soins.Essayez votre sérum en toute sérénité pendant <strong>30 jours<\/strong>.Si vous n’êtes pas satisfait, nous vous remboursons selon nos conditions.Votre satisfaction est au cœur de notre engagement.",
+            "heading_font_size": 15,
+            "heading_font_size_mobile": 15,
+            "button_text": "Discover",
+            "button_link": "",
+            "button_style": "2"
+          }
+        },
+        "icon_3CXQ7U": {
+          "type": "icon",
+          "settings": {
+            "icon": "check_mark",
+            "heading": "SUPPORT DISPONIBLE 7j\/7",
+            "description": "Le service client <strong>LatifCosmos<\/strong> est à votre écoute <strong>7 jours sur 7<\/strong>.Notre équipe vous accompagne avec <strong>réactivité et attention<\/strong>.",
+            "heading_font_size": 15,
+            "heading_font_size_mobile": 15,
+            "button_text": "Discover",
+            "button_link": "",
+            "button_style": "2"
+          }
+        }
+      },
+      "block_order": [
+        "icon_b9XcaX",
+        "icon_gYtw8g",
+        "icon_fnqRbT",
+        "icon_3CXQ7U"
+      ],
+      "name": "t:sections.icons.name",
+      "settings": {
+        "section_id": "",
+        "layout": "swiper",
+        "layout_style": "normal",
+        "icon__type": "complete",
+        "icon_width_desktop": 65,
+        "icon_width_mobile": 30,
+        "center_icons": true,
+        "slides_on_desktop": 4,
+        "slides_on_tablet": 4,
+        "slides_on_mobile": 1,
+        "preshot_swiper": false,
+        "loop": true,
+        "navigation": false,
+        "pagination": true,
+        "autoplay": true,
+        "speed": 4,
+        "subheading": "",
+        "heading": "",
+        "heading_style": "3",
+        "description": "",
+        "alignment": "center",
+        "enable_animations": false,
+        "animation": "fade-up",
+        "layout_width": "normal",
+        "padding_top": 36,
+        "padding_bottom": 64,
+        "padding_top_sm": 0,
+        "padding_bottom_sm": 32,
+        "color_palette": "scheme-18368b80-0f66-40ea-ac40-d05753066fb6",
+        "enable_cut_bg_color": false,
+        "cut_bg_color": "#f6f6f6",
+        "cut_bg_color_vertical": 0,
+        "cut_bg_color_vertical_mobile": 0,
+        "cut_bg_color_horizontal": 0,
+        "cut_bg_color_horizontal_mobile": 0,
+        "separator_top": "none",
+        "separator_top_invert": false,
+        "separator_bottom": "none",
+        "separator_bottom_invert": false,
+        "separator_animated": false,
+        "separator_bg_color": ""
+      }
+    }
+  },
+  "order": [
+    "42f1fbd7-9a5f-4361-bee4-1dd38dc77aa3",
+    "marquee_logo_kcrtUy",
+    "diagnostic_peau_GAD6nF",
+    "trust_stats_p9GRyp",
+    "temoignages_avant_apres_Dn3jrw",
+    "liste_de_comparaison_gQfcnU",
+    "image_with_text_gBn9Un",
+    "rich_text_4MMKW9",
+    "newsletter_4hKQLR",
+    "icons_RhY9Cj"
+  ]
+}

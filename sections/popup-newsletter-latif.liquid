@@ -1,0 +1,685 @@
+{% comment %}
+  ═══════════════════════════════════════════════════════════════════════════════
+  POPUP NEWSLETTER LATIF SKIN - FORMULAIRE NATIF SHOPIFY
+  La page se recharge après inscription = 100% fiable
+  ═══════════════════════════════════════════════════════════════════════════════
+{% endcomment %}
+
+{%- if section.settings.enable_popup -%}
+<style>
+/* ══════════════════════════════════════════════════════════════════════
+   POPUP NEWSLETTER - STYLES
+══════════════════════════════════════════════════════════════════════ */
+#lsPopupOverlay {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 9999998 !important;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+}
+#lsPopupOverlay.active {
+  display: flex !important;
+}
+
+#lsPopupBox {
+  position: relative;
+  background: linear-gradient(160deg, #fffdf9 0%, #fff 50%, #faf6f1 100%);
+  border-radius: 24px;
+  padding: 32px 24px;
+  max-width: 400px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 25px 80px rgba(0,0,0,0.3);
+  animation: lsPopIn 0.4s ease;
+}
+
+@keyframes lsPopIn {
+  from { opacity: 0; transform: scale(0.9) translateY(20px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+#lsPopupBox::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #c9a87c, #e8d5b7, #c9a87c);
+  border-radius: 24px 24px 0 0;
+}
+
+#lsPopupClose {
+  position: absolute;
+  top: 12px; right: 12px;
+  width: 34px; height: 34px;
+  border: none;
+  background: rgba(0,0,0,0.06);
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 20px;
+  color: #888;
+  line-height: 34px;
+  text-align: center;
+  transition: all 0.3s;
+  z-index: 10;
+}
+#lsPopupClose:hover {
+  background: #c9a87c;
+  color: #fff;
+}
+
+.ls-header { text-align: center; margin-bottom: 16px; }
+
+.ls-emoji {
+  font-size: 48px;
+  display: block;
+  margin-bottom: 8px;
+  animation: lsFloat 3s ease-in-out infinite;
+}
+@keyframes lsFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.ls-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #c9a87c, #d4b896);
+  color: #fff;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  margin-bottom: 12px;
+  box-shadow: 0 4px 12px rgba(201,168,124,0.35);
+}
+
+.ls-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: #1a1a1a;
+  margin: 0 0 8px;
+  line-height: 1.2;
+}
+.ls-highlight { color: #c9a87c; }
+
+.ls-subtitle {
+  color: #666;
+  font-size: 13px;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.ls-social-proof {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin: 12px 0;
+  padding: 10px 14px;
+  background: linear-gradient(135deg, #fff8f0, #fff);
+  border-radius: 20px;
+  border: 1px solid rgba(201,168,124,0.25);
+}
+.ls-avatars { display: flex; }
+.ls-avatar {
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  margin-left: -6px;
+  background: linear-gradient(135deg, #c9a87c, #d4b896);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 600;
+  color: #fff;
+}
+.ls-avatar:first-child { margin-left: 0; }
+.ls-proof-text { font-size: 11px; color: #666; }
+.ls-proof-text strong { color: #c9a87c; }
+
+.ls-features {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 14px 0;
+  padding: 12px;
+  background: linear-gradient(135deg, #faf8f5, #f5f0e8);
+  border-radius: 12px;
+}
+.ls-feature {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  color: #444;
+}
+.ls-feature-icon {
+  width: 20px; height: 20px;
+  background: linear-gradient(135deg, #c9a87c, #d4b896);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  flex-shrink: 0;
+}
+
+/* FORMULAIRE NATIF SHOPIFY */
+.ls-form-wrap { margin-top: 16px; }
+
+#lsPopupBox .ls-native-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+#lsPopupBox .ls-email-input {
+  width: 100%;
+  border: 2px solid #e5e5e5;
+  border-radius: 14px;
+  padding: 14px 18px;
+  font-size: 15px;
+  outline: none;
+  background: #fff;
+  transition: all 0.3s;
+  box-sizing: border-box;
+}
+#lsPopupBox .ls-email-input:focus {
+  border-color: #c9a87c;
+  box-shadow: 0 0 0 3px rgba(201,168,124,0.15);
+}
+#lsPopupBox .ls-email-input::placeholder { color: #aaa; }
+
+#lsPopupBox .ls-submit-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #c9a87c, #b8956a);
+  border: none;
+  padding: 14px 24px;
+  border-radius: 14px;
+  cursor: pointer;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  transition: all 0.3s;
+  box-sizing: border-box;
+}
+#lsPopupBox .ls-submit-btn:hover {
+  background: linear-gradient(135deg, #b8956a, #a6845c);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(201,168,124,0.4);
+}
+
+.ls-form-error {
+  color: #e74c3c;
+  font-size: 12px;
+  text-align: center;
+  margin-top: 8px;
+}
+
+.ls-urgency {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 12px;
+  padding: 8px 12px;
+  background: #fff5f5;
+  border-radius: 10px;
+  font-size: 11px;
+  color: #c0392b;
+}
+.ls-urgency-dot {
+  width: 6px; height: 6px;
+  background: #e74c3c;
+  border-radius: 50%;
+  animation: lsPulse 1.5s infinite;
+}
+@keyframes lsPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.2); }
+}
+
+.ls-trust {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #f0f0f0;
+}
+.ls-trust-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  color: #999;
+}
+
+/* SUCCÈS */
+#lsSuccessContent {
+  text-align: center;
+}
+.ls-success-icon { font-size: 55px; display: block; margin-bottom: 12px; }
+.ls-success-title { font-size: 20px; font-weight: 800; color: #1a1a1a; margin: 0 0 10px; }
+.ls-success-text { color: #666; font-size: 13px; margin: 0 0 16px; line-height: 1.5; }
+.ls-success-benefits {
+  background: #faf8f5;
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 16px;
+  text-align: left;
+}
+.ls-success-benefit {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+  font-size: 12px;
+  color: #555;
+}
+.ls-success-benefit:not(:last-child) { border-bottom: 1px solid #eee; }
+.ls-benefit-icon { font-size: 14px; }
+#lsPopupContinue {
+  display: block;
+  width: 100%;
+  background: linear-gradient(135deg, #c9a87c, #b8956a);
+  border: none;
+  padding: 14px;
+  border-radius: 14px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+#lsPopupContinue:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(201,168,124,0.4);
+}
+
+/* RESPONSIVE */
+@media (max-width: 480px) {
+  #lsPopupBox { padding: 28px 18px; border-radius: 20px; max-height: 88vh; }
+  .ls-emoji { font-size: 40px; }
+  .ls-badge { padding: 5px 12px; font-size: 9px; }
+  .ls-title { font-size: 18px; }
+  .ls-subtitle { font-size: 12px; }
+  .ls-social-proof { padding: 8px 10px; }
+  .ls-avatar { width: 22px; height: 22px; font-size: 9px; }
+  .ls-proof-text { font-size: 10px; }
+  .ls-features { padding: 10px; gap: 5px; }
+  .ls-feature { font-size: 11px; }
+  .ls-feature-icon { width: 18px; height: 18px; font-size: 9px; }
+  #lsPopupBox .ls-email-input { padding: 12px 14px; font-size: 14px; }
+  #lsPopupBox .ls-submit-btn { padding: 12px 18px; font-size: 14px; }
+  .ls-urgency { font-size: 10px; padding: 6px 10px; }
+  .ls-trust { gap: 8px; }
+  .ls-trust-item { font-size: 9px; }
+}
+
+@media (max-width: 360px) {
+  #lsPopupBox { padding: 22px 14px; }
+  .ls-emoji { font-size: 36px; }
+  .ls-title { font-size: 16px; }
+  .ls-features { display: none; }
+}
+</style>
+
+<!-- POPUP HTML -->
+<div id="lsPopupOverlay">
+  <div id="lsPopupBox">
+    <button type="button" id="lsPopupClose" aria-label="Fermer">×</button>
+    
+    {% form 'customer' %}
+      {% if form.posted_successfully? %}
+        <!-- ═══════════ SUCCÈS ═══════════ -->
+        <div id="lsSuccessContent">
+          <span class="ls-success-icon">🎉</span>
+          <h3 class="ls-success-title">{{ section.settings.success_title }}</h3>
+          <p class="ls-success-text">{{ section.settings.success_text }}</p>
+          
+          <div class="ls-success-benefits">
+            <div class="ls-success-benefit">
+              <span class="ls-benefit-icon">📧</span>
+              <span>Offres exclusives dans votre boîte mail</span>
+            </div>
+            <div class="ls-success-benefit">
+              <span class="ls-benefit-icon">🎁</span>
+              <span>Surprises réservées aux abonnés</span>
+            </div>
+            <div class="ls-success-benefit">
+              <span class="ls-benefit-icon">💡</span>
+              <span>Conseils beauté personnalisés</span>
+            </div>
+          </div>
+          
+          <button type="button" id="lsPopupContinue">Découvrir nos soins →</button>
+        </div>
+      {% else %}
+        <!-- ═══════════ FORMULAIRE ═══════════ -->
+        <div id="lsFormContent">
+          <div class="ls-header">
+            <span class="ls-emoji">{{ section.settings.popup_emoji }}</span>
+            <span class="ls-badge">{{ section.settings.popup_badge }}</span>
+            <h2 class="ls-title">{{ section.settings.popup_title }} <span class="ls-highlight">{{ section.settings.popup_highlight }}</span></h2>
+            <p class="ls-subtitle">{{ section.settings.popup_subtitle }}</p>
+          </div>
+          
+          <div class="ls-social-proof">
+            <div class="ls-avatars">
+              <span class="ls-avatar">S</span>
+              <span class="ls-avatar">M</span>
+              <span class="ls-avatar">L</span>
+              <span class="ls-avatar">+</span>
+            </div>
+            <span class="ls-proof-text"><strong>{{ section.settings.subscribers_count }}</strong> {{ section.settings.subscribers_text }}</span>
+          </div>
+          
+          <div class="ls-features">
+            <div class="ls-feature">
+              <span class="ls-feature-icon">🎁</span>
+              <span>{{ section.settings.feature_1 }}</span>
+            </div>
+            <div class="ls-feature">
+              <span class="ls-feature-icon">💝</span>
+              <span>{{ section.settings.feature_2 }}</span>
+            </div>
+            <div class="ls-feature">
+              <span class="ls-feature-icon">✨</span>
+              <span>{{ section.settings.feature_3 }}</span>
+            </div>
+          </div>
+          
+          <div class="ls-form-wrap">
+            <div class="ls-native-form">
+              <input type="hidden" name="contact[tags]" value="newsletter,popup">
+              <input 
+                type="email" 
+                name="contact[email]"
+                class="ls-email-input"
+                placeholder="{{ section.settings.placeholder_text }}" 
+                required
+                autocomplete="email"
+                {% if form.errors %}aria-invalid="true"{% endif %}
+              >
+              <button type="submit" class="ls-submit-btn">
+                {{ section.settings.button_text }}
+              </button>
+            </div>
+            
+            {% if form.errors %}
+              <p class="ls-form-error">
+                {{ form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email }}
+              </p>
+            {% endif %}
+          </div>
+          
+          <div class="ls-urgency">
+            <span class="ls-urgency-dot"></span>
+            <span>{{ section.settings.urgency_text }}</span>
+          </div>
+          
+          <div class="ls-trust">
+            <span class="ls-trust-item"><span class="ls-trust-icon">🔒</span> Sécurisé</span>
+            <span class="ls-trust-item"><span class="ls-trust-icon">🚫</span> Zéro spam</span>
+            <span class="ls-trust-item"><span class="ls-trust-icon">💌</span> Désinscription facile</span>
+          </div>
+        </div>
+      {% endif %}
+    {% endform %}
+  </div>
+</div>
+
+<script>
+(function() {
+  'use strict';
+  
+  var POPUP_DELAY = {{ section.settings.popup_delay | default: 5 }} * 1000;
+  var COOKIE_DAYS = {{ section.settings.cookie_days | default: 7 }};
+  
+  var overlay = document.getElementById('lsPopupOverlay');
+  var closeBtn = document.getElementById('lsPopupClose');
+  var continueBtn = document.getElementById('lsPopupContinue');
+  
+  function setCookie(name, value, days) {
+    var expires = '';
+    if (days) {
+      var date = new Date();
+      date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+      expires = '; expires=' + date.toUTCString();
+    }
+    document.cookie = name + '=' + (value || '') + expires + '; path=/; SameSite=Lax';
+  }
+  
+  function getCookie(name) {
+    var nameEQ = name + '=';
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+      if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
+  }
+  
+  function showPopup() {
+    if (overlay) {
+      overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+  }
+  
+  function hidePopup() {
+    if (overlay) {
+      overlay.classList.remove('active');
+      document.body.style.overflow = '';
+      setCookie('ls_popup_seen', '1', COOKIE_DAYS);
+    }
+  }
+  
+  // Si inscription réussie, afficher le popup avec succès et marquer comme inscrit
+  {% if form.posted_successfully? %}
+    showPopup();
+    setCookie('ls_subscribed', '1', 365);
+  {% else %}
+    // Afficher après délai si pas vu et pas inscrit
+    if (!getCookie('ls_popup_seen') && !getCookie('ls_subscribed')) {
+      setTimeout(showPopup, POPUP_DELAY);
+    }
+  {% endif %}
+  
+  // Fermer
+  if (closeBtn) {
+    closeBtn.addEventListener('click', hidePopup);
+  }
+  
+  if (overlay) {
+    overlay.addEventListener('click', function(e) {
+      if (e.target === overlay) hidePopup();
+    });
+  }
+  
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && overlay && overlay.classList.contains('active')) {
+      hidePopup();
+    }
+  });
+  
+  if (continueBtn) {
+    continueBtn.addEventListener('click', function() {
+      hidePopup();
+      window.location.href = '/collections/all';
+    });
+  }
+  
+  // Mode éditeur Shopify
+  if (typeof Shopify !== 'undefined' && Shopify.designMode) {
+    setTimeout(showPopup, 500);
+  }
+})();
+</script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "🎁 Popup Newsletter",
+  "settings": [
+    {
+      "type": "header",
+      "content": "⚙️ Paramètres"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_popup",
+      "label": "Activer le popup",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "popup_delay",
+      "min": 1,
+      "max": 30,
+      "step": 1,
+      "unit": "s",
+      "label": "Délai avant affichage",
+      "default": 5
+    },
+    {
+      "type": "range",
+      "id": "cookie_days",
+      "min": 1,
+      "max": 30,
+      "step": 1,
+      "label": "Ne pas réafficher (jours)",
+      "default": 7
+    },
+    {
+      "type": "header",
+      "content": "✨ Contenu"
+    },
+    {
+      "type": "text",
+      "id": "popup_emoji",
+      "label": "Emoji",
+      "default": "💝"
+    },
+    {
+      "type": "text",
+      "id": "popup_badge",
+      "label": "Badge",
+      "default": "Rejoignez-nous"
+    },
+    {
+      "type": "text",
+      "id": "popup_title",
+      "label": "Titre",
+      "default": "Révélez votre"
+    },
+    {
+      "type": "text",
+      "id": "popup_highlight",
+      "label": "Titre doré",
+      "default": "éclat naturel"
+    },
+    {
+      "type": "textarea",
+      "id": "popup_subtitle",
+      "label": "Sous-titre",
+      "default": "Inscrivez-vous et recevez nos offres exclusives, conseils beauté et surprises réservées à notre communauté"
+    },
+    {
+      "type": "header",
+      "content": "👥 Preuve sociale"
+    },
+    {
+      "type": "text",
+      "id": "subscribers_count",
+      "label": "Nombre",
+      "default": "2,847+"
+    },
+    {
+      "type": "text",
+      "id": "subscribers_text",
+      "label": "Texte",
+      "default": "femmes nous font déjà confiance"
+    },
+    {
+      "type": "header",
+      "content": "🎁 Avantages"
+    },
+    {
+      "type": "text",
+      "id": "feature_1",
+      "label": "Avantage 1",
+      "default": "Offres exclusives réservées aux abonnés"
+    },
+    {
+      "type": "text",
+      "id": "feature_2",
+      "label": "Avantage 2",
+      "default": "Accès prioritaire aux nouveautés"
+    },
+    {
+      "type": "text",
+      "id": "feature_3",
+      "label": "Avantage 3",
+      "default": "Conseils personnalisés pour votre peau"
+    },
+    {
+      "type": "header",
+      "content": "📧 Formulaire"
+    },
+    {
+      "type": "text",
+      "id": "placeholder_text",
+      "label": "Placeholder",
+      "default": "Votre adresse email..."
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Bouton",
+      "default": "Je m'inscris"
+    },
+    {
+      "type": "text",
+      "id": "urgency_text",
+      "label": "Urgence",
+      "default": "127 personnes inscrites cette semaine"
+    },
+    {
+      "type": "header",
+      "content": "🎉 Succès"
+    },
+    {
+      "type": "text",
+      "id": "success_title",
+      "label": "Titre",
+      "default": "Bienvenue dans la famille ! 💕"
+    },
+    {
+      "type": "textarea",
+      "id": "success_text",
+      "label": "Texte",
+      "default": "Merci de nous rejoindre ! Vous allez recevoir nos meilleures offres et conseils beauté."
+    }
+  ],
+  "presets": [
+    {
+      "name": "🎁 Popup Newsletter"
+    }
+  ]
+}
+{% endschema %}
