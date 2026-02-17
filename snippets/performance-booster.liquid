@@ -308,7 +308,11 @@
     
     // Marquer comme chargé
     document.documentElement.classList.add('perf-optimized');
-    console.log('🚀 Performance Booster: Activé');
+    
+    // Debug log only in theme editor
+    if (window.Shopify && window.Shopify.designMode) {
+      console.log('🚀 Performance Booster: Activé');
+    }
   }
 })();
 </script>

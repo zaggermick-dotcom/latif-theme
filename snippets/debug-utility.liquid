@@ -1,0 +1,23 @@
+{%- comment -%}
+  Debug utility for theme development
+  Only logs in Shopify Theme Editor (designMode)
+{%- endcomment -%}
+
+<script>
+  window.themeDebug = {
+    log: function(...args) {
+      if (window.Shopify && window.Shopify.designMode) {
+        console.log('[Theme]', ...args);
+      }
+    },
+    warn: function(...args) {
+      if (window.Shopify && window.Shopify.designMode) {
+        console.warn('[Theme]', ...args);
+      }
+    },
+    error: function(...args) {
+      // Always log errors, but add context
+      console.error('[Theme Error]', ...args);
+    }
+  };
+</script>
