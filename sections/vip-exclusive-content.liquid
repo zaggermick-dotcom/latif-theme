@@ -1,0 +1,458 @@
+{%- comment -%}
+  Section: vip-exclusive-content.liquid
+  Description: Affiche du contenu exclusif pour les clients VIP
+  Les tags VIP peuvent être ajoutés automatiquement via Shopify Flow
+{%- endcomment -%}
+
+{%- liquid
+  assign is_vip = false
+  assign customer_tags = customer.tags | join: ',' | downcase
+  
+  if customer_tags contains 'vip'
+    assign is_vip = true
+  endif
+  
+  if customer_tags contains 'premium'
+    assign is_vip = true
+  endif
+  
+  if customer_tags contains 'gold'
+    assign is_vip = true
+  endif
+-%}
+
+{%- if section.settings.show_section -%}
+  {%- if is_vip or section.settings.preview_mode -%}
+    <div class="vip-exclusive-section color-{{ section.settings.color_scheme }} gradient" style="padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px;">
+      <div class="page-width">
+        <div class="vip-exclusive-container">
+          
+          {%- if section.settings.show_vip_badge -%}
+            <div class="vip-badge-large">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <span>{{ section.settings.badge_text }}</span>
+            </div>
+          {%- endif -%}
+          
+          {%- if section.settings.heading != blank -%}
+            <h2 class="vip-heading h1">{{ section.settings.heading }}</h2>
+          {%- endif -%}
+          
+          {%- if section.settings.subheading != blank -%}
+            <p class="vip-subheading">{{ section.settings.subheading }}</p>
+          {%- endif -%}
+          
+          {%- if section.settings.content != blank -%}
+            <div class="vip-content rte">{{ section.settings.content }}</div>
+          {%- endif -%}
+          
+          {%- comment -%} Afficher les produits VIP exclusifs {%- endcomment -%}
+          {%- if section.settings.vip_collection != blank -%}
+            <div class="vip-products">
+              <div class="vip-products-grid grid grid--2-col-tablet grid--4-col-desktop">
+                {%- for product in section.settings.vip_collection.products limit: section.settings.products_to_show -%}
+                  <div class="vip-product-card grid__item">
+                    <a href="{{ product.url }}" class="vip-product-link">
+                      <div class="vip-product-image">
+                        {%- if product.featured_image != blank -%}
+                          {{ product.featured_image | image_url: width: 300 | image_tag: loading: 'lazy', class: 'vip-product-img' }}
+                        {%- endif -%}
+                        <div class="vip-exclusive-overlay">
+                          <span>VIP</span>
+                        </div>
+                      </div>
+                      <div class="vip-product-info">
+                        <h3 class="vip-product-title">{{ product.title }}</h3>
+                        <div class="vip-product-price">
+                          {%- if product.compare_at_price > product.price -%}
+                            <span class="vip-price-original">{{ product.compare_at_price | money }}</span>
+                          {%- endif -%}
+                          <span class="vip-price-current">{{ product.price | money }}</span>
+                          {%- if product.compare_at_price > product.price -%}
+                            {%- assign savings = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price -%}
+                            <span class="vip-savings">-{{ savings }}%</span>
+                          {%- endif -%}
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                {%- endfor -%}
+              </div>
+            </div>
+          {%- endif -%}
+          
+          {%- if section.settings.cta_text != blank and section.settings.cta_link != blank -%}
+            <div class="vip-cta">
+              <a href="{{ section.settings.cta_link }}" class="button button--primary vip-button">
+                {{ section.settings.cta_text }}
+              </a>
+            </div>
+          {%- endif -%}
+          
+        </div>
+      </div>
+    </div>
+  {%- elsif section.settings.show_teaser_for_non_vip -%}
+    {%- comment -%} Teaser pour les non-VIP {%- endcomment -%}
+    <div class="vip-teaser-section" style="padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px;">
+      <div class="page-width">
+        <div class="vip-teaser-container">
+          <div class="vip-teaser-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><circle cx="12" cy="16" r="1"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+          <h3 class="vip-teaser-heading">{{ section.settings.teaser_heading | default: 'Contenu Exclusif VIP' }}</h3>
+          <p class="vip-teaser-text">{{ section.settings.teaser_text | default: 'Devenez client VIP pour accéder à des offres exclusives et des avantages premium.' }}</p>
+          {%- if section.settings.teaser_cta_text != blank -%}
+            <a href="{{ section.settings.teaser_cta_link | default: '/account/register' }}" class="button button--secondary">
+              {{ section.settings.teaser_cta_text }}
+            </a>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Contenu VIP Exclusif",
+  "tag": "section",
+  "class": "section-vip-exclusive",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_section",
+      "label": "Afficher la section",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "preview_mode",
+      "label": "Mode prévisualisation (afficher même sans être VIP)",
+      "default": false,
+      "info": "Activez pour voir la section dans l'éditeur de thème"
+    },
+    {
+      "type": "header",
+      "content": "Badge VIP"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vip_badge",
+      "label": "Afficher le badge VIP",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Texte du badge",
+      "default": "Accès VIP"
+    },
+    {
+      "type": "header",
+      "content": "Contenu"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Titre",
+      "default": "Bienvenue dans l'espace VIP"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Sous-titre",
+      "default": "Découvrez vos avantages exclusifs"
+    },
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "Contenu"
+    },
+    {
+      "type": "header",
+      "content": "Produits VIP"
+    },
+    {
+      "type": "collection",
+      "id": "vip_collection",
+      "label": "Collection VIP"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 2,
+      "max": 8,
+      "step": 1,
+      "default": 4,
+      "label": "Nombre de produits à afficher"
+    },
+    {
+      "type": "header",
+      "content": "Bouton d'action"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Texte du bouton"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Lien du bouton"
+    },
+    {
+      "type": "header",
+      "content": "Teaser pour non-VIP"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_teaser_for_non_vip",
+      "label": "Afficher un teaser pour les non-VIP",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "teaser_heading",
+      "label": "Titre teaser",
+      "default": "Contenu Exclusif VIP"
+    },
+    {
+      "type": "text",
+      "id": "teaser_text",
+      "label": "Texte teaser",
+      "default": "Devenez client VIP pour accéder à des offres exclusives."
+    },
+    {
+      "type": "text",
+      "id": "teaser_cta_text",
+      "label": "Texte bouton teaser",
+      "default": "Devenir VIP"
+    },
+    {
+      "type": "url",
+      "id": "teaser_cta_link",
+      "label": "Lien bouton teaser"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Schéma de couleurs",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Espacement haut",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Espacement bas",
+      "default": 40
+    }
+  ],
+  "presets": [
+    {
+      "name": "Contenu VIP Exclusif",
+      "settings": {
+        "show_section": true,
+        "heading": "Bienvenue dans l'espace VIP",
+        "subheading": "Découvrez vos avantages exclusifs"
+      }
+    }
+  ]
+}
+{% endschema %}
+
+<style>
+  .vip-exclusive-section {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    color: #ffffff;
+  }
+  
+  .vip-exclusive-container {
+    text-align: center;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  
+  .vip-badge-large {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+    color: #1a1a1a;
+    padding: 8px 20px;
+    border-radius: 30px;
+    font-weight: 700;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+  }
+  
+  .vip-heading {
+    color: #ffffff;
+    margin-bottom: 10px;
+    font-size: 2.5rem;
+  }
+  
+  .vip-subheading {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+  }
+  
+  .vip-content {
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 30px;
+  }
+  
+  .vip-products {
+    margin: 30px 0;
+  }
+  
+  .vip-products-grid {
+    display: grid;
+    gap: 20px;
+  }
+  
+  .vip-product-card {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .vip-product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(255, 215, 0, 0.2);
+  }
+  
+  .vip-product-link {
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  .vip-product-image {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .vip-product-img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  
+  .vip-exclusive-overlay {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+    color: #1a1a1a;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  
+  .vip-product-info {
+    padding: 15px;
+  }
+  
+  .vip-product-title {
+    color: #ffffff;
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+  
+  .vip-product-price {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  
+  .vip-price-original {
+    text-decoration: line-through;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 12px;
+  }
+  
+  .vip-price-current {
+    color: #FFD700;
+    font-weight: 700;
+  }
+  
+  .vip-savings {
+    background: #22c55e;
+    color: #ffffff;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 600;
+  }
+  
+  .vip-cta {
+    margin-top: 30px;
+  }
+  
+  .vip-button {
+    background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+    color: #1a1a1a;
+    border: none;
+    padding: 15px 40px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  
+  .vip-button:hover {
+    background: linear-gradient(135deg, #FFA500 0%, #FF8C00 100%);
+    color: #1a1a1a;
+  }
+  
+  /* Teaser styles */
+  .vip-teaser-section {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  }
+  
+  .vip-teaser-container {
+    text-align: center;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 40px 20px;
+  }
+  
+  .vip-teaser-icon {
+    color: #6c757d;
+    margin-bottom: 20px;
+  }
+  
+  .vip-teaser-heading {
+    color: #343a40;
+    margin-bottom: 10px;
+  }
+  
+  .vip-teaser-text {
+    color: #6c757d;
+    margin-bottom: 20px;
+  }
+</style>

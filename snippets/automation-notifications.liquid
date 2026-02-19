@@ -1,0 +1,364 @@
+{%- comment -%}
+  Snippet: automation-notifications.liquid
+  Description: Notifications toast automatisées basées sur les actions utilisateur
+  Compatible avec Shopify Flow pour des notifications personnalisées
+  
+  Usage dans theme.liquid (avant </body>):
+    {% render 'automation-notifications' %}
+{%- endcomment -%}
+
+<div id="automation-notifications" class="automation-notifications"></div>
+
+<style>
+  .automation-notifications {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 350px;
+    pointer-events: none;
+  }
+  
+  @media (max-width: 768px) {
+    .automation-notifications {
+      left: 10px;
+      right: 10px;
+      max-width: none;
+    }
+  }
+  
+  .automation-toast {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 16px;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    animation: slideInLeft 0.4s ease;
+    pointer-events: auto;
+    cursor: pointer;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+  
+  .automation-toast:hover {
+    transform: translateX(5px);
+  }
+  
+  .automation-toast.hiding {
+    animation: slideOutLeft 0.3s ease forwards;
+  }
+  
+  .automation-toast-icon {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+  }
+  
+  .automation-toast-icon--purchase {
+    background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+  }
+  
+  .automation-toast-icon--view {
+    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+  }
+  
+  .automation-toast-icon--stock {
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  }
+  
+  .automation-toast-icon--promo {
+    background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+  }
+  
+  .automation-toast-content {
+    flex-grow: 1;
+    min-width: 0;
+  }
+  
+  .automation-toast-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0 0 2px;
+    line-height: 1.3;
+  }
+  
+  .automation-toast-message {
+    font-size: 12px;
+    color: #6c757d;
+    margin: 0;
+    line-height: 1.4;
+  }
+  
+  .automation-toast-time {
+    font-size: 10px;
+    color: #adb5bd;
+    margin-top: 4px;
+  }
+  
+  .automation-toast-close {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    border: none;
+    background: none;
+    color: #adb5bd;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+  }
+  
+  .automation-toast-close:hover {
+    color: #1a1a1a;
+  }
+  
+  .automation-toast-image {
+    flex-shrink: 0;
+    width: 50px;
+    height: 50px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #f8f9fa;
+  }
+  
+  .automation-toast-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  @keyframes slideInLeft {
+    from {
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes slideOutLeft {
+    from {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    to {
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+  }
+</style>
+
+<script>
+(function() {
+  'use strict';
+  
+  // Configuration des notifications
+  const NOTIFICATION_CONFIG = {
+    enabled: true,
+    showPurchaseNotifications: true,
+    showViewNotifications: true,
+    showStockNotifications: true,
+    showPromoNotifications: true,
+    displayDuration: 5000,
+    delayBetweenNotifications: 8000,
+    maxNotifications: 3
+  };
+  
+  // Données de notifications simulées (peuvent être remplacées par des données réelles via l'API)
+  const SAMPLE_NOTIFICATIONS = [
+    {
+      type: 'purchase',
+      icon: '🛒',
+      title: 'Achat récent',
+      message: 'Marie de Paris vient d\'acheter le Sérum Vitamine C',
+      time: 'Il y a 2 min',
+      productImage: null
+    },
+    {
+      type: 'view',
+      icon: '👀',
+      title: 'Produit populaire',
+      message: '47 personnes regardent ce produit en ce moment',
+      time: 'En direct'
+    },
+    {
+      type: 'stock',
+      icon: '⚠️',
+      title: 'Stock limité',
+      message: 'Plus que 3 articles en stock !',
+      time: 'Alerte'
+    },
+    {
+      type: 'promo',
+      icon: '🎉',
+      title: 'Offre spéciale',
+      message: '-20% avec le code BIENVENUE',
+      time: 'Limité'
+    }
+  ];
+  
+  // Noms de villes françaises pour les notifications
+  const CITIES = ['Paris', 'Lyon', 'Marseille', 'Bordeaux', 'Lille', 'Nice', 'Toulouse', 'Nantes', 'Strasbourg', 'Montpellier'];
+  const NAMES = ['Marie', 'Sophie', 'Julie', 'Emma', 'Léa', 'Camille', 'Chloé', 'Manon', 'Laura', 'Sarah', 'Thomas', 'Lucas', 'Hugo', 'Nathan', 'Louis'];
+  
+  class AutomationNotifications {
+    constructor() {
+      this.container = document.getElementById('automation-notifications');
+      this.activeNotifications = [];
+      this.notificationQueue = [];
+      this.isShowing = false;
+      
+      if (NOTIFICATION_CONFIG.enabled) {
+        this.init();
+      }
+    }
+    
+    init() {
+      // Démarrer les notifications après un délai
+      setTimeout(() => {
+        this.startNotificationCycle();
+      }, 3000);
+    }
+    
+    startNotificationCycle() {
+      // Afficher la première notification
+      this.showRandomNotification();
+      
+      // Planifier les notifications suivantes
+      setInterval(() => {
+        if (this.activeNotifications.length < NOTIFICATION_CONFIG.maxNotifications) {
+          this.showRandomNotification();
+        }
+      }, NOTIFICATION_CONFIG.delayBetweenNotifications);
+    }
+    
+    generateDynamicNotification() {
+      const types = [];
+      
+      if (NOTIFICATION_CONFIG.showPurchaseNotifications) types.push('purchase');
+      if (NOTIFICATION_CONFIG.showViewNotifications) types.push('view');
+      if (NOTIFICATION_CONFIG.showStockNotifications) types.push('stock');
+      if (NOTIFICATION_CONFIG.showPromoNotifications) types.push('promo');
+      
+      const type = types[Math.floor(Math.random() * types.length)];
+      const name = NAMES[Math.floor(Math.random() * NAMES.length)];
+      const city = CITIES[Math.floor(Math.random() * CITIES.length)];
+      const minutes = Math.floor(Math.random() * 10) + 1;
+      
+      const notifications = {
+        purchase: {
+          type: 'purchase',
+          icon: '🛒',
+          title: 'Achat récent',
+          message: `${name} de ${city} vient de passer commande`,
+          time: `Il y a ${minutes} min`
+        },
+        view: {
+          type: 'view',
+          icon: '👀',
+          title: 'Très populaire',
+          message: `${Math.floor(Math.random() * 40) + 10} personnes regardent ce produit`,
+          time: 'En direct'
+        },
+        stock: {
+          type: 'stock',
+          icon: '⚠️',
+          title: 'Stock limité',
+          message: `Plus que ${Math.floor(Math.random() * 5) + 1} articles disponibles`,
+          time: 'Alerte'
+        },
+        promo: {
+          type: 'promo',
+          icon: '🎉',
+          title: 'Offre flash',
+          message: `${name} vient d\'utiliser son code promo`,
+          time: `Il y a ${minutes} min`
+        }
+      };
+      
+      return notifications[type];
+    }
+    
+    showRandomNotification() {
+      const notification = this.generateDynamicNotification();
+      this.showNotification(notification);
+    }
+    
+    showNotification(data) {
+      const toast = this.createToastElement(data);
+      this.container.appendChild(toast);
+      this.activeNotifications.push(toast);
+      
+      // Auto-dismiss après la durée configurée
+      setTimeout(() => {
+        this.dismissNotification(toast);
+      }, NOTIFICATION_CONFIG.displayDuration);
+    }
+    
+    createToastElement(data) {
+      const toast = document.createElement('div');
+      toast.className = 'automation-toast';
+      toast.innerHTML = `
+        <div class="automation-toast-icon automation-toast-icon--${data.type}">
+          ${data.icon}
+        </div>
+        <div class="automation-toast-content">
+          <p class="automation-toast-title">${data.title}</p>
+          <p class="automation-toast-message">${data.message}</p>
+          <p class="automation-toast-time">${data.time}</p>
+        </div>
+        <button class="automation-toast-close" aria-label="Fermer">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      `;
+      
+      // Gestionnaire de clic pour fermer
+      toast.querySelector('.automation-toast-close').addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.dismissNotification(toast);
+      });
+      
+      // Clic sur la notification elle-même
+      toast.addEventListener('click', () => {
+        this.dismissNotification(toast);
+      });
+      
+      return toast;
+    }
+    
+    dismissNotification(toast) {
+      toast.classList.add('hiding');
+      
+      setTimeout(() => {
+        if (toast.parentNode) {
+          toast.parentNode.removeChild(toast);
+        }
+        const index = this.activeNotifications.indexOf(toast);
+        if (index > -1) {
+          this.activeNotifications.splice(index, 1);
+        }
+      }, 300);
+    }
+  }
+  
+  // Initialiser quand le DOM est prêt
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => new AutomationNotifications());
+  } else {
+    new AutomationNotifications();
+  }
+})();
+</script>
