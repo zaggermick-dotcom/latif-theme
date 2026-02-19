@@ -428,4 +428,4 @@ Dans `layout/theme.liquid` avant `</body>` :
 
 Pour toute question sur l'intégration des flows avec ce thème, consultez la documentation Shopify Flow ou contactez le support.
 
-**Dernière mise à jour** : 2025
+**Dernière mise à jour** : Février 2026

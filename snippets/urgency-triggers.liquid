@@ -221,9 +221,9 @@
     viewerCounts.forEach(function(el) {
       const min = parseInt(el.dataset.min) || 10;
       const max = parseInt(el.dataset.max) || 50;
-      const currentValue = parseInt(el.textContent) || min;
       
       setInterval(function() {
+        const currentValue = parseInt(el.textContent) || min;
         const change = Math.random() > 0.5 ? 1 : -1;
         let newValue = currentValue + change;
         newValue = Math.max(min, Math.min(max, newValue));
