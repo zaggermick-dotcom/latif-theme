@@ -1,0 +1,215 @@
+{%- comment -%}
+  Snippet: automation-badges.liquid
+  Description: Affiche des badges automatiques basés sur les tags produits ou métafields
+  
+  Usage dans une card-product ou page produit:
+    {% render 'automation-badges', product: product %}
+  
+  Tags supportés par Shopify Flow:
+    - vip: Produit VIP exclusif
+    - bestseller: Produit le plus vendu
+    - new: Nouveau produit
+    - limited: Édition limitée
+    - low-stock: Stock faible
+    - promo: En promotion
+    - trending: Tendance
+    - eco-friendly: Éco-responsable
+    
+  Ces tags peuvent être ajoutés automatiquement via Shopify Flow
+{%- endcomment -%}
+
+{%- liquid
+  assign show_badges = true
+  assign badge_position = badge_position | default: 'top-left'
+  assign max_badges = max_badges | default: 3
+  assign badges_count = 0
+-%}
+
+{%- if show_badges and product != blank -%}
+  <div class="automation-badges automation-badges--{{ badge_position }}">
+    
+    {%- comment -%} Badge VIP {%- endcomment -%}
+    {%- if product.tags contains 'vip' and badges_count < max_badges -%}
+      <span class="automation-badge automation-badge--vip">
+        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        {{ 'VIP' }}
+      </span>
+      {%- assign badges_count = badges_count | plus: 1 -%}
+    {%- endif -%}
+
+    {%- comment -%} Badge Bestseller {%- endcomment -%}
+    {%- if product.tags contains 'bestseller' and badges_count < max_badges -%}
+      <span class="automation-badge automation-badge--bestseller">
+        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+        {{ 'Bestseller' }}
+      </span>
+      {%- assign badges_count = badges_count | plus: 1 -%}
+    {%- endif -%}
+
+    {%- comment -%} Badge Nouveau {%- endcomment -%}
+    {%- if product.tags contains 'new' and badges_count < max_badges -%}
+      <span class="automation-badge automation-badge--new">
+        {{ 'Nouveau' }}
+      </span>
+      {%- assign badges_count = badges_count | plus: 1 -%}
+    {%- endif -%}
+
+    {%- comment -%} Badge Édition Limitée {%- endcomment -%}
+    {%- if product.tags contains 'limited' and badges_count < max_badges -%}
+      <span class="automation-badge automation-badge--limited">
+        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+        {{ 'Édition Limitée' }}
+      </span>
+      {%- assign badges_count = badges_count | plus: 1 -%}
+    {%- endif -%}
+
+    {%- comment -%} Badge Stock Faible (basé sur inventaire ou tag) {%- endcomment -%}
+    {%- assign low_stock_threshold = 5 -%}
+    {%- assign variant_inventory = product.selected_or_first_available_variant.inventory_quantity | default: 0 -%}
+    {%- if product.tags contains 'low-stock' or variant_inventory > 0 and variant_inventory <= low_stock_threshold and badges_count < max_badges -%}
+      <span class="automation-badge automation-badge--low-stock">
+        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+        {{ 'Stock limité' }}
+      </span>
+      {%- assign badges_count = badges_count | plus: 1 -%}
+    {%- endif -%}
+
+    {%- comment -%} Badge Promo {%- endcomment -%}
+    {%- if product.tags contains 'promo' and badges_count < max_badges -%}
+      <span class="automation-badge automation-badge--promo">
+        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M21.41 11.58l-9-9C12.05 2.22 11.55 2 11 2H4c-1.1 0-2 .9-2 2v7c0 .55.22 1.05.59 1.42l9 9c.36.36.86.58 1.41.58.55 0 1.05-.22 1.41-.59l7-7c.37-.36.59-.86.59-1.41 0-.55-.23-1.06-.59-1.42zM5.5 7C4.67 7 4 6.33 4 5.5S4.67 4 5.5 4 7 4.67 7 5.5 6.33 7 5.5 7z"/></svg>
+        {{ 'Promo' }}
+      </span>
+      {%- assign badges_count = badges_count | plus: 1 -%}
+    {%- endif -%}
+
+    {%- comment -%} Badge Tendance {%- endcomment -%}
+    {%- if product.tags contains 'trending' and badges_count < max_badges -%}
+      <span class="automation-badge automation-badge--trending">
+        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/></svg>
+        {{ 'Tendance' }}
+      </span>
+      {%- assign badges_count = badges_count | plus: 1 -%}
+    {%- endif -%}
+
+    {%- comment -%} Badge Éco-responsable {%- endcomment -%}
+    {%- if product.tags contains 'eco-friendly' and badges_count < max_badges -%}
+      <span class="automation-badge automation-badge--eco">
+        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 22c4.97 0 9-4.03 9-9-4.97 0-9 4.03-9 9zm0-18C7.03 4 3 8.03 3 13c4.97 0 9-4.03 9-9z"/></svg>
+        {{ 'Éco' }}
+      </span>
+      {%- assign badges_count = badges_count | plus: 1 -%}
+    {%- endif -%}
+
+    {%- comment -%} Badge personnalisé via métafield {%- endcomment -%}
+    {%- if product.metafields.custom.badge_text != blank and badges_count < max_badges -%}
+      <span class="automation-badge automation-badge--custom" style="{% if product.metafields.custom.badge_color != blank %}background-color: {{ product.metafields.custom.badge_color }};{% endif %}">
+        {{ product.metafields.custom.badge_text }}
+      </span>
+      {%- assign badges_count = badges_count | plus: 1 -%}
+    {%- endif -%}
+
+  </div>
+{%- endif -%}
+
+<style>
+  .automation-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    position: absolute;
+    z-index: 10;
+    max-width: 70%;
+  }
+  
+  .automation-badges--top-left {
+    top: 8px;
+    left: 8px;
+  }
+  
+  .automation-badges--top-right {
+    top: 8px;
+    right: 8px;
+    justify-content: flex-end;
+  }
+  
+  .automation-badges--bottom-left {
+    bottom: 8px;
+    left: 8px;
+  }
+  
+  .automation-badges--bottom-right {
+    bottom: 8px;
+    right: 8px;
+    justify-content: flex-end;
+  }
+  
+  .automation-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 8px;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-radius: 4px;
+    line-height: 1;
+    white-space: nowrap;
+  }
+  
+  .automation-badge svg {
+    flex-shrink: 0;
+  }
+  
+  .automation-badge--vip {
+    background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+    color: #1a1a1a;
+  }
+  
+  .automation-badge--bestseller {
+    background: linear-gradient(135deg, #FF6B6B 0%, #FF4757 100%);
+    color: #ffffff;
+  }
+  
+  .automation-badge--new {
+    background: linear-gradient(135deg, #4ECDC4 0%, #44B09E 100%);
+    color: #ffffff;
+  }
+  
+  .automation-badge--limited {
+    background: linear-gradient(135deg, #8E2DE2 0%, #4A00E0 100%);
+    color: #ffffff;
+  }
+  
+  .automation-badge--low-stock {
+    background: linear-gradient(135deg, #FF9A3C 0%, #FF7849 100%);
+    color: #ffffff;
+    animation: pulse-badge 2s ease-in-out infinite;
+  }
+  
+  .automation-badge--promo {
+    background: linear-gradient(135deg, #FF416C 0%, #FF4B2B 100%);
+    color: #ffffff;
+  }
+  
+  .automation-badge--trending {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #ffffff;
+  }
+  
+  .automation-badge--eco {
+    background: linear-gradient(135deg, #56ab2f 0%, #a8e063 100%);
+    color: #ffffff;
+  }
+  
+  .automation-badge--custom {
+    background: linear-gradient(135deg, #2C3E50 0%, #3498DB 100%);
+    color: #ffffff;
+  }
+  
+  @keyframes pulse-badge {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+</style>

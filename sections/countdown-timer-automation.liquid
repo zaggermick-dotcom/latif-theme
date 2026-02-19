@@ -1,0 +1,556 @@
+{%- comment -%}
+  Section: countdown-timer-automation.liquid
+  Description: Timer de compte à rebours pour les promotions automatisées
+  Compatible avec Shopify Flow pour déclencher/terminer automatiquement les promotions
+{%- endcomment -%}
+
+{%- if section.settings.show_section -%}
+  {%- liquid
+    assign end_date = section.settings.end_date
+    assign end_time = section.settings.end_time | default: '23:59'
+    assign full_end_datetime = end_date | append: 'T' | append: end_time | append: ':00'
+  -%}
+  
+  <div 
+    class="countdown-section color-{{ section.settings.color_scheme }} gradient"
+    style="padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px;"
+    data-countdown-section
+  >
+    <div class="page-width">
+      <div class="countdown-container countdown-container--{{ section.settings.layout }}">
+        
+        {%- if section.settings.badge_text != blank -%}
+          <div class="countdown-badge">
+            {{ section.settings.badge_text }}
+          </div>
+        {%- endif -%}
+        
+        {%- if section.settings.heading != blank -%}
+          <h2 class="countdown-heading {{ section.settings.heading_size }}">
+            {{ section.settings.heading }}
+          </h2>
+        {%- endif -%}
+        
+        {%- if section.settings.subheading != blank -%}
+          <p class="countdown-subheading">{{ section.settings.subheading }}</p>
+        {%- endif -%}
+        
+        <div 
+          class="countdown-timer" 
+          data-countdown-timer
+          data-end-date="{{ full_end_datetime }}"
+          data-expired-message="{{ section.settings.expired_message | default: 'Offre terminée !' }}"
+        >
+          <div class="countdown-unit">
+            <span class="countdown-number" data-days>00</span>
+            <span class="countdown-label">Jours</span>
+          </div>
+          <div class="countdown-separator">:</div>
+          <div class="countdown-unit">
+            <span class="countdown-number" data-hours>00</span>
+            <span class="countdown-label">Heures</span>
+          </div>
+          <div class="countdown-separator">:</div>
+          <div class="countdown-unit">
+            <span class="countdown-number" data-minutes>00</span>
+            <span class="countdown-label">Min</span>
+          </div>
+          <div class="countdown-separator">:</div>
+          <div class="countdown-unit">
+            <span class="countdown-number countdown-number--seconds" data-seconds>00</span>
+            <span class="countdown-label">Sec</span>
+          </div>
+        </div>
+        
+        {%- if section.settings.discount_code != blank -%}
+          <div class="countdown-code-container">
+            <p class="countdown-code-label">{{ section.settings.code_label | default: 'Utilisez le code :' }}</p>
+            <div class="countdown-code" data-copy-code>
+              <span class="countdown-code-text">{{ section.settings.discount_code }}</span>
+              <button type="button" class="countdown-code-copy" aria-label="Copier le code">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              </button>
+            </div>
+          </div>
+        {%- endif -%}
+        
+        {%- if section.settings.cta_text != blank -%}
+          <div class="countdown-cta">
+            <a href="{{ section.settings.cta_link }}" class="button button--primary countdown-button">
+              {{ section.settings.cta_text }}
+            </a>
+          </div>
+        {%- endif -%}
+        
+        {%- if section.settings.show_urgency_bar -%}
+          <div class="countdown-urgency">
+            <div class="countdown-urgency-bar">
+              <div class="countdown-urgency-fill" style="width: {{ section.settings.urgency_percentage }}%;"></div>
+            </div>
+            <p class="countdown-urgency-text">{{ section.settings.urgency_text | default: 'Stock limité - Ne manquez pas cette offre !' }}</p>
+          </div>
+        {%- endif -%}
+        
+      </div>
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Timer Promo Automatisé",
+  "tag": "section",
+  "class": "section-countdown-timer",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_section",
+      "label": "Afficher la section",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Date de fin"
+    },
+    {
+      "type": "text",
+      "id": "end_date",
+      "label": "Date de fin (YYYY-MM-DD)",
+      "default": "2025-12-31",
+      "info": "Format: 2025-12-31"
+    },
+    {
+      "type": "text",
+      "id": "end_time",
+      "label": "Heure de fin (HH:MM)",
+      "default": "23:59",
+      "info": "Format: 23:59"
+    },
+    {
+      "type": "text",
+      "id": "expired_message",
+      "label": "Message quand expiré",
+      "default": "Offre terminée !"
+    },
+    {
+      "type": "header",
+      "content": "Contenu"
+    },
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Texte du badge",
+      "default": "⚡ OFFRE LIMITÉE"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Titre",
+      "default": "Vente Flash : -30% sur tout le site"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Taille du titre",
+      "options": [
+        { "value": "h3", "label": "Petit" },
+        { "value": "h2", "label": "Moyen" },
+        { "value": "h1", "label": "Grand" }
+      ],
+      "default": "h1"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Sous-titre",
+      "default": "Dépêchez-vous, l'offre se termine bientôt !"
+    },
+    {
+      "type": "header",
+      "content": "Code promo"
+    },
+    {
+      "type": "text",
+      "id": "discount_code",
+      "label": "Code promo",
+      "default": "FLASH30"
+    },
+    {
+      "type": "text",
+      "id": "code_label",
+      "label": "Label du code",
+      "default": "Utilisez le code :"
+    },
+    {
+      "type": "header",
+      "content": "Bouton d'action"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Texte du bouton",
+      "default": "Profiter de l'offre"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Lien du bouton"
+    },
+    {
+      "type": "header",
+      "content": "Barre d'urgence"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_urgency_bar",
+      "label": "Afficher la barre d'urgence",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "urgency_percentage",
+      "min": 10,
+      "max": 90,
+      "step": 5,
+      "default": 35,
+      "label": "Pourcentage stock restant"
+    },
+    {
+      "type": "text",
+      "id": "urgency_text",
+      "label": "Texte d'urgence",
+      "default": "Stock limité - Ne manquez pas cette offre !"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Mise en page",
+      "options": [
+        { "value": "centered", "label": "Centré" },
+        { "value": "full-width", "label": "Pleine largeur" }
+      ],
+      "default": "centered"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Schéma de couleurs",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Espacement haut",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Espacement bas",
+      "default": 40
+    }
+  ],
+  "presets": [
+    {
+      "name": "Timer Promo Automatisé",
+      "settings": {
+        "show_section": true,
+        "heading": "Vente Flash : -30% sur tout le site",
+        "end_date": "2025-12-31"
+      }
+    }
+  ]
+}
+{% endschema %}
+
+<style>
+  .countdown-section {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    color: #ffffff;
+  }
+  
+  .countdown-container {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .countdown-container--full-width {
+    max-width: none;
+  }
+  
+  .countdown-badge {
+    display: inline-block;
+    padding: 8px 20px;
+    background: linear-gradient(135deg, #FF416C 0%, #FF4B2B 100%);
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: 30px;
+    margin-bottom: 20px;
+    animation: pulse-badge 2s ease-in-out infinite;
+  }
+  
+  .countdown-heading {
+    color: #ffffff;
+    margin-bottom: 10px;
+  }
+  
+  .countdown-subheading {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+  }
+  
+  .countdown-timer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+  }
+  
+  .countdown-unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 70px;
+  }
+  
+  .countdown-number {
+    font-size: 3rem;
+    font-weight: 800;
+    line-height: 1;
+    background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .countdown-number--seconds {
+    color: #FFD700;
+    background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .countdown-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: rgba(255, 255, 255, 0.6);
+    margin-top: 5px;
+  }
+  
+  .countdown-separator {
+    font-size: 2.5rem;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.4);
+    margin-bottom: 15px;
+  }
+  
+  .countdown-code-container {
+    margin-bottom: 25px;
+  }
+  
+  .countdown-code-label {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 10px;
+  }
+  
+  .countdown-code {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px dashed rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+  
+  .countdown-code:hover {
+    background: rgba(255, 255, 255, 0.15);
+  }
+  
+  .countdown-code-text {
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: 3px;
+    color: #FFD700;
+  }
+  
+  .countdown-code-copy {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    padding: 5px;
+    transition: color 0.2s ease;
+  }
+  
+  .countdown-code-copy:hover {
+    color: #ffffff;
+  }
+  
+  .countdown-cta {
+    margin-bottom: 25px;
+  }
+  
+  .countdown-button {
+    background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+    color: #1a1a1a;
+    border: none;
+    padding: 16px 40px;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: 30px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .countdown-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+    color: #1a1a1a;
+  }
+  
+  .countdown-urgency {
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  
+  .countdown-urgency-bar {
+    height: 8px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 10px;
+  }
+  
+  .countdown-urgency-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #ef4444 0%, #f97316 100%);
+    border-radius: 4px;
+    animation: urgency-pulse 1.5s ease-in-out infinite;
+  }
+  
+  .countdown-urgency-text {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0;
+  }
+  
+  .countdown-expired {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #FFD700;
+    padding: 20px;
+  }
+  
+  @keyframes pulse-badge {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+  
+  @keyframes urgency-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+  }
+  
+  @media (max-width: 768px) {
+    .countdown-number {
+      font-size: 2rem;
+    }
+    
+    .countdown-unit {
+      min-width: 50px;
+    }
+    
+    .countdown-separator {
+      font-size: 1.5rem;
+    }
+    
+    .countdown-code-text {
+      font-size: 1.2rem;
+    }
+  }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const timers = document.querySelectorAll('[data-countdown-timer]');
+  
+  timers.forEach(function(timer) {
+    const endDateStr = timer.dataset.endDate;
+    const expiredMessage = timer.dataset.expiredMessage;
+    
+    if (!endDateStr) return;
+    
+    const endDate = new Date(endDateStr).getTime();
+    
+    const daysEl = timer.querySelector('[data-days]');
+    const hoursEl = timer.querySelector('[data-hours]');
+    const minutesEl = timer.querySelector('[data-minutes]');
+    const secondsEl = timer.querySelector('[data-seconds]');
+    
+    function updateTimer() {
+      const now = new Date().getTime();
+      const distance = endDate - now;
+      
+      if (distance < 0) {
+        timer.innerHTML = '<span class="countdown-expired">' + expiredMessage + '</span>';
+        return;
+      }
+      
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      
+      if (daysEl) daysEl.textContent = String(days).padStart(2, '0');
+      if (hoursEl) hoursEl.textContent = String(hours).padStart(2, '0');
+      if (minutesEl) minutesEl.textContent = String(minutes).padStart(2, '0');
+      if (secondsEl) secondsEl.textContent = String(seconds).padStart(2, '0');
+    }
+    
+    updateTimer();
+    setInterval(updateTimer, 1000);
+  });
+  
+  // Fonction de copie du code promo
+  const copyButtons = document.querySelectorAll('[data-copy-code]');
+  copyButtons.forEach(function(container) {
+    container.addEventListener('click', function() {
+      const codeText = container.querySelector('.countdown-code-text').textContent;
+      navigator.clipboard.writeText(codeText).then(function() {
+        const copyBtn = container.querySelector('.countdown-code-copy');
+        const originalHTML = copyBtn.innerHTML;
+        copyBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>';
+        setTimeout(function() {
+          copyBtn.innerHTML = originalHTML;
+        }, 2000);
+      });
+    });
+  });
+});
+</script>

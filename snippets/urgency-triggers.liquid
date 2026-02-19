@@ -1,0 +1,234 @@
+{%- comment -%}
+  Snippet: urgency-triggers.liquid
+  Description: Éléments d'urgence pour augmenter les conversions
+  Utilise les tags produits qui peuvent être gérés par Shopify Flow
+  
+  Usage:
+    {% render 'urgency-triggers', product: product %}
+    
+  Tags supportés:
+    - flash-sale: Vente flash en cours
+    - ending-soon: Se termine bientôt
+    - last-chance: Dernière chance
+    - popular: Produit populaire (X personnes regardent)
+    - fast-selling: Se vend rapidement
+{%- endcomment -%}
+
+{%- liquid
+  assign show_urgency = true
+  assign variant = product.selected_or_first_available_variant
+  assign inventory_qty = variant.inventory_quantity | default: 0
+  assign inventory_policy = variant.inventory_policy
+  assign show_stock_indicator = true
+-%}
+
+{%- if show_urgency and product != blank -%}
+  <div class="urgency-triggers">
+    
+    {%- comment -%} Indicateur de stock faible {%- endcomment -%}
+    {%- if show_stock_indicator and inventory_qty > 0 and inventory_qty <= 10 -%}
+      <div class="urgency-trigger urgency-trigger--stock">
+        <div class="urgency-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        </div>
+        <div class="urgency-content">
+          <span class="urgency-text">
+            {%- if inventory_qty == 1 -%}
+              Dernier article en stock !
+            {%- elsif inventory_qty <= 3 -%}
+              Plus que {{ inventory_qty }} en stock !
+            {%- else -%}
+              Stock limité - {{ inventory_qty }} restants
+            {%- endif -%}
+          </span>
+          <div class="urgency-bar">
+            <div class="urgency-bar-fill" style="width: {{ inventory_qty | times: 10 | at_most: 100 }}%;"></div>
+          </div>
+        </div>
+      </div>
+    {%- endif -%}
+
+    {%- comment -%} Badge Flash Sale {%- endcomment -%}
+    {%- if product.tags contains 'flash-sale' -%}
+      <div class="urgency-trigger urgency-trigger--flash">
+        <div class="urgency-icon flash-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M11 21h-1l1-7H7.5c-.58 0-.57-.32-.38-.66.19-.34.05-.08.07-.12C8.48 10.94 10.42 7.54 13 3h1l-1 7h3.5c.49 0 .56.33.47.51l-.07.15C12.96 17.55 11 21 11 21z"/></svg>
+        </div>
+        <span class="urgency-text urgency-text--flash">⚡ VENTE FLASH EN COURS</span>
+      </div>
+    {%- endif -%}
+
+    {%- comment -%} Indicateur de popularité {%- endcomment -%}
+    {%- if product.tags contains 'popular' or product.tags contains 'trending' -%}
+      <div class="urgency-trigger urgency-trigger--viewers">
+        <div class="urgency-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        </div>
+        <span class="urgency-text">
+          <span class="viewer-count" data-min="12" data-max="47">{{ 12 | plus: product.id | modulo: 35 | plus: 12 }}</span> personnes regardent ce produit
+        </span>
+      </div>
+    {%- endif -%}
+
+    {%- comment -%} Vente rapide {%- endcomment -%}
+    {%- if product.tags contains 'fast-selling' -%}
+      <div class="urgency-trigger urgency-trigger--fast">
+        <div class="urgency-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+        </div>
+        <span class="urgency-text">🔥 Produit en forte demande</span>
+      </div>
+    {%- endif -%}
+
+    {%- comment -%} Dernière chance {%- endcomment -%}
+    {%- if product.tags contains 'last-chance' or product.tags contains 'ending-soon' -%}
+      <div class="urgency-trigger urgency-trigger--ending">
+        <div class="urgency-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <span class="urgency-text">⏰ Offre se terminant bientôt</span>
+      </div>
+    {%- endif -%}
+
+    {%- comment -%} Récemment acheté (social proof) {%- endcomment -%}
+    {%- if product.tags contains 'bestseller' -%}
+      <div class="urgency-trigger urgency-trigger--recent">
+        <div class="urgency-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        </div>
+        <span class="urgency-text">✓ Acheté {{ product.id | modulo: 50 | plus: 10 }} fois ces dernières 24h</span>
+      </div>
+    {%- endif -%}
+
+  </div>
+{%- endif -%}
+
+<style>
+  .urgency-triggers {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 12px 0;
+  }
+  
+  .urgency-trigger {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    line-height: 1.3;
+  }
+  
+  .urgency-trigger--stock {
+    background: linear-gradient(135deg, #fff5f5 0%, #ffe5e5 100%);
+    border: 1px solid #ffcccc;
+    color: #c53030;
+  }
+  
+  .urgency-trigger--flash {
+    background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+    border: 1px solid #fcd34d;
+    color: #b45309;
+    animation: pulse-urgency 1.5s ease-in-out infinite;
+  }
+  
+  .urgency-trigger--viewers {
+    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+    border: 1px solid #93c5fd;
+    color: #1d4ed8;
+  }
+  
+  .urgency-trigger--fast {
+    background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+    border: 1px solid #fca5a5;
+    color: #dc2626;
+  }
+  
+  .urgency-trigger--ending {
+    background: linear-gradient(135deg, #fefce8 0%, #fef9c3 100%);
+    border: 1px solid #fde047;
+    color: #a16207;
+  }
+  
+  .urgency-trigger--recent {
+    background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+    border: 1px solid #86efac;
+    color: #166534;
+  }
+  
+  .urgency-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  
+  .flash-icon {
+    animation: flash-pulse 0.8s ease-in-out infinite;
+  }
+  
+  .urgency-text {
+    flex-grow: 1;
+    font-weight: 500;
+  }
+  
+  .urgency-text--flash {
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  .urgency-content {
+    flex-grow: 1;
+  }
+  
+  .urgency-bar {
+    margin-top: 6px;
+    height: 4px;
+    background: rgba(0,0,0,0.1);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  
+  .urgency-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #ef4444 0%, #f97316 100%);
+    border-radius: 2px;
+    transition: width 0.3s ease;
+  }
+  
+  @keyframes pulse-urgency {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+  }
+  
+  @keyframes flash-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+  }
+  
+  .viewer-count {
+    font-weight: 700;
+  }
+</style>
+
+<script>
+  // Animation du compteur de viewers pour plus de réalisme
+  document.addEventListener('DOMContentLoaded', function() {
+    const viewerCounts = document.querySelectorAll('.viewer-count');
+    viewerCounts.forEach(function(el) {
+      const min = parseInt(el.dataset.min) || 10;
+      const max = parseInt(el.dataset.max) || 50;
+      const currentValue = parseInt(el.textContent) || min;
+      
+      setInterval(function() {
+        const change = Math.random() > 0.5 ? 1 : -1;
+        let newValue = currentValue + change;
+        newValue = Math.max(min, Math.min(max, newValue));
+        el.textContent = newValue;
+      }, 5000 + Math.random() * 5000);
+    });
+  });
+</script>

@@ -1,0 +1,98 @@
+{%- comment -%}
+  Snippet: customer-segment-content.liquid
+  Description: Affiche du contenu conditionnel basé sur les segments clients
+  
+  Usage:
+    {% render 'customer-segment-content', 
+       segment: 'vip',
+       show_to_segment: true,
+       content_html: '<p>Contenu exclusif VIP</p>'
+    %}
+    
+  Segments supportés (à configurer via Shopify Flow):
+    - vip: Clients VIP (basé sur tag customer)
+    - new-customer: Nouveaux clients
+    - returning: Clients récurrents
+    - high-value: Clients à forte valeur
+    - subscriber: Abonnés newsletter
+    - wholesale: Clients grossistes
+    
+  Shopify Flow peut automatiquement taguer les clients avec ces segments
+{%- endcomment -%}
+
+{%- liquid
+  assign segment = segment | default: 'all'
+  assign show_to_segment = show_to_segment | default: true
+  assign customer_tags = customer.tags | join: ',' | downcase
+  assign is_logged_in = false
+  assign belongs_to_segment = false
+  
+  if customer
+    assign is_logged_in = true
+  endif
+  
+  case segment
+    when 'vip'
+      if customer_tags contains 'vip'
+        assign belongs_to_segment = true
+      endif
+    when 'new-customer'
+      if customer_tags contains 'new-customer' or customer_tags contains 'nouveau-client'
+        assign belongs_to_segment = true
+      elsif customer.orders_count == 0 or customer.orders_count == 1
+        assign belongs_to_segment = true
+      endif
+    when 'returning'
+      if customer_tags contains 'returning' or customer_tags contains 'fidele'
+        assign belongs_to_segment = true
+      elsif customer.orders_count > 1
+        assign belongs_to_segment = true
+      endif
+    when 'high-value'
+      if customer_tags contains 'high-value' or customer_tags contains 'premium'
+        assign belongs_to_segment = true
+      elsif customer.total_spent > 50000
+        assign belongs_to_segment = true
+      endif
+    when 'subscriber'
+      if customer_tags contains 'subscriber' or customer_tags contains 'newsletter' or customer.accepts_marketing
+        assign belongs_to_segment = true
+      endif
+    when 'wholesale'
+      if customer_tags contains 'wholesale' or customer_tags contains 'grossiste' or customer_tags contains 'b2b'
+        assign belongs_to_segment = true
+      endif
+    when 'logged-in'
+      if is_logged_in
+        assign belongs_to_segment = true
+      endif
+    when 'guest'
+      unless is_logged_in
+        assign belongs_to_segment = true
+      endunless
+    when 'all'
+      assign belongs_to_segment = true
+  endcase
+-%}
+
+{%- comment -%} Afficher le contenu selon la logique de segment {%- endcomment -%}
+{%- if show_to_segment and belongs_to_segment -%}
+  <div class="segment-content segment-content--{{ segment }}" data-segment="{{ segment }}">
+    {%- if content_html != blank -%}
+      {{ content_html }}
+    {%- endif -%}
+    {%- if content_block -%}
+      {{ content_block }}
+    {%- endif -%}
+  </div>
+{%- elsif show_to_segment == false and belongs_to_segment == false -%}
+  {%- comment -%} Montrer aux NON-membres du segment {%- endcomment -%}
+  <div class="segment-content segment-content--not-{{ segment }}" data-segment="not-{{ segment }}">
+    {%- if content_html != blank -%}
+      {{ content_html }}
+    {%- endif -%}
+    {%- if content_block -%}
+      {{ content_block }}
+    {%- endif -%}
+  </div>
+{%- endif -%}
