@@ -6,4 +6,4 @@
   {%- render 'script' with 'asset-name', defer: true -%}
 {%- enddoc -%}
 
-<script src="{% capture asset %}{{ script }}{% if request.host != shop.permanent_domain and settings.minify_scripts %}.min{% endif %}.js{% endcapture %}{{ asset | asset_url }}" {% if defer %}defer{% endif %}></script>
+<script src="{% capture asset %}{{ script }}{% if request.host == shop.permanent_domain and settings.minify_scripts %}.min{% endif %}.js{% endcapture %}{{ asset | asset_url }}" {% if defer %}defer{% endif %}></script>

@@ -21,6 +21,30 @@ if (!customElements.get('cart-drawer')) {
       }
 }
 
+    // Show user notification toast
+    showNotification(message, type = 'error') {
+      const toast = document.createElement('div');
+      toast.className = `cart-notification cart-notification--${type}`;
+      toast.textContent = message;
+      toast.style.cssText = `
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: ${type === 'error' ? '#c62828' : '#2e7d32'};
+        color: white;
+        padding: 16px 24px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        z-index: 10000;
+        animation: slideIn 0.3s ease;
+      `;
+      document.body.appendChild(toast);
+      setTimeout(() => {
+        toast.style.animation = 'slideOut 0.3s ease';
+        setTimeout(() => toast.remove(), 300);
+      }, 5000);
+    }
+
     handlePromoCode(el) {
       const inputEl = document.getElementById(el.dataset.input);
       if (inputEl) {
@@ -96,7 +120,13 @@ if (!customElements.get('cart-drawer')) {
             });
           }
         })
-        .catch(e => console.error('Error fetching cart:', e));
+        .catch(e => {
+          // Only log in development
+          if (window.Shopify && window.Shopify.designMode) {
+            console.error('Error fetching cart:', e);
+          }
+          this.showNotification('Impossible de charger le panier. Veuillez actualiser la page.', 'error');
+        });
 
       this.updateCartTotals();
 
@@ -147,7 +177,9 @@ if (!customElements.get('cart-drawer')) {
                 };
                 xhr.send();
               } catch(e) {
-                console.log('Error fetching product:', e);
+                if (window.Shopify && window.Shopify.designMode) {
+                  console.log('Error fetching product:', e);
+                }
               }
 
               const itemPrice = item.original_line_price / item.quantity;
@@ -276,7 +308,12 @@ if (!customElements.get('cart-drawer')) {
 
           processItems();
         })
-        .catch(e => console.error('Error updating cart totals:', e));
+        .catch(e => {
+          if (window.Shopify && window.Shopify.designMode) {
+            console.error('Error updating cart totals:', e);
+          }
+          this.showNotification('Erreur lors de la mise à jour du panier.', 'error');
+        });
     }
 
     hideAllModules() {
@@ -295,7 +332,9 @@ if (!customElements.get('cart-drawer')) {
             },
           });
         } catch(e) {
-          console.log('Trust swiper error:', e);
+          if (window.Shopify && window.Shopify.designMode) {
+            console.log('Trust swiper error:', e);
+          }
         }
       }
     }
@@ -309,7 +348,9 @@ if (!customElements.get('cart-drawer')) {
             autoHeight: true,
           });
         } catch(e) {
-          console.log('Upsell swiper error:', e);
+          if (window.Shopify && window.Shopify.designMode) {
+            console.log('Upsell swiper error:', e);
+          }
         }
       }
     }
