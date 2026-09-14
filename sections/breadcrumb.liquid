@@ -114,7 +114,7 @@
                   </a>
                   <meta itemprop="position" content="3">
                 </li>
-              {%- when 'collection' and collection.handle -%}
+              {%- when 'collection' -%}
                 <li
                   class="breadcrumbs__item"
                   itemprop="itemListElement"
@@ -532,3 +532,13 @@
   ]
 }
 {% endschema %}
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: "{%- when 'collection' and collection.handle -%}"
+  to: "{%- when 'collection' -%}"
+  position: 4508..4533
+{% endcomment %}

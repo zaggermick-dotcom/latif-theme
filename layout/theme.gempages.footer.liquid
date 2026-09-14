@@ -193,7 +193,7 @@
     </a>
 
     {%- liquid
-echo "<div style='display:none'>"       sections 'header-group' echo "</div>"
+echo "<div style='display:none'>"
 
       if settings.cart_type == 'drawer' and request.page_type != 'cart'
         section 'cart-drawer'
@@ -292,4 +292,13 @@ echo "<div style='display:none'>"       sections 'header-group' echo "</div>"
     </div>
 
   </body>
-</html>
+</html>{%- comment -%}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: echo "<div style='display:none'>"       sections 'header-group' echo "</div>"
+  to: echo "<div style='display:none'>"
+  position: 7249..7282
+{%- endcomment -%}

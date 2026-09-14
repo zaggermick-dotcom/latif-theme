@@ -137,7 +137,7 @@
             >
               <span class="buy-buttons__text-flex">
                 {%- unless block.settings.icon == "none" -%}
-                  {%- render "icons-atc-buttons", icon: block.settings.icon -%}
+                  {%- render "icons-atc-buttons", icon: block.settings.icon -%}
                 {%- endunless -%}
                 {%- if product.selected_or_first_available_variant.available == false or quantity_rule_soldout -%}
                   {{ 'products.product.sold_out' | t }}
@@ -227,3 +227,13 @@
     {%- render 'script' with 'pickup-availability', defer: true -%}
   {%- endif -%}
 </div>
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: '{%- render "icons-atc-buttons", icon: block.settings.icon -%}'
+  to: '{%- render "icons-atc-buttons", icon: block.settings.icon -%}'
+  position: 7664..7725
+{% endcomment %}
